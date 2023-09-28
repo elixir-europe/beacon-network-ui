@@ -12,7 +12,7 @@ services:
     #command: ["yarn"]
     #command: ["node", "/opt/yarn-v1.22.19/bin/yarn.js", "start" ]
     command: yarn start
-    container_name: beacon-frontend
+    container_name: beacon-network-frontend
     environment:
       - CHOKIDAR_USEPOLLING=true
     ports:

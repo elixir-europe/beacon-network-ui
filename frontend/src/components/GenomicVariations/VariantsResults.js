@@ -51,7 +51,6 @@ function VariantsResults (props) {
 
   useEffect(() => {
     const apiCall = async () => {
-    
       if (isAuthenticated) {
         setLoginRequired(false)
 
@@ -81,12 +80,11 @@ function VariantsResults (props) {
                 apiVersion: '2.0'
               },
               query: {
-                requestParameters: {},
                 filters: arrayFilter,
                 includeResultsetResponses: `${props.resultSets}`,
                 pagination: {
                   skip: 0,
-                  limit: 0
+                  limit: 10
                 },
                 testMode: false,
                 requestedGranularity: 'record'
@@ -113,11 +111,23 @@ function VariantsResults (props) {
               setNumberResults(0)
               setError('No results found. Please retry')
             }
+            res.data.response.resultSets.forEach((element, index) => {
+              res.data.response.resultSets[index].results.forEach(
+                (element2, index2) => {
+                  let arrayResult = [
+                    res.data.response.resultSets[index].id,
+                    res.data.response.resultSets[index].results[index2]
+                  ]
+                  results.push(arrayResult)
+                  console.log(arrayResult)
+                }
+              )
+            })
           } else {
             setShowVariantsResults(false)
             //   referenceName={referenceName} start={start} end={end} variantType={variantType} alternateBases={alternateBases} referenceBases={referenceBases} aminoacid={aminoacid} geneID={geneID} />
             //    </div>
-       
+
             var requestParameters = {}
 
             if (props.referenceName !== '') {

@@ -286,7 +286,7 @@ function Layout (props) {
         'NCIT:C42331'
       ])
     } else if (props.collection === 'Variant') {
-      setExampleQ(['22 : 16050310 - 16050740', '22 : 16050074 A > G'])
+      setExampleQ(['GENO:GENO_0000458'])
     }
   }
 
@@ -492,7 +492,7 @@ function Layout (props) {
           ></img>
         </button>
         <NavLink className='NavlinkVerifier' exact to='/verifier'>
-          BEACON VERIFIER
+          BEACON VALIDATOR
         </NavLink>
 
         <div className='logos'>

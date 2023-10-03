@@ -12,7 +12,8 @@ function VariantsResults (props) {
   const [error, setError] = useState('')
   const [timeOut, setTimeOut] = useState(false)
   const [logInRequired, setLoginRequired] = useState(true)
-  const [messageLogin, setMessageLogin] = useState('')
+  const [messageLoginCount, setMessageLoginCount] = useState('')
+  const [messageLoginFullResp, setMessageLoginFullResp] = useState('')
   const [results, setResults] = useState([])
   const [show1, setShow1] = useState(false)
   const [show2, setShow2] = useState(false)
@@ -45,9 +46,8 @@ function VariantsResults (props) {
   }
 
   const auth = useAuth()
-  //const isAuthenticated = auth.userData?.id_token ? true : false
-  const isAuthenticated = true
-  console.log(isAuthenticated)
+  const isAuthenticated = auth.userData?.id_token ? true : false
+  //const isAuthenticated = true
 
   useEffect(() => {
     const apiCall = async () => {
@@ -243,7 +243,8 @@ function VariantsResults (props) {
         }
       } else {
         setLoginRequired(true)
-        setMessageLogin('PLEASE CREATE AN ACCOUNT AND LOG IN FOR QUERYING')
+        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
+        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
       }
     }
     apiCall()
@@ -253,11 +254,6 @@ function VariantsResults (props) {
     <div>
       {showVariantsResults === true && (
         <div className='resultsOptions'>
-          {logInRequired === true && (
-            <div className='variantsResultsError'>
-              <h3>{messageLogin}</h3>
-            </div>
-          )}
           {timeOut === false && (
             <div className='loaderLogo'>
               <div className='loader2'>
@@ -269,7 +265,7 @@ function VariantsResults (props) {
               </div>
             </div>
           )}
-          {logInRequired === false && timeOut && (
+          {timeOut && (
             <div>
               <div className='selectGranularity'>
                 <h4>Granularity:</h4>
@@ -284,20 +280,25 @@ function VariantsResults (props) {
                 </button>
               </div>
 
-              {show3 && error === '' && (
+              {show3 && logInRequired === false && error === '' && (
                 <div>
                   <TableResultsVariant results={results}></TableResultsVariant>
                 </div>
               )}
-
+              {show3 && logInRequired === true && (
+                <h3>{messageLoginFullResp}</h3>
+              )}
               <div className='resultsContainer'>
                 {show1 && boolean && <p className='p1'>YES</p>}
                 {show1 && !boolean && <p className='p1'>NO</p>}
-                {show2 && numberResults !== 1 && (
+                {show2 && logInRequired === false && numberResults !== 1 && (
                   <p className='p1'>{numberResults} &nbsp; Results</p>
                 )}
-                {show2 && numberResults === 1 && (
+                {show2 && logInRequired === false && numberResults === 1 && (
                   <p className='p1'>{numberResults} &nbsp; Result</p>
+                )}
+                {show2 && logInRequired === true && (
+                  <h3>{messageLoginCount}</h3>
                 )}
                 {show3 && error !== '' && (
                   <h5 className='variantsResultsError'>

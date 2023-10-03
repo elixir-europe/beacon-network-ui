@@ -25,7 +25,8 @@ function IndividualsResults (props) {
   const [timeOut, setTimeOut] = useState(false)
 
   const [logInRequired, setLoginRequired] = useState(true)
-  const [messageLogin, setMessageLogin] = useState('')
+  const [messageLoginCount, setMessageLoginCount] = useState('')
+  const [messageLoginFullResp, setMessageLoginFullResp] = useState('')
 
   const [limit, setLimit] = useState(0)
   const [skip, setSkip] = useState(0)
@@ -41,9 +42,9 @@ function IndividualsResults (props) {
   let res = ''
 
   const auth = useAuth()
-  //const isAuthenticated = auth.userData?.id_token ? true : false
-  
-  const isAuthenticated = true
+  const isAuthenticated = auth.userData?.id_token ? true : false
+
+  //const isAuthenticated = true
 
   useEffect(() => {
     console.log(props.query)
@@ -54,7 +55,8 @@ function IndividualsResults (props) {
       } else {
         setLoginRequired(true)
         //setLoginRequired(false)
-        setMessageLogin('PLEASE CREATE AN ACCOUNT AND LOG IN FOR QUERYING')
+        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
+        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
       }
 
       if (props.query !== null) {
@@ -177,10 +179,7 @@ function IndividualsResults (props) {
           //const headers = {'Authorization': `Bearer ${token}`}
 
           //res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/individuals/", jsonData1, { headers: headers })
-          res = await axios.post(
-            configData.API_URL + '/individuals',
-            jsonData1
-          )
+          res = await axios.post(configData.API_URL + '/individuals', jsonData1)
 
           console.log(res)
           setTimeOut(true)
@@ -232,10 +231,7 @@ function IndividualsResults (props) {
           //const headers = { 'Authorization': `Bearer ${token}` }
 
           //res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/individuals/", jsonData2, { headers: headers })
-          res = await axios.post(
-            configData.API_URL + '/individuals',
-            jsonData2
-          )
+          res = await axios.post(configData.API_URL + '/individuals', jsonData2)
 
           console.log(res)
           setTimeOut(true)
@@ -324,50 +320,50 @@ function IndividualsResults (props) {
           </div>
         </div>
       )}
-      {logInRequired === false && (
-        <div>
-          <div>
-            {' '}
-            {timeOut && (
-              <div>
-                <div className='selectGranularity'>
-                  <h4>Granularity:</h4>
-                  <button className='typeResults' onClick={handleTypeResults1}>
-                    <h5>Boolean</h5>
-                  </button>
-                  <button className='typeResults' onClick={handleTypeResults2}>
-                    <h5>Count</h5>
-                  </button>
-                  <button className='typeResults' onClick={handleTypeResults3}>
-                    <h5>Full response</h5>
-                  </button>
-                </div>
-              </div>
-            )}
-            {show3 && !error && (
-              <div>
-                <TableResultsIndividuals
-                  results={results}
-                  beaconsList={beaconsList}
-                ></TableResultsIndividuals>
-              </div>
-            )}
-            {show3 && error && <h3>&nbsp; {error} </h3>}
-            <div className='resultsContainer'>
-              {show1 && boolean && <p className='p1'>YES</p>}
-              {show1 && !boolean && <p className='p1'>NO</p>}
 
-              {show2 && numberResults !== 1 && (
-                <p className='p1'>{numberResults} &nbsp; Results</p>
-              )}
-              {show2 && numberResults === 1 && (
-                <p className='p1'>{numberResults} &nbsp; Result</p>
-              )}
+      <div>
+        <div>
+          {' '}
+          {timeOut && (
+            <div>
+              <div className='selectGranularity'>
+                <h4>Granularity:</h4>
+                <button className='typeResults' onClick={handleTypeResults1}>
+                  <h5>Boolean</h5>
+                </button>
+                <button className='typeResults' onClick={handleTypeResults2}>
+                  <h5>Count</h5>
+                </button>
+                <button className='typeResults' onClick={handleTypeResults3}>
+                  <h5>Full response</h5>
+                </button>
+              </div>
             </div>
+          )}
+          {show3 && logInRequired === false && !error && (
+            <div>
+              <TableResultsIndividuals
+                results={results}
+                beaconsList={beaconsList}
+              ></TableResultsIndividuals>
+            </div>
+          )}
+          {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
+          {show3 && error && <h3>&nbsp; {error} </h3>}
+          <div className='resultsContainer'>
+            {show1 && boolean && <p className='p1'>YES</p>}
+            {show1 && !boolean && <p className='p1'>NO</p>}
+
+            {show2 && logInRequired === false && numberResults !== 1 && (
+              <p className='p1'>{numberResults} &nbsp; Results</p>
+            )}
+            {show2 && numberResults === 1 && logInRequired === false && (
+              <p className='p1'>{numberResults} &nbsp; Result</p>
+            )}
+            {show2 && logInRequired === true && <h3>{messageLoginCount}</h3>}
           </div>
         </div>
-      )}
-      {logInRequired === true && <h3>{messageLogin}</h3>}
+      </div>
     </div>
   )
 }

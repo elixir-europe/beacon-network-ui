@@ -26,30 +26,15 @@ function TableResultsIndividuals (props) {
   }, [])
 
   return (
-    <div class='CSSgal'>
-      <div class='bullets'>
-        {trigger === true &&
-          resultsJSON.map((element, index) => {
-            let index2 = '#' + 's' + index
-            console.log(index2)
-            return <a href={index2}>{index}</a>
-          })}
-      </div>
+    <div>
       {trigger === true &&
-        resultsJSON.map((element, index) => {
-            let index_aux = 's'+ index
-          return <s id={index_aux}></s>
+        resultsJSON.map(element => {
+          return (
+            <pre className='resultsVariants'>
+              <p>{element[1]}</p>
+            </pre>
+          )
         })}
-      <div class='slider'>
-        {trigger === true &&
-          resultsJSON.map(element => {
-            return (
-              <pre className='resultsVariants'>
-                <p>{element[1]}</p>
-              </pre>
-            )
-          })}
-      </div>
     </div>
   )
 }

@@ -58,6 +58,7 @@ thead {
   padding: 10px;
   margin-left: 10px;
   overflow: auto;
+  font-size: 13px;
 }
 
 .tag-box input {
@@ -114,6 +115,7 @@ thead {
   overflow-x: auto;
   padding-bottom: 10px;
   align-items: center;
+  font-size: 13px;
 }
 
 .th3 {
@@ -126,6 +128,7 @@ thead {
   padding-left: 32px;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 13px;
 }
 
 .th4 {
@@ -138,6 +141,7 @@ thead {
   padding-left: 32px;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 13px;
 }
 
 .th5 {
@@ -150,6 +154,7 @@ thead {
   padding-left: 32px;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 13px;
 }
 
 .th6 {
@@ -162,6 +167,7 @@ thead {
   padding-left: 52px;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 13px;
 }
 
 .th7 {
@@ -174,6 +180,7 @@ thead {
   padding-left: 29px;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 13px;
 }
 
 .select-checkbox {

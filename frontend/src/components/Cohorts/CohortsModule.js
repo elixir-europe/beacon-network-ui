@@ -37,7 +37,7 @@ function CohortsModule (props) {
           <button className='searchButton2' type='submit'>
             <img
               className='forwardIcon'
-              src='./adelante.png'
+              src='./next.png'
               alt='searchIcon'
             ></img>
           </button>

@@ -174,12 +174,15 @@ function IndividualsResults (props) {
           jsonData1 = JSON.stringify(jsonData1)
           console.log(jsonData1)
 
-          // const token = auth.userData.access_token
+          const token = auth.userData.access_token
           // console.log(token)
-          //const headers = {'Authorization': `Bearer ${token}`}
+          const headers = { Authorization: `Bearer ${token}` }
 
-          //res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/individuals/", jsonData1, { headers: headers })
-          res = await axios.post(configData.API_URL + '/individuals', jsonData1)
+          res = await axios.post(
+            configData.API_URL + '/individuals',
+            jsonData1,
+            { headers: headers }
+          )
 
           console.log(res)
           setTimeOut(true)
@@ -226,12 +229,16 @@ function IndividualsResults (props) {
           jsonData2 = JSON.stringify(jsonData2)
           console.log(jsonData2)
 
-          // const token = auth.userData.access_token
+          const token = auth.userData.access_token
           //console.log(token)
-          //const headers = { 'Authorization': `Bearer ${token}` }
+          const headers = { Authorization: `Bearer ${token}` }
 
           //res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/individuals/", jsonData2, { headers: headers })
-          res = await axios.post(configData.API_URL + '/individuals', jsonData2)
+          res = await axios.post(
+            configData.API_URL + '/individuals',
+            jsonData2,
+            { headers: headers }
+          )
 
           console.log(res)
           setTimeOut(true)

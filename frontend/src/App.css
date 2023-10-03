@@ -171,12 +171,13 @@ html {
 }
 
 .forwardIcon {
-  width: 24px;
-  margin-left: 4px;
+  width: 25px;
 }
 
 .forwardIcon:hover {
-  margin-left: 12px;
+  background-color: #c8d4e6;
+  padding: 4px;
+  border-radius: 16px;
 }
 
 .navbar {
@@ -450,15 +451,14 @@ html {
 .container1 a {
   display: flex;
   align-content: center;
-  justify-content: center;
   text-underline-offset: 4px;
   align-items: center;
 }
 
 .elixirLogo {
-  height: 100px;
+  height: 91px;
   margin-top: 29px;
-  margin-right: 12px;
+  margin-right: 21px;
 }
 
 .comming_message {

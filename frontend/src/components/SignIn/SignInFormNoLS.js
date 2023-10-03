@@ -4,6 +4,7 @@ import React, { Component, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../NavBar/Navbar';
 
 export default function SignInFormNoLS() {
 
@@ -81,7 +82,6 @@ export default function SignInFormNoLS() {
             if (readableResponse.access_token) {
                 navigate("/")
                 setIsLoggedIn(true)
-
             } else {
                 setError("User not found. Please check the username and the password and retry")
             }

@@ -985,7 +985,7 @@ function Layout (props) {
             ></img>
           </button>
 
-          <p>Help for queries.</p>
+          <p>Please use the validator to check your Beacon. </p>
         </ReactModal>
       </div>
 

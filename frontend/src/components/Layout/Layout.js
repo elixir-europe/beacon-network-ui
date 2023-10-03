@@ -403,7 +403,7 @@ function Layout (props) {
     const fetchData = async () => {
       try {
         let res = await axios.get(
-          'https://beacon-apis-test.ega-archive.org/api/individuals/filtering_terms?skip=0&limit=0'
+          configData.API_URL + '/individuals/filtering_terms'
         )
         if (res !== null) {
           res.data.response.filteringTerms.forEach(element => {

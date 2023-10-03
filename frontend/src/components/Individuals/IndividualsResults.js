@@ -41,9 +41,9 @@ function IndividualsResults (props) {
   let res = ''
 
   const auth = useAuth()
-  const isAuthenticated = auth.userData?.id_token ? true : false
+  //const isAuthenticated = auth.userData?.id_token ? true : false
   
- // const isAuthenticated = true
+  const isAuthenticated = true
 
   useEffect(() => {
     console.log(props.query)

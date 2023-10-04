@@ -116,19 +116,22 @@ function VariantsResults (props) {
             setBoolean(false)
             setNumberResults(0)
             setError('No results found. Please retry')
+          } else {
+            res.data.response.resultSets.forEach((element, index) => {
+              res.data.response.resultSets[index].results.forEach(
+                (element2, index2) => {
+                  let arrayResult = [
+                    res.data.response.resultSets[index].id,
+                    res.data.response.resultSets[index].results[index2]
+                  ]
+                  results.push(arrayResult)
+                  console.log(arrayResult)
+                }
+              )
+            })
+            setBoolean(res.data.responseSummary.exists)
+            setNumberResults(res.data.responseSummary.numTotalResults)
           }
-          res.data.response.resultSets.forEach((element, index) => {
-            res.data.response.resultSets[index].results.forEach(
-              (element2, index2) => {
-                let arrayResult = [
-                  res.data.response.resultSets[index].id,
-                  res.data.response.resultSets[index].results[index2]
-                ]
-                results.push(arrayResult)
-                console.log(arrayResult)
-              }
-            )
-          })
         } else {
           setShowVariantsResults(false)
           //   referenceName={referenceName} start={start} end={end} variantType={variantType} alternateBases={alternateBases} referenceBases={referenceBases} aminoacid={aminoacid} geneID={geneID} />

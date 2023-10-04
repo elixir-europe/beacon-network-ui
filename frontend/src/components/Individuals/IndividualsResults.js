@@ -2,10 +2,10 @@ import './Individuals.css'
 import '../../App.css'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-
+import { AuthContext } from '../context/AuthContext';
 import { useAuth } from 'oidc-react'
 import configData from '../../config.json'
-
+import { useContext } from 'react';
 import TableResultsIndividuals from '../Results/IndividualsResults/TableResultsIndividuals'
 
 function IndividualsResults (props) {
@@ -37,14 +37,23 @@ function IndividualsResults (props) {
   const [queryArray, setQueryArray] = useState([])
   const [arrayFilter, setArrayFilter] = useState([])
 
+
+  const { getStoredToken, authenticateUser } = useContext(AuthContext);
   let queryStringTerm = ''
 
   let res = ''
-
+  let isAuthenticated = false
+  
   const auth = useAuth()
-  const isAuthenticated = auth.userData?.id_token ? true : false
+  
+  isAuthenticated = auth.userData?.id_token ? true : false
 
-  //const isAuthenticated = true
+  authenticateUser()
+  const token = getStoredToken()
+
+  if (token !== 'undefined') {
+    isAuthenticated = true
+  } 
 
   useEffect(() => {
     console.log(props.query)
@@ -54,7 +63,6 @@ function IndividualsResults (props) {
         setLoginRequired(false)
       } else {
         setLoginRequired(true)
-        //setLoginRequired(false)
         setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
         setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
       }

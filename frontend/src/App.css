@@ -90,6 +90,7 @@ html {
   border-color: black;
   height: 30px;
   margin-left: 14px;
+  z-index: 0;
 }
 
 .container-fluid {
@@ -273,7 +274,9 @@ html {
   margin-top: -10px;
   margin-bottom: 35px;
   background: rgba(0, 0, 0, 0.09);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
 }
 .spanQE {
   display: block;
@@ -935,7 +938,7 @@ h5 {
   position: absolute !important;
   inset: 35% !important;
   border: 1px solid rgb(204, 204, 204) !important;
-  background: #e16e00 !important;
+  background: #e2842b !important;
   overflow: auto !important;
   border-radius: 4px !important;
   outline: none !important;
@@ -943,11 +946,11 @@ h5 {
 }
 
 .ReactModal__Content--after-open p {
-  font-size: 21px;
+  font-size: 18px;
   font-weight: normal;
   color: white;
-  line-height: 38px;
-  padding: 4px;
+  line-height: 30px;
+  padding: 2px;
 }
 
 @media (max-width: 800px) {

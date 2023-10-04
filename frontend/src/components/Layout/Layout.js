@@ -373,7 +373,6 @@ function Layout (props) {
   }
 
   useEffect(() => {
-    
     if (props.collection === 'Individuals') {
       setPlaceholder('filtering term comma-separated, ID><=value')
       setExtraIndividuals(true)
@@ -584,16 +583,14 @@ function Layout (props) {
                 </form>
               </div>
             )}
-            {props.collection === 'Cohorts' &&
-             
-                <CohortsModule
-                  optionsCohorts={props.optionsCohorts}
-                  selectedCohorts={props.selectedCohorts}
-                  setSelectedCohorts={props.setSelectedCohorts}
-                  setShowGraphs={props.setShowGraphs}
-                />
-              }
-        
+            {props.collection === 'Cohorts' && (
+              <CohortsModule
+                optionsCohorts={props.optionsCohorts}
+                selectedCohorts={props.selectedCohorts}
+                setSelectedCohorts={props.setSelectedCohorts}
+                setShowGraphs={props.setShowGraphs}
+              />
+            )}
           </div>
         )}
 
@@ -985,7 +982,12 @@ function Layout (props) {
             ></img>
           </button>
 
-          <p>Please use the validator to check your Beacon. </p>
+          <p>
+            "Please use the online validator to check your Beacon API for
+            specification compliance before it is included to the network. It
+            will check the metadata, defined endpoints and responses over
+            Beacon's v2 Schemas."{' '}
+          </p>
         </ReactModal>
       </div>
 

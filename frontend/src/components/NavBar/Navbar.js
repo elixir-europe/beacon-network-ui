@@ -14,7 +14,7 @@ function Navbar () {
   const auth = useAuth()
 
   const isAuthenticated = auth.userData?.id_token ? true : false
-  if (isAuthenticated) {
+  if (isAuthenticated || isLoggedIn === true) {
     setIsLoggedIn(true)
   } else {
     setIsLoggedIn(false)

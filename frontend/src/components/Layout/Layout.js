@@ -227,6 +227,7 @@ function Layout (props) {
         }
       } catch (error) {
         console.log(error)
+        setError('No filtering terms now available')
       }
     } else if (props.collection === 'Analyses') {
       try {
@@ -286,7 +287,7 @@ function Layout (props) {
         'NCIT:C42331'
       ])
     } else if (props.collection === 'Variant') {
-      setExampleQ(['22 : 16050310 - 16050740', '22 : 16050074 A > G'])
+      setExampleQ(['GENO:GENO_0000458'])
     }
   }
 
@@ -373,7 +374,6 @@ function Layout (props) {
   }
 
   useEffect(() => {
-    
     if (props.collection === 'Individuals') {
       setPlaceholder('filtering term comma-separated, ID><=value')
       setExtraIndividuals(true)
@@ -403,7 +403,7 @@ function Layout (props) {
     const fetchData = async () => {
       try {
         let res = await axios.get(
-          'https://beacon-apis-test.ega-archive.org/api/individuals/filtering_terms?skip=0&limit=0'
+          configData.API_URL + '/individuals/filtering_terms'
         )
         if (res !== null) {
           res.data.response.filteringTerms.forEach(element => {
@@ -435,8 +435,6 @@ function Layout (props) {
     setIsSub(!isSubmitted)
 
     console.log(query)
-
-    authenticateUser()
 
     setExampleQ([])
 
@@ -492,7 +490,7 @@ function Layout (props) {
           ></img>
         </button>
         <NavLink className='NavlinkVerifier' exact to='/verifier'>
-          BEACON VERIFIER
+          BEACON VALIDATOR
         </NavLink>
 
         <div className='logos'>
@@ -584,16 +582,14 @@ function Layout (props) {
                 </form>
               </div>
             )}
-            {props.collection === 'Cohorts' &&
-             
-                <CohortsModule
-                  optionsCohorts={props.optionsCohorts}
-                  selectedCohorts={props.selectedCohorts}
-                  setSelectedCohorts={props.setSelectedCohorts}
-                  setShowGraphs={props.setShowGraphs}
-                />
-              }
-        
+            {props.collection === 'Cohorts' && (
+              <CohortsModule
+                optionsCohorts={props.optionsCohorts}
+                selectedCohorts={props.selectedCohorts}
+                setSelectedCohorts={props.setSelectedCohorts}
+                setShowGraphs={props.setShowGraphs}
+              />
+            )}
           </div>
         )}
 
@@ -985,7 +981,12 @@ function Layout (props) {
             ></img>
           </button>
 
-          <p>Help for queries.</p>
+          <p>
+            "Please use the online validator to check your Beacon API for
+            specification compliance before it is included to the network. It
+            will check the metadata, defined endpoints and responses over
+            Beacon's v2 Schemas."{' '}
+          </p>
         </ReactModal>
       </div>
 

@@ -30,6 +30,22 @@
   padding-left: 10px;
 }
 
+.buttonGoBack {
+  margin-top: 87px;
+  /* display: flex; */
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  border: solid #f9f9f9;
+  box-shadow: 1px 1px 1px 1px #f5f5f5;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.buttonGoBack:hover{
+  background-color: #5be57b;
+}
+
 #chartFilteredEthnicity {
   width: 700px !important;
   display: flex;
@@ -199,8 +215,9 @@ h12 {
   font-weight: 500;
   text-transform: uppercase;
   margin-left: 40px;
-  margin-top: 106px;
-  font-size: 14px;
+  margin-top: 57px;
+  font-weight: 600 !important;
+  font-size: 13px !important;
   display: flex;
   align-content: center;
   justify-content: center;

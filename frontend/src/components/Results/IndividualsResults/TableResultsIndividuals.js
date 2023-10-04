@@ -30,6 +30,8 @@ function TableResultsIndividuals (props) {
 
   const [beaconsArrayResults, setBeaconsArrayResults] = useState([])
 
+  const [beaconsArrayResultsOrdered, setBeaconsArrayResultsOrdered] = useState([])
+
   const [resultsSelected, setResultsSelected] = useState(props.results)
   const [resultsSelectedFinal, setResultsSelectedFinal] = useState([])
 
@@ -334,17 +336,26 @@ function TableResultsIndividuals (props) {
       } else {
         beaconsArrayResults.push([element2, count, false])
       }
-      console.log(beaconsArrayResults)
-      console.log(beaconsArrayResults.length)
     })
+    beaconsArrayResults.forEach(element => {
+      if (element[2] === true){
+        beaconsArrayResultsOrdered.push(element)
+      }
+    })
+    beaconsArrayResults.forEach(element => {
+      if (element[2] === false){
+        beaconsArrayResultsOrdered.push(element)
+      }
+    } )
+
     setShowDatasets(true)
   }, [])
 
   return (
     <div className='containerBeaconResults'>
       {showDatsets === true &&
-        beaconsArrayResults.length > 0 &&
-        beaconsArrayResults.map(result => {
+        beaconsArrayResultsOrdered.length > 0 &&
+        beaconsArrayResultsOrdered.map(result => {
           return (
             <div className='datasetCardResults'>
               <div className='tittleResults'>

@@ -227,6 +227,7 @@ function Layout (props) {
         }
       } catch (error) {
         console.log(error)
+        setError('No filtering terms now available')
       }
     } else if (props.collection === 'Analyses') {
       try {
@@ -434,8 +435,6 @@ function Layout (props) {
     setIsSub(!isSubmitted)
 
     console.log(query)
-
-    authenticateUser()
 
     setExampleQ([])
 

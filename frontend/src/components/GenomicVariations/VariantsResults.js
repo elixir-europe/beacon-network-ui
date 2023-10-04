@@ -53,69 +53,185 @@ function VariantsResults (props) {
     const apiCall = async () => {
       if (isAuthenticated) {
         setLoginRequired(false)
+      } else {
+        setLoginRequired(true)
+        //setLoginRequired(false)
+        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
+        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
+      }
 
-        try {
-          if (props.showBar === true) {
-            setShowVariantsResults(true)
-            if (props.query.includes(',')) {
-              queryStringTerm = props.query.split(',')
+      try {
+        if (props.showBar === true) {
+          setShowVariantsResults(true)
+          if (props.query.includes(',')) {
+            queryStringTerm = props.query.split(',')
 
-              queryStringTerm.forEach((element, index) => {
-                element = element.trim()
-                const filter = {
-                  id: element
-                }
-                arrayFilter.push(filter)
-              })
-            } else {
+            queryStringTerm.forEach((element, index) => {
+              element = element.trim()
               const filter = {
-                id: props.query
+                id: element
               }
               arrayFilter.push(filter)
+            })
+          } else {
+            const filter = {
+              id: props.query
             }
-            console.log(arrayFilter)
+            arrayFilter.push(filter)
+          }
+          console.log(arrayFilter)
 
-            var jsonData1 = {
-              meta: {
-                apiVersion: '2.0'
+          var jsonData1 = {
+            meta: {
+              apiVersion: '2.0'
+            },
+            query: {
+              filters: arrayFilter,
+              includeResultsetResponses: `${props.resultSets}`,
+              pagination: {
+                skip: 0,
+                limit: 10
               },
-              query: {
-                filters: arrayFilter,
-                includeResultsetResponses: `${props.resultSets}`,
-                pagination: {
-                  skip: 0,
-                  limit: 10
-                },
-                testMode: false,
-                requestedGranularity: 'record'
+              testMode: false,
+              requestedGranularity: 'record'
+            }
+          }
+          jsonData1 = JSON.stringify(jsonData1)
+          console.log(jsonData1)
+          // const token = auth.userData.access_token
+          // console.log(token)
+          //const headers = { 'Authorization': `Bearer ${token}` }
+          // const res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/g_variants", jsonData1, {headers: headers})
+          // const res = await axios.post(
+          // configData.API_URL + '/g_variants',
+          //jsonData1
+          // )
+          const res = await axios.post(
+            'https://beacon-apis-demo.ega-archive.org/api/g_variants',
+            jsonData1
+          )
+          setTimeOut(true)
+          console.log(res)
+          if (res.data.responseSummary.exists === false) {
+            setBoolean(false)
+            setNumberResults(0)
+            setError('No results found. Please retry')
+          }
+          res.data.response.resultSets.forEach((element, index) => {
+            res.data.response.resultSets[index].results.forEach(
+              (element2, index2) => {
+                let arrayResult = [
+                  res.data.response.resultSets[index].id,
+                  res.data.response.resultSets[index].results[index2]
+                ]
+                results.push(arrayResult)
+                console.log(arrayResult)
               }
-            }
-            jsonData1 = JSON.stringify(jsonData1)
-            console.log(jsonData1)
-            // const token = auth.userData.access_token
-            // console.log(token)
-            //const headers = { 'Authorization': `Bearer ${token}` }
-            // const res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/g_variants", jsonData1, {headers: headers})
-            // const res = await axios.post(
-            // configData.API_URL + '/g_variants',
-            //jsonData1
-            // )
-            const res = await axios.post(
-              'https://beacon-apis-demo.ega-archive.org/api/g_variants',
-              jsonData1
             )
-            setTimeOut(true)
-            console.log(res)
-            if (res.data.responseSummary.exists === false) {
-              setBoolean(false)
-              setNumberResults(0)
-              setError('No results found. Please retry')
+          })
+        } else {
+          setShowVariantsResults(false)
+          //   referenceName={referenceName} start={start} end={end} variantType={variantType} alternateBases={alternateBases} referenceBases={referenceBases} aminoacid={aminoacid} geneID={geneID} />
+          //    </div>
+
+          var requestParameters = {}
+
+          if (props.referenceName !== '') {
+            requestParameters['referenceName'] = props.referenceName
+          }
+          if (props.referenceName2 !== '') {
+            requestParameters['referenceName'] = props.referenceName2
+          }
+          if (props.start !== '') {
+            requestParameters['start'] = props.start
+          }
+          if (props.start2 !== '') {
+            requestParameters['start'] = props.start2
+          }
+          if (props.end !== '') {
+            requestParameters['end'] = props.end
+          }
+          if (props.variantType !== '') {
+            requestParameters['variantType'] = props.variantType
+          }
+          if (props.variantType2 !== '') {
+            requestParameters['variantType'] = props.variantType2
+          }
+          if (props.alternateBases !== '') {
+            requestParameters['alternateBases'] = props.alternateBases
+          }
+          if (props.alternateBases2 !== '') {
+            requestParameters['alternateBases'] = props.alternateBases2
+          }
+          if (props.referenceBases !== '') {
+            requestParameters['referenceBases'] = props.referenceBases
+          }
+          if (props.referenceBases2 !== '') {
+            requestParameters['referenceBases'] = props.referenceBases2
+          }
+          if (props.aminoacid !== '') {
+            requestParameters['aminoacidChange'] = props.aminoacid
+          }
+          if (props.aminoacid2 !== '') {
+            requestParameters['aminoacidChange'] = props.aminoacid2
+          }
+          if (props.geneID !== '') {
+            requestParameters['geneId'] = props.geneID
+          }
+          if (props.assemblyId !== '') {
+            requestParameters['assemblyId'] = props.assemblyId
+          }
+          if (props.assemblyId2 !== '') {
+            requestParameters['assemblyId'] = props.assemblyId2
+          }
+          if (props.assemblyId3 !== '') {
+            requestParameters['assemblyId'] = props.assemblyId3
+          }
+          var jsonData1 = {
+            meta: {
+              apiVersion: '2.0'
+            },
+            query: {
+              requestParameters: requestParameters,
+              filters: [],
+              includeResultsetResponses: 'HIT',
+              pagination: {
+                skip: 0,
+                limit: 0
+              },
+              testMode: false,
+              requestedGranularity: 'record'
             }
+          }
+          jsonData1 = JSON.stringify(jsonData1)
+          console.log(jsonData1)
+
+          //const token = auth.userData.access_token
+          //console.log(token)
+          //const headers = { Authorization: `Bearer ${token}` }
+          const res = await axios.post(
+            configData.API_URL + '/g_variants',
+            jsonData1
+          )
+
+          if (
+            res.data.responseSummary.numTotalResults < 1 ||
+            res.data.responseSummary.numTotalResults === undefined
+          ) {
+            setError('No results. Please check the query and retry')
+            setNumberResults(0)
+            setBoolean(false)
+          } else {
+            console.log(res.data.responseSummary.numTotalResults)
+            props.setHideForm(true)
+            setNumberResults(res.data.responseSummary.numTotalResults)
+            setBoolean(res.data.responseSummary.exists)
+            console.log(res)
             res.data.response.resultSets.forEach((element, index) => {
               res.data.response.resultSets[index].results.forEach(
                 (element2, index2) => {
                   let arrayResult = [
-                    res.data.response.resultSets[index].id,
+                    res.data.response.resultSets[index].beaconId,
                     res.data.response.resultSets[index].results[index2]
                   ]
                   results.push(arrayResult)
@@ -123,127 +239,12 @@ function VariantsResults (props) {
                 }
               )
             })
-          } else {
-            setShowVariantsResults(false)
-            //   referenceName={referenceName} start={start} end={end} variantType={variantType} alternateBases={alternateBases} referenceBases={referenceBases} aminoacid={aminoacid} geneID={geneID} />
-            //    </div>
-
-            var requestParameters = {}
-
-            if (props.referenceName !== '') {
-              requestParameters['referenceName'] = props.referenceName
-            }
-            if (props.referenceName2 !== '') {
-              requestParameters['referenceName'] = props.referenceName2
-            }
-            if (props.start !== '') {
-              requestParameters['start'] = props.start
-            }
-            if (props.start2 !== '') {
-              requestParameters['start'] = props.start2
-            }
-            if (props.end !== '') {
-              requestParameters['end'] = props.end
-            }
-            if (props.variantType !== '') {
-              requestParameters['variantType'] = props.variantType
-            }
-            if (props.variantType2 !== '') {
-              requestParameters['variantType'] = props.variantType2
-            }
-            if (props.alternateBases !== '') {
-              requestParameters['alternateBases'] = props.alternateBases
-            }
-            if (props.alternateBases2 !== '') {
-              requestParameters['alternateBases'] = props.alternateBases2
-            }
-            if (props.referenceBases !== '') {
-              requestParameters['referenceBases'] = props.referenceBases
-            }
-            if (props.referenceBases2 !== '') {
-              requestParameters['referenceBases'] = props.referenceBases2
-            }
-            if (props.aminoacid !== '') {
-              requestParameters['aminoacidChange'] = props.aminoacid
-            }
-            if (props.aminoacid2 !== '') {
-              requestParameters['aminoacidChange'] = props.aminoacid2
-            }
-            if (props.geneID !== '') {
-              requestParameters['geneId'] = props.geneID
-            }
-            if (props.assemblyId !== '') {
-              requestParameters['assemblyId'] = props.assemblyId
-            }
-            if (props.assemblyId2 !== '') {
-              requestParameters['assemblyId'] = props.assemblyId2
-            }
-            if (props.assemblyId3 !== '') {
-              requestParameters['assemblyId'] = props.assemblyId3
-            }
-            var jsonData1 = {
-              meta: {
-                apiVersion: '2.0'
-              },
-              query: {
-                requestParameters: requestParameters,
-                filters: [],
-                includeResultsetResponses: 'HIT',
-                pagination: {
-                  skip: 0,
-                  limit: 0
-                },
-                testMode: false,
-                requestedGranularity: 'record'
-              }
-            }
-            jsonData1 = JSON.stringify(jsonData1)
-            console.log(jsonData1)
-
-            //const token = auth.userData.access_token
-            //console.log(token)
-            //const headers = { Authorization: `Bearer ${token}` }
-            const res = await axios.post(
-              configData.API_URL + '/g_variants',
-              jsonData1
-            )
-
-            if (
-              res.data.responseSummary.numTotalResults < 1 ||
-              res.data.responseSummary.numTotalResults === undefined
-            ) {
-              setError('No results. Please check the query and retry')
-              setNumberResults(0)
-              setBoolean(false)
-            } else {
-              console.log(res.data.responseSummary.numTotalResults)
-              props.setHideForm(true)
-              setNumberResults(res.data.responseSummary.numTotalResults)
-              setBoolean(res.data.responseSummary.exists)
-              console.log(res)
-              res.data.response.resultSets.forEach((element, index) => {
-                res.data.response.resultSets[index].results.forEach(
-                  (element2, index2) => {
-                    let arrayResult = [
-                      res.data.response.resultSets[index].beaconId,
-                      res.data.response.resultSets[index].results[index2]
-                    ]
-                    results.push(arrayResult)
-                    console.log(arrayResult)
-                  }
-                )
-              })
-            }
           }
-        } catch (error) {
-          setTimeOut(true)
-          console.log(error)
-          setError(error)
         }
-      } else {
-        setLoginRequired(true)
-        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
+      } catch (error) {
+        setTimeOut(true)
+        console.log(error)
+        setError(error)
       }
     }
     apiCall()

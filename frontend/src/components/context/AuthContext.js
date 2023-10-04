@@ -58,7 +58,6 @@ function AuthProviderWrapper(props) {
      
       if (storedToken !== 'undefined'){
          setIsLoggedIn(true)
-         console.log("SDSADS")
       }
       const refreshToken = localStorage.getItem('refreshToken')
       const expirationTime = localStorage.getItem('expirationTime');
@@ -78,7 +77,7 @@ function AuthProviderWrapper(props) {
 
       if ((currentTime - startTime) > expirationTime) {
          ///GET NEW REFRESH TOKEN
-         console.log("UUUU")
+
          if ((currentTime - startTime) > refreshTime) {
             setExpirationMessage('Session expired due to inactivity. Please log in again')
             logOutUser()

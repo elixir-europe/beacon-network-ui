@@ -101,7 +101,7 @@ function VariantsResults (props) {
             //jsonData1
             // )
             const res = await axios.post(
-              'https://beacon-apis-test.ega-archive.org/api/g_variants',
+              'https://beacon-apis-demo.ega-archive.org/api/g_variants',
               jsonData1
             )
             setTimeOut(true)
@@ -200,13 +200,12 @@ function VariantsResults (props) {
             jsonData1 = JSON.stringify(jsonData1)
             console.log(jsonData1)
 
-            const token = auth.userData.access_token
-            console.log(token)
-            const headers = { Authorization: `Bearer ${token}` }
+            //const token = auth.userData.access_token
+            //console.log(token)
+            //const headers = { Authorization: `Bearer ${token}` }
             const res = await axios.post(
               configData.API_URL + '/g_variants',
-              jsonData1,
-              { headers: headers }
+              jsonData1
             )
 
             if (

@@ -5,6 +5,14 @@ function TableResultsIndividuals (props) {
   const [resultsJSON, setResultsJSON] = useState([])
   const [results, setResults] = useState('')
   const [trigger, setTrigger] = useState(false)
+  const [stringDataToCopy, setStringDataToCopy] = useState('')
+
+  const copyData = e => {
+    navigator.clipboard.writeText(stringDataToCopy)
+    console.log('COPY DONE')
+  }
+
+
   useEffect(() => {
     console.log(props.results)
     props.results.forEach((element, index) => {
@@ -27,6 +35,14 @@ function TableResultsIndividuals (props) {
 
   return (
     <div>
+      {trigger === true && (
+        <div className='copyDivVariants'>
+          <button className='buttonCopy' onClick={copyData}>
+            <h7>COPY ALL RESULTS</h7>
+            <img className='copyLogo' src='../copy.png' alt='copyIcon'></img>
+          </button>
+        </div>
+      )}
       {trigger === true &&
         resultsJSON.map(element => {
           return (

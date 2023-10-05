@@ -58,6 +58,8 @@ function Cohorts (props) {
 
   const [triggerLayout, setTriggerLayout] = useState(false)
 
+  const [trigger, setTrigger] = useState(false)
+
   const handleSelectedFilter = e => {
     setSelectedFilter(e.target.value)
   }
@@ -584,11 +586,11 @@ function Cohorts (props) {
         })
       })
     }
-
+    setTrigger(true)
     if (selectedCohorts.length > 0) {
       apiCall()
     }
-  }, [showGraphs])
+  }, [showGraphs, trigger])
 
   return (
     <div className='graphsDiv'>
@@ -623,15 +625,16 @@ function Cohorts (props) {
           RETURN
         </button>
       )}
-      {nameCohort !== '' && <h3>{nameCohort}</h3>}
-      {showGraphs === true && dataAvailable === true && (
-        <div className='chartModule'>
-          <div id='chartSex'></div>
-          <div id='chartGeo'></div>
-          <hr></hr>
-          <div className='ethnicity'>
-            {filterEthSex ||
-              (filterEthDis && (
+
+      {trigger && (
+        <>
+          {nameCohort !== '' && <h3>{nameCohort}</h3>}
+          {showGraphs === true  && (
+            <div className='chartModule'>
+              <div id='chartSex'></div>
+              <div id='chartGeo'></div>
+              <hr></hr>
+              <div className='ethnicity'>
                 <div className='ethFilters'>
                   <label for='ethnicities'>Filter:</label>
                   <select
@@ -663,23 +666,21 @@ function Cohorts (props) {
                     Submit
                   </button>
                 </div>
-              ))}
-            {showEthFiltered && (
-              <div className='moduleFiltered'>
-                <div id='chartFilteredEthnicity'></div>
+
+                {showEthFiltered && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredEthnicity'></div>
+                  </div>
+                )}
+                {showEthFiltered2 && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredEthnicity2'></div>
+                  </div>
+                )}
+                <div id='chartEthnicity'></div>
               </div>
-            )}
-            {showEthFiltered2 && (
-              <div className='moduleFiltered'>
-                <div id='chartFilteredEthnicity2'></div>
-              </div>
-            )}
-            <div id='chartEthnicity'></div>
-          </div>
-          <hr></hr>
-          <div className='diseases'>
-            {filterDisSex ||
-              (filterDisEth && (
+              <hr></hr>
+              <div className='diseases'>
                 <div className='diseasesFilters'>
                   <label for='ethnicities'>Filter:</label>
                   <select
@@ -710,24 +711,29 @@ function Cohorts (props) {
                     Submit
                   </button>
                 </div>
-              ))}
-            {showDisFiltered && (
-              <div className='moduleFiltered'>
-                <div id='chartFilteredDisease'></div>
+
+                {showDisFiltered && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredDisease'></div>
+                  </div>
+                )}
+                {showDisFiltered2 && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredDisease2'></div>
+                  </div>
+                )}
+                <div id='chartDiseases'></div>
               </div>
-            )}
-            {showDisFiltered2 && (
-              <div className='moduleFiltered'>
-                <div id='chartFilteredDisease2'></div>
-              </div>
-            )}
-            <div id='chartDiseases'></div>
-          </div>
-        </div>
+            </div>
+          )}
+        </>
       )}
       {showGraphs === true && dataAvailable === false && timeOut === true && (
         <div>
-          <h12>UNFORTUNATELY, THERE ARE NO GRAPHICS AVAILABLE RIGHT NOW FOR THE SELECTED COHORT</h12>
+          <h12>
+            UNFORTUNATELY, THERE ARE NO GRAPHICS AVAILABLE RIGHT NOW FOR THE
+            SELECTED COHORT
+          </h12>
         </div>
       )}
     </div>

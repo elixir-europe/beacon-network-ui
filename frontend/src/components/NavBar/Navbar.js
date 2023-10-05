@@ -28,6 +28,7 @@ function Navbar () {
     console.log('hejek')
     setIsLoggedIn(false)
     auth.signOut()
+    logOutUser()
   }
 
   return (

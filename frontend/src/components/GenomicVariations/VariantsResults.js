@@ -48,21 +48,20 @@ function VariantsResults (props) {
     setShow2(false)
   }
 
-  let isAuthenticated = false
-
   const auth = useAuth()
-  isAuthenticated = auth.userData?.id_token ? true : false
-  //const isAuthenticated = true
-
-  authenticateUser()
-  const token = getStoredToken()
-
-  if (token !== 'undefined') {
-    isAuthenticated = true
-  }
+  let isAuthenticated = auth.userData?.id_token ? true : false
 
   useEffect(() => {
     const apiCall = async () => {
+      if ((isAuthenticated === false)) {
+        authenticateUser()
+        const token = getStoredToken()
+
+        if (token !== 'undefined' && token !== null) {
+          isAuthenticated = true
+        }
+      }
+
       if (isAuthenticated) {
         setLoginRequired(false)
       } else {

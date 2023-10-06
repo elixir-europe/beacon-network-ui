@@ -41,23 +41,21 @@ function IndividualsResults (props) {
   let queryStringTerm = ''
 
   let res = ''
-  let isAuthenticated = false
 
   const auth = useAuth()
-
-  isAuthenticated = auth.userData?.id_token ? true : false
-
-  authenticateUser()
-  const token = getStoredToken()
-
-  if (token !== 'undefined') {
-    isAuthenticated = true
-  }
+  let isAuthenticated = auth.userData?.id_token ? true : false
 
   useEffect(() => {
-    console.log(props.query)
-
     const apiCall = async () => {
+      if (isAuthenticated === false) {
+        authenticateUser()
+        const token = getStoredToken()
+     
+        if (token !== 'undefined' && token !== null) {
+          isAuthenticated = true
+        }
+      }
+
       if (isAuthenticated) {
         setLoginRequired(false)
       } else {

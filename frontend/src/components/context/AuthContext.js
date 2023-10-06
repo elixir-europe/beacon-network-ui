@@ -1,5 +1,6 @@
 import React, { useState, createContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import configData from '../../config.json'
 
 const AuthContext = createContext()
 
@@ -54,7 +55,7 @@ function AuthProviderWrapper (props) {
   const authenticateUser = async () => {
     const storedToken = localStorage.getItem('authToken')
 
-    if (storedToken !== 'undefined') {
+    if (storedToken !== 'undefined' && storedToken !== null) {
       setIsLoggedIn(true)
     }
     const refreshToken = localStorage.getItem('refreshToken')
@@ -79,7 +80,7 @@ function AuthProviderWrapper (props) {
         setExpirationMessage(
           'Session expired due to inactivity. Please log in again'
         )
-        logOutUser()
+        console.log("asdasdhas")
       } else {
         setExpirationMessage('')
         console.log('HA PASADO EL EXPIRATION TIME')
@@ -104,7 +105,8 @@ function AuthProviderWrapper (props) {
         formBody = formBody.join('&')
 
         const response = await fetch(
-          'http://localhost:8080/auth/realms/Beacon/protocol/openid-connect/token',
+          configData.KEYCLOAK_URL +
+            '/auth/realms/Beacon/protocol/openid-connect/token',
           {
             method: 'POST',
             headers: {

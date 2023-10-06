@@ -31,7 +31,7 @@
 }
 
 .buttonGoBack {
-  margin-top: 87px;
+  margin-top: 63px;
   /* display: flex; */
   align-content: center;
   justify-content: center;
@@ -42,7 +42,7 @@
   border-radius: 3px;
 }
 
-.buttonGoBack:hover{
+.buttonGoBack:hover {
   background-color: #5be57b;
 }
 
@@ -239,12 +239,25 @@ h12 {
 
 .graphsDiv h3 {
   color: #e16e00;
+  width: 100vw;
   text-transform: uppercase;
   margin-top: 32px;
+  margin-bottom: 20px;
   font-size: 14px;
   display: flex;
+  align-content: space-around;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 160px;
+}
+
+.chartModule {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
   align-content: center;
   justify-content: center;
+  align-items: center;
 }
 
 .middle {

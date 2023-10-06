@@ -475,10 +475,10 @@ function FilteringTerms (props) {
                             <td className='th1'>-</td>
                           )}
 
-                          <td className='th1'>{term.type}</td>
+                          <td className='th3'>{term.type}</td>
 
                           <td className='th1'>
-                            {term.scopes.map((term2, index) => {
+                            {term.scopes !== undefined && term.scopes.map((term2, index) => {
                               return index < term.scopes.length - 1
                                 ? term2 + '' + ','
                                 : term2 + ''
@@ -522,7 +522,7 @@ function FilteringTerms (props) {
                             <td className='th1'>-</td>
                           )}
 
-                          <td className='th1'>{term.type}</td>
+                          <td className='th3'>{term.type}</td>
 
                           <td className='th1'>
                             {term.scopes.map((term2, index) => {

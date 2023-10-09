@@ -124,7 +124,7 @@ function Verifier () {
             )
           })}
 
-        {errorsFound === true && (
+        {errorsFound === true  && timeOut === true && (
           <h11>
             Congratulations! Validation has finished. No errors detected.
           </h11>

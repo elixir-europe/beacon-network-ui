@@ -1,4 +1,4 @@
-import './TableResultsVariant.scss'
+import './TableResultsVariant.css'
 import { useState, useEffect } from 'react'
 
 function TableResultsIndividuals (props) {

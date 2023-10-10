@@ -31,6 +31,8 @@ function Layout (props) {
 
   const [results, setResults] = useState(null)
   const [query, setQuery] = useState(null)
+  const [queryAux, setQueryAux] = useState(null)
+
   const [exampleQ, setExampleQ] = useState([])
 
   const [expansionSection, setExpansionSection] = useState(false)
@@ -64,6 +66,8 @@ function Layout (props) {
   const [triggerCohorts, setTriggerCohorts] = useState(true)
 
   const [trigger, setTrigger] = useState(false)
+  const [triggerQuery, setTriggerQuery] = useState(false)
+
   const {
     storeToken,
     refreshToken,
@@ -104,8 +108,6 @@ function Layout (props) {
   const [assemblyId3, setAssemblyId3] = useState('')
 
   const [hideForm, setHideForm] = useState(false)
-
-  const [resetSearch, setResetSearch] = useState(false)
 
   const [state, setstate] = useState({
     query: '',
@@ -432,28 +434,14 @@ function Layout (props) {
   const onSubmit = async event => {
     event.preventDefault()
 
-    setIsSub(!isSubmitted)
+    setIsSub(true)
 
+    setQueryAux(query)
+
+    if (queryAux !== query) {
+      setTriggerQuery(!triggerQuery)
+    }
     console.log(query)
-
-    setExampleQ([])
-
-    setResetSearch(true)
-
-    if (query === '1' || query === '') {
-      setQuery(null)
-    }
-    if (props.collection === 'Individuals') {
-      setResults('Individuals')
-    } else if (props.collection === 'Variant') {
-      setResults('Variant')
-    }
-  }
-
-  const onSubmit2 = event => {
-    setPlaceholder('filtering term comma-separated, ID><=value')
-
-    setIsSub(!isSubmitted)
 
     setExampleQ([])
 
@@ -559,26 +547,14 @@ function Layout (props) {
                     onChange={e => search(e)}
                     aria-label='Search'
                   />
-                  {!isSubmitted && (
-                    <button className='searchButton' type='submit'>
-                      <img
-                        className='searchIcon'
-                        src='./magnifier.png'
-                        alt='searchIcon'
-                      ></img>
-                    </button>
-                  )}
-                  {isSubmitted && (
-                    <div className='newSearch'>
-                      <button
-                        className='newSearchButton'
-                        onClick={onSubmit2}
-                        type='submit'
-                      >
-                        NEW SEARCH
-                      </button>
-                    </div>
-                  )}
+
+                  <button className='searchButton' type='submit'>
+                    <img
+                      className='searchIcon'
+                      src='./magnifier.png'
+                      alt='searchIcon'
+                    ></img>
+                  </button>
                 </form>
               </div>
             )}
@@ -1006,7 +982,7 @@ function Layout (props) {
         {results === null && !showFilteringTerms && (
           <ResultsDatasets trigger={trigger} />
         )}
-        {isSubmitted && results === 'Individuals' && (
+        {isSubmitted && results === 'Individuals' && triggerQuery && (
           <div>
             <IndividualsResults
               query={query}
@@ -1020,7 +996,51 @@ function Layout (props) {
             />
           </div>
         )}
-        {isSubmitted && results === 'Variant' && (
+        {isSubmitted && results === 'Individuals' && !triggerQuery && (
+          <div>
+            <IndividualsResults
+              query={query}
+              resultSets={resultSet}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
+              isSubmitted={isSubmitted}
+            />
+          </div>
+        )}
+        {isSubmitted && results === 'Variant' && triggerQuery && (
+          <div>
+            <VariantsResults
+              query={query}
+              resultSets={resultSet}
+              showResultsVariants={showResultsVariants}
+              setHideForm={setHideForm}
+              showBar={showBar}
+              aminoacid2={aminoacid2}
+              assemblyId2={assemblyId2}
+              assemblyId3={assemblyId3}
+              alternateBases3={alternateBases3}
+              alternateBases2={alternateBases2}
+              isSubmitted={isSubmitted}
+              variantType2={variantType2}
+              start2={start2}
+              referenceName2={referenceName2}
+              referenceName={referenceName}
+              assemblyId={assemblyId}
+              start={start}
+              end={end}
+              variantType={variantType}
+              alternateBases={alternateBases}
+              referenceBases={referenceBases}
+              referenceBases2={referenceBases2}
+              aminoacid={aminoacid}
+              geneID={geneID}
+            />
+          </div>
+        )}
+        {isSubmitted && results === 'Variant' && !triggerQuery &&(
           <div>
             <VariantsResults
               query={query}

@@ -1,15 +1,14 @@
 import '../../App.css'
 
-import FilteringTermsIndividuals from '../FilteringTerms/FilteringTerms'
+import FilteringTerms from '../FilteringTerms/FilteringTerms'
 import { NavLink } from 'react-router-dom'
 
 import ResultsDatasets from '../Datasets/ResultsDatasets'
 import VariantsResults from '../GenomicVariations/VariantsResults'
 import HorizontalExpansion from '../QueryExpansion/HorizontalExpansion'
+import BiosamplesResults from '../Biosamples/BiosamplesResults'
 
 import React, { useState, useEffect } from 'react'
-import { AuthContext } from '../context/AuthContext'
-import { useContext } from 'react'
 
 import Switch from '@mui/material/Switch'
 import MultiSwitch from 'react-multi-switch-toggle'
@@ -22,6 +21,7 @@ import ReactModal from 'react-modal'
 
 import IndividualsResults from '../Individuals/IndividualsResults'
 import CohortsModule from '../Cohorts/CohortsModule'
+
 
 function Layout (props) {
   console.log(props)
@@ -68,15 +68,6 @@ function Layout (props) {
   const [trigger, setTrigger] = useState(false)
   const [triggerQuery, setTriggerQuery] = useState(false)
 
-  const {
-    storeToken,
-    refreshToken,
-    getStoredToken,
-    authenticateUser,
-    setExpirationTime,
-    setExpirationTimeRefresh
-  } = useContext(AuthContext)
-
   const [showBar, setShowBar] = useState(true)
 
   const [isOpenModal1, setIsOpenModal1] = useState(false)
@@ -122,8 +113,6 @@ function Layout (props) {
   const [isSubmitted, setIsSub] = useState(false)
 
   const [arrayFilteringTerms, setArrayFilteringTerms] = useState([])
-
-  const [showIds, setShowIds] = useState(false)
 
   const handleChangeSwitch = e => {
     setDescendantTerm(e.target.checked)
@@ -290,6 +279,12 @@ function Layout (props) {
       ])
     } else if (props.collection === 'Variant') {
       setExampleQ(['GENO:GENO_0000458'])
+    } else if (props.collection === 'Biosamples') {
+      setExampleQ(['UBERON:0000178', 'EFO:0009654', 'sampleOriginType:blood'])
+    } else if (props.collection === 'Runs') {
+      setExampleQ([''])
+    } else if (props.collection === 'Analyses') {
+      setExampleQ([''])
     }
   }
 
@@ -403,6 +398,7 @@ function Layout (props) {
     }
 
     const fetchData = async () => {
+      //for query expansion
       try {
         let res = await axios.get(
           configData.API_URL + '/individuals/filtering_terms'
@@ -452,6 +448,12 @@ function Layout (props) {
       setResults('Individuals')
     } else if (props.collection === 'Variant') {
       setResults('Variant')
+    } else if (props.collection === 'Biosamples') {
+      setResults('Biosamples')
+    } else if (props.collection === 'Analyses') {
+      setResults('Analyses')
+    } else if (props.collection === 'Runs') {
+      setResults('Runs')
     }
   }
 
@@ -1040,7 +1042,7 @@ function Layout (props) {
             />
           </div>
         )}
-        {isSubmitted && results === 'Variant' && !triggerQuery &&(
+        {isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
               query={query}
@@ -1070,8 +1072,30 @@ function Layout (props) {
             />
           </div>
         )}
+        {isSubmitted && results === 'Biosamples' && triggerQuery && (
+          <div>
+            <BiosamplesResults
+              query={query}
+              resultSets={resultSet}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
+              isSubmitted={isSubmitted}
+            />
+          </div>
+        )}
+        {isSubmitted && results === 'Biosamples' && !triggerQuery && (
+          <div>
+            <BiosamplesResults
+              query={query}
+              resultSets={resultSet}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
+              isSubmitted={isSubmitted}
+            />
+          </div>
+        )}
         {results === null && timeOut === true && showFilteringTerms && (
-          <FilteringTermsIndividuals
+          <FilteringTerms
             filteringTerms={filteringTerms}
             collection={props.collection}
             setPlaceholder={setPlaceholder}

@@ -8,7 +8,15 @@ function TableResultsIndividuals (props) {
   const [stringDataToCopy, setStringDataToCopy] = useState('')
 
   const copyData = e => {
-    navigator.clipboard.writeText(stringDataToCopy)
+
+    navigator.clipboard
+    .writeText(stringDataToCopy)
+    .then(() => {
+      alert("successfully copied");
+    })
+    .catch(() => {
+      alert("something went wrong");
+    });
     console.log('COPY DONE')
   }
 
@@ -31,6 +39,7 @@ function TableResultsIndividuals (props) {
     })
     setTrigger(true)
     console.log(resultsJSON)
+    setStringDataToCopy(resultsJSON)
   }, [])
 
   return (

@@ -30,7 +30,9 @@ function TableResultsIndividuals (props) {
 
   const [beaconsArrayResults, setBeaconsArrayResults] = useState([])
 
-  const [beaconsArrayResultsOrdered, setBeaconsArrayResultsOrdered] = useState([])
+  const [beaconsArrayResultsOrdered, setBeaconsArrayResultsOrdered] = useState(
+    []
+  )
 
   const [resultsSelected, setResultsSelected] = useState(props.results)
   const [resultsSelectedFinal, setResultsSelectedFinal] = useState([])
@@ -205,8 +207,10 @@ function TableResultsIndividuals (props) {
               )
             })
             measuresJson = measuresJson.toString()
-            measuresJson = measuresJson.replaceAll(", ",",").replaceAll(" ,",",")
-            measuresJson = measuresJson.replaceAll(",",'')
+            measuresJson = measuresJson
+              .replaceAll(', ', ',')
+              .replaceAll(' ,', ',')
+            measuresJson = measuresJson.replaceAll(',', '')
           } else {
             measuresJson = JSON.stringify(element[1].measures, null, 2)
               .replaceAll('[', '')
@@ -219,8 +223,10 @@ function TableResultsIndividuals (props) {
               .replaceAll('"', '')
 
             measuresJson = measuresJson.toString()
-            measuresJson = measuresJson.replaceAll(", ",",").replaceAll(" ,",",")
-            measuresJson = measuresJson.replaceAll(",",'')
+            measuresJson = measuresJson
+              .replaceAll(', ', ',')
+              .replaceAll(' ,', ',')
+            measuresJson = measuresJson.replaceAll(',', '')
           }
         }
 
@@ -245,8 +251,13 @@ function TableResultsIndividuals (props) {
               )
             })
             interventionsProcedures = interventionsProcedures.toString()
-            interventionsProcedures = interventionsProcedures.replaceAll(", ",",").replaceAll(" ,",",")
-            interventionsProcedures = interventionsProcedures.replaceAll(",",'')
+            interventionsProcedures = interventionsProcedures
+              .replaceAll(', ', ',')
+              .replaceAll(' ,', ',')
+            interventionsProcedures = interventionsProcedures.replaceAll(
+              ',',
+              ''
+            )
           } else {
             interventionsProcedures = JSON.stringify(
               element[1].interventionsOrProcedures,
@@ -262,8 +273,13 @@ function TableResultsIndividuals (props) {
               .replaceAll(', ', '')
               .replaceAll('"', '')
             interventionsProcedures = interventionsProcedures.toString()
-            interventionsProcedures = interventionsProcedures.replaceAll(", ",",").replaceAll(" ,",",")
-            interventionsProcedures = interventionsProcedures.replaceAll(",",'')
+            interventionsProcedures = interventionsProcedures
+              .replaceAll(', ', ',')
+              .replaceAll(' ,', ',')
+            interventionsProcedures = interventionsProcedures.replaceAll(
+              ',',
+              ''
+            )
           }
         }
 
@@ -285,8 +301,8 @@ function TableResultsIndividuals (props) {
               )
             })
             diseases = diseases.toString()
-            diseases = diseases.replaceAll(", ",",").replaceAll(" ,",",")
-            diseases= diseases.replaceAll(",",'')
+            diseases = diseases.replaceAll(', ', ',').replaceAll(' ,', ',')
+            diseases = diseases.replaceAll(',', '')
           } else {
             diseases = JSON.stringify(element[1].diseases, null, 2)
               .replaceAll('[', '')
@@ -298,8 +314,8 @@ function TableResultsIndividuals (props) {
               .replaceAll(', ', '')
               .replaceAll('"', '')
             diseases = diseases.toString()
-            diseases = diseases.replaceAll(", ",",").replaceAll(" ,",",")
-            diseases= diseases.replaceAll(",",'')
+            diseases = diseases.replaceAll(', ', ',').replaceAll(' ,', ',')
+            diseases = diseases.replaceAll(',', '')
           }
         }
 
@@ -338,15 +354,15 @@ function TableResultsIndividuals (props) {
       }
     })
     beaconsArrayResults.forEach(element => {
-      if (element[2] === true){
+      if (element[2] === true) {
         beaconsArrayResultsOrdered.push(element)
       }
     })
     beaconsArrayResults.forEach(element => {
-      if (element[2] === false){
+      if (element[2] === false) {
         beaconsArrayResultsOrdered.push(element)
       }
-    } )
+    })
 
     setShowDatasets(true)
   }, [])

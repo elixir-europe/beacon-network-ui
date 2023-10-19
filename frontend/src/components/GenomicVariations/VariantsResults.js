@@ -24,6 +24,8 @@ function VariantsResults (props) {
   const [boolean, setBoolean] = useState(false)
   const [arrayFilter, setArrayFilter] = useState([])
 
+  const [beaconsList, setBeaconsList] = useState([])
+
   const [showVariantsResults, setShowVariantsResults] = useState(false)
 
   const { getStoredToken, authenticateUser } = useContext(AuthContext)
@@ -53,7 +55,7 @@ function VariantsResults (props) {
 
   useEffect(() => {
     const apiCall = async () => {
-      if ((isAuthenticated === false)) {
+      if (isAuthenticated === false) {
         authenticateUser()
         const token = getStoredToken()
 
@@ -72,7 +74,16 @@ function VariantsResults (props) {
       }
 
       try {
+        let res = await axios.get(configData.API_URL + '/info')
+
+        res.data.responses.forEach(element => {
+          beaconsList.push(element)
+        })
+
+        beaconsList.reverse()
+
         if (props.showBar === true) {
+          console.log('asdjasdjasdjsj')
           setShowVariantsResults(true)
           if (props.query.includes(',')) {
             queryStringTerm = props.query.split(',')
@@ -101,7 +112,7 @@ function VariantsResults (props) {
               includeResultsetResponses: `${props.resultSets}`,
               pagination: {
                 skip: 0,
-                limit: 10
+                limit: 0
               },
               testMode: false,
               requestedGranularity: 'record'
@@ -118,7 +129,7 @@ function VariantsResults (props) {
           //jsonData1
           // )
           const res = await axios.post(
-            'https://beacon-apis-demo.ega-archive.org/api/g_variants',
+            configData.API_URL + '/g_variants',
             jsonData1
           )
           setTimeOut(true)
@@ -144,7 +155,8 @@ function VariantsResults (props) {
             setNumberResults(res.data.responseSummary.numTotalResults)
           }
         } else {
-          setShowVariantsResults(false)
+          setShowVariantsResults(true)
+
           //   referenceName={referenceName} start={start} end={end} variantType={variantType} alternateBases={alternateBases} referenceBases={referenceBases} aminoacid={aminoacid} geneID={geneID} />
           //    </div>
 
@@ -190,7 +202,8 @@ function VariantsResults (props) {
             requestParameters['aminoacidChange'] = props.aminoacid2
           }
           if (props.geneID !== '') {
-            requestParameters['geneId'] = props.geneID
+            console.log(props.geneID)
+            requestParameters['gene'] = props.geneID
           }
           if (props.assemblyId !== '') {
             requestParameters['assemblyId'] = props.assemblyId
@@ -201,6 +214,7 @@ function VariantsResults (props) {
           if (props.assemblyId3 !== '') {
             requestParameters['assemblyId'] = props.assemblyId3
           }
+
           var jsonData1 = {
             meta: {
               apiVersion: '2.0'
@@ -227,7 +241,9 @@ function VariantsResults (props) {
             configData.API_URL + '/g_variants',
             jsonData1
           )
+          console.log(res)
 
+          setTimeOut(true)
           if (
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
@@ -241,17 +257,23 @@ function VariantsResults (props) {
             setNumberResults(res.data.responseSummary.numTotalResults)
             setBoolean(res.data.responseSummary.exists)
             console.log(res)
+
             res.data.response.resultSets.forEach((element, index) => {
-              res.data.response.resultSets[index].results.forEach(
-                (element2, index2) => {
-                  let arrayResult = [
-                    res.data.response.resultSets[index].beaconId,
-                    res.data.response.resultSets[index].results[index2]
-                  ]
-                  results.push(arrayResult)
-                  console.log(arrayResult)
+              if (res.data.response.resultSets[index].results) {
+                if (res.data.response.resultSets[index].results.length === 0) {
+                } else {
+                  res.data.response.resultSets[index].results.forEach(
+                    (element2, index2) => {
+                      let arrayResult = [
+                        res.data.response.resultSets[index].beaconId,
+                        res.data.response.resultSets[index].results[index2]
+                      ]
+                      results.push(arrayResult)
+                      console.log(arrayResult)
+                    }
+                  )
                 }
-              )
+              }
             })
           }
         }
@@ -296,7 +318,10 @@ function VariantsResults (props) {
 
               {show3 && logInRequired === false && error === '' && (
                 <div>
-                  <TableResultsVariant results={results}></TableResultsVariant>
+                  <TableResultsVariant
+                    results={results}
+                    beaconsList={beaconsList}
+                  ></TableResultsVariant>
                 </div>
               )}
               {show3 && logInRequired === true && (

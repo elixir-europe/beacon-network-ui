@@ -35,7 +35,7 @@ function Verifier () {
     try {
       if (verifierUrl !== '') {
         let res = await axios.get(
-          `https://beacons.bsc.es/beacon-network/v2.0.0/validate?endpoint=${verifierUrl}`
+          configData.API_URL + `/validate?endpoint=${verifierUrl}`
         )
 
         console.log(res)

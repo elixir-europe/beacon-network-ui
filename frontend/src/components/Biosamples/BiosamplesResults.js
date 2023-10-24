@@ -6,7 +6,8 @@ import { AuthContext } from '../context/AuthContext'
 import { useAuth } from 'oidc-react'
 import configData from '../../config.json'
 import { useContext } from 'react'
-import TableResultsIndividuals from '../Results/IndividualsResults/TableResultsIndividuals'
+import TableResultsBiosamples from '../Results/BiosamplesResults/TableResultsBiosamples'
+
 
 function BiosamplesResults (props) {
 
@@ -345,10 +346,10 @@ function BiosamplesResults (props) {
           )}
           {show3 && logInRequired === false && !error && (
             <div>
-              <TableResultsIndividuals
+              <TableResultsBiosamples
                 results={results}
                 beaconsList={beaconsList}
-              ></TableResultsIndividuals>
+              ></TableResultsBiosamples>
             </div>
           )}
           {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}

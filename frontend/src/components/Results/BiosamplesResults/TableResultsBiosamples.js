@@ -1,4 +1,4 @@
-import './IndividualsResults/TableResultsIndividuals.css'
+import '../IndividualsResults/TableResultsIndividuals.css'
 import '../../Datasets/ResultsDatasets.css'
 import * as React from 'react'
 import {

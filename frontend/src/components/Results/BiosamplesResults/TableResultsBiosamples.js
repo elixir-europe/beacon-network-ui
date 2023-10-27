@@ -950,3 +950,4 @@ function TableResultsBiosamples (props) {
 }
 
 export default TableResultsBiosamples
+

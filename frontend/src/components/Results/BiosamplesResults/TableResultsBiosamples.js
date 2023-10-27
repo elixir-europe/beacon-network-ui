@@ -140,7 +140,7 @@ function TableResultsBiosamples (props) {
     },
     {
       field: 'histologicalDiagnosis',
-      headerName: 'Historical diagnosis',
+      headerName: 'Histological diagnosis',
       width: 350,
       headerClassName: 'super-app-theme--header'
     },

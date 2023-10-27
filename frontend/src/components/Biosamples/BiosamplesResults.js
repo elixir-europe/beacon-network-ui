@@ -8,7 +8,6 @@ import configData from '../../config.json'
 import { useContext } from 'react'
 import TableResultsBiosamples from '../Results/BiosamplesResults/TableResultsBiosamples'
 
-
 function BiosamplesResults (props) {
 
   const [beaconsList, setBeaconsList] = useState([])

@@ -127,6 +127,8 @@ function Verifier () {
                       <div className='errorMessage'>
                         <h9>Code:</h9>
                         <h1>{element.code}</h1>
+                        <h9>Path:</h9>
+                        <h1>{element.path}</h1>
                         <h9>Location:</h9>
                         <h1>{element.location}</h1>
                         <h9>Message:</h9>

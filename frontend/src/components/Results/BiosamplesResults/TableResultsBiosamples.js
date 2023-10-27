@@ -1,3 +1,4 @@
+import './TableResultsBiosamples.css'
 import '../IndividualsResults/TableResultsIndividuals.css'
 import '../../Datasets/ResultsDatasets.css'
 import * as React from 'react'
@@ -51,7 +52,7 @@ function TableResultsBiosamples (props) {
     return gridFilteredSortedRowIdsSelector(apiRef)
   }
 
-  const columns = [
+  let columns = [[
     {
       field: 'id',
       headerName: 'Row',
@@ -150,12 +151,6 @@ function TableResultsBiosamples (props) {
       headerClassName: 'super-app-theme--header'
     },
     {
-      field: 'histologicalDiagnosis',
-      headerName: 'Histological diagnosis',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
       field: 'phenotypicFeatures',
       headerName: 'Phenotypic features',
       width: 300,
@@ -179,12 +174,7 @@ function TableResultsBiosamples (props) {
       width: 300,
       headerClassName: 'super-app-theme--header'
     }
-    //   { field: 'pedigrees', headerName: 'pedigrees', width: 150 },
-    // { field: 'treatments', headerName: 'treatments', width: 150 },
-    //{ field: 'interventionsOrProcedures', headerName: 'interventionsOrProcedures', width: 150 },
-    // { field: 'exposures', headerName: 'exposures', width: 150 },
-    // { field: 'karyotypicSex', headerName: 'karyotypicSex', width: 150 },
-  ]
+  ]]
 
   const handleSeeResults = e => {
     resultsSelected.forEach(element => {
@@ -805,29 +795,74 @@ function TableResultsBiosamples (props) {
             sampleStorageJson = sampleStorageJson.replaceAll(',', '')
           }
         }
+        
+        var myObjRows = new Object()
+        myObjRows.id = index
+        if (element[1].id !== '') {
+          myObjRows.BiosampleId = element[1].id
+        }
+        if (element[1].individualId !== '') {
+          myObjRows.individualId = element[1].individualId
+        }
+        myObjRows.Beacon = element[0]
 
-        rows.push({
-          id: index,
-          BiosampleId: element[1].id,
-          IndividualId: element[1].individualId,
-          Beacon: element[0],
-          biosampleStatus: stringBiosampleStatus,
-          sampleOriginType: stringSampleOriginType,
-          sampleOriginDetail: stringSampleOriginDetail,
-          collectionDate: collectionDateJson,
-          collectionMoment: collectionMomentJson,
-          obtentionProcedure: obtentionProcedureJson,
-          tumorProgression: tumorProgressionJson,
-          tumorGrade: tumorGradeJson,
-          pathologicalStage: pathologicalStageJson,
-          pathologicalTnmFinding: pathologicalTnmFindingJson,
-          histologicalDiagnosis: histologicalDiagnosisJson,
-          diagnosticMarkers: diagnosticMarkersJson,
-          phenotypicFeatures: phenotypicFeaturesJson,
-          measurements: measurementsJson,
-          sampleProcessing: sampleProcessingJson,
-          sampleStorage: sampleStorageJson
-        })
+        if (stringBiosampleStatus !== '') {
+          myObjRows.biosampleStatus = stringBiosampleStatus
+        }
+        if (stringSampleOriginType !== '') {
+          myObjRows.sampleOriginType = stringSampleOriginType
+        }
+
+        console.log(stringSampleOriginDetail)
+        if (stringSampleOriginDetail !== '') {
+          myObjRows.sampleOriginDetail = stringSampleOriginDetail
+        }
+
+      
+        if (collectionDateJson !== '') {
+          myObjRows.collectionDate = collectionDateJson
+        }
+        if (collectionMomentJson !== '') {
+          myObjRows.collectionMoment = collectionMomentJson
+        }
+        if (obtentionProcedureJson !== '') {
+          myObjRows.obtentionProcedure = obtentionProcedureJson
+        }
+        if (tumorProgressionJson !== '') {
+          myObjRows.tumorProgression = tumorProgressionJson
+        }
+        if (tumorGradeJson !== '') {
+          myObjRows.tumorGrade = tumorGradeJson
+        }
+
+        if (pathologicalStageJson !== '') {
+          myObjRows.pathologicalStage = pathologicalStageJson
+        }
+
+        if (pathologicalTnmFindingJson !== '') {
+          myObjRows.pathologicalTnmFinding = pathologicalTnmFindingJson
+        }
+
+        if (histologicalDiagnosisJson !== '') {
+          myObjRows.histologicalDiagnosis = histologicalDiagnosisJson
+        }
+        if (diagnosticMarkersJson !== '') {
+          myObjRows.diagnosticMarkers = diagnosticMarkersJson
+        }
+        if (phenotypicFeaturesJson !== '') {
+          myObjRows.phenotypicFeatures = phenotypicFeaturesJson
+        }
+        if (measurementsJson !== '') {
+          myObjRows.measurements = measurementsJson
+        }
+        if (sampleProcessingJson !== '') {
+          myObjRows.sampleProcessing = sampleProcessingJson
+        }
+        if (sampleStorageJson !== '') {
+          myObjRows.sampleStorage = sampleStorageJson
+        }
+
+        rows.push(myObjRows)
         console.log(rows)
 
         if (index === resultsSelectedFinal.length - 1) {

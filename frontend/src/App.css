@@ -55,7 +55,7 @@ html {
 
 .resultSetsDiv {
   display: flex;
-  margin-left: 13px;
+  margin-top: 5px;
 }
 
 .newSearchButton:hover {
@@ -271,13 +271,17 @@ html {
   color: #34495e;
   font-size: 14px;
   cursor: pointer;
-  margin-top: -10px;
-  margin-bottom: 35px;
+  margin-top: 16px;
+  margin-bottom: 10px;
+  /* margin-top: -10px; */
+  /* margin-bottom: 35px; */
+  border-radius: 3px;
   background: rgba(0, 0, 0, 0.09);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
+
 .spanQE {
   display: block;
   padding: 14px 15px;
@@ -392,6 +396,36 @@ html {
   width: 168%;
   display: flex;
   justify-content: flex-end;
+}
+
+.text-example {
+  display: none;
+}
+
+.exampleQuery:hover {
+  color: rgb(118, 151, 228);
+}
+
+.exampleQuery:hover .text-example {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid #c8c8c8;
+  background-color: #c8c8c8;
+  color: black;
+  width: fit-content;
+  border-radius: 6px;
+  margin-left: 10px;
+  padding: 1px;
+}
+
+.examplesQueriesList {
+  width: 212px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: flex-start;
 }
 
 .container1 {
@@ -561,19 +595,18 @@ hr {
     sans-serif;
   text-transform: uppercase;
   font-size: 12px;
+  margin-left: 33px;
+}
+
+.exampleQueries:hover {
+  color: rgb(118, 151, 228);
 }
 
 .bulbExample {
   display: flex;
   align-items: center;
-}
-
-.exampleQuery:hover {
-  color: rgb(118, 151, 228);
-}
-
-.exampleQueries:hover {
-  color: rgb(118, 151, 228);
+  border-left: 1.7px solid #f1f1f1;
+  margin-left: 33px;
 }
 
 .helpButton {
@@ -652,9 +685,12 @@ hr {
 .example {
   display: flex;
   align-items: center;
+  margin-top: 22px;
+  margin-bottom: 22px;
+  flex-direction: row-reverse;
+  margin-left: 246px;
+  align-content: space-between;
   justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 10px;
 }
 
 .extraSections {
@@ -671,6 +707,11 @@ hr {
   /* border-color: #5454bc; */
   padding: 5px;
   cursor: pointer;
+  display: flex;
+  flex-direction: row-reverse;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .exampleQueriesAlph {

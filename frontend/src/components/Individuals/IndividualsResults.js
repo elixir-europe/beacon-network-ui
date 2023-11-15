@@ -8,6 +8,9 @@ import configData from '../../config.json'
 import { useContext } from 'react'
 import TableResultsIndividuals from '../Results/IndividualsResults/TableResultsIndividuals'
 
+
+
+
 function IndividualsResults (props) {
   const [showLayout, setShowLayout] = useState(false)
 
@@ -51,14 +54,17 @@ function IndividualsResults (props) {
         authenticateUser()
         const token = getStoredToken()
      
-        if (token !== 'undefined' && token !== null) {
+        if (token != 'null' && token != 'undefined' && token != null) {
+          console.log(token)
           isAuthenticated = true
         }
       }
 
-      if (isAuthenticated) {
+      if (isAuthenticated == true) {
         setLoginRequired(false)
+        console.log('you are authenticated')
       } else {
+        console.log('you are not authenticated')
         setLoginRequired(true)
         setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
         setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')

@@ -27,11 +27,10 @@ function Navbar () {
 
   const handleMenu = () => {
     setOpenMenu(!openMenu)
-    console.log("sdsadasdsd")
+    console.log('sdsadasdsd')
   }
 
   const handleClik = () => {
-
     setIsLoggedIn(false)
     auth.signOut()
     logOutUser()
@@ -161,74 +160,82 @@ function Navbar () {
       <nav className='nav4'>
         <button className='buttonMenu' onClick={handleMenu}>
           <img className='menuLogo' src='../menu.png' alt='menuIcon'></img>
+          <img className='menuLogoHover' src='../menu2.png' alt='menuIconHover'></img>
         </button>
 
         {openMenu && (
-          <div className='menuNav'>
-            <NavLink
-              to='/members'
-              className={({ isActive }) => (isActive ? 'Members2' : 'Members')}
-            >
-              {' '}
-              Network members
-            </NavLink>
-            {!isLoggedIn && (
+          <div>
+            <div class='icon'>
+              <img className='arrowUpIcon' src='../arrow-up2.png' alt='arrowUp2'></img>
+            </div>
+            <div className='menuNav'>
               <NavLink
-                exact
-                to='/sign-in'
+                to='/members' onClick={handleMenu}
                 className={({ isActive }) =>
-                  isActive ? 'Sign-in2' : 'Sign-in'
+                  isActive ? 'Members2' : 'Members'
                 }
               >
                 {' '}
-                <img
-                  className='ls-login-image'
-                  src='../ls-login.png'
-                  alt='ls-login-image'
-                />
+                <h1>Network members</h1>
               </NavLink>
-            )}
-            {!isLoggedIn && (
-              <NavLink
-                exact
-                to='/sign-in-noLS'
-                className={({ isActive }) =>
-                  isActive ? 'Sign-in5' : 'Sign-in6'
-                }
-              >
-                Log in
-              </NavLink>
-            )}
+              {!isLoggedIn && (
+                <NavLink
+                  exact
+                  to='/sign-in' onClick={handleMenu}
+                  className={({ isActive }) =>
+                    isActive ? 'Sign-in2' : 'Sign-in'
+                  }
+                >
+                  {' '}
+                  <img
+                    className='ls-login-image'
+                    src='../ls-login.png'
+                    alt='ls-login-image'
+                  />
+                </NavLink>
+              )}
+              {!isLoggedIn && (
+                <NavLink
+                  exact
+                  to='/sign-in-noLS' onClick={handleMenu}
+                  className={({ isActive }) =>
+                    isActive ? 'Sign-in5' : 'Sign-in6'
+                  }
+                >
+                  <h1>Log in</h1>
+                </NavLink>
+              )}
 
-            {isLoggedIn && (
-              <NavLink
-                exact
-                to='/members'
-                className={({ isActive }) =>
-                  isActive ? 'Members4' : 'Members3'
-                }
-              >
-                Network members
-              </NavLink>
-            )}
+              {isLoggedIn && (
+                <NavLink
+                  exact
+                  to='/members'
+                  className={({ isActive }) =>
+                    isActive ? 'Members4' : 'Members3'
+                  }
+                >
+                  <h1>Network members</h1>
+                </NavLink>
+              )}
 
-            {isLoggedIn && (
-              <NavLink
-                exact
-                to='/individuals'
-                className={({ isActive }) =>
-                  isActive ? 'Sign-in4' : 'Sign-in3'
-                }
-                onClick={handleClik}
-              >
-                <img
-                  className='ls-login-image2'
-                  src='../logout.png'
-                  alt='ls-login-image2'
-                />
-                Log out
-              </NavLink>
-            )}
+              {isLoggedIn && (
+                <NavLink
+                  exact
+                  to='/individuals'
+                  className={({ isActive }) =>
+                    isActive ? 'Sign-in4' : 'Sign-in3'
+                  }
+                  onClick={handleClik}
+                >
+                  <img
+                    className='ls-login-image2'
+                    src='../logout.png'
+                    alt='ls-login-image2'
+                  />
+                  <h1>Log out</h1>
+                </NavLink>
+              )}
+            </div>
           </div>
         )}
       </nav>

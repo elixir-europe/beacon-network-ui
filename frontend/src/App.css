@@ -997,8 +997,17 @@ h5 {
 @media (max-width: 800px) {
   .container1 a {
     display: flex;
-    align-content: center;
+    font-size: 10px;
+    text-underline-offset: 1px;
     justify-content: center;
+
+  }
+
+  .elixirLogo{
+    height: 70px;
+    margin-top: 18px;
+    margin-bottom: 37px;
+    margin-right: 21px;
   }
 
   .searchButton {

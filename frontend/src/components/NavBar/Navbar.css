@@ -211,7 +211,10 @@
   }
 
   .ls-login-image {
-    width: 146px;
+    width: 121px;
+    margin: 5px;
+    background: #dedddb;
+    border-radius: 14px;
   }
 
   .nav3 .Sign-in {
@@ -303,14 +306,70 @@
 
 @media (max-width: 1349px) {
   /* … */
+  .Members {
+    color: #e6eeeb;
+    /* font-size: 7px; */
+    text-decoration: none;
+  }
+
+  .Members2 {
+    text-underline-offset: 6px;
+    color: #ff8b00;
+  }
+
+  .Sign-in5 {
+    text-underline-offset: 6px;
+    color: #ff8b00;
+  }
+
+  .arrowUpIcon {
+    width: 24px;
+    margin-left: 10%;
+    margin-bottom: -33px;
+  }
+
+  h1:hover {
+    color: rgb(1, 10, 59);
+  }
+
+  .Sign-in6 {
+    color: #e6eeeb;
+    text-decoration: none;
+    height: 35px;
+  }
 
   .menuLogo {
     width: 42px;
-    margin-right: 10px;
-    margin-top: 5px;
+    margin-right: 74px;
+    margin-top: 8px;
+  }
+  .menuLogoHover {
+    width: 42px;
+    margin-right: 74px;
+    margin-top: 8px;
   }
 
-  .buttonMenu{
+  .buttonMenu:hover .menuLogo,
+  .buttonMenu .menuLogoHover {
+    display: none;
+  }
+  .buttonMenu:hover .menuLogoHover {
+    display: inline;
+  }
+
+  h1 {
+    margin-left: 7px;
+    margin-top: 14px;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-bottom: 21px;
+    padding-right: 10px;
+    /* padding-left: 10px; */
+    color: white;
+    text-decoration: none;
+  }
+
+  .buttonMenu {
     display: flex;
     width: 100%;
     align-content: center;
@@ -319,18 +378,27 @@
   }
 
   .menuNav {
-    background-color: #3d72a6;
-    height: 100px;
-    /* width: 115px; */
+    background-color: #235c94;
+    height: 140px;
+    width: 145px;
+    margin-top: 22px;
+    border-radius: 9px;
+    /* margin-right: 53px; */
+    margin-left: -51px;
     display: flex;
     align-content: center;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
+    /* margin-left: -7vw; */
+    align-items: center;
   }
 
   .ls-login-image {
-    width: 100px;
+    width: 91px;
+    margin: 5px;
+    background: #dedddb;
+    border: 2px solid #706c88;
+    border-radius: 12px;
   }
   .navB {
     display: flex;
@@ -348,12 +416,10 @@
   }
   .nav4 {
     height: 32vh;
-    width: 100%;
+    /* width: 100%; */
     display: flex;
-    justify-content: flex-start;
+    /* place-content: center flex-start; */
     flex-direction: column;
-    align-content: center;
-    align-items: flex-end;
   }
   .nav3 {
     width: 30%;
@@ -493,12 +559,62 @@
 }
 
 @media (max-width: 860px) {
-
-  .menuLogo {
-    width: 42px;
-    margin-top: 5px;
+  .Members {
+    color: #e6eeeb;
+    /* font-size: 7px; */
+    cursor: pointer;
   }
-  
+
+  .Sign-in5 {
+    text-underline-offset: 6px;
+    color: #ff8b00;
+  }
+
+  .Members2 {
+    text-underline-offset: 6px;
+    color: #ff8b00;
+  }
+
+  .arrowUpIcon {
+    width: 24px;
+    margin-bottom: -33px;
+    margin-left: 60px;
+  }
+
+  h1:hover {
+    color: rgb(1, 10, 59);
+  }
+
+  h1 {
+    margin-left: 7px;
+    margin-top: 14px;
+    width: fit-content;
+    margin-bottom: 21px;
+    padding-right: 10px;
+    padding-left: 10px;
+    color: white;
+    text-decoration: none;
+  }
+  .menuLogo {
+    margin-left: 76px;
+    width: 54px;
+    margin-top: 1px;
+  }
+
+  .menuLogoHover {
+    margin-left: 76px;
+    width: 54px;
+    margin-top: 1px;
+  }
+
+  .buttonMenu:hover .menuLogo,
+  .buttonMenu .menuLogoHover {
+    display: none;
+  }
+  .buttonMenu:hover .menuLogoHover {
+    display: inline;
+  }
+
   .nav2 {
     width: 70%;
     display: none;
@@ -528,7 +644,7 @@
     justify-content: center;
   }
 
-  .buttonMenu{
+  .buttonMenu {
     display: flex;
     width: 100%;
     align-content: center;
@@ -537,14 +653,17 @@
   }
 
   .menuNav {
-    background-color: #3d72a6;
-    height: 100px;
-    width: 108px;
-    margin-right: 43px;
+    background-color: #235c94;
+    height: 140px;
+    width: 145px;
+    margin-top: 22px;
+    border-radius: 9px;
+    /* margin-right: 118px; */
     display: flex;
     /* align-content: center; */
     justify-content: center;
     /* align-items: center; */
     flex-direction: column;
+    margin-left: 0px;
   }
 }

@@ -55,7 +55,7 @@ function IndividualsResults (props) {
         const token = getStoredToken()
      
         if (token != 'null' && token != 'undefined' && token != null) {
-          console.log(token)
+          console.log(auth.userData)
           isAuthenticated = true
         }
       }

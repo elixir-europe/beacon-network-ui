@@ -10,11 +10,13 @@ function Navbar () {
   const [selected, setIsSelected] = useState('')
   const [openModal1, setIsOpenModal1] = useState(false)
 
-  const { isLoggedIn, setIsLoggedIn, logOutUser } = useContext(AuthContext)
+  const { isLoggedIn, setIsLoggedIn, logOutUser, getStoredToken } = useContext(AuthContext)
   const auth = useAuth()
 
+  const token = localStorage.getItem('authToken')
+  console.log(token)
   const isAuthenticated = auth.userData?.id_token ? true : false
-  if (isAuthenticated || isLoggedIn === true) {
+  if (isAuthenticated || token != 'null' && token != 'undefined') {
     setIsLoggedIn(true)
   } else {
     setIsLoggedIn(false)

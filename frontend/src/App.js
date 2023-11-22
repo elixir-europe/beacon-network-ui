@@ -34,7 +34,7 @@ function App () {
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/sign-in-noLS' element={<SignInFormNoLS />} />
         <Route path='/loggedOut' element={<LoggedIn />} />
-        <Route path='/cross-queries' element={<CrossQueries />} />
+        <Route path='/cross-queries/:scope/:id' element={<CrossQueries />} />
         <Route path='/verifier' element={<Verifier />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>

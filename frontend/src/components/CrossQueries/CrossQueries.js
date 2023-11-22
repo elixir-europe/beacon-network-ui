@@ -2,11 +2,12 @@ import './CrossQueries.css'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import configData from '../../config.json'
+import { useParams } from 'react-router-dom'
 
 function CrossQueries () {
   const [valueInitial, setValueInitial] = useState('')
   const [valueFinal, setValueFinal] = useState('')
-  const [IdValue, setIdValue] = useState('')
+
   const [error, setError] = useState('')
   const [results, setResults] = useState('')
   const [arrayResults, setArrayResults] = useState([])
@@ -17,6 +18,8 @@ function CrossQueries () {
     setValueInitial(e.target.value)
   }
 
+  const { scope, id } = useParams()
+  const [IdValue, setIdValue] = useState(id)
   const handleChangeFinal = e => {
     setValueFinal(e.target.value)
   }
@@ -70,12 +73,32 @@ function CrossQueries () {
         <label className='originCollection'>
           Pick the "origin" collection:
           <select value={valueInitial} onChange={handleChangeInitial}>
-            <option value='select'>Select</option>
-            <option value='g_variants'>Variant</option>
-            <option value='individuals'>Individuals</option>
-            <option value='biosamples'>Biosamples</option>
-            <option value='runs'>Runs</option>
-            <option value='analyses'>Analyses</option>
+            {scope === '' && <option value='select'>Select</option>}
+            {scope === 'variants' && (
+              <option value='g_variants' selected>
+                Variant
+              </option>
+            )}
+            {scope === 'individuals' && (
+              <option value='individuals' selected>
+                Individuals
+              </option>
+            )}
+            {scope === 'biosamples' && (
+              <option value='biosamples' selected>
+                Biosamples
+              </option>
+            )}
+            {scope === 'runs' && (
+              <option value='runs' selected>
+                Runs
+              </option>
+            )}
+            {scope === 'analyses' && (
+              <option value='analyses' selected>
+                Analyses
+              </option>
+            )}
           </select>
         </label>
         <label>

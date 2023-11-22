@@ -340,12 +340,12 @@
 
   .menuLogo {
     width: 42px;
-    margin-right: 74px;
+
     margin-top: 8px;
   }
   .menuLogoHover {
     width: 42px;
-    margin-right: 74px;
+
     margin-top: 8px;
   }
 
@@ -373,7 +373,6 @@
     display: flex;
     width: 100%;
     align-content: center;
-    justify-content: flex-end;
     align-items: center;
   }
 
@@ -596,13 +595,12 @@
     text-decoration: none;
   }
   .menuLogo {
-    margin-left: 76px;
     width: 54px;
     margin-top: 1px;
   }
 
   .menuLogoHover {
-    margin-left: 76px;
+
     width: 54px;
     margin-top: 1px;
   }
@@ -647,9 +645,9 @@
   .buttonMenu {
     display: flex;
     width: 100%;
-    align-content: center;
+    align-content: center !important;
     justify-content: center;
-    align-items: center;
+    align-items: center !important;
   }
 
   .menuNav {

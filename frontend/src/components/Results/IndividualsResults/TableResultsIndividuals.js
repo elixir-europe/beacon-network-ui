@@ -11,6 +11,7 @@ import {
 } from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 function CustomToolbar () {
   return (
@@ -62,7 +63,9 @@ function TableResultsIndividuals (props) {
       field: 'IndividualId',
       headerName: 'Individual ID',
       width: 150,
-      headerClassName: 'super-app-theme--header'
+      headerClassName: 'super-app-theme--header',
+      renderCell: params => 
+      <Link to={`cross-queries/individuals/${params.row.IndividualId}`}>{params.row.IndividualId}</Link>
     },
     {
       field: 'Beacon',

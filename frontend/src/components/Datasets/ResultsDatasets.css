@@ -80,7 +80,7 @@
 }
 
 .line {
-  width: 300px;
+  width: 77vw;
   margin: 18px;
 }
 
@@ -177,6 +177,30 @@
 }
 
 @media (max-width: 800px) {
+  .resultsRecord {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    width: 100vw;
+  }
+
+  .datasetCardResults {
+    width: 100vw;
+    margin: 11px;
+    /* border: 2px solid #3b9ad5; */
+    padding: 3px;
+    display: flex;
+    box-shadow: 1 (0, 0, 0, -0.75) 0px 1px 0px, rgba(1, 1, 2, 12) 0px 1 3px;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+    background-color: #ebebeb;
+    justify-content: flex-start;
+    border-radius: 2px;
+  }
+
   .datasetCard {
     width: 75vw;
     margin: 30px;
@@ -209,6 +233,30 @@
     color: rgba(12, 16, 64, 0.606);
     font-size: 10px;
     font-weight: 600;
+    margin-left: 10px;
+  }
+
+  .logoBeacon {
+    margin-left: 10px;
+  }
+
+  .datasetCard a {
+    margin-right: 14px;
+    font-size: 11px;
+    color: #0158aa;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .datasetCard a:hover {
+    margin-right: 14px;
+    font-size: 10px;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    color: #539ce6;
   }
 
   .tittle2 h1 {

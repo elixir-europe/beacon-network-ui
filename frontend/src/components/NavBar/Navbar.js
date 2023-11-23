@@ -359,18 +359,6 @@ function Navbar () {
               {isLoggedIn && (
                 <NavLink
                   exact
-                  to='/members'
-                  className={({ isActive }) =>
-                    isActive ? 'Members4' : 'Members3'
-                  }
-                >
-                  <h1>Network members</h1>
-                </NavLink>
-              )}
-
-              {isLoggedIn && (
-                <NavLink
-                  exact
                   to='/individuals'
                   className={({ isActive }) =>
                     isActive ? 'Sign-in4' : 'Sign-in3'

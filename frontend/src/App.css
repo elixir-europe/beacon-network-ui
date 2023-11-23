@@ -998,7 +998,7 @@ h5 {
 @media (max-width: 800px) {
   .container1 a {
     display: flex;
-    font-size: 10px;
+    font-size: 11px;
     text-underline-offset: 1px;
   }
 
@@ -1016,18 +1016,25 @@ h5 {
     /* margin-left: 27px; */
   }
 
+  .container-fluid{
+    display: flex;
+    width: 100%;
+    margin-right: 0px;
+    margin-left:  0px;
+    justify-content: center;
+    height: 35px;
+  }
+
   .example {
     display: flex;
-    /* margin-right: -12px; */
-    /* margin-top: 22px; */
-    /* margin-bottom: 22px; */
-    /* flex-direction: row-reverse; */
-    align-content: center;
-    /* flex-wrap: nowrap; */
-    width: 100vw;
     align-items: center;
+    margin-right: 0px;
+    margin-top: 22px;
+    margin-bottom: 22px;
+    flex-direction: row-reverse;
+    align-content: space-between;
     justify-content: center;
-  }
+}
 
   .exampleQueries {
     border: none;
@@ -1042,7 +1049,6 @@ h5 {
     margin-left: 0px !important;
   }
   .additionalOptions {
-    margin-left: -104px;
     justify-content: center;
     align-items: center;
     z-index: 0;

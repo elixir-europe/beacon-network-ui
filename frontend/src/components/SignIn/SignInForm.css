@@ -188,3 +188,10 @@
     margin-left: 0%;
   }
 }
+
+@media (max-width: 800px) {
+  .formFields {
+    margin: 0px;
+    margin-top: 37px;
+  }
+}

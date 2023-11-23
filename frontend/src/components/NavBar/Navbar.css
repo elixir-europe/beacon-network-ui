@@ -566,6 +566,19 @@
 }
 
 @media (max-width: 860px) {
+  .ls-login-image2 {
+    width: 17px;
+    margin-right: -11px;
+  }
+  .Sign-in3 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    align-content: center;
+    flex-direction: row-reverse;
+    margin-top: 14px;
+  }
+
   .menuContainer {
     z-index: 1;
   }

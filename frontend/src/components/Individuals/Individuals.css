@@ -62,7 +62,7 @@ label {
 
 h1 {
   font-size: 12px;
-  color: black;
+  color: black !important;
 }
 
 h2 {

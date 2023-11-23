@@ -159,14 +159,14 @@ function Navbar () {
       </nav>
       <nav className='nav4'>
         <button className='buttonMenu' onClick={handleMenu}>
-          <img className='menuLogo' src='../menu.png' alt='menuIcon'></img>
-          <img className='menuLogoHover' src='../menu2.png' alt='menuIconHover'></img>
+          <img className='menuLogo' src='/../menu.png' alt='menuIcon'></img>
+          <img className='menuLogoHover' src='/../menu2.png' alt='menuIconHover'></img>
         </button>
 
         {openMenu && (
           <div>
             <div class='icon'>
-              <img className='arrowUpIcon' src='../arrow-up2.png' alt='arrowUp2'></img>
+              <img className='arrowUpIcon' src='/../arrow-up2.png' alt='arrowUp2'></img>
             </div>
             <div className='menuNav'>
               <NavLink
@@ -189,7 +189,7 @@ function Navbar () {
                   {' '}
                   <img
                     className='ls-login-image'
-                    src='../ls-login.png'
+                    src='/../ls-login.png'
                     alt='ls-login-image'
                   />
                 </NavLink>
@@ -229,7 +229,7 @@ function Navbar () {
                 >
                   <img
                     className='ls-login-image2'
-                    src='../logout.png'
+                    src='/../logout.png'
                     alt='ls-login-image2'
                   />
                   <h1>Log out</h1>

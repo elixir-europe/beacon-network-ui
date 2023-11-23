@@ -13,12 +13,16 @@ function CrossQueries () {
   const [arrayResults, setArrayResults] = useState([])
 
   const [showSubmit, setShowSubmit] = useState(true)
+  const [trigger, setTrigger]= useState(true)
 
   const handleChangeInitial = e => {
     setValueInitial(e.target.value)
   }
 
-  const { scope, id } = useParams()
+  let { scope, id } = useParams()
+
+  const [scope2, setScope2] = useState(scope)
+
   const [IdValue, setIdValue] = useState(id)
   const handleChangeFinal = e => {
     setValueFinal(e.target.value)
@@ -26,6 +30,8 @@ function CrossQueries () {
 
   const handleChangeID = e => {
     setIdValue(e.target.value)
+    setScope2('allScopes')
+    setTrigger(false)
   }
 
   const handleClick = () => {
@@ -67,34 +73,46 @@ function CrossQueries () {
     }
   }
 
+  useEffect(() => {
+    console.log(scope)
+    console.log(scope2)
+    setTrigger(true)
+  }, [scope2])
+
   return (
     <div className='divCrossQueries'>
       <form className='crossQueriesForm' onSubmit={handleSubmit}>
         <label className='originCollection'>
           Pick the "origin" collection:
           <select value={valueInitial} onChange={handleChangeInitial}>
-            {scope === '' && <option value='select'>Select</option>}
-            {scope === 'variants' && (
+            {scope2 === 'allScopes' && <option value='select'>Select</option>}
+            {scope2 === 'allScopes' && <option value='g_variants'>Variant</option>}
+            {scope2 === 'allScopes' && <option value='individuals'>Individuals</option>}
+            {scope2 === 'allScopes' && <option value='biosamples'>Biosamples</option>}
+            {scope2 === 'allScopes' && <option value='runs'>Runs</option>}
+            {scope2 === 'allScopes' && <option value='analyses'>Analyses</option>}
+
+            {scope2 === 'variants' && (
               <option value='g_variants' selected>
                 Variant
               </option>
             )}
-            {scope === 'individuals' && (
+            {scope2 === 'individuals' && (
               <option value='individuals' selected>
                 Individuals
               </option>
             )}
-            {scope === 'biosamples' && (
+            {scope2 === 'biosamples' && (
               <option value='biosamples' selected>
                 Biosamples
               </option>
             )}
-            {scope === 'runs' && (
+            {scope2 === 'runs' && (
               <option value='runs' selected>
                 Runs
               </option>
             )}
-            {scope === 'analyses' && (
+            {scope2 === 'analyses' && (
               <option value='analyses' selected>
                 Analyses
               </option>

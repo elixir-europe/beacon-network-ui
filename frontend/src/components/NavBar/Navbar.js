@@ -87,7 +87,7 @@ function Navbar () {
         </NavLink>
         <NavLink
           exact
-          to='/cross-queries'
+          to='/cross-queries/allScopes/%20/'
           className={({ isActive }) =>
             isActive ? 'Cross-queries2' : 'Cross-queries'
           }
@@ -114,7 +114,7 @@ function Navbar () {
             {' '}
             <img
               className='ls-login-image'
-              src='../ls-login.png'
+              src='/../ls-login.png'
               alt='ls-login-image'
             />
           </NavLink>
@@ -148,7 +148,7 @@ function Navbar () {
           >
             <img
               className='ls-login-image2'
-              src='../logout.png'
+              src='/../logout.png'
               alt='ls-login-image2'
             />
             Log out

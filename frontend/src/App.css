@@ -1045,7 +1045,7 @@ h5 {
     margin-left: -104px;
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 0;
   }
 
   .bulbLogo {

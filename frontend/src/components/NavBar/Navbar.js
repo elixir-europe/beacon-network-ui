@@ -160,7 +160,7 @@ function Navbar () {
           <NavLink
             exact
             to='/'
-            className={({ isActive }) => (isActive ? 'Sign-in4' : 'Sign-in3')}
+            className={({ isActive }) => (isActive ? 'Sign-in3' : 'Sign-in3')}
             onClick={handleClik}
           >
             <img

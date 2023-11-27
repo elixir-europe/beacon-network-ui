@@ -316,6 +316,13 @@
     text-decoration: none;
   }
 
+  .Sign-in4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+  }
+
   .ls-login-image2 {
     width: 15px !important;
     margin-top: 14px !important;
@@ -582,6 +589,16 @@
   .ls-login-image2 {
     width: 17px;
     margin-right: -11px;
+    margin-top: 21px !important;
+  }
+
+  .Sign-in4 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    align-content: center;
+    flex-direction: row-reverse;
+    margin-top: 14px;
   }
   .Sign-in3 {
     display: flex;

@@ -152,7 +152,7 @@ function IndividualsResults (props) {
 
       try {
         let res = await axios.get(configData.API_URL + '/info')
-
+   
         res.data.responses.forEach(element => {
           beaconsList.push(element)
         })
@@ -266,7 +266,7 @@ function IndividualsResults (props) {
             const headers = { Authorization: `Bearer ${token}` }
 
             res = await axios.post(
-              'https://beacons.bsc.es/beacon-network/v2.0.0/individuals',
+              configData.API_URL + '/individuals',
               jsonData2,
               { headers: headers }
             )

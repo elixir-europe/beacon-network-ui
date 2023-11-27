@@ -10,16 +10,21 @@ function Navbar () {
   const [selected, setIsSelected] = useState('')
   const [openModal1, setIsOpenModal1] = useState(false)
   const [openMenu, setOpenMenu] = useState(false)
-  const { isLoggedIn, setIsLoggedIn, logOutUser, authenticateUser, getStoredToken } =
-    useContext(AuthContext)
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    logOutUser,
+    authenticateUser,
+    getStoredToken
+  } = useContext(AuthContext)
   const auth = useAuth()
 
   useEffect(() => {
-    console.log("HOLIIII")
+    console.log('HOLIIII')
     authenticateUser()
     let token = getStoredToken()
     let isAuthenticated = false
-    if (token === null ){
+    if (token === null) {
       isAuthenticated = auth.userData?.id_token ? true : false
     } else {
       isAuthenticated = true
@@ -45,6 +50,7 @@ function Navbar () {
     setIsLoggedIn(false)
     auth.signOut()
     logOutUser()
+    handleMenu()
   }
 
   return (
@@ -153,7 +159,7 @@ function Navbar () {
         {isLoggedIn && (
           <NavLink
             exact
-            to='/individuals'
+            to='/'
             className={({ isActive }) => (isActive ? 'Sign-in4' : 'Sign-in3')}
             onClick={handleClik}
           >
@@ -231,19 +237,7 @@ function Navbar () {
               {isLoggedIn && (
                 <NavLink
                   exact
-                  to='/members'
-                  className={({ isActive }) =>
-                    isActive ? 'Members4' : 'Members3'
-                  }
-                >
-                  <h1>Network members</h1>
-                </NavLink>
-              )}
-
-              {isLoggedIn && (
-                <NavLink
-                  exact
-                  to='/individuals'
+                  to='/'
                   className={({ isActive }) =>
                     isActive ? 'Sign-in4' : 'Sign-in3'
                   }
@@ -370,7 +364,7 @@ function Navbar () {
               {isLoggedIn && (
                 <NavLink
                   exact
-                  to='/individuals'
+                  to='/'
                   className={({ isActive }) =>
                     isActive ? 'Sign-in4' : 'Sign-in3'
                   }

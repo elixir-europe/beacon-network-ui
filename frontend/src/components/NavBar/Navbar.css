@@ -313,6 +313,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
   }
 
   .ls-login-image2 {

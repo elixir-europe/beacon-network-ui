@@ -9,7 +9,6 @@ import { useContext } from 'react'
 import TableResultsBiosamples from '../Results/BiosamplesResults/TableResultsBiosamples'
 
 function BiosamplesResults (props) {
-
   const [beaconsList, setBeaconsList] = useState([])
 
   const [error, setError] = useState(false)
@@ -49,7 +48,7 @@ function BiosamplesResults (props) {
       if (isAuthenticated === false) {
         authenticateUser()
         const token = getStoredToken()
-     
+
         if (token !== 'undefined' && token !== null) {
           isAuthenticated = true
         }
@@ -178,11 +177,15 @@ function BiosamplesResults (props) {
           jsonData1 = JSON.stringify(jsonData1)
           console.log(jsonData1)
 
-          //const token = auth.userData.access_token
-          // console.log(token)
-          //const headers = { Authorization: `Bearer ${token}` }
+          const token = auth.userData.access_token
+          console.log(token)
+          const headers = { Authorization: `Bearer ${token}` }
 
-          res = await axios.post(configData.API_URL + '/biosamples', jsonData1)
+          res = await axios.post(
+            configData.API_URL + '/biosamples',
+            jsonData1,
+            { headers: headers }
+          )
 
           console.log(res)
           setTimeOut(true)
@@ -229,12 +232,11 @@ function BiosamplesResults (props) {
           jsonData2 = JSON.stringify(jsonData2)
           console.log(jsonData2)
 
-          //const token = auth.userData.access_token
-          //console.log(token)
-          //const headers = { Authorization: `Bearer ${token}` }
+          const token = auth.userData.access_token
+          console.log(token)
+          const headers = { Authorization: `Bearer ${token}` }
 
-          //res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/individuals/", jsonData2, { headers: headers })
-          res = await axios.post(configData.API_URL + '/biosamples', jsonData2)
+          res = await axios.post(configData.API_URL + '/biosamples', jsonData2, {headers: headers})
 
           console.log(res)
           setTimeOut(true)

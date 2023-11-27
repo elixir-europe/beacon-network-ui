@@ -80,6 +80,7 @@ function AuthProviderWrapper (props) {
         setExpirationMessage(
           'Session expired due to inactivity. Please log in again'
         )
+        removeToken()
         console.log("asdasdhas")
       } else {
         setExpirationMessage('')

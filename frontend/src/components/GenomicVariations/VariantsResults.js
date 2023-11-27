@@ -120,18 +120,19 @@ function VariantsResults (props) {
           }
           jsonData1 = JSON.stringify(jsonData1)
           console.log(jsonData1)
-          // const token = auth.userData.access_token
-          // console.log(token)
-          //const headers = { 'Authorization': `Bearer ${token}` }
-          // const res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/g_variants", jsonData1, {headers: headers})
-          // const res = await axios.post(
-          // configData.API_URL + '/g_variants',
-          //jsonData1
-          // )
+          const token = auth.userData.access_token
+          console.log(token)
+          const headers = { Authorization: `Bearer ${token}` }
+
           const res = await axios.post(
             configData.API_URL + '/g_variants',
-            jsonData1
+            jsonData1,
+            { headers: headers }
           )
+          //const res = await axios.post(
+          //configData.API_URL + '/g_variants',
+          //jsonData1
+          //)
           setTimeOut(true)
           console.log(res)
           if (res.data.responseSummary.exists === false) {
@@ -234,12 +235,12 @@ function VariantsResults (props) {
           jsonData1 = JSON.stringify(jsonData1)
           console.log(jsonData1)
 
-          //const token = auth.userData.access_token
-          //console.log(token)
-          //const headers = { Authorization: `Bearer ${token}` }
+          const token = auth.userData.access_token
+          console.log(token)
+          const headers = { Authorization: `Bearer ${token}` }
           const res = await axios.post(
             configData.API_URL + '/g_variants',
-            jsonData1
+            jsonData1, {headers: headers}
           )
           console.log(res)
 

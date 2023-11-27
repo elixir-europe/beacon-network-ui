@@ -309,6 +309,18 @@
     display: none;
   }
 
+  .Sign-in3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ls-login-image2 {
+    width: 15px !important;
+    margin-top: 14px !important;
+    margin-bottom: 21px !important;
+  }
+
   .Members {
     color: #e6eeeb;
     /* font-size: 7px; */

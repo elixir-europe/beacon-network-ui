@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react'
 import { useAuth } from 'oidc-react'
@@ -10,16 +10,27 @@ function Navbar () {
   const [selected, setIsSelected] = useState('')
   const [openModal1, setIsOpenModal1] = useState(false)
   const [openMenu, setOpenMenu] = useState(false)
-
-  const { isLoggedIn, setIsLoggedIn, logOutUser } = useContext(AuthContext)
+  const { isLoggedIn, setIsLoggedIn, logOutUser, authenticateUser, getStoredToken } =
+    useContext(AuthContext)
   const auth = useAuth()
 
-  const isAuthenticated = auth.userData?.id_token ? true : false
-  if (isAuthenticated || isLoggedIn === true) {
-    setIsLoggedIn(true)
-  } else {
-    setIsLoggedIn(false)
-  }
+  useEffect(() => {
+    console.log("HOLIIII")
+    authenticateUser()
+    let token = getStoredToken()
+    let isAuthenticated = false
+    if (token === null ){
+      isAuthenticated = auth.userData?.id_token ? true : false
+    } else {
+      isAuthenticated = true
+    }
+
+    if (isAuthenticated || isLoggedIn === true) {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, [])
 
   const handleHelpModal1 = () => {
     setIsOpenModal1(true)
@@ -168,7 +179,7 @@ function Navbar () {
         </button>
 
         {openMenu && (
-          <div className='menuContainer'> 
+          <div className='menuContainer'>
             <div class='icon'>
               <img
                 className='arrowUpIcon'

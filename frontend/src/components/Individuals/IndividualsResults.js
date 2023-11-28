@@ -24,7 +24,7 @@ function IndividualsResults (props) {
 
   const [timeOut, setTimeOut] = useState(false)
 
-  const [logInRequired, setLoginRequired] = useState(true)
+  const [logInRequired, setLoginRequired] = useState(false)
   const [messageLoginCount, setMessageLoginCount] = useState('')
   const [messageLoginFullResp, setMessageLoginFullResp] = useState('')
 
@@ -57,13 +57,13 @@ function IndividualsResults (props) {
         }
       }
 
-      if (isAuthenticated) {
-        setLoginRequired(false)
-      } else {
-        setLoginRequired(true)
-        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
-      }
+      //if (isAuthenticated) {
+        //setLoginRequired(false)
+      //} else {
+        //setLoginRequired(true)
+        //setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
+        //setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
+      //}
 
       if (props.query !== null) {
         if (props.query.includes(',')) {

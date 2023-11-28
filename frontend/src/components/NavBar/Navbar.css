@@ -612,6 +612,11 @@
   .menuContainer {
     z-index: 1;
   }
+
+  .divOutsideClickHandle{
+    z-index: 1;
+  }
+  
   .Members {
     color: #e6eeeb;
     /* font-size: 7px; */

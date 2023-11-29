@@ -37,7 +37,7 @@ jobs:
         with:
           # Indicates that the Docker build context is the current directory.
           # Otherwise, it would be a Git URL (doing a separate clean checkout).
-          context: .
+          context: ./frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

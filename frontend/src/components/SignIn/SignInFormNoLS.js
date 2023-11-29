@@ -96,7 +96,7 @@ export default function SignInFormNoLS() {
         <div className="login">
             <div className="appAside" />
             <div className="appForm">
-                {expirationMessage != '' && <h3>{expirationMessage}</h3>}
+                {expirationMessage !== '' && <h3>{expirationMessage}</h3>}
                 <div className="pageSwitcher">
                     <NavLink
 

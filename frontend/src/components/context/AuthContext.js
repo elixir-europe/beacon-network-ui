@@ -48,6 +48,7 @@ function AuthProviderWrapper (props) {
   const logOutUser = () => {
     removeToken()
     setIsLoggedIn(false)
+    setExpirationMessage('')
     navigate('/')
   }
 

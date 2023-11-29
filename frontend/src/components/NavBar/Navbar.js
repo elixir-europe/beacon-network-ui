@@ -1,34 +1,56 @@
 import { NavLink } from 'react-router-dom'
-
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react'
 import { useAuth } from 'oidc-react'
+import OutsideClickHandler from 'react-outside-click-handler'
 import './Navbar.css'
 
 function Navbar () {
   const [selected, setIsSelected] = useState('')
   const [openModal1, setIsOpenModal1] = useState(false)
-
-  const { isLoggedIn, setIsLoggedIn, logOutUser } = useContext(AuthContext)
+  const [openMenu, setOpenMenu] = useState(false)
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    logOutUser,
+    authenticateUser,
+    getStoredToken
+  } = useContext(AuthContext)
   const auth = useAuth()
 
-  const isAuthenticated = auth.userData?.id_token ? true : false
-  if (isAuthenticated || isLoggedIn === true) {
-    setIsLoggedIn(true)
-  } else {
-    setIsLoggedIn(false)
-  }
+  useEffect(() => {
+    console.log('HOLIIII')
+    authenticateUser()
+    let token = getStoredToken()
+    let isAuthenticated = false
+    if (token === null) {
+      isAuthenticated = auth.userData?.id_token ? true : false
+    } else {
+      isAuthenticated = true
+    }
+
+    if (isAuthenticated || isLoggedIn === true) {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, [])
 
   const handleHelpModal1 = () => {
     setIsOpenModal1(true)
   }
 
+  const handleMenu = () => {
+    setOpenMenu(!openMenu)
+    console.log('sdsadasdsd')
+  }
+
   const handleClik = () => {
-    console.log('hejek')
     setIsLoggedIn(false)
     auth.signOut()
     logOutUser()
+    handleMenu()
   }
 
   return (
@@ -82,7 +104,7 @@ function Navbar () {
         </NavLink>
         <NavLink
           exact
-          to='/cross-queries'
+          to='/cross-queries/allScopes/%20/'
           className={({ isActive }) =>
             isActive ? 'Cross-queries2' : 'Cross-queries'
           }
@@ -102,22 +124,17 @@ function Navbar () {
         )}
         {!isLoggedIn && (
           <NavLink
-            exact
-            to='/sign-in'
-            className={({ isActive }) => (isActive ? 'Sign-in2' : 'Sign-in')}
+            to='/about'
+            className={({ isActive }) => (isActive ? 'About2' : 'About')}
           >
-            {' '}
-            <img
-              className='ls-login-image'
-              src='../ls-login.png'
-              alt='ls-login-image'
-            />
+            About
           </NavLink>
         )}
+     
         {!isLoggedIn && (
           <NavLink
             exact
-            to='/sign-in-noLS'
+            to='/sign-in-options'
             className={({ isActive }) => (isActive ? 'Sign-in5' : 'Sign-in6')}
           >
             Log in
@@ -137,13 +154,13 @@ function Navbar () {
         {isLoggedIn && (
           <NavLink
             exact
-            to='/individuals'
-            className={({ isActive }) => (isActive ? 'Sign-in4' : 'Sign-in3')}
+            to='/'
+            className={({ isActive }) => (isActive ? 'Sign-in3' : 'Sign-in3')}
             onClick={handleClik}
           >
             <img
               className='ls-login-image2'
-              src='../logout.png'
+              src='/../logout.png'
               alt='ls-login-image2'
             />
             Log out
@@ -151,6 +168,208 @@ function Navbar () {
         )}
 
         <div class='animation nav3'></div>
+      </nav>
+      <nav className='nav4'>
+        <button className='buttonMenu' onClick={handleMenu}>
+          <img className='menuLogo' src='/../menu.png' alt='menuIcon'></img>
+          <img
+            className='menuLogoHover'
+            src='/../menu2.png'
+            alt='menuIconHover'
+          ></img>
+        </button>
+
+        {openMenu && (
+          <div className='divOutsideClickHandle'>
+            <OutsideClickHandler
+              onOutsideClick={() => {
+                handleMenu()
+              }}
+            >
+              <div className='menuContainer'>
+                <div class='icon'>
+                  <img
+                    className='arrowUpIcon'
+                    src='/../arrow-up2.png'
+                    alt='arrowUp2'
+                  ></img>
+                </div>
+                <div className='menuNav'>
+                  <NavLink
+                    to='/members'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Members2' : 'Members'
+                    }
+                  >
+                    {' '}
+                    <h1>Network members</h1>
+                  </NavLink>
+                  <NavLink
+                    to='/about'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'About2' : 'About'
+                    }
+                  >
+                    {' '}
+                    <h1>About</h1>
+                  </NavLink>
+                  {!isLoggedIn && (
+                    <NavLink
+                      exact
+                      to='/sign-in-options'
+                      onClick={handleMenu}
+                      className={({ isActive }) =>
+                        isActive ? 'Sign-in5' : 'Sign-in6'
+                      }
+                    >
+                      <h1>Log in</h1>
+                    </NavLink>
+                  )}
+
+                  {isLoggedIn && (
+                    <NavLink
+                      exact
+                      to='/'
+                      className={({ isActive }) =>
+                        isActive ? 'Sign-in4' : 'Sign-in3'
+                      }
+                      onClick={handleClik}
+                    >
+                      <img
+                        className='ls-login-image2'
+                        src='/../logout.png'
+                        alt='ls-login-image2'
+                      />
+                      <h1>Log out</h1>
+                    </NavLink>
+                  )}
+                </div>
+                <div className='menuNav2'>
+                  <NavLink
+                    exact
+                    to='/'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Individuals2' : 'Individuals'
+                    }
+                  >
+                    <h1>Individuals</h1>
+                  </NavLink>
+                  <NavLink
+                    exact
+                    to='/biosamples'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Biosamples2' : 'Biosamples'
+                    }
+                  >
+                    <h1>Biosamples</h1>
+                  </NavLink>
+                  <NavLink
+                    exact
+                    to='/genomicVariations'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Variants2' : 'Variants'
+                    }
+                  >
+                    <h1>Variant</h1>
+                  </NavLink>
+                  <NavLink
+                    exact
+                    to='/runs'
+                    onClick={handleMenu}
+                    className={({ isActive }) => (isActive ? 'Runs2' : 'Runs')}
+                  >
+                    <h1>Runs</h1>
+                  </NavLink>
+                  <NavLink
+                    exact
+                    to='/analyses'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Analyses2' : 'Analyses'
+                    }
+                  >
+                    <h1>Analyses</h1>
+                  </NavLink>
+                  <NavLink
+                    exact
+                    to='/cohorts'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Cohorts2' : 'Cohorts'
+                    }
+                  >
+                    <h1>Cohorts</h1>
+                  </NavLink>
+                  <NavLink
+                    exact
+                    to='/cross-queries/allScopes/%20/'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Cross-queries2' : 'Cross-queries'
+                    }
+                  >
+                    <h1>Cross queries</h1>
+                  </NavLink>
+                  <NavLink
+                    to='/members'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'Members2' : 'Members'
+                    }
+                  >
+                    {' '}
+                    <h1>Network members</h1>
+                  </NavLink>
+                  <NavLink
+                    to='/about'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'About2' : 'About'
+                    }
+                  >
+                    {' '}
+                    <h1>About</h1>
+                  </NavLink>
+                  {!isLoggedIn && (
+                    <NavLink
+                      exact
+                      to='/sign-in-options'
+                      onClick={handleMenu}
+                      className={({ isActive }) =>
+                        isActive ? 'Sign-in5' : 'Sign-in6'
+                      }
+                    >
+                      <h1>Log in</h1>
+                    </NavLink>
+                  )}
+
+                  {isLoggedIn && (
+                    <NavLink
+                      exact
+                      to='/'
+                      className={({ isActive }) =>
+                        isActive ? 'Sign-in4' : 'Sign-in3'
+                      }
+                      onClick={handleClik}
+                    >
+                      <img
+                        className='ls-login-image2'
+                        src='/../logout.png'
+                        alt='ls-login-image2'
+                      />
+                      <h1>Log out</h1>
+                    </NavLink>
+                  )}
+                </div>
+              </div>
+            </OutsideClickHandler>
+          </div>
+        )}
       </nav>
     </div>
   )

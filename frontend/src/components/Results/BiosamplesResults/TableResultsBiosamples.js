@@ -11,7 +11,7 @@ import {
   GridToolbarExport
 } from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 function CustomToolbar () {
   return (
@@ -63,7 +63,9 @@ function TableResultsBiosamples (props) {
       field: 'BiosampleId',
       headerName: 'Biosample ID',
       width: 150,
-      headerClassName: 'super-app-theme--header'
+      headerClassName: 'super-app-theme--header',
+      renderCell: params => 
+      <Link to={`cross-queries/biosamples/${params.row.BiosampleId}`}>{params.row.BiosampleId}</Link>
     },
     {
       field: 'Beacon',

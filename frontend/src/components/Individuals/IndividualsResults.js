@@ -24,7 +24,7 @@ function IndividualsResults (props) {
 
   const [timeOut, setTimeOut] = useState(false)
 
-  const [logInRequired, setLoginRequired] = useState(true)
+  const [logInRequired, setLoginRequired] = useState(false)
   const [messageLoginCount, setMessageLoginCount] = useState('')
   const [messageLoginFullResp, setMessageLoginFullResp] = useState('')
 
@@ -47,22 +47,23 @@ function IndividualsResults (props) {
 
   useEffect(() => {
     const apiCall = async () => {
+      console.log(isAuthenticated)
       if (isAuthenticated === false) {
         authenticateUser()
         const token = getStoredToken()
-     
+
         if (token !== 'undefined' && token !== null) {
           isAuthenticated = true
         }
       }
 
-      if (isAuthenticated) {
-        setLoginRequired(false)
-      } else {
-        setLoginRequired(true)
-        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
-      }
+      //if (isAuthenticated) {
+        //setLoginRequired(false)
+      //} else {
+        //setLoginRequired(true)
+        //setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
+        //setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
+      //}
 
       if (props.query !== null) {
         if (props.query.includes(',')) {
@@ -151,7 +152,7 @@ function IndividualsResults (props) {
 
       try {
         let res = await axios.get(configData.API_URL + '/info')
-
+   
         res.data.responses.forEach(element => {
           beaconsList.push(element)
         })
@@ -179,11 +180,28 @@ function IndividualsResults (props) {
           jsonData1 = JSON.stringify(jsonData1)
           console.log(jsonData1)
 
-          //const token = auth.userData.access_token
-          // console.log(token)
-          //const headers = { Authorization: `Bearer ${token}` }
+          let token = null
+          if (auth.userData === null) {
+            token = getStoredToken()
+          } else {
+            token = auth.userData.access_token
+          }
+          console.log(token)
 
-          res = await axios.post(configData.API_URL + '/individuals', jsonData1)
+          if (token === null) {
+            res = await axios.post(
+              configData.API_URL + '/individuals',
+              jsonData1
+            )
+          } else {
+            const headers = { Authorization: `Bearer ${token}` }
+
+            res = await axios.post(
+              configData.API_URL + '/individuals',
+              jsonData1,
+              { headers: headers }
+            )
+          }
 
           console.log(res)
           setTimeOut(true)
@@ -229,14 +247,30 @@ function IndividualsResults (props) {
           }
           jsonData2 = JSON.stringify(jsonData2)
           console.log(jsonData2)
+          console.log(auth.userData)
+          let token = null
+          if (auth.userData === null) {
+            token = getStoredToken()
+          } else {
+            token = auth.userData.access_token
+          }
 
-          //const token = auth.userData.access_token
-          //console.log(token)
-          //const headers = { Authorization: `Bearer ${token}` }
+          if (token === null) {
+            console.log("Querying without token")
+            res = await axios.post(
+              configData.API_URL + '/individuals',
+              jsonData2
+            )
+          } else {
+            console.log("Querying WITH token")
+            const headers = { Authorization: `Bearer ${token}` }
 
-          //res = await axios.post("https://beacons.bsc.es/beacon-network/v2.0.0/individuals/", jsonData2, { headers: headers })
-          res = await axios.post(configData.API_URL + '/individuals', jsonData2)
-
+            res = await axios.post(
+              configData.API_URL + '/individuals',
+              jsonData2,
+              { headers: headers }
+            )
+          }
           console.log(res)
           setTimeOut(true)
 

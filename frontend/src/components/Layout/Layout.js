@@ -22,7 +22,6 @@ import ReactModal from 'react-modal'
 import IndividualsResults from '../Individuals/IndividualsResults'
 import CohortsModule from '../Cohorts/CohortsModule'
 
-
 function Layout (props) {
   console.log(props)
   const [error, setError] = useState(null)
@@ -271,20 +270,21 @@ function Layout (props) {
   const handleExQueries = () => {
     if (props.collection === 'Individuals') {
       setExampleQ([
-        'Weight>100',
-        'NCIT:C16352',
-        'geographicOrigin=%land%',
-        'geographicOrigin!England',
-        'NCIT:C42331'
+        ['Weight>100'],
+        ['NCIT:C16576','female'],
+        ['geographicOrigin=%land%'],
+        ['geographicOrigin!England'],
+        ['NCIT:C42331','African'],
+        ['NCIT:C4784','Cardiovascular Neoplasm']
       ])
     } else if (props.collection === 'Variant') {
-      setExampleQ(['GENO:GENO_0000458'])
+      setExampleQ([['GENO:GENO_0000458']])
     } else if (props.collection === 'Biosamples') {
-      setExampleQ(['UBERON:0000178', 'EFO:0009654', 'sampleOriginType:blood'])
+      setExampleQ([['UBERON:0000178','blood'], ['EFO:0009654','reference sample'], ['sampleOriginType:blood']])
     } else if (props.collection === 'Runs') {
-      setExampleQ([''])
+      setExampleQ([['']])
     } else if (props.collection === 'Analyses') {
-      setExampleQ([''])
+      setExampleQ([['']])
     }
   }
 
@@ -520,13 +520,6 @@ function Layout (props) {
         )}
       </div>
       <nav className='navbar'>
-        <div>
-          {expansionSection === false && cohorts === false && (
-            <button onClick={handleQEclick} className='btn-3'>
-              <span className='spanQE'>Query expansion</span>
-            </button>
-          )}
-        </div>
         {expansionSection === true && (
           <HorizontalExpansion
             arrayFilteringTermsQE={arrayFilteringTermsQE}
@@ -583,20 +576,24 @@ function Layout (props) {
                   src='../light-bulb.png'
                   alt='bulbIcon'
                 ></img>
-                <div>
+                <div className='examplesQueriesList'> 
                   {exampleQ[0] &&
                     exampleQ.map(result => {
                       return (
                         <div id='exampleQueries'>
+                      
                           <button
                             className='exampleQuery'
                             onClick={() => {
-                              setPlaceholder(`${result}`)
-                              setQuery(`${result}`)
-                              setValue(`${result}`)
+                              setPlaceholder(`${result[0]}`)
+                              setQuery(`${result[0]}`)
+                              setValue(`${result[0]}`)
                             }}
                           >
-                            {result}
+                            {result[1] !== undefined && <div className='text-example'>{result[1]}</div>}
+                             
+                            {result[0]}
+                           
                           </button>
                         </div>
                       )
@@ -609,25 +606,6 @@ function Layout (props) {
                 Filtering Terms
               </button>
             )}
-            <div className='resultSetsDiv'>
-              <label>
-                <h2>Include Resultset Responses</h2>
-              </label>
-              <MultiSwitch
-                texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                selectedSwitch={0}
-                bgColor={'white'}
-                onToggleCallback={onToggle2}
-                fontColor={'black'}
-                selectedFontColor={'white'}
-                border='0'
-                selectedSwitchColor='#e29348'
-                borderWidth='1'
-                height={'23px'}
-                fontSize={'12px'}
-                eachSwitchWidth={55}
-              ></MultiSwitch>
-            </div>
           </div>
         </div>
         {showVariants === true && showBar === true && (
@@ -673,6 +651,25 @@ function Layout (props) {
                   <form className='advSearchForm' onSubmit={onSubmit}>
                     <div>
                       <div className='resultset'>
+                        <div className='resultSetsDiv'>
+                          <label>
+                            <h2>Include Resultset Responses</h2>
+                          </label>
+                          <MultiSwitch
+                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                            selectedSwitch={0}
+                            bgColor={'white'}
+                            onToggleCallback={onToggle2}
+                            fontColor={'black'}
+                            selectedFontColor={'white'}
+                            border='0'
+                            selectedSwitchColor='#e29348'
+                            borderWidth='1'
+                            height={'23px'}
+                            fontSize={'12px'}
+                            eachSwitchWidth={55}
+                          ></MultiSwitch>
+                        </div>
                         <div className='advSearch-module'>
                           <label>
                             <h2>Similarity</h2>
@@ -717,6 +714,13 @@ function Layout (props) {
                             <h3>True</h3>
                           </div>
                         </div>
+                      </div>
+                      <div>
+                        {expansionSection === false && cohorts === false && (
+                          <button onClick={handleQEclick} className='btn-3'>
+                            <span className='spanQE'>Query expansion</span>
+                          </button>
+                        )}
                       </div>
                     </div>
                   </form>

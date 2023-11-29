@@ -157,7 +157,7 @@
   }
 
   .Sign-in5 {
-    width: 136px;
+    width: 143px;
     background-color: #7a9f9f;
   }
 
@@ -217,7 +217,7 @@
 
   .Members:hover ~ .animation {
     width: 146px;
-    left: 71.1%;
+    right: 19.1%;
     background-color: #4961b8;
   }
 
@@ -228,7 +228,7 @@
   }
 
   .About:hover ~ .animation {
-    width: 126px;
+    width: 116px;
     left: 81.7%;
     background-color: #e575dd;
   }

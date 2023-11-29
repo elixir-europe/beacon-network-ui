@@ -117,6 +117,10 @@ html {
   width: 89px;
 }
 
+.test-example{
+  padding: 2px;
+}
+
 .selectedOperator {
   background: white;
   border: 2px solid rgba(12, 16, 64, 0.606);
@@ -975,20 +979,21 @@ h5 {
 }
 
 .ReactModal__Content--after-open {
-  width: 30vw;
+  width: 369px;
+  font-size: 12px;
   height: 29%;
   position: absolute !important;
   inset: 35% !important;
   border: 1px solid rgb(204, 204, 204) !important;
-  background: #e2842b !important;
+  background: #be5930 !important;
   overflow: auto !important;
   border-radius: 4px !important;
   outline: none !important;
-  padding: 20px !important;
+  padding: 16px !important;
 }
 
 .ReactModal__Content--after-open p {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: normal;
   color: white;
   line-height: 30px;
@@ -1000,6 +1005,28 @@ h5 {
     display: flex;
     font-size: 11px;
     text-underline-offset: 1px;
+  }
+
+  .ReactModal__Content--after-open {
+    width: 269px;
+    font-size: 12px;
+    height: fit-content;
+    position: absolute !important;
+    inset: 35% !important;
+    border: 1px solid rgb(204, 204, 204) !important;
+    background: #be5930 !important;
+    overflow: auto !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    padding: 16px !important;
+  }
+  
+  .ReactModal__Content--after-open p {
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+    line-height: 20px;
+    padding: 2px;
   }
 
   .filters {

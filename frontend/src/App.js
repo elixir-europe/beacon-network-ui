@@ -17,6 +17,8 @@ import CrossQueries from './components/CrossQueries/CrossQueries'
 import LoggedIn from './components/SignIn/LoggedIn'
 import Verifier from './components/Verifier/Verifier'
 import SignInFormNoLS from './components/SignIn/SignInFormNoLS'
+import AboutSection from './components/AboutSection/AboutSection'
+import SignInOptions from './components/SignInOptions/SignInOptions'
 
 function App () {
   return (
@@ -33,9 +35,11 @@ function App () {
         <Route path='/members' element={<ResultsDatasets />} />
         <Route path='/sign-in' element={<SignInForm />} />
         <Route path='/sign-in-noLS' element={<SignInFormNoLS />} />
+        <Route path='/sign-in-options' element={<SignInOptions />} />
         <Route path='/loggedOut' element={<LoggedIn />} />
         <Route path='/cross-queries/:scope/:id' element={<CrossQueries />} />
         <Route path='/verifier' element={<Verifier />} />
+        <Route path='/about' element={<AboutSection />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>
     </div>

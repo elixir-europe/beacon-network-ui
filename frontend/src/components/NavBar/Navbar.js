@@ -124,22 +124,17 @@ function Navbar () {
         )}
         {!isLoggedIn && (
           <NavLink
-            exact
-            to='/sign-in'
-            className={({ isActive }) => (isActive ? 'Sign-in2' : 'Sign-in')}
+            to='/about'
+            className={({ isActive }) => (isActive ? 'About2' : 'About')}
           >
-            {' '}
-            <img
-              className='ls-login-image'
-              src='/../ls-login.png'
-              alt='ls-login-image'
-            />
+            About
           </NavLink>
         )}
+     
         {!isLoggedIn && (
           <NavLink
             exact
-            to='/sign-in-noLS'
+            to='/sign-in-options'
             className={({ isActive }) => (isActive ? 'Sign-in5' : 'Sign-in6')}
           >
             Log in
@@ -210,27 +205,20 @@ function Navbar () {
                     {' '}
                     <h1>Network members</h1>
                   </NavLink>
+                  <NavLink
+                    to='/about'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'About2' : 'About'
+                    }
+                  >
+                    {' '}
+                    <h1>About</h1>
+                  </NavLink>
                   {!isLoggedIn && (
                     <NavLink
                       exact
-                      to='/sign-in'
-                      onClick={handleMenu}
-                      className={({ isActive }) =>
-                        isActive ? 'Sign-in2' : 'Sign-in'
-                      }
-                    >
-                      {' '}
-                      <img
-                        className='ls-login-image'
-                        src='/../ls-login.png'
-                        alt='ls-login-image'
-                      />
-                    </NavLink>
-                  )}
-                  {!isLoggedIn && (
-                    <NavLink
-                      exact
-                      to='/sign-in-noLS'
+                      to='/sign-in-options'
                       onClick={handleMenu}
                       className={({ isActive }) =>
                         isActive ? 'Sign-in5' : 'Sign-in6'
@@ -337,27 +325,20 @@ function Navbar () {
                     {' '}
                     <h1>Network members</h1>
                   </NavLink>
+                  <NavLink
+                    to='/about'
+                    onClick={handleMenu}
+                    className={({ isActive }) =>
+                      isActive ? 'About2' : 'About'
+                    }
+                  >
+                    {' '}
+                    <h1>About</h1>
+                  </NavLink>
                   {!isLoggedIn && (
                     <NavLink
                       exact
-                      to='/sign-in'
-                      onClick={handleMenu}
-                      className={({ isActive }) =>
-                        isActive ? 'Sign-in2' : 'Sign-in'
-                      }
-                    >
-                      {' '}
-                      <img
-                        className='ls-login-image'
-                        src='/../ls-login.png'
-                        alt='ls-login-image'
-                      />
-                    </NavLink>
-                  )}
-                  {!isLoggedIn && (
-                    <NavLink
-                      exact
-                      to='/sign-in-noLS'
+                      to='/sign-in-options'
                       onClick={handleMenu}
                       className={({ isActive }) =>
                         isActive ? 'Sign-in5' : 'Sign-in6'

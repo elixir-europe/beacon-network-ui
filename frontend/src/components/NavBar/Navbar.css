@@ -125,14 +125,12 @@
   }
 
   .Members {
-    width: 200px;
-    margin-right: 10px;
+    width: 150px;
   }
 
   .Members2 {
-    width: 200px;
+    width: 160px;
     background-color: #4961b8;
-    margin-right: 10px;
   }
 
   .Members3 {
@@ -143,15 +141,14 @@
   .Members4 {
     width: 186px;
     background-color: #4961b8;
-    margin-right: 10px;
   }
 
-  .Sign-in {
-    width: 196px;
+  .About {
+    width: 128px;
   }
 
-  .Sign-in2 {
-    width: 196px;
+  .About2 {
+    width: 126px;
     background-color: #e575dd;
   }
 
@@ -160,13 +157,13 @@
   }
 
   .Sign-in5 {
-    width: 140px;
+    width: 136px;
     background-color: #7a9f9f;
   }
 
   .Sign-in6:hover ~ .animation {
-    width: 90px;
-    left: 93%;
+    width: 126px;
+    left: 90.5%;
     background-color: #7a9f9f;
   }
 
@@ -210,34 +207,17 @@
     margin-right: 10px;
   }
 
-  .ls-login-image {
-    width: 121px;
-    margin: 5px;
-    background: #dedddb;
-    border-radius: 14px;
+  .nav3 .About {
+    width: 128px;
   }
 
-  .nav3 .Sign-in {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    width: fit-content;
-    margin-right: 10px;
-    margin-left: 10px;
-  }
-
-  .nav3 .Sign-in2 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    width: 196px;
+  .nav3 .About2 {
+    width: 128px;
   }
 
   .Members:hover ~ .animation {
-    width: 150px;
-    left: 70%;
+    width: 146px;
+    left: 71.1%;
     background-color: #4961b8;
   }
 
@@ -247,9 +227,9 @@
     background-color: #4961b8;
   }
 
-  .Sign-in:hover ~ .animation {
-    width: 166px;
-    left: 81.1%;
+  .About:hover ~ .animation {
+    width: 126px;
+    left: 81.7%;
     background-color: #e575dd;
   }
 
@@ -309,6 +289,10 @@
     display: none;
   }
 
+  .About {
+    text-decoration: none;
+  }
+
   .Sign-in3 {
     display: flex;
     justify-content: center;
@@ -352,7 +336,19 @@
   }
 
   h1 {
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-top: 14px;
+    margin-bottom: 12px;
+    margin-left: 0px;
+    width: -moz-fit-content;
+    width: fit-content;
+    /* margin-bottom: 5px; */
+    padding-right: 10px;
+    padding-left: 10px;
     color: white !important;
+    text-decoration: none !important;
+    font-weight: 500;
   }
 
   h1:hover {
@@ -385,17 +381,6 @@
     display: inline;
   }
 
-  h1 {
-    margin-left: 7px;
-    margin-top: 14px;
-    width: -moz-fit-content;
-    width: fit-content;
-    margin-bottom: 21px;
-    padding-right: 10px;
-    /* padding-left: 10px; */
-    color: white;
-    text-decoration: none;
-  }
 
   .buttonMenu {
     display: flex;
@@ -420,13 +405,6 @@
     align-items: center;
   }
 
-  .ls-login-image {
-    width: 91px;
-    margin: 5px;
-    background: #dedddb;
-    border: 2px solid #706c88;
-    border-radius: 12px;
-  }
   .navB {
     display: flex;
     width: 100vw;
@@ -598,8 +576,10 @@
     justify-content: flex-end;
     align-content: center;
     flex-direction: row-reverse;
-    margin-top: 14px;
+    margin-top: 2px;
+    margin-bottom: -8px;
   }
+
   .Sign-in3 {
     display: flex;
     align-items: center;
@@ -613,10 +593,10 @@
     z-index: 1;
   }
 
-  .divOutsideClickHandle{
+  .divOutsideClickHandle {
     z-index: 1;
   }
-  
+
   .Members {
     color: #e6eeeb;
     /* font-size: 7px; */
@@ -637,11 +617,6 @@
     width: 24px;
     margin-bottom: -33px;
     margin-left: 66px;
-  }
-
-  .ls-login-image {
-    margin-left: 8px;
-    margin-top: 17px;
   }
 
   h1:hover {
@@ -691,9 +666,8 @@
   }
 
   .Members2 {
-    width: 157px;
+    width: 146px;
     height: 21px;
-    margin-left: 2px;
     border-radius: 4px;
     background-color: #4961b8;
   }
@@ -729,9 +703,13 @@
   }
 
   .Sign-in6 {
-    color: #e6eeeb;
-    text-decoration: none;
-    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    align-content: center;
+    flex-direction: row-reverse;
+    margin-top: 2px;
+    margin-bottom: -8px;
   }
 
   .Analyses2 {

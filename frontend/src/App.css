@@ -84,7 +84,6 @@ html {
   font-size: 14px;
 }
 
-
 .container-fluid {
   display: flex;
   width: 100%;
@@ -774,7 +773,8 @@ h5 {
 .advSearch-module {
   display: flex;
   align-items: center;
-  margin-top: -3px;
+  margin-top: 6px;
+  margin-bottom: -2px;
 }
 
 .loader2 {

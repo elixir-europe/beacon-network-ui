@@ -32,11 +32,17 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            # set latest tag for master branch
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'elixir-bsc') }}
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          # Indicates that the Docker build context is the current directory.
-          # Otherwise, it would be a Git URL (doing a separate clean checkout).
           context: ./frontend
           push: true
           tags: ${{ steps.meta.outputs.tags }}

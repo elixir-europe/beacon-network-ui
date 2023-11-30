@@ -1,4 +1,5 @@
 import '../../App.css'
+import './LayoutVariantsTable.css'
 
 import FilteringTerms from '../FilteringTerms/FilteringTerms'
 import { NavLink } from 'react-router-dom'
@@ -271,16 +272,20 @@ function Layout (props) {
     if (props.collection === 'Individuals') {
       setExampleQ([
         ['Weight>100'],
-        ['NCIT:C16576','female'],
+        ['NCIT:C16576', 'female'],
         ['geographicOrigin=%land%'],
         ['geographicOrigin!England'],
-        ['NCIT:C42331','African'],
-        ['NCIT:C4784','Cardiovascular Neoplasm']
+        ['NCIT:C42331', 'African'],
+        ['NCIT:C4784', 'Cardiovascular Neoplasm']
       ])
     } else if (props.collection === 'Variant') {
       setExampleQ([['GENO:GENO_0000458']])
     } else if (props.collection === 'Biosamples') {
-      setExampleQ([['UBERON:0000178','blood'], ['EFO:0009654','reference sample'], ['sampleOriginType:blood']])
+      setExampleQ([
+        ['UBERON:0000178', 'blood'],
+        ['EFO:0009654', 'reference sample'],
+        ['sampleOriginType:blood']
+      ])
     } else if (props.collection === 'Runs') {
       setExampleQ([['']])
     } else if (props.collection === 'Analyses') {
@@ -576,12 +581,11 @@ function Layout (props) {
                   src='../light-bulb.png'
                   alt='bulbIcon'
                 ></img>
-                <div className='examplesQueriesList'> 
+                <div className='examplesQueriesList'>
                   {exampleQ[0] &&
                     exampleQ.map(result => {
                       return (
                         <div id='exampleQueries'>
-                      
                           <button
                             className='exampleQuery'
                             onClick={() => {
@@ -590,10 +594,11 @@ function Layout (props) {
                               setValue(`${result[0]}`)
                             }}
                           >
-                            {result[1] !== undefined && <div className='text-example'>{result[1]}</div>}
-                             
+                            {result[1] !== undefined && (
+                              <div className='text-example'>{result[1]}</div>
+                            )}
+
                             {result[0]}
-                           
                           </button>
                         </div>
                       )
@@ -739,197 +744,94 @@ function Layout (props) {
           </button>
         )}
         {showVariants && showBar === false && hideForm === false && (
-          <div>
-            <form onSubmit={handleSubmit}>
-              <div className='variantsContainer'>
-                <div className='moduleVariants'>
-                  <label className='labelVariantsTittle'>
-                    Sequence queries
-                  </label>
-                  <div>
-                    <label className='labelVariants'>AssemblyID*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={assemblyId}
-                      onChange={handleChangeAssembly}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Reference name*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={referenceName}
-                      onChange={handleChangeRefN}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>
-                      Start (single value)*
-                    </label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={start}
-                      onChange={handleChangeStart}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>referenceBases</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={referenceBases}
-                      onChange={handleChangeReferenceB}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>alternateBases*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={alternateBases}
-                      onChange={handleChangeAlternateB}
-                    ></input>
-                  </div>
-                  <div className='DivButtonVariants'>
-                    <input
-                      className='buttonVariants'
-                      type='submit'
-                      value='Search'
-                    />
-                  </div>
-                </div>
-                <div className='moduleVariants'>
-                  <label className='labelVariantsTittle'>Range queries</label>
-                  <div>
-                    <label className='labelVariants'>AssemblyID*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={assemblyId2}
-                      onChange={handleChangeAssembly2}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Reference name*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={referenceName2}
-                      onChange={handleChangeRefN2}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>
-                      Start (single value)*
-                    </label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={start2}
-                      onChange={handleChangeStart2}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>End (single value)*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={end}
-                      onChange={handleChangeEnd}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Variant type:</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={variantType}
-                      onChange={handleChangeVariantType}
-                    ></input>{' '}
-                  </div>
-                  <div>
-                    <h3>OR</h3>
-                    <div className='basesSection'>
-                      <div className='referenceBasesContainer'>
-                        <label className='labelVariants'>referenceBases:</label>
-                        <input
-                          className='inputVariants'
-                          type='text'
-                          value={referenceBases2}
-                          onChange={handleChangeReferenceB2}
-                        ></input>
-                      </div>
-                      <div>
-                        <label className='labelVariants'>alternateBases:</label>
-                        <input
-                          className='inputVariants'
-                          type='text'
-                          value={alternateBases2}
-                          onChange={handleChangeAlternateB2}
-                        ></input>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <h3>OR</h3>
-                    <label className='labelVariants'>Aminoacid Change:</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={aminoacid}
-                      onChange={handleChangeAminoacid}
-                    ></input>
-                  </div>
-                  <div className='DivButtonVariants'>
-                    <input
-                      className='buttonVariants'
-                      type='submit'
-                      value='Search'
-                    />
-                  </div>
-                </div>
-                <div className='moduleVariants'>
-                  <label className='labelVariantsTittle'>Gene ID queries</label>
-                  <div>
-                    <label className='labelVariants'>Gene ID*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={geneID}
-                      onChange={handleChangeGeneId}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>AssemblyID</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={assemblyId3}
-                      onChange={handleChangeAssembly3}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Variant type:</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={variantType2}
-                      onChange={handleChangeVariantType2}
-                    ></input>
-                  </div>
-                  <div className='DivButtonVariants'>
-                    <input
-                      className='buttonVariants'
-                      type='submit'
-                      value='Search'
-                    />
-                  </div>
-                </div>
-              </div>
-            </form>
+          <div className='tabset'>
+            <input
+              type='radio'
+              name='tabset'
+              id='tab1'
+              aria-controls='marzen'
+         
+            />
+            <label for='tab1'>Sequence queries</label>
+
+            <input
+              type='radio'
+              name='tabset'
+              id='tab2'
+              aria-controls='rauchbier'
+            />
+            <label for='tab2'>Range queries</label>
+
+            <input
+              type='radio'
+              name='tabset'
+              id='tab3'
+              aria-controls='dunkles'
+            />
+            <label for='tab3'>Gene ID queries</label>
+
+            <div className='tab-panels'>
+              <section id='marzen' class='tab-panel'>
+                <h2>6A. Märzen</h2>
+                <p>
+                  <strong>Overall Impression:</strong> An elegant, malty German
+                  amber lager with a clean, rich, toasty and bready malt flavor,
+                  restrained bitterness, and a dry finish that encourages
+                  another drink. The overall malt impression is soft, elegant,
+                  and complex, with a rich aftertaste that is never cloying or
+                  heavy.
+                </p>
+                <p>
+                  <strong>History:</strong> As the name suggests, brewed as a
+                  stronger “March beer” in March and lagered in cold caves over
+                  the summer. Modern versions trace back to the lager developed
+                  by Spaten in 1841, contemporaneous to the development of
+                  Vienna lager. However, the Märzen name is much older than
+                  1841; the early ones were dark brown, and in Austria the name
+                  implied a strength band (14 °P) rather than a style. The
+                  German amber lager version (in the Viennese style of the time)
+                  was first served at Oktoberfest in 1872, a tradition that
+                  lasted until 1990 when the golden Festbier was adopted as the
+                  standard festival beer.
+                </p>
+              </section>
+              <section id='rauchbier' className='tab-panel'>
+                <h2>6B. Rauchbier</h2>
+                <p>
+                  <strong>Overall Impression:</strong> An elegant, malty German
+                  amber lager with a balanced, complementary beechwood smoke
+                  character. Toasty-rich malt in aroma and flavor, restrained
+                  bitterness, low to high smoke flavor, clean fermentation
+                  profile, and an attenuated finish are characteristic.
+                </p>
+                <p>
+                  <strong>History:</strong> A historical specialty of the city
+                  of Bamberg, in the Franconian region of Bavaria in Germany.
+                  Beechwood-smoked malt is used to make a Märzen-style amber
+                  lager. The smoke character of the malt varies by maltster;
+                  some breweries produce their own smoked malt (rauchmalz).
+                </p>
+              </section>
+              <section id='dunkles' className='tab-panel'>
+                <h2>6C. Dunkles Bock</h2>
+                <p>
+                  <strong>Overall Impression:</strong> A dark, strong, malty
+                  German lager beer that emphasizes the malty-rich and somewhat
+                  toasty qualities of continental malts without being sweet in
+                  the finish.
+                </p>
+                <p>
+                  <strong>History:</strong> Originated in the Northern German
+                  city of Einbeck, which was a brewing center and popular
+                  exporter in the days of the Hanseatic League (14th to 17th
+                  century). Recreated in Munich starting in the 17th century.
+                  The name “bock” is based on a corruption of the name “Einbeck”
+                  in the Bavarian dialect, and was thus only used after the beer
+                  came to Munich. “Bock” also means “Ram” in German, and is
+                  often used in logos and advertisements.
+                </p>
+              </section>
+            </div>
           </div>
         )}
       </nav>

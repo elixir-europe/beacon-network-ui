@@ -84,14 +84,6 @@ html {
   font-size: 14px;
 }
 
-.multi-switch-container {
-  width: 180px;
-  background-color: white;
-  border-color: black;
-  height: 30px;
-  margin-left: 14px;
-  z-index: 0;
-}
 
 .container-fluid {
   display: flex;
@@ -117,7 +109,7 @@ html {
   width: 89px;
 }
 
-.test-example{
+.test-example {
   padding: 2px;
 }
 
@@ -1007,6 +999,14 @@ h5 {
     text-underline-offset: 1px;
   }
 
+  .switchDescendants h3 {
+    color: #e16e00;
+    text-transform: uppercase;
+    margin-left: 3px !important;
+    margin-top: 14px;
+    font-size: 12px;
+  }
+
   .ReactModal__Content--after-open {
     width: 269px;
     font-size: 12px;
@@ -1020,7 +1020,7 @@ h5 {
     outline: none !important;
     padding: 16px !important;
   }
-  
+
   .ReactModal__Content--after-open p {
     font-size: 14px;
     font-weight: normal;
@@ -1043,11 +1043,11 @@ h5 {
     /* margin-left: 27px; */
   }
 
-  .container-fluid{
+  .container-fluid {
     display: flex;
     width: 100%;
     margin-right: 0px;
-    margin-left:  0px;
+    margin-left: 0px;
     justify-content: center;
     height: 35px;
   }
@@ -1061,7 +1061,7 @@ h5 {
     flex-direction: row-reverse;
     align-content: space-between;
     justify-content: center;
-}
+  }
 
   .exampleQueries {
     border: none;

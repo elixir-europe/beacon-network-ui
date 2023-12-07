@@ -306,8 +306,8 @@ function IndividualsResults (props) {
           }
         }
       } catch (error) {
-        setError('Error. Please retry')
-        setTimeOut(false)
+        setError('Connection error. Please retry')
+        setTimeOut(true)
         console.log(error)
       }
     }
@@ -362,7 +362,7 @@ function IndividualsResults (props) {
       <div>
         <div>
           {' '}
-          {timeOut && (
+          {timeOut && error !== 'Connection error. Please retry' && (
             <div>
               <div className='selectGranularity'>
                 <h4>Granularity:</h4>
@@ -377,6 +377,9 @@ function IndividualsResults (props) {
                 </button>
               </div>
             </div>
+          )}
+          {timeOut && error === 'Connection error. Please retry' && (
+            <h3>&nbsp; {error} </h3>
           )}
           {show3 && logInRequired === false && !error && (
             <div>

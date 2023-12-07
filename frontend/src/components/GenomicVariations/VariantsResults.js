@@ -223,7 +223,7 @@ function VariantsResults (props) {
             query: {
               requestParameters: requestParameters,
               filters: [],
-              includeResultsetResponses: 'HIT',
+              includeResultsetResponses: `${props.resultSets}`,
               pagination: {
                 skip: 0,
                 limit: 0

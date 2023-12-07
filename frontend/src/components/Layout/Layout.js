@@ -39,6 +39,7 @@ function Layout (props) {
   const [arrayFilteringTermsQE, setArrayFilteringTermsQE] = useState([])
 
   const [resultSet, setResultset] = useState('HIT')
+  const [resultSetAux, setResultsetAux] = useState('HIT')
 
   const [descendantTerm, setDescendantTerm] = useState('true')
 
@@ -436,9 +437,13 @@ function Layout (props) {
     event.preventDefault()
 
     setIsSub(true)
-
+    setResultsetAux(resultSet)
     setQueryAux(query)
-
+    console.log(resultSet)
+    console.log(resultSetAux)
+    if (resultSet !== resultSetAux) {
+      setTriggerQuery(!triggerQuery)
+    }
     if (queryAux !== query) {
       setTriggerQuery(!triggerQuery)
     }
@@ -660,7 +665,7 @@ function Layout (props) {
                           <label>
                             <h2>Include Resultset Responses</h2>
                           </label>
-                          <MultiSwitch
+                          {resultSet === 'HIT' && <MultiSwitch
                             texts={['HIT', 'MISS', 'NONE', 'ALL']}
                             selectedSwitch={0}
                             bgColor={'white'}
@@ -673,7 +678,49 @@ function Layout (props) {
                             height={'23px'}
                             fontSize={'12px'}
                             eachSwitchWidth={55}
-                          ></MultiSwitch>
+                          ></MultiSwitch>}
+                           {resultSet === 'MISS' && <MultiSwitch
+                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                            selectedSwitch={1}
+                            bgColor={'white'}
+                            onToggleCallback={onToggle2}
+                            fontColor={'black'}
+                            selectedFontColor={'white'}
+                            border='0'
+                            selectedSwitchColor='#e29348'
+                            borderWidth='1'
+                            height={'23px'}
+                            fontSize={'12px'}
+                            eachSwitchWidth={55}
+                          ></MultiSwitch>}
+                           {resultSet === 'NONE' && <MultiSwitch
+                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                            selectedSwitch={2}
+                            bgColor={'white'}
+                            onToggleCallback={onToggle2}
+                            fontColor={'black'}
+                            selectedFontColor={'white'}
+                            border='0'
+                            selectedSwitchColor='#e29348'
+                            borderWidth='1'
+                            height={'23px'}
+                            fontSize={'12px'}
+                            eachSwitchWidth={55}
+                          ></MultiSwitch>}
+                           {resultSet === 'ALL' && <MultiSwitch
+                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                            selectedSwitch={3}
+                            bgColor={'white'}
+                            onToggleCallback={onToggle2}
+                            fontColor={'black'}
+                            selectedFontColor={'white'}
+                            border='0'
+                            selectedSwitchColor='#e29348'
+                            borderWidth='1'
+                            height={'23px'}
+                            fontSize={'12px'}
+                            eachSwitchWidth={55}
+                          ></MultiSwitch>}
                         </div>
                         <div className='advSearch-module'>
                           <label>
@@ -750,7 +797,6 @@ function Layout (props) {
               name='tabset'
               id='tab1'
               aria-controls='marzen'
-         
             />
             <label for='tab1'>Sequence queries</label>
 

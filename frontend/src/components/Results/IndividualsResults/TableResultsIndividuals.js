@@ -378,32 +378,65 @@ function TableResultsIndividuals (props) {
         beaconsArrayResultsOrdered.length > 0 &&
         beaconsArrayResultsOrdered.map(result => {
           return (
-            <div className='datasetCardResults'>
-              <div className='tittleResults'>
-                <div className='tittle2'>
-                  <img
-                    className='logoBeacon'
-                    src={result[0].response.organization.logoUrl}
-                    alt={result[0].meta.beaconId}
-                  />
+            <>
+              {props.show !== 'full' && (
+                <div className='datasetCardResults'>
+                  <div className='tittleResults'>
+                    <div className='tittle2'>
+                      <img
+                        className='logoBeacon'
+                        src={result[0].response.organization.logoUrl}
+                        alt={result[0].meta.beaconId}
+                      />
+                    </div>
+                    <h2>{result[0].response.organization.name}</h2>
+                    {result[2] === true && props.show === 'boolean' && (
+                      <h6>FOUND </h6>
+                    )}
+                    {result[2] === false && props.show === 'boolean' && (
+                      <h5 className='buttonResults'>NOT FOUND</h5>
+                    )}
+                    {props.show === 'count' && (
+                      <h6 className='buttonResults'>{result[1]} results</h6>
+                    )}
+                    <button
+                      className='buttonResults'
+                      onClick={() => {
+                        handleSeeResults(result[0].meta.beaconId)
+                      }}
+                    >
+                      {result[2] === true && props.show === 'full' && (
+                        <h7>See results</h7>
+                      )}
+                    </button>
+                  </div>
                 </div>
-                <h2>{result[0].response.organization.name}</h2>
-                {result[2] === true && props.show === 'boolean' && (
-                  <h6>FOUND </h6>
-                )}
-                {result[2] === false && props.show === 'boolean' && (
-                  <h5 className='buttonResults'>NOT FOUND</h5>
-                )}
-                {props.show === 'count' && <h6 className='buttonResults'>{result[1]} results</h6>}
-                <button className='buttonResults'
-                  onClick={() => {
-                    handleSeeResults(result[0].meta.beaconId)
-                  }}
-                >
-                  {props.show === 'full' && <h7>See results</h7>}
-                </button>
-              </div>
-            </div>
+              )}
+              {props.show === 'full' && result[2] === true && (
+                <div className='datasetCardResults'>
+                  <div className='tittleResults'>
+                    <div className='tittle2'>
+                      <img
+                        className='logoBeacon'
+                        src={result[0].response.organization.logoUrl}
+                        alt={result[0].meta.beaconId}
+                      />
+                    </div>
+                    <h2>{result[0].response.organization.name}</h2>
+                    <button
+                      className='buttonResults'
+                      onClick={() => {
+                        handleSeeResults(result[0].meta.beaconId)
+                      }}
+                    >
+                      {result[2] === true && props.show === 'full' && (
+                        <h7>See results</h7>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
           )
         })}
 

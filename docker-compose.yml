@@ -1,24 +1,17 @@
 version: '3.8'
 
-networks:
-  my-app-network:
-    external: true
-
 services:
 
   beacon-network-frontend:
     build:
       context: ./frontend
-    #command: ["yarn"]
-    #command: ["node", "/opt/yarn-v1.22.19/bin/yarn.js", "start" ]
-    command: yarn start
-    container_name: beacon-network-frontend
+    command: node /opt/yarn-v1.22.19/bin/yarn.js start
+    container_name: bn-ui
     environment:
       - CHOKIDAR_USEPOLLING=true
     ports:
-      - 3000:3000
+      - 3015:3000
     stdin_open: true
     volumes:
-      - ./frontend:/usr/src/app
-    networks:
-      - my-app-network
+      - ./frontend/:/frontend/
+      - /frontend/node_modules

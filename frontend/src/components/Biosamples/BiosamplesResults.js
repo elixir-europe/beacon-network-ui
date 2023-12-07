@@ -54,14 +54,6 @@ function BiosamplesResults (props) {
         }
       }
 
-      if (isAuthenticated) {
-        setLoginRequired(false)
-      } else {
-        setLoginRequired(true)
-        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
-      }
-
       if (props.query !== null) {
         if (props.query.includes(',')) {
           queryStringTerm = props.query.split(',')
@@ -157,7 +149,7 @@ function BiosamplesResults (props) {
         beaconsList.reverse()
 
         if (props.query === null) {
-          // show all individuals
+          // show all biosamples
 
           var jsonData1 = {
             meta: {
@@ -177,15 +169,27 @@ function BiosamplesResults (props) {
           jsonData1 = JSON.stringify(jsonData1)
           console.log(jsonData1)
 
-          const token = auth.userData.access_token
+          let token = null
+          if (auth.userData === null) {
+            token = getStoredToken()
+          } else {
+            token = auth.userData.access_token
+          }
           console.log(token)
-          const headers = { Authorization: `Bearer ${token}` }
+          if (token === null) {
+            res = await axios.post(
+              configData.API_URL + '/biosamples',
+              jsonData1
+            )
+          } else {
+            const headers = { Authorization: `Bearer ${token}` }
 
-          res = await axios.post(
-            configData.API_URL + '/biosamples',
-            jsonData1,
-            { headers: headers }
-          )
+            res = await axios.post(
+              configData.API_URL + '/biosamples',
+              jsonData1,
+              { headers: headers }
+            )
+          }
 
           console.log(res)
           setTimeOut(true)
@@ -232,12 +236,29 @@ function BiosamplesResults (props) {
           jsonData2 = JSON.stringify(jsonData2)
           console.log(jsonData2)
 
-          const token = auth.userData.access_token
-          console.log(token)
-          const headers = { Authorization: `Bearer ${token}` }
+          let token = null
+          if (auth.userData === null) {
+            token = getStoredToken()
+          } else {
+            token = auth.userData.access_token
+          }
 
-          res = await axios.post(configData.API_URL + '/biosamples', jsonData2, {headers: headers})
+          if (token === null) {
+            console.log('Querying without token')
+            res = await axios.post(
+              configData.API_URL + '/biosamples',
+              jsonData2
+            )
+          } else {
+            console.log('Querying WITH token')
+            const headers = { Authorization: `Bearer ${token}` }
 
+            res = await axios.post(
+              configData.API_URL + '/biosamples',
+              jsonData2,
+              { headers: headers }
+            )
+          }
           console.log(res)
           setTimeOut(true)
 
@@ -348,6 +369,7 @@ function BiosamplesResults (props) {
           {show3 && logInRequired === false && !error && (
             <div>
               <TableResultsBiosamples
+                show={'full'}
                 results={results}
                 beaconsList={beaconsList}
               ></TableResultsBiosamples>
@@ -355,18 +377,24 @@ function BiosamplesResults (props) {
           )}
           {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
           {show3 && error && <h3>&nbsp; {error} </h3>}
-          <div className='resultsContainer'>
-            {show1 && boolean && <p className='p1'>YES</p>}
-            {show1 && !boolean && <p className='p1'>NO</p>}
-
-            {show2 && logInRequired === false && numberResults !== 1 && (
-              <p className='p1'>{numberResults} &nbsp; Results</p>
-            )}
-            {show2 && numberResults === 1 && logInRequired === false && (
-              <p className='p1'>{numberResults} &nbsp; Result</p>
-            )}
-            {show2 && logInRequired === true && <h3>{messageLoginCount}</h3>}
-          </div>
+          {show2 && (
+            <div>
+              <TableResultsBiosamples
+                show={'count'}
+                results={results}
+                beaconsList={beaconsList}
+              ></TableResultsBiosamples>
+            </div>
+          )}
+          {show1 && (
+            <div>
+              <TableResultsBiosamples
+                show={'boolean'}
+                results={results}
+                beaconsList={beaconsList}
+              ></TableResultsBiosamples>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -58,11 +58,11 @@ function IndividualsResults (props) {
       }
 
       //if (isAuthenticated) {
-        //setLoginRequired(false)
+      //setLoginRequired(false)
       //} else {
-        //setLoginRequired(true)
-        //setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-        //setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
+      //setLoginRequired(true)
+      //setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
+      //setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
       //}
 
       if (props.query !== null) {
@@ -152,7 +152,7 @@ function IndividualsResults (props) {
 
       try {
         let res = await axios.get(configData.API_URL + '/info')
-   
+
         res.data.responses.forEach(element => {
           beaconsList.push(element)
         })
@@ -256,13 +256,13 @@ function IndividualsResults (props) {
           }
 
           if (token === null) {
-            console.log("Querying without token")
+            console.log('Querying without token')
             res = await axios.post(
               configData.API_URL + '/individuals',
               jsonData2
             )
           } else {
-            console.log("Querying WITH token")
+            console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
 
             res = await axios.post(
@@ -381,6 +381,7 @@ function IndividualsResults (props) {
           {show3 && logInRequired === false && !error && (
             <div>
               <TableResultsIndividuals
+                show={'full'}
                 results={results}
                 beaconsList={beaconsList}
               ></TableResultsIndividuals>
@@ -388,18 +389,24 @@ function IndividualsResults (props) {
           )}
           {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
           {show3 && error && <h3>&nbsp; {error} </h3>}
-          <div className='resultsContainer'>
-            {show1 && boolean && <p className='p1'>YES</p>}
-            {show1 && !boolean && <p className='p1'>NO</p>}
-
-            {show2 && logInRequired === false && numberResults !== 1 && (
-              <p className='p1'>{numberResults} &nbsp; Results</p>
-            )}
-            {show2 && numberResults === 1 && logInRequired === false && (
-              <p className='p1'>{numberResults} &nbsp; Result</p>
-            )}
-            {show2 && logInRequired === true && <h3>{messageLoginCount}</h3>}
-          </div>
+          {show2 && (
+            <div>
+              <TableResultsIndividuals
+                show={'count'}
+                results={results}
+                beaconsList={beaconsList}
+              ></TableResultsIndividuals>
+            </div>
+          )}
+          {show1 && (
+            <div>
+              <TableResultsIndividuals
+                show={'boolean'}
+                results={results}
+                beaconsList={beaconsList}
+              ></TableResultsIndividuals>
+            </div>
+          )}
         </div>
       </div>
     </div>

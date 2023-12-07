@@ -52,131 +52,136 @@ function TableResultsBiosamples (props) {
     return gridFilteredSortedRowIdsSelector(apiRef)
   }
 
-  let columns = [[
-    {
-      field: 'id',
-      headerName: 'Row',
-      width: 100,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'BiosampleId',
-      headerName: 'Biosample ID',
-      width: 150,
-      headerClassName: 'super-app-theme--header',
-      renderCell: params => 
-      <Link to={`cross-queries/biosamples/${params.row.BiosampleId}`}>{params.row.BiosampleId}</Link>
-    },
-    {
-      field: 'Beacon',
-      headerName: 'Beacon ID',
-      width: 340,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'individualId',
-      headerName: 'Individual ID',
-      width: 150,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'biosampleStatus',
-      headerName: 'Biosample status',
-      width: 240,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'collectionDate',
-      headerName: 'Collection date',
-      width: 250,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'collectionMoment',
-      headerName: 'Collection moment',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'sampleOriginType',
-      headerName: 'Sample origin type',
-      width: 350,
-      headerClassName: 'super-app-theme--header',
-      cellClass: 'pre'
-    },
-    {
-      field: 'sampleOriginDetail',
-      headerName: 'Sample origin detail',
-      width: 200,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'obtentionProcedure',
-      headerName: 'Obtention procedure',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'tumorProgression',
-      headerName: 'Tumor progression',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'tumorGrade',
-      headerName: 'Tumor Grade',
-      width: 200,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'pathologicalStage',
-      headerName: 'Pathological stage',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'pathologicalTnmFinding',
-      headerName: 'Pathological TNM findings',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'histologicalDiagnosis',
-      headerName: 'Histological diagnosis',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'diagnosticMarkers',
-      headerName: 'Diagnostic markers',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'phenotypicFeatures',
-      headerName: 'Phenotypic features',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'measurements',
-      headerName: 'Measurements',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'sampleProcessing',
-      headerName: 'Sample processing',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'sampleStorage',
-      headerName: 'Sample storage',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    }
-  ]]
+  let columns = [
+    [
+      {
+        field: 'id',
+        headerName: 'Row',
+        width: 100,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'BiosampleId',
+        headerName: 'Biosample ID',
+        width: 150,
+        headerClassName: 'super-app-theme--header',
+        renderCell: params => (
+          <Link to={`cross-queries/biosamples/${params.row.BiosampleId}`}>
+            {params.row.BiosampleId}
+          </Link>
+        )
+      },
+      {
+        field: 'Beacon',
+        headerName: 'Beacon ID',
+        width: 340,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'individualId',
+        headerName: 'Individual ID',
+        width: 150,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'biosampleStatus',
+        headerName: 'Biosample status',
+        width: 240,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'collectionDate',
+        headerName: 'Collection date',
+        width: 250,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'collectionMoment',
+        headerName: 'Collection moment',
+        width: 350,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'sampleOriginType',
+        headerName: 'Sample origin type',
+        width: 350,
+        headerClassName: 'super-app-theme--header',
+        cellClass: 'pre'
+      },
+      {
+        field: 'sampleOriginDetail',
+        headerName: 'Sample origin detail',
+        width: 200,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'obtentionProcedure',
+        headerName: 'Obtention procedure',
+        width: 300,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'tumorProgression',
+        headerName: 'Tumor progression',
+        width: 350,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'tumorGrade',
+        headerName: 'Tumor Grade',
+        width: 200,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'pathologicalStage',
+        headerName: 'Pathological stage',
+        width: 350,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'pathologicalTnmFinding',
+        headerName: 'Pathological TNM findings',
+        width: 300,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'histologicalDiagnosis',
+        headerName: 'Histological diagnosis',
+        width: 350,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'diagnosticMarkers',
+        headerName: 'Diagnostic markers',
+        width: 300,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'phenotypicFeatures',
+        headerName: 'Phenotypic features',
+        width: 300,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'measurements',
+        headerName: 'Measurements',
+        width: 300,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'sampleProcessing',
+        headerName: 'Sample processing',
+        width: 300,
+        headerClassName: 'super-app-theme--header'
+      },
+      {
+        field: 'sampleStorage',
+        headerName: 'Sample storage',
+        width: 300,
+        headerClassName: 'super-app-theme--header'
+      }
+    ]
+  ]
 
   const handleSeeResults = e => {
     resultsSelected.forEach(element => {
@@ -797,7 +802,7 @@ function TableResultsBiosamples (props) {
             sampleStorageJson = sampleStorageJson.replaceAll(',', '')
           }
         }
-        
+
         var myObjRows = new Object()
         myObjRows.id = index
         if (element[1].id !== '') {
@@ -820,7 +825,6 @@ function TableResultsBiosamples (props) {
           myObjRows.sampleOriginDetail = stringSampleOriginDetail
         }
 
-      
         if (collectionDateJson !== '') {
           myObjRows.collectionDate = collectionDateJson
         }
@@ -918,15 +922,22 @@ function TableResultsBiosamples (props) {
                   />
                 </div>
                 <h2>{result[0].response.organization.name}</h2>
-                {result[2] === true && <h6>FOUND </h6>}
-                {result[2] === false && <h5>NOT FOUND</h5>}
-                <h1>{result[1]} results</h1>
+                {result[2] === true && props.show === 'boolean' && (
+                  <h6>FOUND </h6>
+                )}
+                {result[2] === false && props.show === 'boolean' && (
+                  <h5 className='buttonResults'>NOT FOUND</h5>
+                )}
+                {props.show === 'count' && (
+                  <h6 className='buttonResults'>{result[1]} results</h6>
+                )}
                 <button
+                  className='buttonResults'
                   onClick={() => {
                     handleSeeResults(result[0].meta.beaconId)
                   }}
                 >
-                  <h7>See results</h7>
+                  {props.show === 'full' && <h7>See results</h7>}
                 </button>
               </div>
             </div>
@@ -952,4 +963,3 @@ function TableResultsBiosamples (props) {
 }
 
 export default TableResultsBiosamples
-

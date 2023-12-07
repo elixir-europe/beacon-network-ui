@@ -192,12 +192,14 @@ h4 {
 .resultsContainer {
   display: flex;
   justify-content: center;
+  margin-top: 54px;
 }
 
 .selectGranularity {
   align-items: center;
   display: flex;
   justify-content: center;
+  margin-top: 23px;
 }
 
 .loader2 {

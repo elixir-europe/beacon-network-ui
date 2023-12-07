@@ -63,8 +63,11 @@ function TableResultsIndividuals (props) {
       headerName: 'Individual ID',
       width: 150,
       headerClassName: 'super-app-theme--header',
-      renderCell: params => 
-      <Link to={`cross-queries/individuals/${params.row.IndividualId}`}>{params.row.IndividualId}</Link>
+      renderCell: params => (
+        <Link to={`cross-queries/individuals/${params.row.IndividualId}`}>
+          {params.row.IndividualId}
+        </Link>
+      )
     },
     {
       field: 'Beacon',
@@ -385,15 +388,19 @@ function TableResultsIndividuals (props) {
                   />
                 </div>
                 <h2>{result[0].response.organization.name}</h2>
-                {result[2] === true && <h6>FOUND </h6>}
-                {result[2] === false && <h5>NOT FOUND</h5>}
-                <h1>{result[1]} results</h1>
-                <button
+                {result[2] === true && props.show === 'boolean' && (
+                  <h6>FOUND </h6>
+                )}
+                {result[2] === false && props.show === 'boolean' && (
+                  <h5 className='buttonResults'>NOT FOUND</h5>
+                )}
+                {props.show === 'count' && <h6 className='buttonResults'>{result[1]} results</h6>}
+                <button className='buttonResults'
                   onClick={() => {
                     handleSeeResults(result[0].meta.beaconId)
                   }}
                 >
-                  <h7>See results</h7>
+                  {props.show === 'full' && <h7>See results</h7>}
                 </button>
               </div>
             </div>

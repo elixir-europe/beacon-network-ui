@@ -10,7 +10,7 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     ports:
-      - 3015:3000
+      - 3000:3000
     stdin_open: true
     volumes:
       - ./frontend/:/frontend/

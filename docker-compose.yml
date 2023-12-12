@@ -12,6 +12,3 @@ services:
     ports:
       - 3000:3000
     stdin_open: true
-    volumes:
-      - ./frontend/:/frontend/
-      - /frontend/node_modules

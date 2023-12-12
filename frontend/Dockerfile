@@ -10,7 +10,7 @@ ENV PATH /frontend/node_modules/.bin:$PATH
 COPY package.json .
 COPY yarn.lock .
 COPY public ./public
-COPY src ./public
+COPY src ./src
 
 
 RUN yarn install --production

@@ -22,6 +22,9 @@ function IndividualsResults (props) {
   const [show2, setShow2] = useState(false)
   const [show3, setShow3] = useState(false)
 
+  const [resultsPerDataset, setResultsDataset] = useState([])
+  const [resultsNotPerDataset, setResultsNotPerDataset] = useState([])
+
   const [timeOut, setTimeOut] = useState(false)
 
   const [logInRequired, setLoginRequired] = useState(false)
@@ -283,12 +286,28 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             console.log(res.data.responseSummary.numTotalResults)
-            setNumberResults(res.data.responseSummary.numTotalResults)
-            setBoolean(res.data.responseSummary.exists)
+            //setNumberResults(res.data.responseSummary.numTotalResults)
+            //setBoolean(res.data.responseSummary.exists)
 
             res.data.response.resultSets.forEach((element, index) => {
-              if (res.data.response.resultSets[index].resultsCount > 0) {
-                console.log(res.data.response.resultSets[index].results.length)
+              if (element.id && element.id !== '') {
+                let arrayResultsPerDataset = [
+                  element.beaconId,
+                  element.id,
+                  element.exists,
+                  element.resultsCount
+                ]
+                resultsPerDataset.push(arrayResultsPerDataset)
+                console.log(resultsPerDataset)
+              }
+              console.log(element)
+              if (element.id === undefined || element.id === '') {
+                console.log(element)
+                let arrayResultsNoDatasets = [element.beaconId]
+                resultsNotPerDataset.push(arrayResultsNoDatasets)
+              }
+              
+              if (res.data.response.resultSets[index].results){
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [
@@ -296,11 +315,8 @@ function IndividualsResults (props) {
                       res.data.response.resultSets[index].results[index2]
                     ]
                     results.push(arrayResult)
-                    console.log(arrayResult)
                   }
                 )
-
-                console.log(results)
               }
             })
           }
@@ -382,10 +398,11 @@ function IndividualsResults (props) {
             <h3>&nbsp; {error} </h3>
           )}
           {show3 && logInRequired === false && !error && (
-            <div>
+            <div className='containerTableResults'>
               <TableResultsIndividuals
                 show={'full'}
                 results={results}
+                resultsPerDataset={resultsPerDataset}
                 beaconsList={beaconsList}
               ></TableResultsIndividuals>
             </div>
@@ -393,18 +410,22 @@ function IndividualsResults (props) {
           {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
           {show3 && error && <h3>&nbsp; {error} </h3>}
           {show2 && (
-            <div>
+            <div className='containerTableResults'>
               <TableResultsIndividuals
                 show={'count'}
+                resultsPerDataset={resultsPerDataset}
+                resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
               ></TableResultsIndividuals>
             </div>
           )}
           {show1 && (
-            <div>
+            <div className='containerTableResults'>
               <TableResultsIndividuals
                 show={'boolean'}
+                resultsPerDataset={resultsPerDataset}
+                resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
               ></TableResultsIndividuals>

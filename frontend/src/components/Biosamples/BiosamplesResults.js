@@ -367,7 +367,7 @@ function BiosamplesResults (props) {
             </div>
           )}
           {show3 && logInRequired === false && !error && (
-            <div>
+            <div className='containerTableResults'>
               <TableResultsBiosamples
                 show={'full'}
                 results={results}
@@ -378,7 +378,7 @@ function BiosamplesResults (props) {
           {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
           {show3 && error && <h3>&nbsp; {error} </h3>}
           {show2 && (
-            <div>
+            <div className='containerTableResults'>
               <TableResultsBiosamples
                 show={'count'}
                 results={results}
@@ -387,7 +387,7 @@ function BiosamplesResults (props) {
             </div>
           )}
           {show1 && (
-            <div>
+            <div className='containerTableResults'>
               <TableResultsBiosamples
                 show={'boolean'}
                 results={results}

@@ -7,7 +7,11 @@ WORKDIR .
 ENV PATH /frontend/node_modules/.bin:$PATH
 
 # install app dependencies
-COPY . .
+COPY package.json .
+COPY yarn.lock .
+COPY public /usr/src/app/public
+COPY src /usr/src/app/src
+
 
 RUN yarn install --production
 

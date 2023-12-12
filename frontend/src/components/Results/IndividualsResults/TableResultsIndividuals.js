@@ -411,7 +411,7 @@ function TableResultsIndividuals (props) {
                                 onClick={handleClickDatasets(index)}
                                 className='resultSetsButton'
                               >
-                                <h7>{element[1]}</h7>
+                                <h7>{element[1].replaceAll('_',' ')}</h7>
                               </button>
                               {openDatasetArray === true &&
                                 element[2] === true &&

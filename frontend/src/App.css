@@ -692,7 +692,7 @@ hr {
 .example {
   display: flex;
   align-items: center;
-  margin-right: -106px;
+  margin-right: -117px;
   margin-top: 22px;
   margin-bottom: 22px;
   flex-direction: row-reverse;

@@ -24,7 +24,6 @@ import IndividualsResults from '../Individuals/IndividualsResults'
 import CohortsModule from '../Cohorts/CohortsModule'
 
 function Layout (props) {
-  console.log(props)
   const [error, setError] = useState(null)
 
   const [placeholder, setPlaceholder] = useState('')
@@ -121,7 +120,6 @@ function Layout (props) {
   }
 
   const onToggle = selectedItem => {
-    console.log(selectedItem)
     if (selectedItem === 0) {
       setSimilarity('low')
     } else if (selectedItem === 1) {
@@ -132,7 +130,6 @@ function Layout (props) {
   }
 
   const onToggle2 = selectedItem => {
-    console.log(selectedItem)
     if (selectedItem === 0) {
       setResultset('HIT')
     } else if (selectedItem === 1) {
@@ -180,7 +177,7 @@ function Layout (props) {
           configData.API_URL + '/individuals/filtering_terms'
         )
         setTimeOut(true)
-        console.log(res)
+
         if (res.data.response.filteringTerms !== undefined) {
           setFilteringTerms(res)
           setResults(null)
@@ -439,8 +436,7 @@ function Layout (props) {
     setIsSub(true)
     setResultsetAux(resultSet)
     setQueryAux(query)
-    console.log(resultSet)
-    console.log(resultSetAux)
+
     if (resultSet !== resultSetAux) {
       setTriggerQuery(!triggerQuery)
     }
@@ -665,62 +661,70 @@ function Layout (props) {
                           <label>
                             <h2>Include Resultset Responses</h2>
                           </label>
-                          {resultSet === 'HIT' && <MultiSwitch
-                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                            selectedSwitch={0}
-                            bgColor={'white'}
-                            onToggleCallback={onToggle2}
-                            fontColor={'black'}
-                            selectedFontColor={'white'}
-                            border='0'
-                            selectedSwitchColor='#e29348'
-                            borderWidth='1'
-                            height={'23px'}
-                            fontSize={'12px'}
-                            eachSwitchWidth={55}
-                          ></MultiSwitch>}
-                           {resultSet === 'MISS' && <MultiSwitch
-                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                            selectedSwitch={1}
-                            bgColor={'white'}
-                            onToggleCallback={onToggle2}
-                            fontColor={'black'}
-                            selectedFontColor={'white'}
-                            border='0'
-                            selectedSwitchColor='#e29348'
-                            borderWidth='1'
-                            height={'23px'}
-                            fontSize={'12px'}
-                            eachSwitchWidth={55}
-                          ></MultiSwitch>}
-                           {resultSet === 'NONE' && <MultiSwitch
-                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                            selectedSwitch={2}
-                            bgColor={'white'}
-                            onToggleCallback={onToggle2}
-                            fontColor={'black'}
-                            selectedFontColor={'white'}
-                            border='0'
-                            selectedSwitchColor='#e29348'
-                            borderWidth='1'
-                            height={'23px'}
-                            fontSize={'12px'}
-                            eachSwitchWidth={55}
-                          ></MultiSwitch>}
-                           {resultSet === 'ALL' && <MultiSwitch
-                            texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                            selectedSwitch={3}
-                            bgColor={'white'}
-                            onToggleCallback={onToggle2}
-                            fontColor={'black'}
-                            selectedFontColor={'white'}
-                            border='0'
-                            selectedSwitchColor='#e29348'
-                            borderWidth='1'
-                            height={'23px'}
-                            fontSize={'12px'}
-                            eachSwitchWidth={55}
-                          ></MultiSwitch>}
+                          {resultSet === 'HIT' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={0}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'MISS' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={1}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'NONE' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={2}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'ALL' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={3}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
                         </div>
                         <div className='advSearch-module'>
                           <label>

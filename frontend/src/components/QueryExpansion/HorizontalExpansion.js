@@ -38,7 +38,7 @@ function HorizontalExpansion (props) {
           `https://cineca-query-expansion.text-analytics.ch/catalogue_explorer/HorizontalExpansionOls/?keywords=${qeValue}&ontology=${ontologyValue.toLowerCase()}`
         )
         setTimeOut(true)
-        console.log(res)
+        
         let arrayResults = []
         if (res.data.response.ols[qeValue] !== undefined) {
           arrayResults = res.data.response.ols[qeValue].search_term_expansion
@@ -51,12 +51,10 @@ function HorizontalExpansion (props) {
             'Not found. Please check the keyword and ontologies and retry'
           )
         }
-        console.log(arrayResults)
+        
         arrayResults.forEach(element => {
           if (element.label.trim().toLowerCase() === qeValue.toLowerCase()) {
             //exact match
-            console.log(qeValue.toLowerCase)
-            console.log(element.label.trim().toLowerCase)
             resultsQEexact.push(element)
           }
         })
@@ -64,9 +62,7 @@ function HorizontalExpansion (props) {
         if (resultsQEexact.length > 0) {
           setShowQEfirstResults(true)
           matchesQE.splice(0, matchesQE.length)
-          console.log(resultsQEexact)
           resultsQEexact.forEach(element => {
-            console.log(element)
             props.arrayFilteringTermsQE.forEach(element2 => {
               if (
                 element.obo_id.toLowerCase().trim() ===
@@ -74,8 +70,6 @@ function HorizontalExpansion (props) {
               ) {
                 setError(null)
                 matchesQE.push(element2.id)
-                console.log(matchesQE)
-                console.log('FOUND A MATCH')
                 setShowQEresults(true)
               }
             })

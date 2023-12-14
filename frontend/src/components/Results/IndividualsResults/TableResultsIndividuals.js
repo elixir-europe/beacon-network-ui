@@ -56,19 +56,13 @@ function TableResultsIndividuals (props) {
   }
 
   const handleClickDatasets = e => {
-    console.log(e)
     triggerArray.forEach((element, index) => {
       if (index !== e) {
-        console.log('holi')
-        console.log(index)
         triggerArray[index] = false
       }
     })
-    console.log(triggerArray)
     openDatasetArray.forEach((element, index) => {
       if (index !== e) {
-        console.log('holi')
-        console.log(index)
         triggerArray[index] = false
       }
     })
@@ -149,13 +143,9 @@ function TableResultsIndividuals (props) {
   const handleSeeResults = e => {
     resultsSelected.forEach(element => {
       if (element[0] === e) {
-        console.log(e)
-        console.log(element[0])
         resultsSelectedFinal.push(element)
       }
     })
-    console.log(resultsSelectedFinal) //correct number
-
     setShowResults(true)
     setShowDatasets(false)
     setTrigger(true)
@@ -168,18 +158,14 @@ function TableResultsIndividuals (props) {
   }
 
   useEffect(() => {
-    console.log(props.results)
     setRows([])
     setIds([])
-    console.log(rows)
 
     resultsSelected.forEach((element, index) => {
-      console.log(element[0])
       arrayBeaconsIds.push(element[0])
     })
     resultsSelectedFinal.forEach((element, index) => {
       if (element[1] !== undefined) {
-        console.log(element[0])
         let eth_id = ''
         let eth_label = ''
         let stringEth = ''
@@ -362,11 +348,9 @@ function TableResultsIndividuals (props) {
           sex: stringSex,
           diseases: diseases
         })
-        console.log(rows)
-
+        
         if (index === resultsSelectedFinal.length - 1) {
           setEditable(rows.map(o => ({ ...o })))
-
           setTrigger2(true)
         }
       }
@@ -374,12 +358,9 @@ function TableResultsIndividuals (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-    console.log(props)
-
+   
     let count = 0
     props.beaconsList.forEach((element2, index2) => {
-      console.log(element2.meta.beaconId)
-      console.log(arrayBeaconsIds)
       count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
       if (count > 0) {
         beaconsArrayResults.push([element2, count, true])
@@ -506,16 +487,16 @@ function TableResultsIndividuals (props) {
                       <h2>{result[0].response.organization.name}</h2>
                     </div>
                     <div className='seeResultsContainer'>
-                    <button
-                      className='buttonResults'
-                      onClick={() => {
-                        handleSeeResults(result[0].meta.beaconId)
-                      }}
-                    >
-                      {result[2] === true && props.show === 'full' && (
-                        <h7>See results</h7>
-                      )}
-                    </button>
+                      <button
+                        className='buttonResults'
+                        onClick={() => {
+                          handleSeeResults(result[0].meta.beaconId)
+                        }}
+                      >
+                        {result[2] === true && props.show === 'full' && (
+                          <h7>See results</h7>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>

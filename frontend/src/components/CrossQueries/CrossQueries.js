@@ -13,7 +13,7 @@ function CrossQueries () {
   const [arrayResults, setArrayResults] = useState([])
 
   const [showSubmit, setShowSubmit] = useState(true)
-  const [trigger, setTrigger]= useState(true)
+  const [trigger, setTrigger] = useState(true)
 
   const handleChangeInitial = e => {
     setValueInitial(e.target.value)
@@ -51,7 +51,6 @@ function CrossQueries () {
       let res = await axios.get(
         configData.API_URL + `/${valueInitial}/${IdValue}/${valueFinal}`
       )
-      console.log(res)
       res.data.response.resultSets.forEach((element, index) => {
         if (res.data.response.resultSets[index].results.length > 0) {
           setResults(res.data.response.resultSets[index].results)
@@ -61,8 +60,6 @@ function CrossQueries () {
               JSON.stringify(element, null, 2).replace('[', '').replace(']', '')
             )
           })
-          console.log(results)
-          console.log(arrayResults)
         } else {
           setResults(null)
         }
@@ -74,8 +71,6 @@ function CrossQueries () {
   }
 
   useEffect(() => {
-    console.log(scope)
-    console.log(scope2)
     setTrigger(true)
   }, [scope2])
 
@@ -86,11 +81,19 @@ function CrossQueries () {
           Pick the "origin" collection:
           <select value={valueInitial} onChange={handleChangeInitial}>
             {scope2 === 'allScopes' && <option value='select'>Select</option>}
-            {scope2 === 'allScopes' && <option value='g_variants'>Variant</option>}
-            {scope2 === 'allScopes' && <option value='individuals'>Individuals</option>}
-            {scope2 === 'allScopes' && <option value='biosamples'>Biosamples</option>}
+            {scope2 === 'allScopes' && (
+              <option value='g_variants'>Variant</option>
+            )}
+            {scope2 === 'allScopes' && (
+              <option value='individuals'>Individuals</option>
+            )}
+            {scope2 === 'allScopes' && (
+              <option value='biosamples'>Biosamples</option>
+            )}
             {scope2 === 'allScopes' && <option value='runs'>Runs</option>}
-            {scope2 === 'allScopes' && <option value='analyses'>Analyses</option>}
+            {scope2 === 'allScopes' && (
+              <option value='analyses'>Analyses</option>
+            )}
 
             {scope2 === 'variants' && (
               <option value='g_variants' selected>

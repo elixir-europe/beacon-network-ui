@@ -43,9 +43,13 @@
   }
   
   .login__field2 h6 {
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-weight: 600;
     color: #3d72a6;
+  }
+
+  .login__field2 h6:hover{
+    font-weight: 700;
   }
   
 
@@ -66,7 +70,11 @@
     }
   
     .login__field2 h6 {
-      font-size: 12px !important;
+      font-size: 14px !important;
       width: 51vw;
+      
+    }
+    .login__field2 h6:hover{
+      font-weight: 700;
     }
   }

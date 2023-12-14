@@ -25,20 +25,16 @@ export default function SignInFormNoLS () {
   } = useContext(AuthContext)
 
   const handleChange1 = e => {
-    console.log(e.target.value)
-
     setUserName(e.target.value)
   }
 
   const handleChange2 = e => {
-    console.log(e.target.value)
     setPassword(e.target.value)
   }
 
   const handleSubmit = async e => {
     try {
       e.preventDefault()
-      console.log(userName)
       var details = {
         grant_type: 'password',
         client_id: 'beacon',
@@ -68,10 +64,7 @@ export default function SignInFormNoLS () {
           body: formBody
         }
       )
-
       const readableResponse = await response.json()
-      console.log(readableResponse.access_token)
-
       storeToken(readableResponse.access_token)
       refreshTokenFunction(readableResponse.refresh_token)
 
@@ -101,7 +94,11 @@ export default function SignInFormNoLS () {
         <div className='screen__content'>
           <form className='login' onSubmit={handleSubmit}>
             <div className='login__field'>
-            <img className="login__icon" src="./user.png" alt='userLogo'></img>
+              <img
+                className='login__icon'
+                src='./user.png'
+                alt='userLogo'
+              ></img>
               <input
                 type='text'
                 id='userName'
@@ -115,7 +112,11 @@ export default function SignInFormNoLS () {
               />
             </div>
             <div className='login__field'>
-            <img className="login__icon" src="./padlock.png" alt='padlockLogo'></img>
+              <img
+                className='login__icon'
+                src='./padlock.png'
+                alt='padlockLogo'
+              ></img>
               <input
                 className='login__input'
                 id='password'
@@ -129,10 +130,13 @@ export default function SignInFormNoLS () {
             </div>
             <button className='button login__submit'>
               <span className='button__text'>Log In Now</span>
-              <img className="buttonRightArrow" src="./right-arrow.png" alt='rightArrowLogo'></img>
+              <img
+                className='buttonRightArrow'
+                src='./right-arrow.png'
+                alt='rightArrowLogo'
+              ></img>
             </button>
           </form>
-       
         </div>
         <div className='screen__background'>
           <span className='screen__background__shape screen__background__shape4'></span>

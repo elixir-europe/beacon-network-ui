@@ -17,7 +17,6 @@ function ResultsDatasets(props) {
 
             try {
                 let res = await axios.get(configData.API_URL +'/info')
-                console.log(res.data.responses)
                 res.data.responses.forEach(element => {
                     resp.push(element)
                 });

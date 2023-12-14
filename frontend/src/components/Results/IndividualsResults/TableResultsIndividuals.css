@@ -48,7 +48,7 @@ h6 {
   align-items: center;
   justify-content: center;
   margin-top: 34px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 h6:hover {
@@ -74,9 +74,7 @@ h6:hover {
   padding: 3px;
 }
 
-.tittleResults h5:hover{
-  display: none;
-}
+
 
 h7 {
   text-transform: uppercase;

@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProviderWrapper } from './components/context/AuthContext';
 import { AuthProvider } from 'oidc-react';
 
-console.log(process.env.REACT_APP_CLIENT_SECRET)
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

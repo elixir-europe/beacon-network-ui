@@ -20,7 +20,7 @@ function Navbar () {
   const auth = useAuth()
 
   useEffect(() => {
-    console.log('HOLIIII')
+   
     authenticateUser()
     let token = getStoredToken()
     let isAuthenticated = false
@@ -43,7 +43,6 @@ function Navbar () {
 
   const handleMenu = () => {
     setOpenMenu(!openMenu)
-    console.log('sdsadasdsd')
   }
 
   const handleClik = () => {

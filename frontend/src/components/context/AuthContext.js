@@ -21,7 +21,6 @@ function AuthProviderWrapper (props) {
   }
 
   const refreshTokenFunction = token => {
-    console.log(token)
     localStorage.setItem('refreshToken', token)
   }
 
@@ -65,13 +64,10 @@ function AuthProviderWrapper (props) {
 
     const startTime = localStorage.getItem('startTime')
     const token = localStorage.getItem('authToken')
-    console.log(token)
-    console.log(startTime)
-
     setCurrentTime(Date.now())
 
     const currentTime = localStorage.getItem('currentTime')
-    console.log(currentTime)
+
     console.log('AUTHENTICATING')
 
     if (currentTime - startTime > expirationTime) {
@@ -82,11 +78,8 @@ function AuthProviderWrapper (props) {
           'Session expired due to inactivity. Please log in again'
         )
         removeToken()
-        console.log("asdasdhas")
       } else {
         setExpirationMessage('')
-        console.log('HA PASADO EL EXPIRATION TIME')
-
         var details = {
           grant_type: 'refresh_token',
           client_id: 'beacon',
@@ -117,9 +110,7 @@ function AuthProviderWrapper (props) {
             body: formBody
           }
         )
-
         const readableResponse = await response.json()
-        console.log(readableResponse)
 
         storeToken(readableResponse.access_token)
         refreshTokenFunction(readableResponse.refresh_token)
@@ -129,7 +120,7 @@ function AuthProviderWrapper (props) {
 
         setStartTime(Date.now())
         const startTime = localStorage.getItem('startTime')
-        console.log(startTime)
+       
       }
     }
   }

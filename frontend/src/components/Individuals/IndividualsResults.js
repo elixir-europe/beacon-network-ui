@@ -50,7 +50,6 @@ function IndividualsResults (props) {
 
   useEffect(() => {
     const apiCall = async () => {
-      console.log(isAuthenticated)
       if (isAuthenticated === false) {
         authenticateUser()
         const token = getStoredToken()
@@ -71,7 +70,6 @@ function IndividualsResults (props) {
       if (props.query !== null) {
         if (props.query.includes(',')) {
           queryStringTerm = props.query.split(',')
-          console.log(queryStringTerm)
           queryStringTerm.forEach((element, index) => {
             element = element.trim()
             if (
@@ -97,8 +95,6 @@ function IndividualsResults (props) {
                 queryArray[index] = element.split('%')
                 queryArray[index].push('%')
               }
-
-              console.log(queryArray)
               const alphaNumFilter = {
                 id: queryArray[index][0],
                 operator: queryArray[index][2],
@@ -181,7 +177,6 @@ function IndividualsResults (props) {
             }
           }
           jsonData1 = JSON.stringify(jsonData1)
-          console.log(jsonData1)
 
           let token = null
           if (auth.userData === null) {
@@ -189,7 +184,6 @@ function IndividualsResults (props) {
           } else {
             token = auth.userData.access_token
           }
-          console.log(token)
 
           if (token === null) {
             res = await axios.post(
@@ -205,8 +199,6 @@ function IndividualsResults (props) {
               { headers: headers }
             )
           }
-
-          console.log(res)
           setTimeOut(true)
 
           if (res.data.responseSummary.numTotalResults < 1) {
@@ -216,7 +208,6 @@ function IndividualsResults (props) {
           } else {
             res.data.response.resultSets.forEach((element, index) => {
               if (res.data.response.resultSets[index].resultsCount > 0) {
-                console.log(res.data.response.resultSets[index].results.length)
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [
@@ -249,8 +240,6 @@ function IndividualsResults (props) {
             }
           }
           jsonData2 = JSON.stringify(jsonData2)
-          console.log(jsonData2)
-          console.log(auth.userData)
           let token = null
           if (auth.userData === null) {
             token = getStoredToken()
@@ -274,7 +263,6 @@ function IndividualsResults (props) {
               { headers: headers }
             )
           }
-          console.log(res)
           setTimeOut(true)
 
           if (
@@ -285,10 +273,6 @@ function IndividualsResults (props) {
             setNumberResults(0)
             setBoolean(false)
           } else {
-            console.log(res.data.responseSummary.numTotalResults)
-            //setNumberResults(res.data.responseSummary.numTotalResults)
-            //setBoolean(res.data.responseSummary.exists)
-
             res.data.response.resultSets.forEach((element, index) => {
               if (element.id && element.id !== '') {
                 let arrayResultsPerDataset = [
@@ -298,16 +282,14 @@ function IndividualsResults (props) {
                   element.resultsCount
                 ]
                 resultsPerDataset.push(arrayResultsPerDataset)
-                console.log(resultsPerDataset)
               }
-              console.log(element)
+
               if (element.id === undefined || element.id === '') {
-                console.log(element)
                 let arrayResultsNoDatasets = [element.beaconId]
                 resultsNotPerDataset.push(arrayResultsNoDatasets)
               }
-              
-              if (res.data.response.resultSets[index].results){
+
+              if (res.data.response.resultSets[index].results) {
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [

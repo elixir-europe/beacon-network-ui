@@ -83,7 +83,6 @@ function VariantsResults (props) {
         beaconsList.reverse()
 
         if (props.showBar === true) {
-          console.log('asdjasdjasdjsj')
           setShowVariantsResults(true)
           if (props.query.includes(',')) {
             queryStringTerm = props.query.split(',')
@@ -101,7 +100,6 @@ function VariantsResults (props) {
             }
             arrayFilter.push(filter)
           }
-          console.log(arrayFilter)
 
           var jsonData1 = {
             meta: {
@@ -119,9 +117,9 @@ function VariantsResults (props) {
             }
           }
           jsonData1 = JSON.stringify(jsonData1)
-          console.log(jsonData1)
+
           const token = auth.userData.access_token
-          console.log(token)
+
           const headers = { Authorization: `Bearer ${token}` }
 
           const res = await axios.post(
@@ -134,7 +132,7 @@ function VariantsResults (props) {
           //jsonData1
           //)
           setTimeOut(true)
-          console.log(res)
+
           if (res.data.responseSummary.exists === false) {
             setBoolean(false)
             setNumberResults(0)
@@ -148,7 +146,6 @@ function VariantsResults (props) {
                     res.data.response.resultSets[index].results[index2]
                   ]
                   results.push(arrayResult)
-                  console.log(arrayResult)
                 }
               )
             })
@@ -203,7 +200,6 @@ function VariantsResults (props) {
             requestParameters['aminoacidChange'] = props.aminoacid2
           }
           if (props.geneID !== '') {
-            console.log(props.geneID)
             requestParameters['gene'] = props.geneID
           }
           if (props.assemblyId !== '') {
@@ -233,17 +229,16 @@ function VariantsResults (props) {
             }
           }
           jsonData1 = JSON.stringify(jsonData1)
-          console.log(jsonData1)
 
           const token = auth.userData.access_token
-          console.log(token)
+         
           const headers = { Authorization: `Bearer ${token}` }
           const res = await axios.post(
             configData.API_URL + '/g_variants',
-            jsonData1, {headers: headers}
+            jsonData1,
+            { headers: headers }
           )
-          console.log(res)
-
+        
           setTimeOut(true)
           if (
             res.data.responseSummary.numTotalResults < 1 ||
@@ -253,11 +248,11 @@ function VariantsResults (props) {
             setNumberResults(0)
             setBoolean(false)
           } else {
-            console.log(res.data.responseSummary.numTotalResults)
+           
             props.setHideForm(true)
             setNumberResults(res.data.responseSummary.numTotalResults)
             setBoolean(res.data.responseSummary.exists)
-            console.log(res)
+        
 
             res.data.response.resultSets.forEach((element, index) => {
               if (res.data.response.resultSets[index].results) {
@@ -270,7 +265,6 @@ function VariantsResults (props) {
                         res.data.response.resultSets[index].results[index2]
                       ]
                       results.push(arrayResult)
-                      console.log(arrayResult)
                     }
                   )
                 }

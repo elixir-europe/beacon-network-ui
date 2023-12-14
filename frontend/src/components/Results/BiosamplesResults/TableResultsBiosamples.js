@@ -186,13 +186,9 @@ function TableResultsBiosamples (props) {
   const handleSeeResults = e => {
     resultsSelected.forEach(element => {
       if (element[0] === e) {
-        console.log(e)
-        console.log(element[0])
         resultsSelectedFinal.push(element)
       }
     })
-    console.log(resultsSelectedFinal) //correct number
-
     setShowResults(true)
     setShowDatasets(false)
     setTrigger(true)
@@ -205,18 +201,14 @@ function TableResultsBiosamples (props) {
   }
 
   useEffect(() => {
-    console.log(props.results)
     setRows([])
     setIds([])
-    console.log(rows)
 
     resultsSelected.forEach((element, index) => {
-      console.log(element[0])
       arrayBeaconsIds.push(element[0])
     })
     resultsSelectedFinal.forEach((element, index) => {
       if (element[1] !== undefined) {
-        console.log(element[0])
         let biosampleStatus_id = ''
         let biosampleStatus_label = ''
         let stringBiosampleStatus = ''
@@ -820,7 +812,6 @@ function TableResultsBiosamples (props) {
           myObjRows.sampleOriginType = stringSampleOriginType
         }
 
-        console.log(stringSampleOriginDetail)
         if (stringSampleOriginDetail !== '') {
           myObjRows.sampleOriginDetail = stringSampleOriginDetail
         }
@@ -869,11 +860,9 @@ function TableResultsBiosamples (props) {
         }
 
         rows.push(myObjRows)
-        console.log(rows)
-
+     
         if (index === resultsSelectedFinal.length - 1) {
           setEditable(rows.map(o => ({ ...o })))
-
           setTrigger2(true)
         }
       }
@@ -883,8 +872,6 @@ function TableResultsBiosamples (props) {
   useEffect(() => {
     let count = 0
     props.beaconsList.forEach((element2, index2) => {
-      console.log(element2.meta.beaconId)
-      console.log(arrayBeaconsIds)
       count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
       if (count > 0) {
         beaconsArrayResults.push([element2, count, true])

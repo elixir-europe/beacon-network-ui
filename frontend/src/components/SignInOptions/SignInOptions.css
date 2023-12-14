@@ -42,16 +42,13 @@
     text-decoration: none;
   }
   
-  h6 {
+  .login__field2 h6 {
     font-size: 12px !important;
     font-weight: 600;
     color: #3d72a6;
   }
   
-  h6:hover {
-    font-size: 15px !important;
-    font-weight: 600;
-  }
+
   
   @media (max-width: 860px) {
     .optionsContainer {
@@ -68,7 +65,7 @@
       width: 140px;
     }
   
-    h6 {
+    .login__field2 h6 {
       font-size: 12px !important;
       width: 51vw;
     }

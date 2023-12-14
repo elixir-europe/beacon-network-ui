@@ -74,6 +74,10 @@ h6:hover {
   padding: 3px;
 }
 
+.tittleResults h5:hover{
+  display: none;
+}
+
 h7 {
   text-transform: uppercase;
   /* margin-left: 40px; */
@@ -88,7 +92,6 @@ h7:hover {
   text-transform: uppercase;
   /* margin-left: 40px; */
   /* margin-top: 17px; */
-  font-size: 14px;
   color: rgb(118, 151, 228);
   font-weight: bold;
 }

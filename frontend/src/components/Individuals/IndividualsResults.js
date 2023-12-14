@@ -22,6 +22,9 @@ function IndividualsResults (props) {
   const [show2, setShow2] = useState(false)
   const [show3, setShow3] = useState(false)
 
+  const [resultsPerDataset, setResultsDataset] = useState([])
+  const [resultsNotPerDataset, setResultsNotPerDataset] = useState([])
+
   const [timeOut, setTimeOut] = useState(false)
 
   const [logInRequired, setLoginRequired] = useState(false)
@@ -47,7 +50,6 @@ function IndividualsResults (props) {
 
   useEffect(() => {
     const apiCall = async () => {
-      console.log(isAuthenticated)
       if (isAuthenticated === false) {
         authenticateUser()
         const token = getStoredToken()
@@ -58,17 +60,16 @@ function IndividualsResults (props) {
       }
 
       //if (isAuthenticated) {
-        //setLoginRequired(false)
+      //setLoginRequired(false)
       //} else {
-        //setLoginRequired(true)
-        //setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-        //setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
+      //setLoginRequired(true)
+      //setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
+      //setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
       //}
 
       if (props.query !== null) {
         if (props.query.includes(',')) {
           queryStringTerm = props.query.split(',')
-          console.log(queryStringTerm)
           queryStringTerm.forEach((element, index) => {
             element = element.trim()
             if (
@@ -94,8 +95,6 @@ function IndividualsResults (props) {
                 queryArray[index] = element.split('%')
                 queryArray[index].push('%')
               }
-
-              console.log(queryArray)
               const alphaNumFilter = {
                 id: queryArray[index][0],
                 operator: queryArray[index][2],
@@ -152,7 +151,7 @@ function IndividualsResults (props) {
 
       try {
         let res = await axios.get(configData.API_URL + '/info')
-   
+
         res.data.responses.forEach(element => {
           beaconsList.push(element)
         })
@@ -178,7 +177,6 @@ function IndividualsResults (props) {
             }
           }
           jsonData1 = JSON.stringify(jsonData1)
-          console.log(jsonData1)
 
           let token = null
           if (auth.userData === null) {
@@ -186,7 +184,6 @@ function IndividualsResults (props) {
           } else {
             token = auth.userData.access_token
           }
-          console.log(token)
 
           if (token === null) {
             res = await axios.post(
@@ -202,8 +199,6 @@ function IndividualsResults (props) {
               { headers: headers }
             )
           }
-
-          console.log(res)
           setTimeOut(true)
 
           if (res.data.responseSummary.numTotalResults < 1) {
@@ -213,7 +208,6 @@ function IndividualsResults (props) {
           } else {
             res.data.response.resultSets.forEach((element, index) => {
               if (res.data.response.resultSets[index].resultsCount > 0) {
-                console.log(res.data.response.resultSets[index].results.length)
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [
@@ -246,8 +240,6 @@ function IndividualsResults (props) {
             }
           }
           jsonData2 = JSON.stringify(jsonData2)
-          console.log(jsonData2)
-          console.log(auth.userData)
           let token = null
           if (auth.userData === null) {
             token = getStoredToken()
@@ -256,13 +248,13 @@ function IndividualsResults (props) {
           }
 
           if (token === null) {
-            console.log("Querying without token")
+            console.log('Querying without token')
             res = await axios.post(
               configData.API_URL + '/individuals',
               jsonData2
             )
           } else {
-            console.log("Querying WITH token")
+            console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
 
             res = await axios.post(
@@ -271,7 +263,6 @@ function IndividualsResults (props) {
               { headers: headers }
             )
           }
-          console.log(res)
           setTimeOut(true)
 
           if (
@@ -282,13 +273,23 @@ function IndividualsResults (props) {
             setNumberResults(0)
             setBoolean(false)
           } else {
-            console.log(res.data.responseSummary.numTotalResults)
-            setNumberResults(res.data.responseSummary.numTotalResults)
-            setBoolean(res.data.responseSummary.exists)
-
             res.data.response.resultSets.forEach((element, index) => {
-              if (res.data.response.resultSets[index].resultsCount > 0) {
-                console.log(res.data.response.resultSets[index].results.length)
+              if (element.id && element.id !== '') {
+                let arrayResultsPerDataset = [
+                  element.beaconId,
+                  element.id,
+                  element.exists,
+                  element.resultsCount
+                ]
+                resultsPerDataset.push(arrayResultsPerDataset)
+              }
+
+              if (element.id === undefined || element.id === '') {
+                let arrayResultsNoDatasets = [element.beaconId]
+                resultsNotPerDataset.push(arrayResultsNoDatasets)
+              }
+
+              if (res.data.response.resultSets[index].results) {
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [
@@ -296,18 +297,15 @@ function IndividualsResults (props) {
                       res.data.response.resultSets[index].results[index2]
                     ]
                     results.push(arrayResult)
-                    console.log(arrayResult)
                   }
                 )
-
-                console.log(results)
               }
             })
           }
         }
       } catch (error) {
-        setError('Error. Please retry')
-        setTimeOut(false)
+        setError('Connection error. Please retry')
+        setTimeOut(true)
         console.log(error)
       }
     }
@@ -362,7 +360,7 @@ function IndividualsResults (props) {
       <div>
         <div>
           {' '}
-          {timeOut && (
+          {timeOut && error !== 'Connection error. Please retry' && (
             <div>
               <div className='selectGranularity'>
                 <h4>Granularity:</h4>
@@ -378,28 +376,43 @@ function IndividualsResults (props) {
               </div>
             </div>
           )}
+          {timeOut && error === 'Connection error. Please retry' && (
+            <h3>&nbsp; {error} </h3>
+          )}
           {show3 && logInRequired === false && !error && (
-            <div>
+            <div className='containerTableResults'>
               <TableResultsIndividuals
+                show={'full'}
                 results={results}
+                resultsPerDataset={resultsPerDataset}
                 beaconsList={beaconsList}
               ></TableResultsIndividuals>
             </div>
           )}
           {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
           {show3 && error && <h3>&nbsp; {error} </h3>}
-          <div className='resultsContainer'>
-            {show1 && boolean && <p className='p1'>YES</p>}
-            {show1 && !boolean && <p className='p1'>NO</p>}
-
-            {show2 && logInRequired === false && numberResults !== 1 && (
-              <p className='p1'>{numberResults} &nbsp; Results</p>
-            )}
-            {show2 && numberResults === 1 && logInRequired === false && (
-              <p className='p1'>{numberResults} &nbsp; Result</p>
-            )}
-            {show2 && logInRequired === true && <h3>{messageLoginCount}</h3>}
-          </div>
+          {show2 && (
+            <div className='containerTableResults'>
+              <TableResultsIndividuals
+                show={'count'}
+                resultsPerDataset={resultsPerDataset}
+                resultsNotPerDataset={resultsNotPerDataset}
+                results={results}
+                beaconsList={beaconsList}
+              ></TableResultsIndividuals>
+            </div>
+          )}
+          {show1 && (
+            <div className='containerTableResults'>
+              <TableResultsIndividuals
+                show={'boolean'}
+                resultsPerDataset={resultsPerDataset}
+                resultsNotPerDataset={resultsNotPerDataset}
+                results={results}
+                beaconsList={beaconsList}
+              ></TableResultsIndividuals>
+            </div>
+          )}
         </div>
       </div>
     </div>

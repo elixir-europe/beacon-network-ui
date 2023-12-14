@@ -42,16 +42,17 @@
     text-decoration: none;
   }
   
-  h6 {
-    font-size: 15px !important;
-    font-weight: 500;
+  .login__field2 h6 {
+    font-size: 14px !important;
+    font-weight: 600;
     color: #3d72a6;
   }
-  
-  h6:hover {
-    font-size: 15px !important;
-    font-weight: 600;
+
+  .login__field2 h6:hover{
+    font-weight: 700;
   }
+  
+
   
   @media (max-width: 860px) {
     .optionsContainer {
@@ -68,8 +69,12 @@
       width: 140px;
     }
   
-    h6 {
-      font-size: 13px !important;
+    .login__field2 h6 {
+      font-size: 14px !important;
       width: 51vw;
+      
+    }
+    .login__field2 h6:hover{
+      font-weight: 700;
     }
   }

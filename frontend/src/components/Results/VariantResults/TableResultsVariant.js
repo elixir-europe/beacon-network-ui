@@ -34,13 +34,10 @@ function TableResultsVariant (props) {
   const handleSeeResults = e => {
     resultsSelected.forEach(element => {
       if (element[0] === e) {
-        console.log(e)
-        console.log(element[0])
         resultsSelectedFinal.push(element)
       }
     })
-    console.log(resultsSelectedFinal) //correct number
-
+   
     setShowResults(true)
     setShowDatasets(false)
     setTrigger(true)
@@ -53,16 +50,8 @@ function TableResultsVariant (props) {
   }
 
   useEffect(() => {
-    console.log(props.results)
+    
     props.results.forEach((element, index) => {
-      console.log(element)
-      //    element.forEach(element2 => {
-      //    console.log(element2)
-      // element2[1].results.forEach(element3 => {
-      // resultsJSON.push([
-      // element2[0],
-      //JSON.stringify(element3, null, 2).replace('[', '').replace(']', '')
-      //])
       resultsJSON.push([
         JSON.stringify(element[1], null, 2).replace('[', '').replace(']', '')
       ])
@@ -70,15 +59,12 @@ function TableResultsVariant (props) {
       arrayBeaconsIds.push(element[0])
     })
     setTrigger2(true)
-    console.log(resultsJSON)
     setStringDataToCopy(resultsJSON)
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
     let count = 0
     props.beaconsList.forEach((element2, index2) => {
-      console.log(element2.meta.beaconId)
-      console.log(arrayBeaconsIds)
       count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
       if (count > 0) {
         beaconsArrayResults.push([element2, count, true])

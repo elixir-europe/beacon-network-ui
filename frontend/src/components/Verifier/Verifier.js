@@ -17,15 +17,14 @@ function Verifier () {
   }
 
   const copyData = e => {
-    //var ctype = document.getElementById('copydata').innerHTML
-    //console.log(ctype)
-    navigator.clipboard.writeText(stringDataToCopy)
-    .then(() => {
-      alert("successfully copied");
-    })
-    .catch(() => {
-      alert("something went wrong");
-    });
+    navigator.clipboard
+      .writeText(stringDataToCopy)
+      .then(() => {
+        alert('successfully copied')
+      })
+      .catch(() => {
+        alert('something went wrong')
+      })
     console.log('COPY DONE')
   }
 
@@ -37,8 +36,6 @@ function Verifier () {
         let res = await axios.get(
           configData.API_URL + `/validate?endpoint=${verifierUrl}`
         )
-
-        console.log(res)
         let stringData = ''
         res.data.forEach(element => {
           element = JSON.stringify(element, null, 2)
@@ -46,13 +43,11 @@ function Verifier () {
           stringData = stringData.replace('{', '')
           stringData = stringData.replace('}', '')
           stringData = stringData.replace(/[ '"]+/g, ' ')
-          
         })
 
         setStringDataToCopy(stringData)
 
         let isProperty = res.data.some(object => 'code' in object)
-        console.log(isProperty)
 
         if (isProperty === false) {
           setErrorsFound(true)
@@ -72,9 +67,7 @@ function Verifier () {
       }
     } catch (error) {
       console.log(error)
-      setErrror(
-        'An error occured. Please check the URL and retry.'
-      )
+      setErrror('An error occured. Please check the URL and retry.')
     }
   }
 
@@ -114,7 +107,8 @@ function Verifier () {
         )}
 
         {showResults === true &&
-          timeOut === true && error === '' &&
+          timeOut === true &&
+          error === '' &&
           response.map((element, index) => {
             return (
               <div className='messageContainer'>
@@ -141,7 +135,7 @@ function Verifier () {
             )
           })}
 
-        {errorsFound === true && error=== '' && (
+        {errorsFound === true && error === '' && (
           <h11>
             Congratulations! Validation has finished. No errors detected.
           </h11>

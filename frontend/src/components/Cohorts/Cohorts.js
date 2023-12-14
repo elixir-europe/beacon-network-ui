@@ -66,14 +66,12 @@ function Cohorts (props) {
 
   const handleSelectedValue = e => {
     setSelectedValue(e.target.value)
-    console.log(e.target.value)
   }
 
   useEffect(() => {
     const fetchDataCohorts = async () => {
       try {
         let res = await axios.get(configData.API_URL + '/cohorts/')
-        console.log(res)
         res.data.response.collections.forEach(element => {
           if (cohortsIds.includes(element.id)) {
             if (element.cohortName !== undefined) {
@@ -143,9 +141,6 @@ function Cohorts (props) {
       values = Object.values(response)
       labels = Object.keys(response)
     }
-    console.log(values)
-    console.log(labels)
-
     if (values.length > 0 && labels.length > 0) {
       var options = {
         chart: {
@@ -201,9 +196,6 @@ function Cohorts (props) {
         series: values,
         labels: labels
       }
-
-      console.log(options)
-
       if (selectedFilter === 'dis_eth') {
         var chartFiltered = new ApexCharts(
           document.querySelector('#chartFilteredDisease'),
@@ -235,8 +227,6 @@ function Cohorts (props) {
   }, [response])
 
   const submitFilters = e => {
-    console.log('hola')
-
     if (selectedFilter === 'dis_eth') {
       setShowDis2(false)
       setShowEth2(false)
@@ -281,7 +271,6 @@ function Cohorts (props) {
       setShowDis(false)
       setShowEth2(false)
       setShowEth(true)
-      console.log(eth_dis)
       if (
         eth_dis[valueToFilter] !== null &&
         eth_dis[valueToFilter] !== undefined
@@ -294,23 +283,19 @@ function Cohorts (props) {
   }
 
   useEffect(() => {
-    console.log(showGraphs)
-
-    console.log(selectedCohorts)
-
     const apiCall = () => {
       arrayCohorts.forEach(element => {
         selectedCohorts.forEach(element2 => {
-          console.log(element2[0].value)
+         
           if (
             element.name === element2[0].value ||
             element.cohortName === element2[0].value
           ) {
             if (element.collectionEvents !== undefined) {
-              console.log(element.collectionEvents.length)
+           
               element.collectionEvents.forEach(element2 => {
                 if (Object.keys(element2).length !== 0) {
-                  console.log(element2)
+             
                   let sexs = ''
                   let ethnicities = ''
                   let geoData = ''
@@ -332,7 +317,7 @@ function Cohorts (props) {
                   // for (var i = 0; i < res.data.response.collections.length; i++) {
                   if (element2.eventGenders !== undefined) {
                     sexs = element2.eventGenders.distribution.genders
-                    console.log(sexs)
+               
                     setDataAvailable(true)
                   }
                   if (element2.eventEthnicities !== undefined) {
@@ -378,8 +363,6 @@ function Cohorts (props) {
                   setNameCohort(element.name)
 
                   if (sexs !== '') {
-                    console.log(sexs)
-                    console.log(valuesSex)
                     valuesSex = Object.values(sexs)
                     labelsSex = Object.keys(sexs)
                   }
@@ -576,7 +559,6 @@ function Cohorts (props) {
                   }
                   setTimeOut(true)
                 } else {
-                  console.log('hola')
                   setTimeOut(true)
                   setDataAvailable(false)
                 }
@@ -629,7 +611,7 @@ function Cohorts (props) {
       {trigger && (
         <>
           {nameCohort !== '' && <h3>{nameCohort}</h3>}
-          {showGraphs === true  && (
+          {showGraphs === true && (
             <div className='chartModule'>
               <div id='chartSex'></div>
               <div id='chartGeo'></div>

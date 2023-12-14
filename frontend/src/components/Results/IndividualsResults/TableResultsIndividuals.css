@@ -13,14 +13,12 @@
 }
 
 .resultSetsButton {
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .resultSetsButton h7 {
   font-size: 12px;
-  margin-top: 6px;
 }
 
 .resultSetsButton h6 {
@@ -29,11 +27,11 @@
 
 .tittleResults h7 {
   font-size: 12px;
-  margin-top: 6px;
-  width: 100%;
+  padding: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 9px;
 }
 
 h6 {
@@ -59,20 +57,21 @@ h6:hover {
 }
 
 .tittleResults h5 {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   text-transform: uppercase;
   font-size: 11px;
   font-weight: normal;
   color: rgb(209, 45, 20);
   font-weight: bold;
-  width: 100%;
+  background: #ffd1d1;
+  width: fit-content;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 34px;
-  font-size: 14px;
+  font-size: 12px;
+  border-radius: 2px;
+  padding: 3px;
 }
 
 h7 {
@@ -197,10 +196,11 @@ h1 {
     width: 50vw;
     background: white;
     border-radius: 2px;
-    /* height: 80px; */
+    height: 212px;
     display: flex;
     padding: 2px;
     flex-direction: column;
+    align-items: center;
   }
 
   h6 {
@@ -221,20 +221,21 @@ h1 {
   }
 
   .tittleResults h5 {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-      'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     text-transform: uppercase;
     font-size: 11px;
     font-weight: normal;
     color: rgb(209, 45, 20);
     font-weight: bold;
-    width: 100%;
+    background: #ffd1d1;
+    width: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 34px;
     font-size: 12px;
+    border-radius: 2px;
+    padding: 3px;
   }
   h7 {
     text-transform: uppercase;

@@ -44,6 +44,8 @@ function TableResultsIndividuals (props) {
   const [trigger, setTrigger] = useState(false)
   const [trigger2, setTrigger2] = useState(false)
 
+  const [triggerArray, setTriggerArray] = useState([])
+
   const getSelectedRowsToExport = ({ apiRef }) => {
     const selectedRowIds = selectedGridRowsSelector(apiRef)
     if (selectedRowIds.size > 0) {
@@ -54,9 +56,26 @@ function TableResultsIndividuals (props) {
   }
 
   const handleClickDatasets = e => {
-    openDatasetArray.push(true)
+    console.log(e)
+    triggerArray.forEach((element, index) => {
+      if (index !== e) {
+        console.log('holi')
+        console.log(index)
+        triggerArray[index] = false
+      }
+    })
+    console.log(triggerArray)
+    openDatasetArray.forEach((element, index) => {
+      if (index !== e) {
+        console.log('holi')
+        console.log(index)
+        triggerArray[index] = false
+      }
+    })
 
-    const newArray = openDatasetArray.filter(a => a === e)
+    openDatasetArray[e] = true
+    triggerArray[e] = true
+    setTrigger(!trigger)
   }
 
   const columns = [
@@ -355,7 +374,6 @@ function TableResultsIndividuals (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-
     console.log(props)
 
     let count = 0
@@ -393,7 +411,7 @@ function TableResultsIndividuals (props) {
               {props.show !== 'full' && (
                 <div className='datasetCardResults'>
                   <div className='tittleResults'>
-                    <div className='tittle2'>
+                    <div className='tittle4'>
                       <img
                         className='logoBeacon'
                         src={result[0].response.organization.logoUrl}
@@ -406,20 +424,25 @@ function TableResultsIndividuals (props) {
                       return (
                         <>
                           {element[0] === result[0].meta.beaconId && (
-                            <div>
+                            <div className='resultSetsContainer'>
                               <button
-                                onClick={handleClickDatasets(index)}
                                 className='resultSetsButton'
+                                onClick={() => handleClickDatasets(index)}
                               >
-                                <h7>{element[1].replaceAll('_',' ')}</h7>
+                                <h7>{element[1].replaceAll('_', ' ')}</h7>
                               </button>
-                              {openDatasetArray === true &&
+                              {openDatasetArray[index] === true &&
+                                triggerArray[index] === true &&
                                 element[2] === true &&
                                 props.show === 'boolean' && <h6>FOUND</h6>}
-                              {openDatasetArray === true &&
+                              {openDatasetArray[index] === true &&
+                                triggerArray[index] === true &&
                                 element[2] === false &&
                                 props.show === 'boolean' && <h5>NOT FOUND</h5>}
-                              {props.show === 'count' && <h6>{element[3]}</h6>}
+                              {props.show === 'count' &&
+                                triggerArray[index] === true && (
+                                  <h6>{element[3]}</h6>
+                                )}
                             </div>
                           )}
                         </>
@@ -429,26 +452,31 @@ function TableResultsIndividuals (props) {
                     {props.resultsNotPerDataset.map(element => {
                       return (
                         <>
-                          {result[2] === true && props.show === 'boolean' && element[0] === result[0].meta.beaconId &&  (
-                            <>
-                              <h7>No datasets available</h7>
-                              <h6>FOUND </h6>
-                            </>
-                          )}
-                          {result[2] === false && props.show === 'boolean' && element[0] === result[0].meta.beaconId &&  (
-                            <>
-                              <h7>No datasets available</h7>
-                              <h5 className='buttonResults'>NOT FOUND</h5>
-                            </>
-                          )}
-                          {props.show === 'count' && element[0] === result[0].meta.beaconId &&  (
-                            <>
-                              <h7>No datasets available</h7>
-                              <h6 className='buttonResults'>
-                                {result[1]} results
-                              </h6>
-                            </>
-                          )}
+                          {result[2] === true &&
+                            props.show === 'boolean' &&
+                            element[0] === result[0].meta.beaconId && (
+                              <div className='resultSetsContainer'>
+                                <h7>No datasets available</h7>
+                                <h6>FOUND </h6>
+                              </div>
+                            )}
+                          {result[2] === false &&
+                            props.show === 'boolean' &&
+                            element[0] === result[0].meta.beaconId && (
+                              <div className='resultSetsContainer'>
+                                <h7>No datasets available</h7>
+                                <h5 className='buttonResults'>NOT FOUND</h5>
+                              </div>
+                            )}
+                          {props.show === 'count' &&
+                            element[0] === result[0].meta.beaconId && (
+                              <div className='resultSetsContainer'>
+                                <h7>No datasets available</h7>
+                                <h6 className='buttonResults'>
+                                  {result[1]} results
+                                </h6>
+                              </div>
+                            )}
                         </>
                       )
                     })}
@@ -469,14 +497,15 @@ function TableResultsIndividuals (props) {
               {props.show === 'full' && result[2] === true && (
                 <div className='datasetCardResults'>
                   <div className='tittleResults'>
-                    <div className='tittle2'>
+                    <div className='tittle4'>
                       <img
                         className='logoBeacon'
                         src={result[0].response.organization.logoUrl}
                         alt={result[0].meta.beaconId}
                       />
+                      <h2>{result[0].response.organization.name}</h2>
                     </div>
-                    <h2>{result[0].response.organization.name}</h2>
+                    <div className='seeResultsContainer'>
                     <button
                       className='buttonResults'
                       onClick={() => {
@@ -487,6 +516,7 @@ function TableResultsIndividuals (props) {
                         <h7>See results</h7>
                       )}
                     </button>
+                    </div>
                   </div>
                 </div>
               )}

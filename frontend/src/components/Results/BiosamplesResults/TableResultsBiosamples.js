@@ -931,14 +931,16 @@ function TableResultsBiosamples (props) {
                 {props.show === 'count' && (
                   <h6 className='buttonResults'>{result[1]} results</h6>
                 )}
-                <button
-                  className='buttonResults'
-                  onClick={() => {
-                    handleSeeResults(result[0].meta.beaconId)
-                  }}
-                >
-                  {props.show === 'full' && <h7>See results</h7>}
-                </button>
+                {props.show === 'full' && (
+                  <button
+                    className='buttonResults'
+                    onClick={() => {
+                      handleSeeResults(result[0].meta.beaconId)
+                    }}
+                  >
+                    <h7>See results</h7>
+                  </button>
+                )}
               </div>
             </div>
           )

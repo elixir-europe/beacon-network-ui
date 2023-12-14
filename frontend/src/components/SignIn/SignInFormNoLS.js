@@ -15,10 +15,9 @@ export default function SignInFormNoLS () {
   const {
     storeToken,
     setIsLoggedIn,
-    isLoggedIn,
     refreshTokenFunction,
     authenticateUser,
-    expirationMessage,
+    setUserNameToShare,
     setExpirationTime,
     setStartTime,
     setExpirationTimeRefresh
@@ -78,6 +77,7 @@ export default function SignInFormNoLS () {
       if (readableResponse.access_token) {
         navigate('/')
         setIsLoggedIn(true)
+        setUserNameToShare(userName)
       } else {
         setError(
           'User not found. Please check the username and the password and retry'

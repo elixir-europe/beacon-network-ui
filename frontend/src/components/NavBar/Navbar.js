@@ -15,12 +15,13 @@ function Navbar () {
     setIsLoggedIn,
     logOutUser,
     authenticateUser,
-    getStoredToken
+    getStoredToken,
+    userNameToShare
   } = useContext(AuthContext)
   const auth = useAuth()
 
   useEffect(() => {
-   
+    console.log(auth)
     authenticateUser()
     let token = getStoredToken()
     let isAuthenticated = false
@@ -129,7 +130,7 @@ function Navbar () {
             About
           </NavLink>
         )}
-     
+
         {!isLoggedIn && (
           <NavLink
             exact
@@ -152,21 +153,34 @@ function Navbar () {
 
         {isLoggedIn && (
           <NavLink
-            exact
-            to='/'
-            className={({ isActive }) => (isActive ? 'Sign-in3' : 'Sign-in3')}
-            onClick={handleClik}
+            to='/about'
+            className={({ isActive }) => (isActive ? 'About6' : 'About5')}
           >
-            <img
-              className='ls-login-image2'
-              src='/../logout.png'
-              alt='ls-login-image2'
-            />
-            Log out
+            About
           </NavLink>
         )}
 
+        {isLoggedIn && (
+          <div className='containerUserName'>
+            <NavLink
+              exact
+              to='/'
+              className={({ isActive }) => (isActive ? 'Sign-in3' : 'Sign-in3')}
+              onClick={handleClik}
+            >
+              <img
+                className='ls-login-image2'
+                src='/../logout.png'
+                alt='ls-login-image2'
+              />
+              Log out
+            </NavLink>
+            <h5>{userNameToShare}</h5>
+          </div>
+        )}
+
         <div class='animation nav3'></div>
+        
       </nav>
       <nav className='nav4'>
         <button className='buttonMenu' onClick={handleMenu}>

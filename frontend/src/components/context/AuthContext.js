@@ -7,6 +7,7 @@ const AuthContext = createContext()
 function AuthProviderWrapper (props) {
   // Store the variables we want to share
   const [user, setUser] = useState(null)
+  const [userNameToShare, setUserNameToShare] = useState('')
   const [expirationMessage, setExpirationMessage] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
@@ -130,6 +131,8 @@ function AuthProviderWrapper (props) {
       value={{
         setIsLoggedIn,
         isLoggedIn,
+        userNameToShare,
+        setUserNameToShare,
         getStoredToken,
         setExpirationTime,
         expirationMessage,

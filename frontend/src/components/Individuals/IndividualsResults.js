@@ -201,13 +201,31 @@ function IndividualsResults (props) {
           }
           setTimeOut(true)
 
-          if (res.data.responseSummary.numTotalResults < 1) {
+          if (
+            res.data.responseSummary.numTotalResults < 1 ||
+            res.data.responseSummary.numTotalResults === undefined
+          ) {
             setError('No results. Please check the query and retry')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              if (res.data.response.resultSets[index].resultsCount > 0) {
+              if (element.id && element.id !== '') {
+                let arrayResultsPerDataset = [
+                  element.beaconId,
+                  element.id,
+                  element.exists,
+                  element.resultsCount
+                ]
+                resultsPerDataset.push(arrayResultsPerDataset)
+              }
+
+              if (element.id === undefined || element.id === '') {
+                let arrayResultsNoDatasets = [element.beaconId]
+                resultsNotPerDataset.push(arrayResultsNoDatasets)
+              }
+
+              if (res.data.response.resultSets[index].results) {
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [
@@ -219,10 +237,10 @@ function IndividualsResults (props) {
                 )
               }
             })
-
-            setNumberResults(res.data.responseSummary.numTotalResults)
-            setBoolean(res.data.responseSummary.exists)
           }
+
+
+
         } else {
           var jsonData2 = {
             meta: {

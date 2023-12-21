@@ -141,7 +141,7 @@
   overflow-y: scroll;
 }
 
-.seeResultsContainer{
+.seeResultsContainer {
   height: 100%;
   display: flex;
   align-items: center;
@@ -193,7 +193,7 @@
   background: #c8d4e6;
 }
 
-.tittle4{
+.tittle4 {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -229,6 +229,14 @@
     justify-content: center;
     align-content: center;
     width: 100vw;
+  }
+
+  .datasetCard p {
+    font-size: 11px;
+    font-weight: normal;
+    color: rgb(61 60 60);
+    line-height: 18px;
+    margin-top: -5px;
   }
 
   .datasetCardResults {

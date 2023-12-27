@@ -5,6 +5,8 @@ import { useContext } from 'react'
 import { useAuth } from 'oidc-react'
 import OutsideClickHandler from 'react-outside-click-handler'
 import './Navbar.css'
+import { useNavigate } from 'react-router-dom'
+import LoggedIn from '../SignIn/LoggedIn'
 
 function Navbar () {
   const [selected, setIsSelected] = useState('')
@@ -18,7 +20,9 @@ function Navbar () {
     getStoredToken,
     userNameToShare
   } = useContext(AuthContext)
+
   const auth = useAuth()
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log(auth)
@@ -27,10 +31,13 @@ function Navbar () {
     let isAuthenticated = false
     if (token === null) {
       isAuthenticated = auth.userData?.id_token ? true : false
+      console.log(isAuthenticated)
+      console.log(auth.userData)
     } else {
       isAuthenticated = true
+      console.log(isAuthenticated)
     }
-
+  
     if (isAuthenticated || isLoggedIn === true) {
       setIsLoggedIn(true)
     } else {
@@ -46,7 +53,7 @@ function Navbar () {
     setOpenMenu(!openMenu)
   }
 
-  const handleClik = () => {
+  const handleClick = () => {
     setIsLoggedIn(false)
     auth.signOut()
     logOutUser()
@@ -55,6 +62,7 @@ function Navbar () {
 
   return (
     <div className='navB'>
+      <LoggedIn/>
       <nav className='nav2'>
         <NavLink
           exact
@@ -166,7 +174,7 @@ function Navbar () {
               exact
               to='/'
               className={({ isActive }) => (isActive ? 'Sign-in3' : 'Sign-in3')}
-              onClick={handleClik}
+              onClick={handleClick}
             >
               <img
                 className='ls-login-image2'
@@ -180,7 +188,6 @@ function Navbar () {
         )}
 
         <div class='animation nav3'></div>
-        
       </nav>
       <nav className='nav4'>
         <button className='buttonMenu' onClick={handleMenu}>
@@ -248,7 +255,7 @@ function Navbar () {
                       className={({ isActive }) =>
                         isActive ? 'Sign-in4' : 'Sign-in3'
                       }
-                      onClick={handleClik}
+                      onClick={handleClick}
                     >
                       <img
                         className='ls-login-image2'
@@ -368,7 +375,7 @@ function Navbar () {
                       className={({ isActive }) =>
                         isActive ? 'Sign-in4' : 'Sign-in3'
                       }
-                      onClick={handleClik}
+                      onClick={handleClick}
                     >
                       <img
                         className='ls-login-image2'
@@ -385,6 +392,7 @@ function Navbar () {
         )}
       </nav>
     </div>
+    
   )
 }
 

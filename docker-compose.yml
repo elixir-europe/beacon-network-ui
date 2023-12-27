@@ -12,3 +12,6 @@ services:
     ports:
       - 3000:3000
     stdin_open: true
+    volumes:
+      - ./frontend/.env:/frontend/.env
+      - ./frontend/config.json:/frontend/config.json

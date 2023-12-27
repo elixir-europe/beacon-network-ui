@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import configData from './config.json'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProviderWrapper } from './components/context/AuthContext';
 import { AuthProvider } from 'oidc-react';
-
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -25,7 +25,7 @@ const oidcConfig = {
   automaticSilentRenew: true,
   redirectUri:
     process.env.NODE_ENV === 'development'
-      && 'https://beacon-network-demo.ega-archive.org/',
+      && configData.REDIRECT_URL,
   scope: 'openid profile email ga4gh_passport_v1 offline_access',
   revokeAccessTokenOnSignout: true
 };

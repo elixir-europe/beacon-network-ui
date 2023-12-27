@@ -38,13 +38,8 @@ html {
   font-variant-caps: all-petite-caps;
 }
 
-.modeVariants:hover {
-  color: white;
-  background-color: #e3eefe;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-radius: 3px;
-  margin-left: 10px;
+.modeVariants:hover h2{
+  color: rgb(236, 149, 0)!important;
 }
 
 .variantsFilters {
@@ -377,7 +372,7 @@ html {
 
 .buttonVariants:hover {
   margin-top: 12px;
-  margin-right: -9px;
+  margin-right: -2px;
   margin-bottom: 20px;
   font-weight: 600;
   color: rgb(118, 151, 228);
@@ -1010,6 +1005,35 @@ h5 {
     display: flex;
     font-size: 11px;
     text-underline-offset: 1px;
+  }
+
+  .inputVariants {
+    height: 18px;
+    border: 1.5px solid #dfdfdf;
+    border-radius: 2px;
+    margin-bottom: 30px;
+    font-size: 12px;
+  }
+
+  .labelVariants {
+    font-size: 11.5px;
+    margin-bottom: 18px;
+    margin-right: 4px;
+    margin-left: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+      'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
+  }
+
+  .buttonVariants {
+    margin-top: 12px;
+    margin-bottom: 20px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 1px,
+      rgba(179, 179, 179, 0.22) 0px 1px 1px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-right: 7px;
   }
 
   .switchDescendants h3 {

@@ -30,6 +30,9 @@ function VariantsResults (props) {
 
   const { getStoredToken, authenticateUser } = useContext(AuthContext)
 
+  const [resultsPerDataset, setResultsDataset] = useState([])
+  const [resultsNotPerDataset, setResultsNotPerDataset] = useState([])
+
   let queryStringTerm = ''
   const handleTypeResults1 = () => {
     setShow1(true)
@@ -62,15 +65,6 @@ function VariantsResults (props) {
         if (token !== 'undefined' && token !== null) {
           isAuthenticated = true
         }
-      }
-
-      if (isAuthenticated) {
-        setLoginRequired(false)
-      } else {
-        setLoginRequired(true)
-        //setLoginRequired(false)
-        setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-        setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
       }
 
       try {
@@ -118,39 +112,51 @@ function VariantsResults (props) {
           }
           jsonData1 = JSON.stringify(jsonData1)
 
-          const token = auth.userData.access_token
+          let token = null
+          if (auth.userData === null) {
+            token = getStoredToken()
+          } else {
+            token = auth.userData.access_token
+          }
 
-          const headers = { Authorization: `Bearer ${token}` }
+          if (token === null) {
+            res = await axios.post(
+              configData.API_URL + '/g_variants',
+              jsonData1
+            )
+          } else {
+            const headers = { Authorization: `Bearer ${token}` }
 
-          const res = await axios.post(
-            configData.API_URL + '/g_variants',
-            jsonData1,
-            { headers: headers }
-          )
-          //const res = await axios.post(
-          //configData.API_URL + '/g_variants',
-          //jsonData1
-          //)
+            res = await axios.post(
+              configData.API_URL + '/g_variants',
+              jsonData1,
+              { headers: headers }
+            )
+          }
+
           setTimeOut(true)
 
-          if (res.data.responseSummary.exists === false) {
-            setBoolean(false)
+          if (res.data.responseSummary.numTotalResults < 1) {
+            setError('No results. Please check the query and retry')
             setNumberResults(0)
-            setError('No results found. Please retry')
+            setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              res.data.response.resultSets[index].results.forEach(
-                (element2, index2) => {
-                  let arrayResult = [
-                    res.data.response.resultSets[index].id,
-                    res.data.response.resultSets[index].results[index2]
-                  ]
-                  results.push(arrayResult)
-                }
-              )
+              if (res.data.response.resultSets[index].resultsCount > 0) {
+                res.data.response.resultSets[index].results.forEach(
+                  (element2, index2) => {
+                    let arrayResult = [
+                      res.data.response.resultSets[index].beaconId,
+                      res.data.response.resultSets[index].results[index2]
+                    ]
+                    results.push(arrayResult)
+                  }
+                )
+              }
             })
-            setBoolean(res.data.responseSummary.exists)
+
             setNumberResults(res.data.responseSummary.numTotalResults)
+            setBoolean(res.data.responseSummary.exists)
           }
         } else {
           setShowVariantsResults(true)
@@ -230,15 +236,28 @@ function VariantsResults (props) {
           }
           jsonData1 = JSON.stringify(jsonData1)
 
-          const token = auth.userData.access_token
-         
-          const headers = { Authorization: `Bearer ${token}` }
-          const res = await axios.post(
-            configData.API_URL + '/g_variants',
-            jsonData1,
-            { headers: headers }
-          )
-        
+          let token = null
+          if (auth.userData === null) {
+            token = getStoredToken()
+          } else {
+            token = auth.userData.access_token
+          }
+
+          if (token === null) {
+            console.log('Querying without token')
+            res = await axios.post(
+              configData.API_URL + '/g_variants',
+              jsonData1
+            )
+          } else {
+            const headers = { Authorization: `Bearer ${token}` }
+            res = await axios.post(
+              configData.API_URL + '/g_variants',
+              jsonData1,
+              { headers: headers }
+            )
+          }
+
           setTimeOut(true)
           if (
             res.data.responseSummary.numTotalResults < 1 ||
@@ -248,26 +267,32 @@ function VariantsResults (props) {
             setNumberResults(0)
             setBoolean(false)
           } else {
-           
-            props.setHideForm(true)
-            setNumberResults(res.data.responseSummary.numTotalResults)
-            setBoolean(res.data.responseSummary.exists)
-        
-
             res.data.response.resultSets.forEach((element, index) => {
+              if (element.id && element.id !== '') {
+                let arrayResultsPerDataset = [
+                  element.beaconId,
+                  element.id,
+                  element.exists,
+                  element.resultsCount
+                ]
+                resultsPerDataset.push(arrayResultsPerDataset)
+              }
+
+              if (element.id === undefined || element.id === '') {
+                let arrayResultsNoDatasets = [element.beaconId]
+                resultsNotPerDataset.push(arrayResultsNoDatasets)
+              }
+
               if (res.data.response.resultSets[index].results) {
-                if (res.data.response.resultSets[index].results.length === 0) {
-                } else {
-                  res.data.response.resultSets[index].results.forEach(
-                    (element2, index2) => {
-                      let arrayResult = [
-                        res.data.response.resultSets[index].beaconId,
-                        res.data.response.resultSets[index].results[index2]
-                      ]
-                      results.push(arrayResult)
-                    }
-                  )
-                }
+                res.data.response.resultSets[index].results.forEach(
+                  (element2, index2) => {
+                    let arrayResult = [
+                      res.data.response.resultSets[index].beaconId,
+                      res.data.response.resultSets[index].results[index2]
+                    ]
+                    results.push(arrayResult)
+                  }
+                )
               }
             })
           }
@@ -296,7 +321,7 @@ function VariantsResults (props) {
               </div>
             </div>
           )}
-          {timeOut && (
+          {timeOut && error !== 'Connection error. Please retry' && (
             <div>
               <div className='selectGranularity'>
                 <h4>Granularity:</h4>
@@ -311,10 +336,15 @@ function VariantsResults (props) {
                 </button>
               </div>
 
-              {show3 && logInRequired === false && error === '' && (
+              {timeOut && error === 'Connection error. Please retry' && (
+                <h3>&nbsp; {error} </h3>
+              )}
+              {show3 && logInRequired === false && !error && (
                 <div>
                   <TableResultsVariant
+                    show={'full'}
                     results={results}
+                    resultsPerDataset={resultsPerDataset}
                     beaconsList={beaconsList}
                   ></TableResultsVariant>
                 </div>
@@ -322,24 +352,31 @@ function VariantsResults (props) {
               {show3 && logInRequired === true && (
                 <h3>{messageLoginFullResp}</h3>
               )}
-              <div className='resultsContainer'>
-                {show1 && boolean && <p className='p1'>YES</p>}
-                {show1 && !boolean && <p className='p1'>NO</p>}
-                {show2 && logInRequired === false && numberResults !== 1 && (
-                  <p className='p1'>{numberResults} &nbsp; Results</p>
-                )}
-                {show2 && logInRequired === false && numberResults === 1 && (
-                  <p className='p1'>{numberResults} &nbsp; Result</p>
-                )}
-                {show2 && logInRequired === true && (
-                  <h3>{messageLoginCount}</h3>
-                )}
-                {show3 && error !== '' && (
-                  <h5 className='variantsResultsError'>
-                    Please check the query and retry
-                  </h5>
-                )}
-              </div>
+              {show3 && error && <h3>&nbsp; {error} </h3>}
+
+              {show2 && (
+                <div>
+                  <TableResultsVariant
+                    show={'count'}
+                    resultsPerDataset={resultsPerDataset}
+                    resultsNotPerDataset={resultsNotPerDataset}
+                    results={results}
+                    beaconsList={beaconsList}
+                  ></TableResultsVariant>
+                </div>
+              )}
+
+              {show1 && (
+                <div className='containerTableResults'>
+                  <TableResultsVariant
+                    show={'boolean'}
+                    resultsPerDataset={resultsPerDataset}
+                    resultsNotPerDataset={resultsNotPerDataset}
+                    results={results}
+                    beaconsList={beaconsList}
+                  ></TableResultsVariant>
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -210,14 +210,34 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
+              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                let arrayResultsPerDataset = [
-                  element.beaconId,
-                  element.id,
-                  element.exists,
-                  element.resultsCount
-                ]
-                resultsPerDataset.push(arrayResultsPerDataset)
+                if (resultsPerDataset.length > 0) {
+                  resultsPerDataset.forEach(element2 => {
+                    if (element2[0] === element.beaconId) {
+                      element2[1].push(element.id)
+                      element2[2].push(element.exists)
+                      element2[3].push(element.resultsCounts)
+                    } else {
+                      console.log('hola')
+                      let arrayResultsPerDataset = [
+                        element.beaconId,
+                        [element.id],
+                        [element.exists],
+                        [element.resultsCount]
+                      ]
+                      resultsPerDataset.push(arrayResultsPerDataset)
+                    }
+                  })
+                } else {
+                  let arrayResultsPerDataset = [
+                    element.beaconId,
+                    [element.id],
+                    [element.exists],
+                    [element.resultsCount]
+                  ]
+                  resultsPerDataset.push(arrayResultsPerDataset)
+                }
               }
 
               if (element.id === undefined || element.id === '') {
@@ -238,9 +258,6 @@ function IndividualsResults (props) {
               }
             })
           }
-
-
-
         } else {
           var jsonData2 = {
             meta: {
@@ -292,14 +309,34 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
+              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                let arrayResultsPerDataset = [
-                  element.beaconId,
-                  element.id,
-                  element.exists,
-                  element.resultsCount
-                ]
-                resultsPerDataset.push(arrayResultsPerDataset)
+                if (resultsPerDataset.length > 0) {
+                  resultsPerDataset.forEach(element2 => {
+                    if (element2[0] === element.beaconId) {
+                      element2[1].push(element.id)
+                      element2[2].push(element.exists)
+                      element2[3].push(element.resultsCounts)
+                    } else {
+                      console.log('hola')
+                      let arrayResultsPerDataset = [
+                        element.beaconId,
+                        [element.id],
+                        [element.exists],
+                        [element.resultsCount]
+                      ]
+                      resultsPerDataset.push(arrayResultsPerDataset)
+                    }
+                  })
+                } else {
+                  let arrayResultsPerDataset = [
+                    element.beaconId,
+                    [element.id],
+                    [element.exists],
+                    [element.resultsCount]
+                  ]
+                  resultsPerDataset.push(arrayResultsPerDataset)
+                }
               }
 
               if (element.id === undefined || element.id === '') {

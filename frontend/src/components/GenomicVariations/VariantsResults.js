@@ -120,10 +120,13 @@ function VariantsResults (props) {
           }
 
           if (token === null) {
+            console.log(jsonData1)
             res = await axios.post(
               configData.API_URL + '/g_variants',
               jsonData1
             )
+
+            console.log(res)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
 
@@ -298,9 +301,9 @@ function VariantsResults (props) {
           }
         }
       } catch (error) {
+        setError('Connection error. Please retry')
         setTimeOut(true)
         console.log(error)
-        setError(error)
       }
     }
     apiCall()
@@ -378,6 +381,9 @@ function VariantsResults (props) {
                 </div>
               )}
             </div>
+          )}
+          {timeOut && error === 'Connection error. Please retry' && (
+            <h3>&nbsp; {error} </h3>
           )}
         </div>
       )}

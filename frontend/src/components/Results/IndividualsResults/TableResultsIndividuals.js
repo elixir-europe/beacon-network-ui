@@ -56,19 +56,13 @@ function TableResultsIndividuals (props) {
   }
 
   const handleClickDatasets = e => {
-    triggerArray.forEach((element, index) => {
-      if (index !== e) {
-        triggerArray[index] = false
-      }
-    })
-    openDatasetArray.forEach((element, index) => {
-      if (index !== e) {
-        triggerArray[index] = false
-      }
-    })
+    console.log(e)
+  
 
     openDatasetArray[e] = true
+    console.log(openDatasetArray)
     triggerArray[e] = true
+    console.log(triggerArray)
     setTrigger(!trigger)
   }
 
@@ -418,22 +412,22 @@ function TableResultsIndividuals (props) {
                                     <div className='resultSetsContainer'>
                                     <button
                                       className='resultSetsButton'
-                                      onClick={() => handleClickDatasets(indexDataset)}
+                                      onClick={() => handleClickDatasets([index,indexDataset])}
                                     >
                                       <h7>{datasetObject.replaceAll('_', ' ')}</h7>
                                     </button>
-                                    {openDatasetArray[indexDataset] === true &&
-                                      triggerArray[indexDataset] === true &&
+                                    {openDatasetArray[[index,indexDataset]] === true &&
+                                      triggerArray[[index,indexDataset]] === true &&
                                       element[2][indexDataset] === true &&
                                       props.show === 'boolean' && <h6>FOUND</h6>}
-                                    {openDatasetArray[indexDataset] === true &&
-                                      triggerArray[indexDataset] === true &&
+                                    {openDatasetArray[[index,indexDataset]] === true &&
+                                      triggerArray[[index,indexDataset]] === true &&
                                       element[2][indexDataset] === false &&
                                       props.show === 'boolean' && (
                                         <h5>NOT FOUND</h5>
                                       )}
                                     {props.show === 'count' &&
-                                      triggerArray[index] === true && (
+                                      triggerArray[[index,indexDataset]] === true && (
                                         <h6>{element[3][indexDataset]}</h6>
                                       )}
                                   </div>

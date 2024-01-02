@@ -194,7 +194,7 @@ h1 {
   }
 
   .tittleResults {
-    width: 50vw;
+    width: 45vw;
     background: white;
     border-radius: 2px;
     height: 212px;
@@ -248,4 +248,17 @@ h1 {
     margin-top: 8px;
     margin-bottom: 2px;
   }
+}
+
+@media (max-width: 600px) {
+  .tittleResults {
+    width: 72vw;
+    background: white;
+    border-radius: 2px;
+    height: 212px;
+    display: flex;
+    padding: 2px;
+    flex-direction: column;
+    align-items: center;
+}
 }

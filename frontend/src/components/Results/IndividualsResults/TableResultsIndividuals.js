@@ -428,7 +428,7 @@ function TableResultsIndividuals (props) {
                                       )}
                                     {props.show === 'count' &&
                                       triggerArray[[index,indexDataset]] === true && (
-                                        <h6>{element[3][indexDataset]}</h6>
+                                        <h6>{element[3][indexDataset]} RESULTS</h6>
                                       )}
                                   </div>
                                   )
@@ -523,10 +523,7 @@ function TableResultsIndividuals (props) {
                                       handleSeeResults(result[0].meta.beaconId)
                                     }}
                                   >
-                                    {result[2] === true &&
-                                      props.show === 'full' && (
-                                        <h7>See results</h7>
-                                      )}
+                                   
                                   </button>
                                 </div>
                               </div>

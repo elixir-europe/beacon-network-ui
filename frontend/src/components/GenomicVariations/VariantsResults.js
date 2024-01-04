@@ -492,14 +492,50 @@ function VariantsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
+              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                let arrayResultsPerDataset = [
-                  element.beaconId,
-                  element.id,
-                  element.exists,
-                  element.resultsCount
-                ]
-                resultsPerDataset.push(arrayResultsPerDataset)
+                console.log(resultsPerDataset)
+                if (resultsPerDataset.length > 0) {
+                  resultsPerDataset.forEach(element2 => {
+                    console.log(element2[0])
+                    console.log(element.beaconId)
+                    if (element2[0] === element.beaconId) {
+                      element2[1].push(element.id)
+                      element2[2].push(element.exists)
+                      element2[3].push(element.resultsCount)
+                    } else {
+                      console.log('hola')
+
+                      let arrayResultsPerDataset = [
+                        element.beaconId,
+                        [element.id],
+                        [element.exists],
+                        [element.resultsCount]
+                      ]
+                      let found = false
+
+                      console.log(arrayResultsPerDataset)
+                      resultsPerDataset.forEach(element => {
+                        if (element[0] === arrayResultsPerDataset[0]) {
+                          found = true
+                        }
+                        console.log(found)
+                      })
+                      if (found === false) {
+                        resultsPerDataset.push(arrayResultsPerDataset)
+                      }
+                    }
+                  })
+                } else {
+                  let arrayResultsPerDataset = [
+                    element.beaconId,
+                    [element.id],
+                    [element.exists],
+                    [element.resultsCount]
+                  ]
+                  console.log(arrayResultsPerDataset)
+                  resultsPerDataset.push(arrayResultsPerDataset)
+                }
               }
 
               if (element.id === undefined || element.id === '') {

@@ -1,6 +1,5 @@
 import '../../App.css'
 import './LayoutVariantsTable.css'
-
 import FilteringTerms from '../FilteringTerms/FilteringTerms'
 import { NavLink } from 'react-router-dom'
 
@@ -10,6 +9,8 @@ import HorizontalExpansion from '../QueryExpansion/HorizontalExpansion'
 import BiosamplesResults from '../Biosamples/BiosamplesResults'
 
 import React, { useState, useEffect } from 'react'
+
+import OutsideClickHandler from 'react-outside-click-handler'
 
 import Switch from '@mui/material/Switch'
 import MultiSwitch from 'react-multi-switch-toggle'
@@ -589,6 +590,11 @@ function Layout (props) {
           <div className='example'>
             {cohorts === false && props.collection !== '' && showBar === true && (
               <div className='bulbExample'>
+                <OutsideClickHandler
+                  onOutsideClick={() => {
+                    setExampleQ([])
+                  }}
+                ></OutsideClickHandler>
                 <button className='exampleQueries' onClick={handleExQueries}>
                   Query Examples
                 </button>
@@ -842,7 +848,7 @@ function Layout (props) {
                   <button
                     className='variantExampleButton'
                     onClick={handleSequenceExample}
-                    type="button"
+                    type='button'
                   >
                     Query example
                   </button>
@@ -902,10 +908,10 @@ function Layout (props) {
                   </div>
                 </section>
                 <section id='range' className='tab-panel'>
-                <button
+                  <button
                     className='variantExampleButton'
                     onClick={handleRangeExample}
-                    type="button"
+                    type='button'
                   >
                     Query example
                   </button>

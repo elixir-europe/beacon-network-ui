@@ -380,6 +380,14 @@ function Layout (props) {
     setStart('16050114')
   }
 
+  const handleRangeExample = e => {
+    setAssemblyId2('hg19')
+    setAlternateBases2('A')
+    setRefBases2('G')
+    setStart2('16050114')
+    setEnd('16050115')
+  }
+
   useEffect(() => {
     if (props.collection === 'Individuals') {
       setPlaceholder('filtering term comma-separated, ID><=value')
@@ -600,6 +608,7 @@ function Layout (props) {
                               setPlaceholder(`${result[0]}`)
                               setQuery(`${result[0]}`)
                               setValue(`${result[0]}`)
+                              setExampleQ([])
                             }}
                           >
                             {result[1] !== undefined && (
@@ -830,8 +839,13 @@ function Layout (props) {
 
               <div className='tab-panels'>
                 <section id='sequence' class='tab-panel'>
-
-                  <button className='sequenceExampleButton'onClick={handleSequenceExample}>Query example</button>
+                  <button
+                    className='variantExampleButton'
+                    onClick={handleSequenceExample}
+                    type="button"
+                  >
+                    Query example
+                  </button>
                   <div>
                     <label className='labelVariants'>AssemblyID*</label>
                     <input
@@ -888,6 +902,13 @@ function Layout (props) {
                   </div>
                 </section>
                 <section id='range' className='tab-panel'>
+                <button
+                    className='variantExampleButton'
+                    onClick={handleRangeExample}
+                    type="button"
+                  >
+                    Query example
+                  </button>
                   <div>
                     <label className='labelVariants'>AssemblyID*</label>
                     <input

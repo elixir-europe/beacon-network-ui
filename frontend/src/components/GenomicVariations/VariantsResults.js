@@ -504,8 +504,6 @@ function VariantsResults (props) {
                       element2[2].push(element.exists)
                       element2[3].push(element.resultsCount)
                     } else {
-                      console.log('hola')
-
                       let arrayResultsPerDataset = [
                         element.beaconId,
                         [element.id],

@@ -196,7 +196,7 @@ html {
 }
 
 .inputVariants {
-  height: 20px;
+  height: 24px;
   border: 1.5px solid #dfdfdf;
   border-radius: 2px;
   margin-bottom: 30px;
@@ -365,7 +365,8 @@ html {
 .buttonVariants {
   margin-top: 9px;
   margin-bottom: -14px;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 1px, rgba(179, 179, 179, 0.22) 0px 1px 1px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 1px,
+    rgba(179, 179, 179, 0.22) 0px 1px 1px;
   padding: 6px;
   cursor: pointer;
 }
@@ -394,7 +395,7 @@ html {
   flex-direction: column;
 }
 
-.sequenceExampleButton {
+.variantExampleButton {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -409,9 +410,9 @@ html {
   color: rgba(12, 16, 64, 0.606);
   font-weight: 700;
 }
-.sequenceExampleButton:hover{
-  background-color: #3498db;
-  border: solid #3498db;
+.variantExampleButton:hover {
+  background-color: #78beed;
+  border: solid #06c;
 }
 
 .divFlex {
@@ -464,11 +465,14 @@ html {
 }
 
 .NavlinkVerifier {
-  color: #3fa18e;
-  width: 172px;
+  color: rgba(12, 16, 64, 0.606);
+  font-size: 15px !important;
+  font-feature-settings: 'pcap', 'c2pc';
+  font-variant-caps: all-petite-caps;
+  margin-top: -4px;
 }
 .NavlinkVerifier:hover {
-  margin: 0px !important;
+  color: rgb(236, 149, 0) !important;
 }
 
 .alphanumContainer {
@@ -672,7 +676,7 @@ hr {
 }
 
 .questionLogo:hover {
-  background: linear-gradient(356deg, #6ac5ff 50%, #86d2ff 80%);
+  background: linear-gradient(356deg, #3893cb 50%, #419ed3 80%);
   border-radius: 9px;
 }
 
@@ -683,7 +687,7 @@ hr {
 }
 
 .questionLogo2:hover {
-  background: linear-gradient(356deg, #6ac5ff 50%, #86d2ff 80%);
+  background: linear-gradient(356deg, #3ca2e2 50%, #63acd6 80%);
   border-radius: 9px;
 }
 
@@ -999,9 +1003,9 @@ h5 {
 }
 
 .ReactModal__Content--after-open {
-  width: 369px;
-  font-size: 12px;
-  height: 29%;
+  width: 485px;
+  font-size: 11px;
+  height: 33%;
   position: absolute !important;
   inset: 35% !important;
   border: 1px solid rgb(204, 204, 204) !important;
@@ -1028,10 +1032,23 @@ h5 {
   }
 
   .inputVariants {
-    height: 18px;
+    height: 24px;
     border: 1.5px solid #dfdfdf;
     border-radius: 2px;
     margin-bottom: 30px;
+    font-size: 12px;
+  }
+
+  .exampleQuery {
+    border: none;
+    /* border-color: #5454bc; */
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
     font-size: 12px;
   }
 
@@ -1132,10 +1149,12 @@ h5 {
     font-size: 10px;
     margin-left: 0px !important;
   }
+
   .additionalOptions {
     justify-content: center;
     align-items: center;
     z-index: 0;
+    height: 14px;
   }
 
   .bulbLogo {
@@ -1182,5 +1201,28 @@ h5 {
   .searchButton {
     height: 30px;
     cursor: pointer;
+  }
+
+  .examplesQueriesList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+    width: 189px;
+    border-radius: 5px;
+    font-size: 9px;
+    margin-left: -41px;
+    background: #8dbde0;
+    
+  }
+
+  .bulbExample {
+    display: flex;
+    border-left: 1.7px solid #f1f1f1;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
   }
 }

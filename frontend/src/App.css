@@ -1112,7 +1112,7 @@ h5 {
     text-transform: uppercase;
     font-size: 10px;
     margin-left: 2px !important;
-    margin-right: 5px !important;
+    margin-right: 7px !important;
     /* margin-right: 36px; */
     /* margin-left: 27px; */
   }
@@ -1179,6 +1179,7 @@ h5 {
     justify-content: center;
     align-content: center;
     align-items: center;
+    width: 112px;
   }
   .searchIcon {
     width: 26px;
@@ -1212,7 +1213,7 @@ h5 {
     width: 189px;
     border-radius: 5px;
     font-size: 9px;
-    margin-left: -41px;
+    margin-left: 10px !important;
     background: #8dbde0;
     
   }
@@ -1225,4 +1226,14 @@ h5 {
     align-content: center;
     align-items: center;
   }
+
+  .NavlinkVerifier{
+    color: rgba(12, 16, 64, 0.606);
+    font-size: 15px !important;
+    font-feature-settings: 'pcap', 'c2pc', "pcap", "c2pc";
+    font-variant-caps: all-petite-caps;
+    margin-top: 0px;
+    font-size: 12px !important;
+  }
+
 }

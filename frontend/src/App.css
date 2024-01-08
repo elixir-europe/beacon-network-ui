@@ -372,9 +372,7 @@ html {
 }
 
 .buttonVariants:hover {
-  margin-top: 12px;
   margin-right: -2px;
-  margin-bottom: 20px;
   font-weight: 600;
   color: rgb(118, 151, 228);
 }
@@ -811,7 +809,7 @@ h5 {
 
 .loader2 {
   width: 50vw;
-  height: 10vh;
+  height: 30vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

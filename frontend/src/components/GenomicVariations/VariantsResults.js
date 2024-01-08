@@ -483,10 +483,8 @@ function VariantsResults (props) {
           }
 
           setTimeOut(true)
-          if (
-            res.data.responseSummary.numTotalResults < 1 ||
-            res.data.responseSummary.numTotalResults === undefined
-          ) {
+          if (!res.data.responseSummary.numTotalResults) {
+            setTimeOut(true)
             setError('No results. Please check the query and retry')
             setNumberResults(0)
             setBoolean(false)
@@ -634,6 +632,9 @@ function VariantsResults (props) {
                   ></TableResultsVariant>
                 </div>
               )}
+
+              {show1 && error && <h3>&nbsp; {error} </h3>}
+              {show2 && error && <h3>&nbsp; {error} </h3>}
             </div>
           )}
           {timeOut && error === 'Connection error. Please retry' && (

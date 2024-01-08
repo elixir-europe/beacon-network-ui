@@ -674,7 +674,7 @@ function Cohorts (props) {
         </>
       )}
 
-      {trigger && noCollectionEvents && <h10>NO COLLECTION EVENTS FOUND FOR THE SELECTED COHORTS</h10>}
+      {trigger && noCollectionEvents && <h10>NO GRAPHICS AVAILABLE FOR THE SELECTED COHORTS</h10>}
       {showGraphs === true && dataAvailable === false && timeOut === true && (
         <div>
           <h12>

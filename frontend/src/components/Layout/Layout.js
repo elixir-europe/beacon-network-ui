@@ -488,6 +488,7 @@ function Layout (props) {
     setPlaceholder('filtering term comma-separated, ID><=value')
     setIsSub(!isSubmitted)
     setExampleQ([])
+    setTimeOut(true)
     setResults('Variant')
   }
 
@@ -1158,6 +1159,36 @@ function Layout (props) {
           </div>
         )}
         {isSubmitted && results === 'Variant' && !triggerQuery && (
+          <div>
+            <VariantsResults
+              query={query}
+              resultSets={resultSet}
+              showResultsVariants={showResultsVariants}
+              setHideForm={setHideForm}
+              showBar={showBar}
+              aminoacid2={aminoacid2}
+              assemblyId2={assemblyId2}
+              assemblyId3={assemblyId3}
+              alternateBases3={alternateBases3}
+              alternateBases2={alternateBases2}
+              isSubmitted={isSubmitted}
+              variantType2={variantType2}
+              start2={start2}
+              referenceName2={referenceName2}
+              referenceName={referenceName}
+              assemblyId={assemblyId}
+              start={start}
+              end={end}
+              variantType={variantType}
+              alternateBases={alternateBases}
+              referenceBases={referenceBases}
+              referenceBases2={referenceBases2}
+              aminoacid={aminoacid}
+              geneID={geneID}
+            />
+          </div>
+        )}
+        {!isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
               query={query}

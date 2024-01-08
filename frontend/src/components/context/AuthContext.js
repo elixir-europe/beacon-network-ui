@@ -1,6 +1,7 @@
 import React, { useState, createContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import configData from '../../config.json'
+import { useAuth } from 'oidc-react';
 
 const AuthContext = createContext()
 
@@ -11,7 +12,7 @@ function AuthProviderWrapper (props) {
   const [expirationMessage, setExpirationMessage] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
-
+  const auth = useAuth();
   // Functions to store and delete the token received by the backend in the browser
   const getStoredToken = () => {
     return localStorage.getItem('authToken')
@@ -47,6 +48,7 @@ function AuthProviderWrapper (props) {
 
   const logOutUser = () => {
     removeToken()
+    auth = null
     setIsLoggedIn(false)
     setExpirationMessage('')
     navigate('/')

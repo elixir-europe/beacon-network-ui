@@ -1,9 +1,15 @@
-@media (min-width: 1350px) {
+@media (min-width: 1410px) {
   /* … */
   .nav4 {
     display: none;
   }
 
+  .userNameSmallScreen{
+    display: none;
+  }
+  .userName {
+    display: none;
+  }
   .menuNav {
     display: none;
   }
@@ -218,8 +224,6 @@
     margin-right: 50px;
   }
 
- 
-
   .Sign-in3:hover {
     width: 96px;
     border-radius: 2px;
@@ -325,13 +329,42 @@
   }
 }
 
-@media (max-width: 1349px) {
+@media (max-width: 1409px) {
   .menuNav2 {
     display: none;
   }
 
+  .userNameSmallScreen{
+    display: none;
+  }
   .About {
     text-decoration: none;
+  }
+
+  .nav4Container {
+    display: flex;
+    width: 180px;
+    z-index: 1;
+  }
+
+  .userNameOpenMenu {
+    margin: 0px;
+    font-size: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(138 160 232);
+  }
+
+  .userName {
+    color: rgb(138 160 232);
+    font-size: 11px;
+    /* margin-bottom: 4px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
   }
 
   .Sign-in3 {
@@ -432,7 +465,7 @@
 
   .menuNav {
     background-color: #235c94;
-    height: 140px;
+    height: 180px;
     width: 145px;
     margin-top: 22px;
     border-radius: 9px;
@@ -461,7 +494,7 @@
     justify-content: flex-start;
   }
   .nav4 {
-    height: 32vh;
+    
     /* width: 100%; */
     display: flex;
     /* place-content: center flex-start; */
@@ -604,13 +637,28 @@
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1030px) {
   .ls-login-image2 {
     width: 17px;
     margin-right: -11px;
     margin-top: 21px !important;
   }
 
+  .userNameSmallScreen{
+    display: flex;
+    font-size: 11px;
+    width: 100%;
+    margin-top: 2px;
+    color: rgb(138 160 232);
+    justify-content: center;
+  }
+  .userName{
+    display: none;
+  }
+  .nav4Container {
+    display: flex;
+    z-index: 1;
+  }
   .Sign-in4 {
     display: flex;
     align-items: center;
@@ -694,21 +742,21 @@
 
   .Variants2 {
     width: 157px;
-    height: 21px;
+    height: 23px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Biosamples2 {
     width: 157px;
-    height: 21px;
+    height: 23px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Members2 {
     width: 146px;
-    height: 21px;
+    height: 23px;
     border-radius: 4px;
     background-color: #4961b8;
   }
@@ -724,21 +772,21 @@
 
   .Runs2 {
     width: 157px;
-    height: 21px;
+    height: 23px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Cohorts2 {
     width: 157px;
-    height: 22px;
+    height: 23px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Cross-queries2 {
     width: 157px;
-    height: 21px;
+    height: 23px;
     margin-left: 2px;
     border-radius: 4px;
   }
@@ -755,7 +803,7 @@
 
   .Analyses2 {
     width: 157px;
-    height: 21px;
+    height: 23px;
     margin-left: 2px;
     border-radius: 4px;
   }
@@ -789,8 +837,7 @@
   }
 
   .nav4 {
-    height: 32vh;
-    /* width: 83%; */
+    width: 83%;
     display: flex;
     /* flex-direction: column; */
     align-content: center;
@@ -821,7 +868,7 @@
 
   .menuNav2 {
     background-color: #235c94;
-    height: 269px;
+    height: 266px;
     width: 161px;
     margin-top: 22px;
     border-radius: 9px;

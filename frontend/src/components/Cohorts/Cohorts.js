@@ -5,8 +5,6 @@ import { useState, useEffect } from 'react'
 import Layout from '../Layout/Layout'
 import { NavLink, useNavigate } from 'react-router-dom'
 import configData from '../../config.json'
-import CohortsModule from './CohortsModule'
-import { isIS } from '@mui/material/locale'
 
 function Cohorts (props) {
   const API_ENDPOINT = configData.API_URL + '/cohorts'
@@ -60,6 +58,8 @@ function Cohorts (props) {
 
   const [trigger, setTrigger] = useState(false)
 
+  const [noCollectionEvents, setNoCollectionEvents] = useState(false)
+
   const handleSelectedFilter = e => {
     setSelectedFilter(e.target.value)
   }
@@ -71,64 +71,24 @@ function Cohorts (props) {
   useEffect(() => {
     const fetchDataCohorts = async () => {
       try {
-        let res = await axios.get(configData.API_URL + '/cohorts/')
+        let res = await axios.get(configData.API_URL + '/cohorts')
+        console.log(res)
         res.data.response.collections.forEach(element => {
-          if (cohortsIds.includes(element.id)) {
-            if (element.cohortName !== undefined) {
-              element.cohortName = element.cohortName + '\xa0' + count
-              if (count === 'IIII') {
-                setCount('V')
-              } else {
-                setCount(count + 'I')
-              }
-            }
-            if (element.name !== undefined) {
-              element.name = element.name + '\xa0' + count
-              if (count === 'IIII') {
-                setCount('V')
-              } else {
-                setCount(count + 'I')
-              }
-            }
-            if (element.cohortName !== undefined) {
-              let obj = {
-                value: element.cohortName,
-                label: element.cohortName
-              }
-              optionsCohorts.push(obj)
-            } else if (element.name !== undefined) {
-              let obj = {
-                value: element.name,
-                label: element.name
-              }
-              optionsCohorts.push(obj)
-            }
-            arrayCohorts.push(element)
-          } else {
-            cohortsIds.push(element.id)
-            if (element.cohortName !== undefined) {
-              let obj = {
-                value: element.cohortName,
-                label: element.cohortName
-              }
-              optionsCohorts.push(obj)
-            } else if (element.name !== undefined) {
-              let obj = {
-                value: element.name,
-                label: element.name
-              }
-              optionsCohorts.push(obj)
-            }
-            arrayCohorts.push(element)
+          let obj = {
+            value: element.id,
+            label: element.id
           }
-
+          optionsCohorts.push(obj)
+          arrayCohorts.push(element)
           const timer = setTimeout(() => {
             setTriggerLayout(true)
           }, 2000)
           return () => clearTimeout(timer)
         })
       } catch (error) {
+        setTimeOut(true)
         console.log(error)
+        setError('Unexpected error. Please retry')
       }
     }
     fetchDataCohorts().catch(console.error)
@@ -283,19 +243,18 @@ function Cohorts (props) {
   }
 
   useEffect(() => {
+    console.log(selectedCohorts)
+    console.log(arrayCohorts)
     const apiCall = () => {
       arrayCohorts.forEach(element => {
+       console.log(element)
         selectedCohorts.forEach(element2 => {
-         
-          if (
-            element.name === element2[0].value ||
-            element.cohortName === element2[0].value
-          ) {
-            if (element.collectionEvents !== undefined) {
-           
+          if (element.id === element2[0].value) {
+            
+            if (element.collectionEvents) {
+              console.log("holi")
               element.collectionEvents.forEach(element2 => {
                 if (Object.keys(element2).length !== 0) {
-             
                   let sexs = ''
                   let ethnicities = ''
                   let geoData = ''
@@ -317,7 +276,7 @@ function Cohorts (props) {
                   // for (var i = 0; i < res.data.response.collections.length; i++) {
                   if (element2.eventGenders !== undefined) {
                     sexs = element2.eventGenders.distribution.genders
-               
+
                     setDataAvailable(true)
                   }
                   if (element2.eventEthnicities !== undefined) {
@@ -375,7 +334,7 @@ function Cohorts (props) {
                   if (labelsEthnicities !== '') {
                     setLabelsEthnicities(labelsEthnicities)
                   }
-
+                  console.log(geoData)
                   if (geoData !== '') {
                     valuesGeo = Object.values(geoData)
                     labelsGeo = Object.keys(geoData)
@@ -563,6 +522,8 @@ function Cohorts (props) {
                   setDataAvailable(false)
                 }
               })
+            } else {
+              setNoCollectionEvents(true)
             }
           }
         })
@@ -576,7 +537,7 @@ function Cohorts (props) {
 
   return (
     <div className='graphsDiv'>
-      {showGraphs === false && triggerLayout === false && (
+      {showGraphs === false && triggerLayout === false && !timeOut && (
         <div class='middle'>
           <div class='bar bar1'></div>
           <div class='bar bar2'></div>
@@ -608,7 +569,9 @@ function Cohorts (props) {
         </button>
       )}
 
-      {trigger && (
+      {error !== '' && <h10>{error}</h10>}
+
+      {trigger && !noCollectionEvents && (
         <>
           {nameCohort !== '' && <h3>{nameCohort}</h3>}
           {showGraphs === true && (
@@ -617,7 +580,7 @@ function Cohorts (props) {
               <div id='chartGeo'></div>
               <hr></hr>
               <div className='ethnicity'>
-                <div className='ethFilters'>
+                {/* <div className='ethFilters'>
                   <label for='ethnicities'>Filter:</label>
                   <select
                     name='filters'
@@ -647,9 +610,9 @@ function Cohorts (props) {
                   <button className='buttonSubmit' onClick={submitFilters}>
                     Submit
                   </button>
-                </div>
+                </div> */}
 
-                {showEthFiltered && (
+                {/* {showEthFiltered && (
                   <div className='moduleFiltered'>
                     <div id='chartFilteredEthnicity'></div>
                   </div>
@@ -658,12 +621,12 @@ function Cohorts (props) {
                   <div className='moduleFiltered'>
                     <div id='chartFilteredEthnicity2'></div>
                   </div>
-                )}
+                )} */}
                 <div id='chartEthnicity'></div>
               </div>
               <hr></hr>
               <div className='diseases'>
-                <div className='diseasesFilters'>
+                {/* <div className='diseasesFilters'>
                   <label for='ethnicities'>Filter:</label>
                   <select
                     name='filters'
@@ -703,13 +666,15 @@ function Cohorts (props) {
                   <div className='moduleFiltered'>
                     <div id='chartFilteredDisease2'></div>
                   </div>
-                )}
+                )} */}
                 <div id='chartDiseases'></div>
               </div>
             </div>
           )}
         </>
       )}
+
+      {trigger && noCollectionEvents && <h10>NO COLLECTION EVENTS FOUND FOR THE SELECTED COHORTS</h10>}
       {showGraphs === true && dataAvailable === false && timeOut === true && (
         <div>
           <h12>

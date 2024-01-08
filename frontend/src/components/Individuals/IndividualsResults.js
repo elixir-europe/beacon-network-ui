@@ -14,7 +14,7 @@ function IndividualsResults (props) {
   const [beaconsList, setBeaconsList] = useState([])
 
   const [error, setError] = useState(false)
-  const [response, setResponse] = useState(null)
+
   const [numberResults, setNumberResults] = useState(0)
   const [boolean, setBoolean] = useState(false)
   const [results, setResults] = useState([])
@@ -28,7 +28,7 @@ function IndividualsResults (props) {
   const [timeOut, setTimeOut] = useState(false)
 
   const [logInRequired, setLoginRequired] = useState(false)
-  const [messageLoginCount, setMessageLoginCount] = useState('')
+ 
   const [messageLoginFullResp, setMessageLoginFullResp] = useState('')
 
   const [limit, setLimit] = useState(0)
@@ -58,14 +58,6 @@ function IndividualsResults (props) {
           isAuthenticated = true
         }
       }
-
-      //if (isAuthenticated) {
-      //setLoginRequired(false)
-      //} else {
-      //setLoginRequired(true)
-      //setMessageLoginCount('PLEASE LOG IN FOR GETTING THE NUMBER OF RESULTS')
-      //setMessageLoginFullResp('PLEASE LOG IN FOR GETTING THE FULL RESPONSE')
-      //}
 
       if (props.query !== null) {
         if (props.query.includes(',')) {
@@ -210,14 +202,35 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
+             
               if (element.id && element.id !== '') {
-                let arrayResultsPerDataset = [
-                  element.beaconId,
-                  element.id,
-                  element.exists,
-                  element.resultsCount
-                ]
-                resultsPerDataset.push(arrayResultsPerDataset)
+                if (resultsPerDataset.length > 0) {
+                  console.log(resultsPerDataset)
+                  resultsPerDataset.forEach(element2 => {
+                    if (element2[0] === element.beaconId) {
+                      element2[1].push(element.id)
+                      element2[2].push(element.exists)
+                      element2[3].push(element.resultsCount)
+                    } else {
+                      
+                      let arrayResultsPerDataset = [
+                        element.beaconId,
+                        [element.id],
+                        [element.exists],
+                        [element.resultsCount]
+                      ]
+                      resultsPerDataset.push(arrayResultsPerDataset)
+                    }
+                  })
+                } else {
+                  let arrayResultsPerDataset = [
+                    element.beaconId,
+                    [element.id],
+                    [element.exists],
+                    [element.resultsCount]
+                  ]
+                  resultsPerDataset.push(arrayResultsPerDataset)
+                }
               }
 
               if (element.id === undefined || element.id === '') {
@@ -238,9 +251,6 @@ function IndividualsResults (props) {
               }
             })
           }
-
-
-
         } else {
           var jsonData2 = {
             meta: {
@@ -292,14 +302,50 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
+              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                let arrayResultsPerDataset = [
-                  element.beaconId,
-                  element.id,
-                  element.exists,
-                  element.resultsCount
-                ]
-                resultsPerDataset.push(arrayResultsPerDataset)
+                console.log(resultsPerDataset)
+                if (resultsPerDataset.length > 0) {
+                  resultsPerDataset.forEach(element2 => {
+                    console.log(element2[0])
+                    console.log(element.beaconId)
+                    if (element2[0] === element.beaconId) {
+                      element2[1].push(element.id)
+                      element2[2].push(element.exists)
+                      element2[3].push(element.resultsCount)
+                    } else {
+                      console.log('hola')
+
+                      let arrayResultsPerDataset = [
+                        element.beaconId,
+                        [element.id],
+                        [element.exists],
+                        [element.resultsCount]
+                      ]
+                      let found = false
+
+                      console.log(arrayResultsPerDataset)
+                      resultsPerDataset.forEach(element => {
+                        if (element[0] === arrayResultsPerDataset[0]) {
+                          found = true
+                        }
+                        console.log(found)
+                      })
+                      if (found === false) {
+                        resultsPerDataset.push(arrayResultsPerDataset)
+                      }
+                    }
+                  })
+                } else {
+                  let arrayResultsPerDataset = [
+                    element.beaconId,
+                    [element.id],
+                    [element.exists],
+                    [element.resultsCount]
+                  ]
+                  console.log(arrayResultsPerDataset)
+                  resultsPerDataset.push(arrayResultsPerDataset)
+                }
               }
 
               if (element.id === undefined || element.id === '') {
@@ -347,15 +393,6 @@ function IndividualsResults (props) {
     setShow1(false)
     setShow2(false)
   }
-
-  const handleSkipChanges = e => {
-    setSkip(Number(e.target.value))
-  }
-
-  const handleLimitChanges = e => {
-    setLimit(Number(e.target.value))
-  }
-
   const onSubmit = () => {
     setSkipTrigger(skip)
     setLimitTrigger(limit)

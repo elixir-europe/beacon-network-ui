@@ -1,6 +1,5 @@
 import '../../App.css'
 import './LayoutVariantsTable.css'
-
 import FilteringTerms from '../FilteringTerms/FilteringTerms'
 import { NavLink } from 'react-router-dom'
 
@@ -10,6 +9,8 @@ import HorizontalExpansion from '../QueryExpansion/HorizontalExpansion'
 import BiosamplesResults from '../Biosamples/BiosamplesResults'
 
 import React, { useState, useEffect } from 'react'
+
+import OutsideClickHandler from 'react-outside-click-handler'
 
 import Switch from '@mui/material/Switch'
 import MultiSwitch from 'react-multi-switch-toggle'
@@ -373,6 +374,21 @@ function Layout (props) {
     setExpansionSection(true)
   }
 
+  const handleSequenceExample = e => {
+    setAssemblyId('hg19')
+    setAlternateBases('A')
+    setRefBases('G')
+    setStart('16050114')
+  }
+
+  const handleRangeExample = e => {
+    setAssemblyId2('hg19')
+    setAlternateBases2('A')
+    setRefBases2('G')
+    setStart2('16050114')
+    setEnd('16050115')
+  }
+
   useEffect(() => {
     if (props.collection === 'Individuals') {
       setPlaceholder('filtering term comma-separated, ID><=value')
@@ -574,6 +590,11 @@ function Layout (props) {
           <div className='example'>
             {cohorts === false && props.collection !== '' && showBar === true && (
               <div className='bulbExample'>
+                <OutsideClickHandler
+                  onOutsideClick={() => {
+                    setExampleQ([])
+                  }}
+                ></OutsideClickHandler>
                 <button className='exampleQueries' onClick={handleExQueries}>
                   Query Examples
                 </button>
@@ -593,6 +614,7 @@ function Layout (props) {
                               setPlaceholder(`${result[0]}`)
                               setQuery(`${result[0]}`)
                               setValue(`${result[0]}`)
+                              setExampleQ([])
                             }}
                           >
                             {result[1] !== undefined && (
@@ -801,7 +823,7 @@ function Layout (props) {
                 type='radio'
                 name='tabset'
                 id='tab1'
-                aria-controls='marzen'
+                aria-controls='sequence'
               />
               <label for='tab1'>Sequence queries</label>
 
@@ -809,7 +831,7 @@ function Layout (props) {
                 type='radio'
                 name='tabset'
                 id='tab2'
-                aria-controls='rauchbier'
+                aria-controls='range'
               />
               <label for='tab2'>Range queries</label>
 
@@ -817,12 +839,19 @@ function Layout (props) {
                 type='radio'
                 name='tabset'
                 id='tab3'
-                aria-controls='dunkles'
+                aria-controls='gene'
               />
               <label for='tab3'>Gene ID queries</label>
 
               <div className='tab-panels'>
-                <section id='marzen' class='tab-panel'>
+                <section id='sequence' class='tab-panel'>
+                  <button
+                    className='variantExampleButton'
+                    onClick={handleSequenceExample}
+                    type='button'
+                  >
+                    Query example
+                  </button>
                   <div>
                     <label className='labelVariants'>AssemblyID*</label>
                     <input
@@ -878,7 +907,14 @@ function Layout (props) {
                     />
                   </div>
                 </section>
-                <section id='rauchbier' className='tab-panel'>
+                <section id='range' className='tab-panel'>
+                  <button
+                    className='variantExampleButton'
+                    onClick={handleRangeExample}
+                    type='button'
+                  >
+                    Query example
+                  </button>
                   <div>
                     <label className='labelVariants'>AssemblyID*</label>
                     <input
@@ -967,7 +1003,7 @@ function Layout (props) {
                     />
                   </div>
                 </section>
-                <section id='dunkles' className='tab-panel'>
+                <section id='gene' className='tab-panel'>
                   <div>
                     <label className='labelVariants'>Gene ID*</label>
                     <input

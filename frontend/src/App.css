@@ -653,6 +653,12 @@ hr {
   color: #86d2ff;
 }
 
+.impactLogo {
+  height: 60px;
+  margin-top: 42px;
+  margin-right: 28px;
+}
+
 .bulbLogo {
   height: 16px;
   margin-right: 11px;
@@ -1213,7 +1219,6 @@ h5 {
     font-size: 9px;
     margin-left: 10px !important;
     background: #8dbde0;
-    
   }
 
   .bulbExample {
@@ -1225,13 +1230,12 @@ h5 {
     align-items: center;
   }
 
-  .NavlinkVerifier{
+  .NavlinkVerifier {
     color: rgba(12, 16, 64, 0.606);
     font-size: 15px !important;
-    font-feature-settings: 'pcap', 'c2pc', "pcap", "c2pc";
+    font-feature-settings: 'pcap', 'c2pc', 'pcap', 'c2pc';
     font-variant-caps: all-petite-caps;
     margin-top: 0px;
     font-size: 12px !important;
   }
-
 }

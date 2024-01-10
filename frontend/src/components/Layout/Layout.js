@@ -513,11 +513,22 @@ function Layout (props) {
           {/* <a href="https://www.cineca-project.eu/" target="_blank">
                         <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
                     </a> */}
-          <a href='https://elixir-europe.org/' target='_blank'>
+          {/* <a href='https://elixir-europe.org/' target='_blank'>
             <img
               className='elixirLogo'
               src='./white-orange-logo.png'
               alt='elixirLogo'
+            ></img>
+          </a> */}
+          <a
+            href='https://impact-data.bsc.es/'
+            className='logoInstitution'
+            target='_blank'
+          >
+            <img
+              className='impactLogo'
+              src='../impactLogo.png'
+              alt='impactLogo'
             ></img>
           </a>
         </div>
@@ -592,13 +603,10 @@ function Layout (props) {
 
         <div className='additionalOptions'>
           <div className='example'>
-            
             {cohorts === false && props.collection !== '' && showBar === true && (
               <div className='bulbExample'>
-            
                 <button className='exampleQueries' onClick={handleExQueries}>
                   Query Examples
-                  
                 </button>
                 <img
                   className='bulbLogo'
@@ -606,7 +614,6 @@ function Layout (props) {
                   alt='bulbIcon'
                 ></img>
                 <div className='examplesQueriesList'>
-                  
                   {exampleQ[0] &&
                     exampleQ.map(result => {
                       return (
@@ -1007,7 +1014,7 @@ function Layout (props) {
                   </div>
                 </section>
                 <section id='gene' className='tab-panel'>
-                <button
+                  <button
                     className='variantExampleButton'
                     onClick={handleGeneExample}
                     type='button'

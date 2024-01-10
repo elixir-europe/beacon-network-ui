@@ -592,13 +592,10 @@ function Layout (props) {
 
         <div className='additionalOptions'>
           <div className='example'>
-            
             {cohorts === false && props.collection !== '' && showBar === true && (
               <div className='bulbExample'>
-            
                 <button className='exampleQueries' onClick={handleExQueries}>
                   Query Examples
-                  
                 </button>
                 <img
                   className='bulbLogo'
@@ -606,7 +603,6 @@ function Layout (props) {
                   alt='bulbIcon'
                 ></img>
                 <div className='examplesQueriesList'>
-                  
                   {exampleQ[0] &&
                     exampleQ.map(result => {
                       return (
@@ -1007,7 +1003,7 @@ function Layout (props) {
                   </div>
                 </section>
                 <section id='gene' className='tab-panel'>
-                <button
+                  <button
                     className='variantExampleButton'
                     onClick={handleGeneExample}
                     type='button'

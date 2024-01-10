@@ -79,7 +79,7 @@ function TableResultsIndividuals (props) {
       width: 150,
       headerClassName: 'super-app-theme--header',
       renderCell: params => (
-        <Link to={`cross-queries/individuals/${params.row.IndividualId}`}>
+        <Link to={`/individuals/cross-queries/${params.row.IndividualId}`}>
           {params.row.IndividualId}
         </Link>
       )

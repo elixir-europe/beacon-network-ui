@@ -6,30 +6,27 @@ import makeAnimated from 'react-select/animated'
 
 function CohortsModule (props) {
   const [results, setResults] = useState(null)
-  const [selectedCohortsAux, setSelectedCohortsAux] = useState([])
+
   const animatedComponents = makeAnimated()
+  const [selected, setSelected] = useState(null)
   const onSubmitCohorts = () => {
     setResults('Cohorts')
 
     props.setShowGraphs(true)
   }
   const handleChangeCohorts = selectedOption => {
-    setSelectedCohortsAux([])
-    selectedCohortsAux.push(selectedOption)
-    props.setSelectedCohorts(selectedCohortsAux)
+    console.log(selectedOption)
+    setSelected(selectedOption)
+
+    props.setSelectedCohorts(selectedOption)
   }
 
   return (
     <div className='cohortsModule'>
       <Select
-        closeMenuOnSelect={false}
-        components={animatedComponents}
-        defaultValue={[]}
-        isMulti
         options={props.optionsCohorts}
         onChange={handleChangeCohorts}
         autoFocus={true}
-        //onToggleCallback={onToggle3}
       />
 
       <form className='d-flex2' onSubmit={onSubmitCohorts}>

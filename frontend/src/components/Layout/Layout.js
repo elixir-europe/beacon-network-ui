@@ -375,18 +375,21 @@ function Layout (props) {
   }
 
   const handleSequenceExample = e => {
-    setAssemblyId('hg19')
     setAlternateBases('A')
     setRefBases('G')
     setStart('16050114')
   }
 
   const handleRangeExample = e => {
-    setAssemblyId2('hg19')
     setAlternateBases2('A')
     setRefBases2('G')
     setStart2('16050114')
     setEnd('16050115')
+  }
+
+  const handleGeneExample = e => {
+    setGeneId('EIF4A1')
+    setVariantType2('DEL')
   }
 
   useEffect(() => {
@@ -502,7 +505,7 @@ function Layout (props) {
             alt='questionIcon'
           ></img>
         </button>
-        <NavLink className='NavlinkVerifier' exact to='/verifier'>
+        <NavLink className='NavlinkVerifier' exact to='/validator'>
           BEACON VALIDATOR
         </NavLink>
 
@@ -589,15 +592,13 @@ function Layout (props) {
 
         <div className='additionalOptions'>
           <div className='example'>
+            
             {cohorts === false && props.collection !== '' && showBar === true && (
               <div className='bulbExample'>
-                <OutsideClickHandler
-                  onOutsideClick={() => {
-                    setExampleQ([])
-                  }}
-                ></OutsideClickHandler>
+            
                 <button className='exampleQueries' onClick={handleExQueries}>
                   Query Examples
+                  
                 </button>
                 <img
                   className='bulbLogo'
@@ -605,6 +606,7 @@ function Layout (props) {
                   alt='bulbIcon'
                 ></img>
                 <div className='examplesQueriesList'>
+                  
                   {exampleQ[0] &&
                     exampleQ.map(result => {
                       return (
@@ -1005,6 +1007,13 @@ function Layout (props) {
                   </div>
                 </section>
                 <section id='gene' className='tab-panel'>
+                <button
+                    className='variantExampleButton'
+                    onClick={handleGeneExample}
+                    type='button'
+                  >
+                    Query example
+                  </button>
                   <div>
                     <label className='labelVariants'>Gene ID*</label>
                     <input

@@ -1,18 +1,21 @@
 import '../Individuals/Individuals.css'
 import '../../App.css'
+import TableResultsBiosamples from '../Results/BiosamplesResults/TableResultsBiosamples'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 import { useAuth } from 'oidc-react'
 import configData from '../../config.json'
 import { useContext } from 'react'
-import TableResultsBiosamples from '../Results/BiosamplesResults/TableResultsBiosamples'
+
 
 function BiosamplesResults (props) {
+  const [showLayout, setShowLayout] = useState(false)
+
   const [beaconsList, setBeaconsList] = useState([])
 
   const [error, setError] = useState(false)
-  const [response, setResponse] = useState(null)
+
   const [numberResults, setNumberResults] = useState(0)
   const [boolean, setBoolean] = useState(false)
   const [results, setResults] = useState([])
@@ -20,10 +23,13 @@ function BiosamplesResults (props) {
   const [show2, setShow2] = useState(false)
   const [show3, setShow3] = useState(false)
 
+  const [resultsPerDataset, setResultsDataset] = useState([])
+  const [resultsNotPerDataset, setResultsNotPerDataset] = useState([])
+
   const [timeOut, setTimeOut] = useState(false)
 
-  const [logInRequired, setLoginRequired] = useState(true)
-  const [messageLoginCount, setMessageLoginCount] = useState('')
+  const [logInRequired, setLoginRequired] = useState(false)
+ 
   const [messageLoginFullResp, setMessageLoginFullResp] = useState('')
 
   const [limit, setLimit] = useState(0)
@@ -57,7 +63,6 @@ function BiosamplesResults (props) {
       if (props.query !== null) {
         if (props.query.includes(',')) {
           queryStringTerm = props.query.split(',')
-
           queryStringTerm.forEach((element, index) => {
             element = element.trim()
             if (
@@ -83,7 +88,6 @@ function BiosamplesResults (props) {
                 queryArray[index] = element.split('%')
                 queryArray[index].push('%')
               }
-
               const alphaNumFilter = {
                 id: queryArray[index][0],
                 operator: queryArray[index][2],
@@ -148,7 +152,7 @@ function BiosamplesResults (props) {
         beaconsList.reverse()
 
         if (props.query === null) {
-          // show all biosamples
+          // show all individuals
 
           var jsonData1 = {
             meta: {
@@ -188,16 +192,54 @@ function BiosamplesResults (props) {
               { headers: headers }
             )
           }
-
           setTimeOut(true)
 
-          if (res.data.responseSummary.numTotalResults < 1) {
-            setError('No results. Please check the query and retry')
+          if (
+            res.data.responseSummary.numTotalResults < 1 ||
+            res.data.responseSummary.numTotalResults === undefined
+          ) {
+            setError('ERROR. Please check the query and retry')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              if (res.data.response.resultSets[index].resultsCount > 0) {
+             
+              if (element.id && element.id !== '') {
+                if (resultsPerDataset.length > 0) {
+                  console.log(resultsPerDataset)
+                  resultsPerDataset.forEach(element2 => {
+                    if (element2[0] === element.beaconId) {
+                      element2[1].push(element.id)
+                      element2[2].push(element.exists)
+                      element2[3].push(element.resultsCount)
+                    } else {
+                      
+                      let arrayResultsPerDataset = [
+                        element.beaconId,
+                        [element.id],
+                        [element.exists],
+                        [element.resultsCount]
+                      ]
+                      resultsPerDataset.push(arrayResultsPerDataset)
+                    }
+                  })
+                } else {
+                  let arrayResultsPerDataset = [
+                    element.beaconId,
+                    [element.id],
+                    [element.exists],
+                    [element.resultsCount]
+                  ]
+                  resultsPerDataset.push(arrayResultsPerDataset)
+                }
+              }
+
+              if (element.id === undefined || element.id === '') {
+                let arrayResultsNoDatasets = [element.beaconId]
+                resultsNotPerDataset.push(arrayResultsNoDatasets)
+              }
+
+              if (res.data.response.resultSets[index].results) {
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [
@@ -209,9 +251,6 @@ function BiosamplesResults (props) {
                 )
               }
             })
-
-            setNumberResults(res.data.responseSummary.numTotalResults)
-            setBoolean(res.data.responseSummary.exists)
           }
         } else {
           var jsonData2 = {
@@ -230,7 +269,6 @@ function BiosamplesResults (props) {
             }
           }
           jsonData2 = JSON.stringify(jsonData2)
-
           let token = null
           if (auth.userData === null) {
             token = getStoredToken()
@@ -260,15 +298,63 @@ function BiosamplesResults (props) {
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('No results. Please check the query and retry')
+            setError('ERROR. Please check the query and retry')
             setNumberResults(0)
             setBoolean(false)
           } else {
-            setNumberResults(res.data.responseSummary.numTotalResults)
-            setBoolean(res.data.responseSummary.exists)
-
             res.data.response.resultSets.forEach((element, index) => {
-              if (res.data.response.resultSets[index].resultsCount > 0) {
+              console.log(res.data.response)
+              if (element.id && element.id !== '') {
+                console.log(resultsPerDataset)
+                if (resultsPerDataset.length > 0) {
+                  resultsPerDataset.forEach(element2 => {
+                    console.log(element2[0])
+                    console.log(element.beaconId)
+                    if (element2[0] === element.beaconId) {
+                      element2[1].push(element.id)
+                      element2[2].push(element.exists)
+                      element2[3].push(element.resultsCount)
+                    } else {
+                      console.log('hola')
+
+                      let arrayResultsPerDataset = [
+                        element.beaconId,
+                        [element.id],
+                        [element.exists],
+                        [element.resultsCount]
+                      ]
+                      let found = false
+
+                      console.log(arrayResultsPerDataset)
+                      resultsPerDataset.forEach(element => {
+                        if (element[0] === arrayResultsPerDataset[0]) {
+                          found = true
+                        }
+                        console.log(found)
+                      })
+                      if (found === false) {
+                        resultsPerDataset.push(arrayResultsPerDataset)
+                      }
+                    }
+                  })
+                } else {
+                  let arrayResultsPerDataset = [
+                    element.beaconId,
+                    [element.id],
+                    [element.exists],
+                    [element.resultsCount]
+                  ]
+                  console.log(arrayResultsPerDataset)
+                  resultsPerDataset.push(arrayResultsPerDataset)
+                }
+              }
+
+              if (element.id === undefined || element.id === '') {
+                let arrayResultsNoDatasets = [element.beaconId]
+                resultsNotPerDataset.push(arrayResultsNoDatasets)
+              }
+
+              if (res.data.response.resultSets[index].results) {
                 res.data.response.resultSets[index].results.forEach(
                   (element2, index2) => {
                     let arrayResult = [
@@ -283,8 +369,8 @@ function BiosamplesResults (props) {
           }
         }
       } catch (error) {
-        setError('Error. Please retry')
-        setTimeOut(false)
+        setError('Connection error. Please retry')
+        setTimeOut(true)
         console.log(error)
       }
     }
@@ -308,15 +394,6 @@ function BiosamplesResults (props) {
     setShow1(false)
     setShow2(false)
   }
-
-  const handleSkipChanges = e => {
-    setSkip(Number(e.target.value))
-  }
-
-  const handleLimitChanges = e => {
-    setLimit(Number(e.target.value))
-  }
-
   const onSubmit = () => {
     setSkipTrigger(skip)
     setLimitTrigger(limit)
@@ -339,7 +416,7 @@ function BiosamplesResults (props) {
       <div>
         <div>
           {' '}
-          {timeOut && (
+          {timeOut && error !== 'Connection error. Please retry' && (
             <div>
               <div className='selectGranularity'>
                 <h4>Granularity:</h4>
@@ -355,11 +432,15 @@ function BiosamplesResults (props) {
               </div>
             </div>
           )}
+          {timeOut && error === 'Connection error. Please retry' && (
+            <h3>&nbsp; {error} </h3>
+          )}
           {show3 && logInRequired === false && !error && (
             <div className='containerTableResults'>
               <TableResultsBiosamples
                 show={'full'}
                 results={results}
+                resultsPerDataset={resultsPerDataset}
                 beaconsList={beaconsList}
               ></TableResultsBiosamples>
             </div>
@@ -370,6 +451,8 @@ function BiosamplesResults (props) {
             <div className='containerTableResults'>
               <TableResultsBiosamples
                 show={'count'}
+                resultsPerDataset={resultsPerDataset}
+                resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
               ></TableResultsBiosamples>
@@ -379,6 +462,8 @@ function BiosamplesResults (props) {
             <div className='containerTableResults'>
               <TableResultsBiosamples
                 show={'boolean'}
+                resultsPerDataset={resultsPerDataset}
+                resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
               ></TableResultsBiosamples>

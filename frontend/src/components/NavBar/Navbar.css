@@ -50,6 +50,7 @@
     height: 57px;
     background-color: #34495e;
     font-size: 0;
+    z-index: 2;
   }
 
   .nav2 {
@@ -486,6 +487,7 @@
     height: 57px;
     background-color: #3d72a6;
     font-size: 0;
+    z-index: 2;
   }
 
   .nav2 {
@@ -852,6 +854,7 @@
     background-color: #3d72a6;
     font-size: 0;
     justify-content: center;
+    z-index: 2;
   }
 
   .buttonMenu {

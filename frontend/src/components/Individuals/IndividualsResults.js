@@ -197,7 +197,7 @@ function IndividualsResults (props) {
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('No results. Please check the query and retry')
+            setError('ERROR. Please check the query and retry')
             setNumberResults(0)
             setBoolean(false)
           } else {
@@ -297,7 +297,7 @@ function IndividualsResults (props) {
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('No results. Please check the query and retry')
+            setError('ERROR. Please check the query and retry')
             setNumberResults(0)
             setBoolean(false)
           } else {

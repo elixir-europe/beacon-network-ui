@@ -112,7 +112,7 @@ function Navbar () {
         </NavLink>
         <NavLink
           exact
-          to='/cross-queries/allScopes/%20/'
+          to='/allScopes/cross-queries/%20/'
           className={({ isActive }) =>
             isActive ? 'Cross-queries2' : 'Cross-queries'
           }
@@ -334,7 +334,7 @@ function Navbar () {
                     </NavLink>
                     <NavLink
                       exact
-                      to='/cross-queries/allScopes/%20/'
+                      to='/allScopes/cross-queries/%20/'
                       onClick={handleMenu}
                       className={({ isActive }) =>
                         isActive ? 'Cross-queries2' : 'Cross-queries'

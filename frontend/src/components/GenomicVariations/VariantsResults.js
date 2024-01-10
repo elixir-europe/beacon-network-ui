@@ -210,7 +210,7 @@ function VariantsResults (props) {
               res.data.responseSummary.numTotalResults < 1 ||
               res.data.responseSummary.numTotalResults === undefined
             ) {
-              setError('No results. Please check the query and retry')
+              setError('ERROR. Please check the query and retry')
               setNumberResults(0)
               setBoolean(false)
             } else {
@@ -311,7 +311,7 @@ function VariantsResults (props) {
               res.data.responseSummary.numTotalResults < 1 ||
               res.data.responseSummary.numTotalResults === undefined
             ) {
-              setError('No results. Please check the query and retry')
+              setError('ERROR. Please check the query and retry')
               setNumberResults(0)
               setBoolean(false)
             } else {
@@ -429,7 +429,7 @@ function VariantsResults (props) {
             requestParameters['aminoacidChange'] = props.aminoacid2
           }
           if (props.geneID !== '') {
-            requestParameters['gene'] = props.geneID
+            requestParameters['geneId'] = props.geneID
           }
           if (props.assemblyId !== '') {
             requestParameters['assemblyId'] = props.assemblyId
@@ -472,7 +472,7 @@ function VariantsResults (props) {
               configData.API_URL + '/g_variants',
               jsonData1
             )
-            console.log(res)
+            console.log(jsonData1)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
             res = await axios.post(
@@ -485,7 +485,7 @@ function VariantsResults (props) {
           setTimeOut(true)
           if (!res.data.responseSummary.numTotalResults) {
             setTimeOut(true)
-            setError('No results. Please check the query and retry')
+            setError('ERROR. Please check the query and retry')
             setNumberResults(0)
             setBoolean(false)
           } else {

@@ -1,9 +1,9 @@
-import './Verifier.css'
+import './Validator.css'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import configData from '../../config.json'
 
-function Verifier () {
+function Validator () {
   const [verifierUrl, setVerifierUrl] = useState('')
   const [response, setResponse] = useState([])
   const [showResults, setShowResults] = useState(false)
@@ -121,8 +121,6 @@ function Verifier () {
                       <div className='errorMessage'>
                         <h9>Code:</h9>
                         <h1>{element.code}</h1>
-                        <h9>Path:</h9>
-                        <h1>{element.path}</h1>
                         <h9>Location:</h9>
                         <h1>{element.location}</h1>
                         <h9>Message:</h9>
@@ -145,4 +143,4 @@ function Verifier () {
   )
 }
 
-export default Verifier
+export default Validator

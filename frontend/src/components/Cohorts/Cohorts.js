@@ -60,9 +60,9 @@ function Cohorts (props) {
 
   const [noCollectionEvents, setNoCollectionEvents] = useState(false)
 
-  const handleSelectedFilter = e => {
-    setSelectedFilter(e.target.value)
-  }
+  //const handleSelectedFilter = e => {
+  //setSelectedFilter(e.target.value)
+  //}
 
   const handleSelectedValue = e => {
     setSelectedValue(e.target.value)
@@ -186,351 +186,346 @@ function Cohorts (props) {
     }
   }, [response])
 
-  const submitFilters = e => {
-    if (selectedFilter === 'dis_eth') {
-      setShowDis2(false)
-      setShowEth2(false)
-      setShowEth(false)
-      setShowDis(true)
-      if (
-        dis_eth[valueToFilter] !== null &&
-        dis_eth[valueToFilter] !== undefined
-      ) {
-        setResponse(dis_eth[`${valueToFilter}`])
-      } else {
-        setError('Not found')
-      }
-    } else if (selectedFilter === 'dis_sex') {
-      setShowDis(false)
-      setShowEth2(false)
-      setShowEth(false)
-      setShowDis2(true)
-      if (
-        dis_sex[valueToFilter] !== null &&
-        dis_sex[valueToFilter] !== undefined
-      ) {
-        setResponse(dis_sex[`${valueToFilter}`])
-      } else {
-        setError('Not found')
-      }
-    } else if (selectedFilter === 'eth_sex') {
-      setShowDis2(false)
-      setShowDis(false)
-      setShowEth(false)
-      setShowEth2(true)
-      if (
-        eth_sex[valueToFilter] !== null &&
-        eth_sex[valueToFilter] !== undefined
-      ) {
-        setResponse(eth_sex[`${valueToFilter}`])
-      } else {
-        setError('Not found')
-      }
-    } else if (selectedFilter === 'eth_dis') {
-      setShowDis2(false)
-      setShowDis(false)
-      setShowEth2(false)
-      setShowEth(true)
-      if (
-        eth_dis[valueToFilter] !== null &&
-        eth_dis[valueToFilter] !== undefined
-      ) {
-        setResponse(eth_dis[`${valueToFilter}`])
-      } else {
-        setError('Not found')
-      }
-    }
-  }
+  // const submitFilters = e => {
+  //   if (selectedFilter === 'dis_eth') {
+  //     setShowDis2(false)
+  //     setShowEth2(false)
+  //     setShowEth(false)
+  //     setShowDis(true)
+  //     if (
+  //       dis_eth[valueToFilter] !== null &&
+  //       dis_eth[valueToFilter] !== undefined
+  //     ) {
+  //       setResponse(dis_eth[`${valueToFilter}`])
+  //     } else {
+  //       setError('Not found')
+  //     }
+  //   } else if (selectedFilter === 'dis_sex') {
+  //     setShowDis(false)
+  //     setShowEth2(false)
+  //     setShowEth(false)
+  //     setShowDis2(true)
+  //     if (
+  //       dis_sex[valueToFilter] !== null &&
+  //       dis_sex[valueToFilter] !== undefined
+  //     ) {
+  //       setResponse(dis_sex[`${valueToFilter}`])
+  //     } else {
+  //       setError('Not found')
+  //     }
+  //   } else if (selectedFilter === 'eth_sex') {
+  //     setShowDis2(false)
+  //     setShowDis(false)
+  //     setShowEth(false)
+  //     setShowEth2(true)
+  //     if (
+  //       eth_sex[valueToFilter] !== null &&
+  //       eth_sex[valueToFilter] !== undefined
+  //     ) {
+  //       setResponse(eth_sex[`${valueToFilter}`])
+  //     } else {
+  //       setError('Not found')
+  //     }
+  //   } else if (selectedFilter === 'eth_dis') {
+  //     setShowDis2(false)
+  //     setShowDis(false)
+  //     setShowEth2(false)
+  //     setShowEth(true)
+  //     if (
+  //       eth_dis[valueToFilter] !== null &&
+  //       eth_dis[valueToFilter] !== undefined
+  //     ) {
+  //       setResponse(eth_dis[`${valueToFilter}`])
+  //     } else {
+  //       setError('Not found')
+  //     }
+  //   }
+  // }
 
   useEffect(() => {
     console.log(selectedCohorts)
     console.log(arrayCohorts)
     const apiCall = () => {
       arrayCohorts.forEach(element => {
-       console.log(element)
-        selectedCohorts.forEach(element2 => {
-          if (element.id === element2[0].value) {
-            
-            if (element.collectionEvents) {
-              console.log("holi")
-              element.collectionEvents.forEach(element2 => {
-                if (Object.keys(element2).length !== 0) {
-                  let sexs = ''
-                  let ethnicities = ''
-                  let geoData = ''
-                  let diseasesData = ''
-                  let diseases_eth = ''
-                  let diseases_sex = ''
-                  let ethnicities_dis = ''
-                  let ethnicities_sex = ''
-                  let valuesSex = ''
-                  let labelsSex = ''
-                  let valuesEthnicities = ''
-                  let labelsEthnicities = ''
-                  let valuesGeo = ''
-                  let labelsGeo = ''
-                  let entriesGeo = ''
-                  let valuesDiseases = ''
-                  let labelsDiseases = ''
+        console.log(element)
 
-                  // for (var i = 0; i < res.data.response.collections.length; i++) {
-                  if (element2.eventGenders !== undefined) {
-                    sexs = element2.eventGenders.distribution.genders
+        if (element.id === selectedCohorts.value) {
+          if (element.collectionEvents) {
+            element.collectionEvents.forEach(element2 => {
+              if (Object.keys(element2).length !== 0) {
+                let sexs = ''
+                let ethnicities = ''
+                let geoData = ''
+                let diseasesData = ''
+                let diseases_eth = ''
+                let diseases_sex = ''
+                let ethnicities_dis = ''
+                let ethnicities_sex = ''
+                let valuesSex = ''
+                let labelsSex = ''
+                let valuesEthnicities = ''
+                let labelsEthnicities = ''
+                let valuesGeo = ''
+                let labelsGeo = ''
+                let entriesGeo = ''
+                let valuesDiseases = ''
+                let labelsDiseases = ''
 
-                    setDataAvailable(true)
-                  }
-                  if (element2.eventEthnicities !== undefined) {
-                    ethnicities =
-                      element2.eventEthnicities.distribution.ethnicities
-                  }
-                  if (element2.eventLocations !== undefined) {
-                    geoData = element2.eventLocations.distribution.locations
-                  }
-                  if (element2.eventDiseases !== undefined) {
-                    diseasesData = element2.eventDiseases.distribution.diseases
-                    diseases_eth =
-                      element2.eventDiseases.distribution.diseases_ethnicity
-                    diseases_sex =
-                      element2.eventDiseases.distribution.diseases_sex
-                  }
+                // for (var i = 0; i < res.data.response.collections.length; i++) {
+                if (element2.eventGenders !== undefined) {
+                  sexs = element2.eventGenders.distribution.genders
 
-                  if (diseases_eth !== '') {
-                    setDisEth(diseases_eth)
-                    setFilterDisEth(true)
-                  }
-                  if (diseases_sex !== '') {
-                    setDisSex(diseases_sex)
-                    setFilterDisSex(true)
-                  }
+                  setDataAvailable(true)
+                }
+                if (element2.eventEthnicities !== undefined) {
+                  ethnicities =
+                    element2.eventEthnicities.distribution.ethnicities
+                }
+                if (element2.eventLocations !== undefined) {
+                  geoData = element2.eventLocations.distribution.locations
+                }
+                if (element2.eventDiseases !== undefined) {
+                  diseasesData = element2.eventDiseases.distribution.diseases
+                  diseases_eth =
+                    element2.eventDiseases.distribution.diseases_ethnicity
+                  diseases_sex =
+                    element2.eventDiseases.distribution.diseases_sex
+                }
 
-                  if (element2.eventEthnicities !== undefined) {
-                    ethnicities_dis =
-                      element2.eventEthnicities.distribution.ethnicities_disease
-                    ethnicities_sex =
-                      element2.eventEthnicities.distribution.ethnicities_sex
-                  }
+                if (diseases_eth !== '') {
+                  setDisEth(diseases_eth)
+                  setFilterDisEth(true)
+                }
+                if (diseases_sex !== '') {
+                  setDisSex(diseases_sex)
+                  setFilterDisSex(true)
+                }
 
-                  if (ethnicities_dis !== '') {
-                    setEthDis(ethnicities_dis)
-                    setFilterEthDis(true)
-                  }
-                  if (ethnicities_sex !== '') {
-                    setEthSex(ethnicities_sex)
-                    setFilterEthSex(true)
-                  }
+                if (element2.eventEthnicities !== undefined) {
+                  ethnicities_dis =
+                    element2.eventEthnicities.distribution.ethnicities_disease
+                  ethnicities_sex =
+                    element2.eventEthnicities.distribution.ethnicities_sex
+                }
 
-                  setNameCohort(element.name)
+                if (ethnicities_dis !== '') {
+                  setEthDis(ethnicities_dis)
+                  setFilterEthDis(true)
+                }
+                if (ethnicities_sex !== '') {
+                  setEthSex(ethnicities_sex)
+                  setFilterEthSex(true)
+                }
 
-                  if (sexs !== '') {
-                    valuesSex = Object.values(sexs)
-                    labelsSex = Object.keys(sexs)
-                  }
+                setNameCohort(element.name)
 
-                  if (ethnicities !== '') {
-                    valuesEthnicities = Object.values(ethnicities)
-                    labelsEthnicities = Object.keys(ethnicities)
-                  }
+                if (sexs !== '') {
+                  valuesSex = Object.values(sexs)
+                  labelsSex = Object.keys(sexs)
+                }
 
-                  if (labelsEthnicities !== '') {
-                    setLabelsEthnicities(labelsEthnicities)
-                  }
-                  console.log(geoData)
-                  if (geoData !== '') {
-                    valuesGeo = Object.values(geoData)
-                    labelsGeo = Object.keys(geoData)
-                    entriesGeo = Object.entries(geoData)
-                  }
+                if (ethnicities !== '') {
+                  valuesEthnicities = Object.values(ethnicities)
+                  labelsEthnicities = Object.keys(ethnicities)
+                }
 
-                  if (diseasesData !== '') {
-                    valuesDiseases = Object.values(diseasesData)
-                    labelsDiseases = Object.keys(diseasesData)
-                  }
+                if (labelsEthnicities !== '') {
+                  setLabelsEthnicities(labelsEthnicities)
+                }
+                console.log(geoData)
+                if (geoData !== '') {
+                  valuesGeo = Object.values(geoData)
+                  labelsGeo = Object.keys(geoData)
+                  entriesGeo = Object.entries(geoData)
+                }
 
-                  if (labelsDiseases !== '') {
-                    setLabelsDiseases(labelsDiseases)
-                  }
+                if (diseasesData !== '') {
+                  valuesDiseases = Object.values(diseasesData)
+                  labelsDiseases = Object.keys(diseasesData)
+                }
 
-                  if (valuesSex !== '' && labelsSex !== '') {
-                    var optionsSex = {
-                      chart: {
-                        type: 'donut'
-                      },
-                      title: {
-                        text: 'Sex'
-                      },
-                      series: valuesSex,
-                      labels: labelsSex
-                    }
+                if (labelsDiseases !== '') {
+                  setLabelsDiseases(labelsDiseases)
+                }
 
-                    var chartSex = new ApexCharts(
-                      document.querySelector('#chartSex'),
-                      optionsSex
-                    )
-
-                    chartSex.render()
+                if (valuesSex !== '' && labelsSex !== '') {
+                  var optionsSex = {
+                    chart: {
+                      type: 'donut'
+                    },
+                    title: {
+                      text: 'Sex'
+                    },
+                    series: valuesSex,
+                    labels: labelsSex
                   }
 
-                  if (valuesEthnicities !== '' && labelsEthnicities !== '') {
-                    var optionsEthnicity = {
-                      chart: {
-                        type: 'bar'
-                      },
-                      title: {
-                        text: 'Ethnicity',
-                        align: 'center',
-                        floating: true
-                      },
-                      series: [
-                        {
-                          name: 'Number of individuals',
-                          data: valuesEthnicities
-                        }
-                      ],
-                      xaxis: {
-                        categories: labelsEthnicities
+                  var chartSex = new ApexCharts(
+                    document.querySelector('#chartSex'),
+                    optionsSex
+                  )
+
+                  chartSex.render()
+                }
+
+                if (valuesEthnicities !== '' && labelsEthnicities !== '') {
+                  var optionsEthnicity = {
+                    chart: {
+                      type: 'bar'
+                    },
+                    title: {
+                      text: 'Ethnicity',
+                      align: 'center',
+                      floating: true
+                    },
+                    series: [
+                      {
+                        name: 'Number of individuals',
+                        data: valuesEthnicities
                       }
+                    ],
+                    xaxis: {
+                      categories: labelsEthnicities
                     }
-
-                    var chartEthnicity = new ApexCharts(
-                      document.querySelector('#chartEthnicity'),
-                      optionsEthnicity
-                    )
-                    chartEthnicity.render()
                   }
 
-                  if (valuesGeo !== '' && labelsGeo !== '') {
-                    var optionsGeo = {
-                      chart: {
-                        type: 'pie'
-                      },
-                      title: {
-                        text: 'Geographical origin'
-                      },
-                      series: valuesGeo,
-                      labels: labelsGeo
-                    }
+                  var chartEthnicity = new ApexCharts(
+                    document.querySelector('#chartEthnicity'),
+                    optionsEthnicity
+                  )
+                  chartEthnicity.render()
+                }
 
-                    var chartGeo = new ApexCharts(
-                      document.querySelector('#chartGeo'),
-                      optionsGeo
-                    )
-                    chartGeo.render()
+                if (valuesGeo !== '' && labelsGeo !== '') {
+                  var optionsGeo = {
+                    chart: {
+                      type: 'pie'
+                    },
+                    title: {
+                      text: 'Geographical origin'
+                    },
+                    series: valuesGeo,
+                    labels: labelsGeo
                   }
 
-                  if (valuesDiseases !== '' && labelsDiseases !== '') {
-                    var optionsDiseases = {
-                      series: [
-                        {
-                          data: valuesDiseases
+                  var chartGeo = new ApexCharts(
+                    document.querySelector('#chartGeo'),
+                    optionsGeo
+                  )
+                  chartGeo.render()
+                }
+
+                if (valuesDiseases !== '' && labelsDiseases !== '') {
+                  var optionsDiseases = {
+                    series: [
+                      {
+                        data: valuesDiseases
+                      }
+                    ],
+                    chart: {
+                      type: 'bar',
+                      height: 630
+                    },
+                    plotOptions: {
+                      bar: {
+                        barHeight: '100%',
+                        distributed: true,
+                        horizontal: true,
+                        dataLabels: {
+                          position: 'bottom'
                         }
-                      ],
-                      chart: {
-                        type: 'bar',
-                        height: 630
-                      },
-                      plotOptions: {
-                        bar: {
-                          barHeight: '100%',
-                          distributed: true,
-                          horizontal: true,
-                          dataLabels: {
-                            position: 'bottom'
-                          }
-                        }
-                      },
-                      colors: [
-                        '#33b2df',
-                        '#546E7A',
-                        '#FFD700',
-                        '#2b908f',
-                        '#DC143C',
-                        '#f48024',
-                        '#69d2e7',
-                        '#13d8aa',
-                        '#A5978B',
-                        '#f9a3a4',
-                        '#FF4500',
-                        '#51f08e',
-                        '#b051f0',
-                        '#CCFF33',
-                        '#FF66CC',
-                        '#FF3333',
-                        '#6633CC',
-                        '#CD853F',
-                        '#3333FF',
-                        '#FF3333'
-                      ],
-                      dataLabels: {
-                        enabled: true,
-                        textAnchor: 'start',
-                        style: {
-                          colors: ['#fff']
-                        },
-                        formatter: function (val, opt) {
-                          return (
-                            opt.w.globals.labels[opt.dataPointIndex] +
-                            ':  ' +
-                            val
-                          )
-                        },
-                        offsetX: 0,
-                        dropShadow: {
-                          enabled: true
-                        }
-                      },
-                      stroke: {
-                        width: 1,
+                      }
+                    },
+                    colors: [
+                      '#33b2df',
+                      '#546E7A',
+                      '#FFD700',
+                      '#2b908f',
+                      '#DC143C',
+                      '#f48024',
+                      '#69d2e7',
+                      '#13d8aa',
+                      '#A5978B',
+                      '#f9a3a4',
+                      '#FF4500',
+                      '#51f08e',
+                      '#b051f0',
+                      '#CCFF33',
+                      '#FF66CC',
+                      '#FF3333',
+                      '#6633CC',
+                      '#CD853F',
+                      '#3333FF',
+                      '#FF3333'
+                    ],
+                    dataLabels: {
+                      enabled: true,
+                      textAnchor: 'start',
+                      style: {
                         colors: ['#fff']
                       },
-                      xaxis: {
-                        categories: labelsDiseases
+                      formatter: function (val, opt) {
+                        return (
+                          opt.w.globals.labels[opt.dataPointIndex] + ':  ' + val
+                        )
                       },
-                      yaxis: {
-                        labels: {
-                          show: false
-                        }
+                      offsetX: 0,
+                      dropShadow: {
+                        enabled: true
+                      }
+                    },
+                    stroke: {
+                      width: 1,
+                      colors: ['#fff']
+                    },
+                    xaxis: {
+                      categories: labelsDiseases
+                    },
+                    yaxis: {
+                      labels: {
+                        show: false
+                      }
+                    },
+                    title: {
+                      text: 'Diseases',
+                      align: 'center',
+                      floating: true
+                    },
+                    tooltip: {
+                      theme: 'dark',
+                      x: {
+                        show: false
                       },
-                      title: {
-                        text: 'Diseases',
-                        align: 'center',
-                        floating: true
-                      },
-                      tooltip: {
-                        theme: 'dark',
-                        x: {
-                          show: false
-                        },
-                        y: {
-                          title: {
-                            formatter: function () {
-                              return ''
-                            }
+                      y: {
+                        title: {
+                          formatter: function () {
+                            return ''
                           }
                         }
                       }
                     }
-
-                    var chartDiseases = new ApexCharts(
-                      document.querySelector('#chartDiseases'),
-                      optionsDiseases
-                    )
-                    chartDiseases.render()
                   }
-                  setTimeOut(true)
-                } else {
-                  setTimeOut(true)
-                  setDataAvailable(false)
+
+                  var chartDiseases = new ApexCharts(
+                    document.querySelector('#chartDiseases'),
+                    optionsDiseases
+                  )
+                  chartDiseases.render()
                 }
-              })
-            } else {
-              setNoCollectionEvents(true)
-            }
+                setTimeOut(true)
+              } else {
+                setTimeOut(true)
+                setDataAvailable(false)
+              }
+            })
+          } else {
+            setNoCollectionEvents(true)
           }
-        })
+        }
       })
     }
     setTrigger(true)
-    if (selectedCohorts.length > 0) {
+    if (selectedCohorts) {
       apiCall()
     }
   }, [showGraphs, trigger])
@@ -674,7 +669,9 @@ function Cohorts (props) {
         </>
       )}
 
-      {trigger && noCollectionEvents && <h10>NO GRAPHICS AVAILABLE FOR THE SELECTED COHORTS</h10>}
+      {trigger && noCollectionEvents && (
+        <h10>NO GRAPHICS AVAILABLE FOR THE SELECTED COHORTS</h10>
+      )}
       {showGraphs === true && dataAvailable === false && timeOut === true && (
         <div>
           <h12>

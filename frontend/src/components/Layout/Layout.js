@@ -22,6 +22,9 @@ import axios from 'axios'
 import ReactModal from 'react-modal'
 
 import IndividualsResults from '../Individuals/IndividualsResults'
+import AnalysesResults from '../Analyses/AnalysesResults'
+import RunsResults from '../Runs/RunsResults'
+
 import CohortsModule from '../Cohorts/CohortsModule'
 
 function Layout (props) {
@@ -98,6 +101,10 @@ function Layout (props) {
   const [assemblyId, setAssemblyId] = useState('')
   const [assemblyId2, setAssemblyId2] = useState('')
   const [assemblyId3, setAssemblyId3] = useState('')
+
+  const [sequenceSubmitted, setSequenceSub] = useState(false)
+  const [rangeSubmitted, setRangeSub] = useState(false)
+  const [geneSubmitted, setGeneSub] = useState(false)
 
   const [hideForm, setHideForm] = useState(false)
 
@@ -286,7 +293,7 @@ function Layout (props) {
         ['sampleOriginType:blood']
       ])
     } else if (props.collection === 'Runs') {
-      setExampleQ([['']])
+      setExampleQ([['OBI:0002048']])
     } else if (props.collection === 'Analyses') {
       setExampleQ([['']])
     }
@@ -487,6 +494,7 @@ function Layout (props) {
   }
 
   const handleSubmit = async e => {
+    setShowVariants(true)
     e.preventDefault()
     setPlaceholder('filtering term comma-separated, ID><=value')
     setIsSub(!isSubmitted)
@@ -529,6 +537,16 @@ function Layout (props) {
             isOpen={popUp}
             onRequestClose={handleCloseModal3}
             shouldCloseOnOverlayClick={true}
+            style={{
+              overlay: {
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 3,
+                backgroundColor: 'rgba(255, 255, 255, 0.75)'
+              }}}
           >
             <button onClick={handleCloseModal3}>
               <img
@@ -903,6 +921,7 @@ function Layout (props) {
                       className='buttonVariants'
                       type='submit'
                       value='Search'
+                      onClick={() => setSequenceSub(true)}
                     />
                   </div>
                 </section>
@@ -999,6 +1018,7 @@ function Layout (props) {
                       className='buttonVariants'
                       type='submit'
                       value='Search'
+                      onClick={() => setRangeSub(true)}
                     />
                   </div>
                 </section>
@@ -1042,6 +1062,7 @@ function Layout (props) {
                       className='buttonVariants'
                       type='submit'
                       value='Search'
+                      onClick={() => setGeneSub(true)}
                     />
                   </div>
                 </section>
@@ -1056,6 +1077,16 @@ function Layout (props) {
           isOpen={isOpenModal1}
           onRequestClose={handleCloseModal1}
           shouldCloseOnOverlayClick={true}
+          style={{
+            overlay: {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 3,
+              backgroundColor: 'rgba(255, 255, 255, 0.75)'
+            }}}
         >
           <button onClick={handleCloseModal1}>
             <img
@@ -1071,6 +1102,16 @@ function Layout (props) {
           isOpen={isOpenModal2}
           onRequestClose={handleCloseModal2}
           shouldCloseOnOverlayClick={true}
+          style={{
+            overlay: {
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              zIndex: 3,
+              backgroundColor: 'rgba(255, 255, 255, 0.75)'
+            }}}
         >
           <button onClick={handleCloseModal2}>
             <img
@@ -1133,9 +1174,68 @@ function Layout (props) {
             />
           </div>
         )}
+         {isSubmitted && results === 'Analyses' && triggerQuery && (
+          <div>
+            <AnalysesResults
+              query={query}
+              resultSets={resultSet}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
+              isSubmitted={isSubmitted}
+            />
+          </div>
+        )}
+        {isSubmitted && results === 'Analyses' && !triggerQuery && (
+          <div>
+            <AnalysesResults
+              query={query}
+              resultSets={resultSet}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
+              isSubmitted={isSubmitted}
+            />
+          </div>
+        )}
+            {isSubmitted && results === 'Runs' && triggerQuery && (
+          <div>
+            <RunsResults
+              query={query}
+              resultSets={resultSet}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
+              isSubmitted={isSubmitted}
+            />
+          </div>
+        )}
+        {isSubmitted && results === 'Runs' && !triggerQuery && (
+          <div>
+            <RunsResults
+              query={query}
+              resultSets={resultSet}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
+              isSubmitted={isSubmitted}
+            />
+          </div>
+        )}
         {isSubmitted && results === 'Variant' && triggerQuery && (
           <div>
             <VariantsResults
+              geneSubmitted={geneSubmitted}
+              sequenceSubmitted={sequenceSubmitted}
+              rangeSubmitted={rangeSubmitted}
               query={query}
               resultSets={resultSet}
               showResultsVariants={showResultsVariants}
@@ -1166,6 +1266,9 @@ function Layout (props) {
         {isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
+              geneSubmitted={geneSubmitted}
+              sequenceSubmitted={sequenceSubmitted}
+              rangeSubmitted={rangeSubmitted}
               query={query}
               resultSets={resultSet}
               showResultsVariants={showResultsVariants}
@@ -1196,6 +1299,9 @@ function Layout (props) {
         {!isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
+              geneSubmitted={geneSubmitted}
+              sequenceSubmitted={sequenceSubmitted}
+              rangeSubmitted={rangeSubmitted}
               query={query}
               resultSets={resultSet}
               showResultsVariants={showResultsVariants}

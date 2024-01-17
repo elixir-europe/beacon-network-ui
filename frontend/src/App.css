@@ -19,6 +19,13 @@ html {
   margin-top: 10px;
 }
 
+.version {
+  margin-bottom: 19px;
+  margin-right: 42px;
+  margin-top: 7px;
+  color: rgb(68, 99, 176) !important;
+}
+
 .searchButton {
   padding-right: 4px;
   padding-left: 0px;
@@ -639,15 +646,14 @@ hr {
   margin-left: 20px;
 }
 
+
 .logos {
   display: flex;
   width: 100vw;
-  align-items: center;
-  align-content: flex-end;
-  flex-direction: row-reverse;
-  /* justify-content: flex-end; */
+  align-items: flex-end;
   margin-bottom: -11px;
   margin-top: -16px;
+  flex-direction: column;
 }
 
 .helpButton:hover {
@@ -1029,6 +1035,15 @@ h5 {
     font-size: 11px;
     text-underline-offset: 1px;
   }
+
+  .version {
+    margin-bottom: 46px;
+    margin-right: 35px;
+    margin-top: -35px;
+    color: rgb(68, 99, 176) !important;
+    font-weight: 600;
+  }
+
 
   .inputVariants {
     height: 24px;

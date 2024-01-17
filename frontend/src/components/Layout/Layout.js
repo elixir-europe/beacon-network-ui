@@ -528,6 +528,7 @@ function Layout (props) {
               alt='elixirLogo'
             ></img>
           </a>
+          <h1 className='version'>v0.5.0</h1>
         </div>
       </div>
 

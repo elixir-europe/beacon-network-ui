@@ -19,6 +19,13 @@ html {
   margin-top: 10px;
 }
 
+.version {
+  margin-top: 14px;
+  margin-bottom: 10px;
+  margin-right: 40px;
+  color: rgb(68, 99, 176) !important;
+}
+
 .searchButton {
   padding-right: 4px;
   padding-left: 0px;
@@ -642,12 +649,10 @@ hr {
 .logos {
   display: flex;
   width: 100vw;
-  align-items: center;
-  align-content: flex-end;
-  flex-direction: row-reverse;
-  /* justify-content: flex-end; */
+  align-items: flex-end;
   margin-bottom: -11px;
   margin-top: -16px;
+  flex-direction: column;
 }
 
 .helpButton:hover {
@@ -657,7 +662,7 @@ hr {
 .impactLogo {
   height: 60px;
   margin-top: 42px;
-  margin-right: 28px;
+  margin-right: 30px;
 }
 
 .bulbLogo {
@@ -1108,7 +1113,7 @@ h5 {
     padding: 2px;
   }
 
-  .ReactModal__Overlay{
+  .ReactModal__Overlay {
     z-index: 3;
   }
 

@@ -516,7 +516,6 @@ function Layout (props) {
         <NavLink className='NavlinkVerifier' exact to='/validator'>
           BEACON VALIDATOR
         </NavLink>
-
         <div className='logos'>
           {/* <a href="https://www.cineca-project.eu/" target="_blank">
                         <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
@@ -539,6 +538,7 @@ function Layout (props) {
               alt='impactLogo'
             ></img>
           </a>
+          <h1 className='version'>v0.5.0</h1>
         </div>
       </div>
 
@@ -557,7 +557,8 @@ function Layout (props) {
                 bottom: 0,
                 zIndex: 3,
                 backgroundColor: 'rgba(255, 255, 255, 0.75)'
-              }}}
+              }
+            }}
           >
             <button onClick={handleCloseModal3}>
               <img
@@ -1097,7 +1098,8 @@ function Layout (props) {
               bottom: 0,
               zIndex: 3,
               backgroundColor: 'rgba(255, 255, 255, 0.75)'
-            }}}
+            }
+          }}
         >
           <button onClick={handleCloseModal1}>
             <img
@@ -1122,7 +1124,8 @@ function Layout (props) {
               bottom: 0,
               zIndex: 3,
               backgroundColor: 'rgba(255, 255, 255, 0.75)'
-            }}}
+            }
+          }}
         >
           <button onClick={handleCloseModal2}>
             <img
@@ -1185,7 +1188,7 @@ function Layout (props) {
             />
           </div>
         )}
-         {isSubmitted && results === 'Analyses' && triggerQuery && (
+        {isSubmitted && results === 'Analyses' && triggerQuery && (
           <div>
             <AnalysesResults
               query={query}
@@ -1213,7 +1216,7 @@ function Layout (props) {
             />
           </div>
         )}
-            {isSubmitted && results === 'Runs' && triggerQuery && (
+        {isSubmitted && results === 'Runs' && triggerQuery && (
           <div>
             <RunsResults
               query={query}

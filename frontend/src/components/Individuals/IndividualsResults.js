@@ -28,7 +28,7 @@ function IndividualsResults (props) {
   const [timeOut, setTimeOut] = useState(false)
 
   const [logInRequired, setLoginRequired] = useState(false)
- 
+
   const [messageLoginFullResp, setMessageLoginFullResp] = useState('')
 
   const [limit, setLimit] = useState(0)
@@ -202,7 +202,6 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-             
               if (element.id && element.id !== '') {
                 if (resultsPerDataset.length > 0) {
                   console.log(resultsPerDataset)
@@ -212,7 +211,6 @@ function IndividualsResults (props) {
                       element2[2].push(element.exists)
                       element2[3].push(element.resultsCount)
                     } else {
-                      
                       let arrayResultsPerDataset = [
                         element.beaconId,
                         [element.id],
@@ -284,12 +282,14 @@ function IndividualsResults (props) {
           } else {
             console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
-
+            console.log(headers)
             res = await axios.post(
               configData.API_URL + '/individuals',
               jsonData2,
               { headers: headers }
             )
+            console.log(res)
+            console.log(jsonData2)
           }
           setTimeOut(true)
 
@@ -468,6 +468,8 @@ function IndividualsResults (props) {
               ></TableResultsIndividuals>
             </div>
           )}
+          {show2 && error && <h3>&nbsp; {error} </h3>}
+          {show1 && error && <h3>&nbsp; {error} </h3>}
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ select {
   border: 2px solid #f3f4ff;
   font-size: medium;
   border-radius: 5px;
-  width: 150px;
+  width: 200px;
   margin-left: 10px;
   height: 22px;
   box-shadow: 1px 2px 2px #cecece;
@@ -33,7 +33,12 @@ select {
 
 .divCrossQueries {
   display: flex;
+  flex-wrap: wrap;
+  align-content: center;
   justify-content: center;
+  align-items: center;
+  width: 100vw;
+  flex-direction: column;
 }
 
 .crossQueriesForm label {
@@ -62,17 +67,17 @@ select {
 h5 {
   color: rgb(209, 66, 66);
   font-weight: bold;
-  width: 150%;
+  width: fit-content;
+  /* width: 150%; */
   display: flex;
   /* align-items: center; */
-  justify-content: flex-start;
+  justify-content: center;
   font-size: 14px;
 }
 
 h5:hover {
   color: rgb(118, 151, 228);
   font-weight: bold;
-  
 }
 
 .preCrossQueries {
@@ -91,7 +96,7 @@ h5:hover {
     font-size: 11px;
     width: 104px;
   }
-  .crossQueriesForm{
+  .crossQueriesForm {
     display: flex;
     flex-direction: column;
     /* justify-content: center; */
@@ -101,4 +106,16 @@ h5:hover {
     align-content: center;
     align-items: flex-start;
   }
+
+.inputId {
+  background: white;
+  border: 2px solid #f3f4ff;
+  font-size: 12px;
+  border-radius: 5px;
+  width: 200px;
+  margin-left: 10px;
+  height: 22px;
+  box-shadow: 1px 2px 2px #cecece;
+}
+
 }

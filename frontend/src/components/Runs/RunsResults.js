@@ -1,6 +1,6 @@
 import '../Individuals/Individuals.css'
 import '../../App.css'
-import TableResultsBiosamples from '../Results/BiosamplesResults/TableResultsBiosamples'
+import TableResultsRuns from '../Results/RunsResults/TableResultsRuns'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
@@ -8,7 +8,7 @@ import { useAuth } from 'oidc-react'
 import configData from '../../config.json'
 import { useContext } from 'react'
 
-function BiosamplesResults (props) {
+function RunsResults (props) {
   const [showLayout, setShowLayout] = useState(false)
 
   const [beaconsList, setBeaconsList] = useState([])
@@ -179,14 +179,14 @@ function BiosamplesResults (props) {
 
           if (token === null) {
             res = await axios.post(
-              configData.API_URL + '/biosamples',
+              configData.API_URL + '/runs',
               jsonData1
             )
           } else {
             const headers = { Authorization: `Bearer ${token}` }
 
             res = await axios.post(
-              configData.API_URL + '/biosamples',
+              configData.API_URL + '/runs',
               jsonData1,
               { headers: headers }
             )
@@ -276,7 +276,7 @@ function BiosamplesResults (props) {
           if (token === null) {
             console.log('Querying without token')
             res = await axios.post(
-              configData.API_URL + '/biosamples',
+              configData.API_URL + '/runs',
               jsonData2
             )
           } else {
@@ -284,7 +284,7 @@ function BiosamplesResults (props) {
             const headers = { Authorization: `Bearer ${token}` }
 
             res = await axios.post(
-              configData.API_URL + '/biosamples',
+              configData.API_URL + '/runs',
               jsonData2,
               { headers: headers }
             )
@@ -366,7 +366,7 @@ function BiosamplesResults (props) {
           }
         }
       } catch (error) {
-        setError('Connection error. Please retry')
+        setError('No results. Please check the query and the connection and retry')
         setTimeOut(true)
         console.log(error)
       }
@@ -434,36 +434,36 @@ function BiosamplesResults (props) {
           )}
           {show3 && logInRequired === false && !error && (
             <div className='containerTableResults'>
-              <TableResultsBiosamples
+              <TableResultsRuns
                 show={'full'}
                 results={results}
                 resultsPerDataset={resultsPerDataset}
                 beaconsList={beaconsList}
-              ></TableResultsBiosamples>
+              ></TableResultsRuns>
             </div>
           )}
-          {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
+     
           {show3 && error && <h3>&nbsp; {error} </h3>}
           {show2 && !error && (
             <div className='containerTableResults'>
-              <TableResultsBiosamples
+              <TableResultsRuns
                 show={'count'}
                 resultsPerDataset={resultsPerDataset}
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
-              ></TableResultsBiosamples>
+              ></TableResultsRuns>
             </div>
           )}
           {show1 && !error && (
             <div className='containerTableResults'>
-              <TableResultsBiosamples
+              <TableResultsRuns
                 show={'boolean'}
                 resultsPerDataset={resultsPerDataset}
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
-              ></TableResultsBiosamples>
+              ></TableResultsRuns>
             </div>
           )}
           {show2 && error && <h3>&nbsp; {error} </h3>}
@@ -474,4 +474,4 @@ function BiosamplesResults (props) {
   )
 }
 
-export default BiosamplesResults
+export default RunsResults

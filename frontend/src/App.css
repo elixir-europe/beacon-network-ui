@@ -21,9 +21,10 @@ html {
 
 .version {
   margin-bottom: 19px;
-  margin-right: 42px;
+  margin-right: 46px;
   margin-top: 7px;
   color: rgb(68, 99, 176) !important;
+  font-weight: 700 !important;
 }
 
 .searchButton {

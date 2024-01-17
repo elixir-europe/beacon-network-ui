@@ -30,6 +30,7 @@ html {
   color: rgba(12, 16, 64, 0.606);
   font-size: 16px;
   font-variant-caps: all-petite-caps;
+  margin-top: 16px;
 }
 
 .modeVariants {
@@ -1105,6 +1106,10 @@ h5 {
     color: white;
     line-height: 20px;
     padding: 2px;
+  }
+
+  .ReactModal__Overlay{
+    z-index: 3;
   }
 
   .filters {

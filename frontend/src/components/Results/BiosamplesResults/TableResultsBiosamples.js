@@ -233,8 +233,10 @@ function TableResultsBiosamples (props) {
           if (element[1].biosampleStatus.id !== undefined) {
             biosampleStatus_id = element[1].biosampleStatus.id
           }
+          if (element[1].biosampleStatus.label !== undefined) {
+            biosampleStatus_label = element[1].biosampleStatus.label
+          }
 
-          biosampleStatus_label = element[1].biosampleStatus.label
           stringBiosampleStatus = `${biosampleStatus_id} / ${biosampleStatus_label} `
         } else {
           stringBiosampleStatus = ''
@@ -244,7 +246,10 @@ function TableResultsBiosamples (props) {
         let sampleOriginType_label = ''
         let stringSampleOriginType = ''
 
-        if (element[1].sampleOriginType !== '') {
+        if (
+          element[1].sampleOriginType !== '' &&
+          element[1].sampleOriginType !== undefined
+        ) {
           sampleOriginType_id = element[1].sampleOriginType.id
           sampleOriginType_label = element[1].sampleOriginType.label
           stringSampleOriginType = `${element[1].sampleOriginType.label} / ${element[1].sampleOriginType.id}`
@@ -274,6 +279,8 @@ function TableResultsBiosamples (props) {
         ) {
           if (typeof element[1].collectionDate === 'string') {
             collectionDateJson = element[1].collectionDate
+          } else {
+            collectionDateJson = element[1].collectionDate.toString()
           }
         }
 

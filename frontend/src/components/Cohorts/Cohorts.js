@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import Layout from '../Layout/Layout'
 import { NavLink, useNavigate } from 'react-router-dom'
 import configData from '../../config.json'
+import CohortsModule from './CohortsModule'
 
 function Cohorts (props) {
   const API_ENDPOINT = configData.API_URL + '/cohorts'
@@ -58,7 +59,10 @@ function Cohorts (props) {
 
   const [trigger, setTrigger] = useState(false)
 
+  const [trigger2, setTrigger2] = useState(false)
   const [noCollectionEvents, setNoCollectionEvents] = useState(false)
+
+  const [alreadySelectedCohort, setAlreadySelectedCohort] = useState(true)
 
   //const handleSelectedFilter = e => {
   //setSelectedFilter(e.target.value)
@@ -69,29 +73,33 @@ function Cohorts (props) {
   }
 
   useEffect(() => {
-    const fetchDataCohorts = async () => {
-      try {
-        let res = await axios.get(configData.API_URL + '/cohorts')
-        console.log(res)
-        res.data.response.collections.forEach(element => {
-          let obj = {
-            value: element.id,
-            label: element.id
-          }
-          optionsCohorts.push(obj)
-          arrayCohorts.push(element)
-          const timer = setTimeout(() => {
-            setTriggerLayout(true)
-          }, 2000)
-          return () => clearTimeout(timer)
-        })
-      } catch (error) {
-        setTimeOut(true)
-        console.log(error)
-        setError('Unexpected error. Please retry')
+    if (!props.newSearch) {
+      const fetchDataCohorts = async () => {
+        try {
+          let res = await axios.get(configData.API_URL + '/cohorts')
+          console.log(res)
+          res.data.response.collections.forEach(element => {
+            let obj = {
+              value: element.id,
+              label: element.id
+            }
+            optionsCohorts.push(obj)
+            arrayCohorts.push(element)
+            const timer = setTimeout(() => {
+              setTriggerLayout(true)
+            }, 2000)
+            return () => clearTimeout(timer)
+          })
+        } catch (error) {
+          setTimeOut(true)
+          console.log(error)
+          setError('Unexpected error. Please retry')
+        }
       }
+      fetchDataCohorts().catch(console.error)
+    } else {
+      setTimeOut(true)
     }
-    fetchDataCohorts().catch(console.error)
   }, [])
 
   useEffect(() => {
@@ -528,7 +536,7 @@ function Cohorts (props) {
     if (selectedCohorts) {
       apiCall()
     }
-  }, [showGraphs, trigger])
+  }, [showGraphs, trigger, trigger2])
 
   return (
     <div className='graphsDiv'>
@@ -566,8 +574,132 @@ function Cohorts (props) {
 
       {error !== '' && <h10>{error}</h10>}
 
-      {trigger && !noCollectionEvents && (
+      {trigger && trigger2 && !noCollectionEvents && showGraphs && (
         <>
+          <CohortsModule
+            optionsCohorts={optionsCohorts}
+            selectedCohorts={selectedCohorts}
+            setSelectedCohorts={setSelectedCohorts}
+            setShowGraphs={setShowGraphs}
+            alreadySelectedCohort={alreadySelectedCohort}
+            response={response}
+            setResponse={setResponse}
+            setTrigger2={setTrigger2}
+            trigger2={trigger2}
+          />
+          {nameCohort !== '' && <h3>{nameCohort}</h3>}
+          {showGraphs === true && (
+            <div className='chartModule'>
+              <div id='chartSex'></div>
+              <div id='chartGeo'></div>
+              <hr></hr>
+              <div className='ethnicity'>
+                {/* <div className='ethFilters'>
+                  <label for='ethnicities'>Filter:</label>
+                  <select
+                    name='filters'
+                    id='filtersSelect'
+                    onChange={handleSelectedFilter}
+                  >
+                    <option value=''></option>
+                    {filterEthSex && (
+                      <option value='eth_sex'>Ethnicities by sex</option>
+                    )}
+                    {filterEthDis && (
+                      <option value='eth_dis'>Ethnicities by disease</option>
+                    )}
+                  </select>
+
+                  <label for='ethnicities'>Select the ethnicity:</label>
+                  <select
+                    name='ethnicities'
+                    id='ethnicitiesSelect'
+                    onChange={handleSelectedValue}
+                  >
+                    <option value=''></option>
+                    {labelsEthnicities.map(element => {
+                      return <option value={element}>{element}</option>
+                    })}
+                  </select>
+                  <button className='buttonSubmit' onClick={submitFilters}>
+                    Submit
+                  </button>
+                </div> */}
+
+                {/* {showEthFiltered && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredEthnicity'></div>
+                  </div>
+                )}
+                {showEthFiltered2 && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredEthnicity2'></div>
+                  </div>
+                )} */}
+                <div id='chartEthnicity'></div>
+              </div>
+              <hr></hr>
+              <div className='diseases'>
+                {/* <div className='diseasesFilters'>
+                  <label for='ethnicities'>Filter:</label>
+                  <select
+                    name='filters'
+                    id='filtersSelect'
+                    onChange={handleSelectedFilter}
+                  >
+                    <option value=''></option>
+                    {filterDisEth && (
+                      <option value='dis_eth'>Diseases by ethnicity</option>
+                    )}
+                    {filterDisSex && (
+                      <option value='dis_sex'>Diseases by sex</option>
+                    )}
+                  </select>
+
+                  <select
+                    name='diseases'
+                    id='diseasesSelect'
+                    onChange={handleSelectedValue}
+                  >
+                    <option value=''></option>
+                    {labelsDiseases.map(element => {
+                      return <option value={element}>{element}</option>
+                    })}
+                  </select>
+                  <button className='buttonSubmit' onClick={submitFilters}>
+                    Submit
+                  </button>
+                </div>
+
+                {showDisFiltered && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredDisease'></div>
+                  </div>
+                )}
+                {showDisFiltered2 && (
+                  <div className='moduleFiltered'>
+                    <div id='chartFilteredDisease2'></div>
+                  </div>
+                )} */}
+                <div id='chartDiseases'></div>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+      {trigger && !trigger2 && !noCollectionEvents && showGraphs && (
+        <>
+          <CohortsModule
+            optionsCohorts={optionsCohorts}
+            selectedCohorts={selectedCohorts}
+            setSelectedCohorts={setSelectedCohorts}
+            setShowGraphs={setShowGraphs}
+            alreadySelectedCohort={alreadySelectedCohort}
+            response={response}
+            setResponse={setResponse}
+            setTrigger2={setTrigger2}
+            trigger2={trigger2}
+          />
           {nameCohort !== '' && <h3>{nameCohort}</h3>}
           {showGraphs === true && (
             <div className='chartModule'>
@@ -669,8 +801,8 @@ function Cohorts (props) {
         </>
       )}
 
-      {trigger && noCollectionEvents && (
-        <h10>NO GRAPHICS AVAILABLE FOR THE SELECTED COHORTS</h10>
+      {trigger && noCollectionEvents && showGraphs && (
+        <h10>NO GRAPHICS AVAILABLE FOR THE SELECTED COHORT</h10>
       )}
       {showGraphs === true && dataAvailable === false && timeOut === true && (
         <div>

@@ -387,76 +387,120 @@ function VariantsResults (props) {
           //   referenceName={referenceName} start={start} end={end} variantType={variantType} alternateBases={alternateBases} referenceBases={referenceBases} aminoacid={aminoacid} geneID={geneID} />
           //    </div>
 
-          var requestParameters = {}
-
+          var requestParametersSequence = {}
+          var requestParametersRange = {}
+          var requestParametersGene = {}
           if (props.referenceName !== '') {
-            requestParameters['referenceName'] = props.referenceName
+            requestParametersSequence['referenceName'] = props.referenceName
           }
           if (props.referenceName2 !== '') {
-            requestParameters['referenceName'] = props.referenceName2
+            requestParametersRange['referenceName'] = props.referenceName2
           }
           if (props.start !== '') {
-            requestParameters['start'] = props.start
+            requestParametersSequence['start'] = props.start
           }
           if (props.start2 !== '') {
-            requestParameters['start'] = props.start2
+            requestParametersRange['start'] = props.start2
           }
           if (props.end !== '') {
-            requestParameters['end'] = props.end
+            requestParametersRange['end'] = props.end
           }
           if (props.variantType !== '') {
-            requestParameters['variantType'] = props.variantType
+            requestParametersRange['variantType'] = props.variantType
           }
           if (props.variantType2 !== '') {
-            requestParameters['variantType'] = props.variantType2
+            requestParametersGene['variantType'] = props.variantType2
           }
           if (props.alternateBases !== '') {
-            requestParameters['alternateBases'] = props.alternateBases
+            requestParametersSequence['alternateBases'] = props.alternateBases
           }
           if (props.alternateBases2 !== '') {
-            requestParameters['alternateBases'] = props.alternateBases2
+            requestParametersRange['alternateBases'] = props.alternateBases2
           }
           if (props.referenceBases !== '') {
-            requestParameters['referenceBases'] = props.referenceBases
+            requestParametersSequence['referenceBases'] = props.referenceBases
           }
           if (props.referenceBases2 !== '') {
-            requestParameters['referenceBases'] = props.referenceBases2
+            requestParametersRange['referenceBases'] = props.referenceBases2
           }
           if (props.aminoacid !== '') {
-            requestParameters['aminoacidChange'] = props.aminoacid
+            requestParametersSequence['aminoacidChange'] = props.aminoacid
           }
           if (props.aminoacid2 !== '') {
-            requestParameters['aminoacidChange'] = props.aminoacid2
+            requestParametersRange['aminoacidChange'] = props.aminoacid2
           }
           if (props.geneID !== '') {
-            requestParameters['geneId'] = props.geneID
+            requestParametersGene['geneId'] = props.geneID
           }
           if (props.assemblyId !== '') {
-            requestParameters['assemblyId'] = props.assemblyId
+            requestParametersSequence['assemblyId'] = props.assemblyId
           }
           if (props.assemblyId2 !== '') {
-            requestParameters['assemblyId'] = props.assemblyId2
+            requestParametersRange['assemblyId'] = props.assemblyId2
           }
           if (props.assemblyId3 !== '') {
-            requestParameters['assemblyId'] = props.assemblyId3
+            requestParametersGene['assemblyId'] = props.assemblyId3
           }
 
-          var jsonData1 = {
-            meta: {
-              apiVersion: '2.0'
-            },
-            query: {
-              requestParameters: requestParameters,
-              filters: [],
-              includeResultsetResponses: `${props.resultSets}`,
-              pagination: {
-                skip: skip,
-                limit: limit
+          var jsonData1 = {}
+         
+          if (props.sequenceSubmitted) {
+            jsonData1 = {
+              meta: {
+                apiVersion: '2.0'
               },
-              testMode: false,
-              requestedGranularity: 'record'
+              query: {
+                requestParameters: requestParametersSequence,
+                filters: [],
+                includeResultsetResponses: `${props.resultSets}`,
+                pagination: {
+                  skip: skip,
+                  limit: limit
+                },
+                testMode: false,
+                requestedGranularity: 'record'
+              }
             }
           }
+
+          if (props.rangeSubmitted) {
+            jsonData1 = {
+              meta: {
+                apiVersion: '2.0'
+              },
+              query: {
+                requestParameters: requestParametersRange,
+                filters: [],
+                includeResultsetResponses: `${props.resultSets}`,
+                pagination: {
+                  skip: skip,
+                  limit: limit
+                },
+                testMode: false,
+                requestedGranularity: 'record'
+              }
+            }
+          }
+
+          if (props.geneSubmitted) {
+            jsonData1 = {
+              meta: {
+                apiVersion: '2.0'
+              },
+              query: {
+                requestParameters: requestParametersGene,
+                filters: [],
+                includeResultsetResponses: `${props.resultSets}`,
+                pagination: {
+                  skip: skip,
+                  limit: limit
+                },
+                testMode: false,
+                requestedGranularity: 'record'
+              }
+            }
+          }
+
           jsonData1 = JSON.stringify(jsonData1)
 
           let token = null
@@ -591,9 +635,6 @@ function VariantsResults (props) {
                 </button>
               </div>
 
-              {timeOut && error === 'Connection error. Please retry' && (
-                <h3>&nbsp; {error} </h3>
-              )}
               {show3 && logInRequired === false && !error && (
                 <div>
                   <TableResultsVariant
@@ -604,12 +645,10 @@ function VariantsResults (props) {
                   ></TableResultsVariant>
                 </div>
               )}
-              {show3 && logInRequired === true && (
-                <h3>{messageLoginFullResp}</h3>
-              )}
+           
               {show3 && error && <h3>&nbsp; {error} </h3>}
 
-              {show2 && (
+              {show2 && logInRequired === false && !error && (
                 <div>
                   <TableResultsVariant
                     show={'count'}
@@ -621,7 +660,7 @@ function VariantsResults (props) {
                 </div>
               )}
 
-              {show1 && (
+              {show1 && logInRequired === false && !error &&(
                 <div className='containerTableResults'>
                   <TableResultsVariant
                     show={'boolean'}

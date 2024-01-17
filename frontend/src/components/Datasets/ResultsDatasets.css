@@ -116,9 +116,10 @@
 
 .linksBeacons {
   display: flex;
-  margin-top: -3px;
+  margin-top: 6px;
   margin-bottom: -3px;
 }
+
 .tittle {
   width: 38vw;
   background: #c8d4e6;

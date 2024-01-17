@@ -1041,6 +1041,14 @@ h5 {
     text-underline-offset: 1px;
   }
 
+  .version {
+    margin-bottom: 46px;
+    margin-right: 33px;
+    margin-top: 2px;
+    color: rgb(68, 99, 176) !important;
+    font-weight: 700;
+  }
+
   .inputVariants {
     height: 24px;
     border: 1.5px solid #dfdfdf;

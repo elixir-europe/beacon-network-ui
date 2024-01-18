@@ -193,7 +193,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Individuals collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Cohorts') {
       try {
@@ -208,7 +210,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Cohorts collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Variant') {
       try {
@@ -223,8 +227,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Variant collection')
         console.log(error)
-        setError('No filtering terms now available')
+        setTimeOut(true)
       }
     } else if (props.collection === 'Analyses') {
       try {
@@ -239,7 +244,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Analyses collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Runs') {
       try {
@@ -252,7 +259,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Runs collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Biosamples') {
       try {
@@ -264,10 +273,13 @@ function Layout (props) {
           setFilteringTerms(res)
           setResults(null)
         } else {
+          setTimeOut(true)
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Biosamples collection')
         console.log(error)
+        setTimeOut(true)
       }
     }
 
@@ -516,16 +528,26 @@ function Layout (props) {
         <NavLink className='NavlinkVerifier' exact to='/validator'>
           BEACON VALIDATOR
         </NavLink>
-
         <div className='logos'>
           {/* <a href="https://www.cineca-project.eu/" target="_blank">
                         <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
                     </a> */}
-          <a href='https://elixir-europe.org/' target='_blank'>
+          {/* <a href='https://elixir-europe.org/' target='_blank'>
             <img
               className='elixirLogo'
               src='./white-orange-logo.png'
               alt='elixirLogo'
+            ></img>
+          </a> */}
+          <a
+            href='https://impact-data.bsc.es/'
+            className='logoInstitution'
+            target='_blank'
+          >
+            <img
+              className='impactLogo'
+              src='../impactLogo.png'
+              alt='impactLogo'
             ></img>
           </a>
           <h1 className='version'>v0.5.0</h1>
@@ -547,7 +569,8 @@ function Layout (props) {
                 bottom: 0,
                 zIndex: 3,
                 backgroundColor: 'rgba(255, 255, 255, 0.75)'
-              }}}
+              }
+            }}
           >
             <button onClick={handleCloseModal3}>
               <img
@@ -1087,7 +1110,8 @@ function Layout (props) {
               bottom: 0,
               zIndex: 3,
               backgroundColor: 'rgba(255, 255, 255, 0.75)'
-            }}}
+            }
+          }}
         >
           <button onClick={handleCloseModal1}>
             <img
@@ -1112,7 +1136,8 @@ function Layout (props) {
               bottom: 0,
               zIndex: 3,
               backgroundColor: 'rgba(255, 255, 255, 0.75)'
-            }}}
+            }
+          }}
         >
           <button onClick={handleCloseModal2}>
             <img
@@ -1175,7 +1200,7 @@ function Layout (props) {
             />
           </div>
         )}
-         {isSubmitted && results === 'Analyses' && triggerQuery && (
+        {isSubmitted && results === 'Analyses' && triggerQuery && (
           <div>
             <AnalysesResults
               query={query}
@@ -1203,7 +1228,7 @@ function Layout (props) {
             />
           </div>
         )}
-            {isSubmitted && results === 'Runs' && triggerQuery && (
+        {isSubmitted && results === 'Runs' && triggerQuery && (
           <div>
             <RunsResults
               query={query}
@@ -1362,7 +1387,7 @@ function Layout (props) {
             setQuery={setQuery}
           />
         )}
-        {timeOut === false}
+        {timeOut === true && error && <h5>{error}</h5>}
       </div>
     </div>
   )

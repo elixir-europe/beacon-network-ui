@@ -17,7 +17,7 @@ function Cohorts (props) {
 
   const [optionsCohorts, setOptionsCohorts] = useState([])
 
-  const [count, setCount] = useState('II')
+  const [count, setCount] = useState(2)
 
   const [selectedCohorts, setSelectedCohorts] = useState([])
 
@@ -79,11 +79,34 @@ function Cohorts (props) {
           let res = await axios.get(configData.API_URL + '/cohorts')
           console.log(res)
           res.data.response.collections.forEach(element => {
-            let obj = {
-              value: element.id,
-              label: element.id
+            if (optionsCohorts.length > 0){
+              optionsCohorts.forEach(cohort => {
+                if (cohort.value === element.id){
+                  let obj = {
+                    value: element.id + count,
+                    label: element.id
+                  }
+                  setCount(count+1)
+                  console.log(obj)
+                  element.id = element.id +count
+                  optionsCohorts.push(obj)
+                } else {
+                  let obj = {
+                    value: element.id,
+                    label: element.id
+                  }
+                  optionsCohorts.push(obj)
+                }
+  
+              })
+            } else {
+              let obj = {
+                value: element.id,
+                label: element.id
+              }
+              optionsCohorts.push(obj)
             }
-            optionsCohorts.push(obj)
+           
             arrayCohorts.push(element)
             const timer = setTimeout(() => {
               setTriggerLayout(true)
@@ -101,98 +124,6 @@ function Cohorts (props) {
       setTimeOut(true)
     }
   }, [])
-
-  useEffect(() => {
-    let values = []
-    let labels = []
-    if (response !== '') {
-      values = Object.values(response)
-      labels = Object.keys(response)
-    }
-    if (values.length > 0 && labels.length > 0) {
-      var options = {
-        chart: {
-          type: 'pie'
-        },
-        title: {
-          text: valueToFilter
-        },
-        colors: [
-          '#4dc5ff',
-          '#FF96EF',
-          '#7DF9FF',
-          '#8B0000',
-          '#AAFF00',
-          '#98FB98',
-          '#009E60',
-          '#AF2BFF',
-          '#FF0000',
-          '#FF69B4',
-          '#13D3B6',
-          '#800080',
-          '#FA8072',
-          '#33b2df',
-          '#546E7A',
-          '#FEF300',
-          '#2b908f',
-          '#FE00FA',
-          '#FE6800',
-          '#69d2e7',
-          '#13d8aa',
-          '#A5978B',
-          '#f9a3a4',
-          '#FF4500',
-          '#51f08e',
-          '#b051f0',
-          '#CCFF33',
-          '#FF66CC',
-          '#FF3333',
-          '#6633CC',
-          '#CD853F',
-          '#3333FF',
-          '#FF3333',
-          '#BF40BF',
-          'DF00F9',
-          '38ED61',
-          '#FCF55F',
-          '#00A9D1',
-          '#041FCE',
-          '#B4B5BC',
-          '#C1E701',
-          '#FF8604'
-        ],
-        series: values,
-        labels: labels
-      }
-      if (selectedFilter === 'dis_eth') {
-        var chartFiltered = new ApexCharts(
-          document.querySelector('#chartFilteredDisease'),
-          options
-        )
-        chartFiltered.render()
-      } else if (selectedFilter === 'dis_sex') {
-        var chartFiltered = new ApexCharts(
-          document.querySelector('#chartFilteredDisease2'),
-          options
-        )
-
-        chartFiltered.render()
-      } else if (selectedFilter === 'eth_dis') {
-        var chartFiltered = new ApexCharts(
-          document.querySelector('#chartFilteredEthnicity'),
-          options
-        )
-
-        chartFiltered.render()
-      } else if (selectedFilter === 'eth_sex') {
-        var chartFiltered = new ApexCharts(
-          document.querySelector('#chartFilteredEthnicity2'),
-          options
-        )
-        chartFiltered.render()
-      }
-    }
-  }, [response])
 
   // const submitFilters = e => {
   //   if (selectedFilter === 'dis_eth') {
@@ -254,9 +185,9 @@ function Cohorts (props) {
     console.log(selectedCohorts)
     console.log(arrayCohorts)
     const apiCall = () => {
+    
       arrayCohorts.forEach(element => {
         console.log(element)
-
         if (element.id === selectedCohorts.value) {
           if (element.collectionEvents) {
             element.collectionEvents.forEach(element2 => {
@@ -278,11 +209,11 @@ function Cohorts (props) {
                 let entriesGeo = ''
                 let valuesDiseases = ''
                 let labelsDiseases = ''
-
+                console.log(element2.eventGenders)
                 // for (var i = 0; i < res.data.response.collections.length; i++) {
                 if (element2.eventGenders !== undefined) {
                   sexs = element2.eventGenders.distribution.genders
-
+                  console.log(sexs)
                   setDataAvailable(true)
                 }
                 if (element2.eventEthnicities !== undefined) {

@@ -532,14 +532,14 @@ function Layout (props) {
           {/* <a href="https://www.cineca-project.eu/" target="_blank">
                         <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
                     </a> */}
-          {/* <a href='https://elixir-europe.org/' target='_blank'>
+           <a href='https://elixir-europe.org/' target='_blank'>
             <img
               className='elixirLogo'
               src='./white-orange-logo.png'
               alt='elixirLogo'
             ></img>
-          </a> */}
-          <a
+          </a> 
+          {/* <a
             href='https://impact-data.bsc.es/'
             className='logoInstitution'
             target='_blank'
@@ -549,7 +549,7 @@ function Layout (props) {
               src='../impactLogo.png'
               alt='impactLogo'
             ></img>
-          </a>
+          </a> */}
           <h1 className='version'>v0.5.0</h1>
         </div>
       </div>

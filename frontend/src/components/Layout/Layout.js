@@ -193,7 +193,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Individuals collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Cohorts') {
       try {
@@ -208,7 +210,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Cohorts collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Variant') {
       try {
@@ -223,8 +227,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Variant collection')
         console.log(error)
-        setError('No filtering terms now available')
+        setTimeOut(true)
       }
     } else if (props.collection === 'Analyses') {
       try {
@@ -239,7 +244,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Analyses collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Runs') {
       try {
@@ -252,7 +259,9 @@ function Layout (props) {
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Runs collection')
         console.log(error)
+        setTimeOut(true)
       }
     } else if (props.collection === 'Biosamples') {
       try {
@@ -264,10 +273,13 @@ function Layout (props) {
           setFilteringTerms(res)
           setResults(null)
         } else {
+          setTimeOut(true)
           setError('No filtering terms now available')
         }
       } catch (error) {
+        setError('No filtering terms now available for Biosamples collection')
         console.log(error)
+        setTimeOut(true)
       }
     }
 
@@ -1375,7 +1387,7 @@ function Layout (props) {
             setQuery={setQuery}
           />
         )}
-        {timeOut === false}
+        {timeOut === true && error && <h5>{error}</h5>}
       </div>
     </div>
   )

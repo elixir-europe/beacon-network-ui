@@ -94,6 +94,7 @@ function FilteringTerms (props) {
   useEffect(() => {
     if (state.list === 'error') {
       setError(true)
+      setTimeout(false)
     } else {
       setError(false)
     }
@@ -299,7 +300,7 @@ function FilteringTerms (props) {
         backspaceDelete={true}
         removeTag={remove}
       />
-      {error && (
+      {state.list === 'error' || error && (
         <h3>No filtering terms available. Please check your connection</h3>
       )}
 

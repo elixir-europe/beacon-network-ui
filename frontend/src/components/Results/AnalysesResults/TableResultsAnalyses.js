@@ -38,6 +38,7 @@ function TableResultsAnalyses (props) {
   const [resultsSelectedFinal, setResultsSelectedFinal] = useState([])
 
   const [openDatasetArray, setOpenDataset] = useState([])
+  const [openDatasetArray2, setOpenDataset2] = useState([])
 
   const [editable, setEditable] = useState([])
 
@@ -45,6 +46,7 @@ function TableResultsAnalyses (props) {
   const [trigger2, setTrigger2] = useState(false)
 
   const [triggerArray, setTriggerArray] = useState([])
+  const [triggerArray2, setTriggerArray2] = useState([])
 
   const getSelectedRowsToExport = ({ apiRef }) => {
     const selectedRowIds = selectedGridRowsSelector(apiRef)
@@ -61,6 +63,14 @@ function TableResultsAnalyses (props) {
     openDatasetArray[e] = true
     console.log(openDatasetArray)
     triggerArray[e] = true
+    console.log(triggerArray)
+    setTrigger(!trigger)
+  }
+
+  const handleClickDatasets2 = e => {
+    openDatasetArray2[e] = true
+
+    triggerArray2[e] = true
     console.log(triggerArray)
     setTrigger(!trigger)
   }
@@ -394,7 +404,7 @@ function TableResultsAnalyses (props) {
 
   return (
     <div className='containerBeaconResults'>
-      {showDatsets === true &&
+         {showDatsets === true &&
         beaconsArrayResultsOrdered.length > 0 &&
         beaconsArrayResultsOrdered.map(result => {
           return (
@@ -465,7 +475,7 @@ function TableResultsAnalyses (props) {
                     )
                   })}
 
-                  {props.resultsNotPerDataset.map(element => {
+                  {props.resultsNotPerDataset.map((element, index) => {
                     return (
                       <>
                         {result[2] === true &&
@@ -487,8 +497,19 @@ function TableResultsAnalyses (props) {
                                 </div>
 
                                 <div className='resultSetsContainer'>
-                                  <h7>No datasets available</h7>
-                                  <h6>FOUND </h6>
+                                  <button
+                                    className='resultSetsButton'
+                                    onClick={() =>
+                                      handleClickDatasets2([index])
+                                    }
+                                  >
+                                    {' '}
+                                    <h7>NO DATASETS AVAILABLE</h7>
+                                  </button>
+                                  {openDatasetArray2[[index]] === true &&
+                                    triggerArray2[[index]] === true && (
+                                      <h6>FOUND </h6>
+                                    )}
                                 </div>
                               </div>
                             </div>
@@ -511,8 +532,21 @@ function TableResultsAnalyses (props) {
                                   </h4>
                                 </div>
                                 <div className='resultSetsContainer'>
-                                  <h7>No datasets available</h7>
-                                  <h5 className='buttonResults'>NOT FOUND</h5>
+                                  <button
+                                    className='resultSetsButton'
+                                    onClick={() =>
+                                      handleClickDatasets2([index])
+                                    }
+                                  >
+                                    {' '}
+                                    <h7>NO DATASETS AVAILABLE</h7>
+                                  </button>
+                                  {openDatasetArray2[[index]] === true &&
+                                    triggerArray2[[index]] === true && (
+                                      <h5 className='buttonResults'>
+                                        NOT FOUND
+                                      </h5>
+                                    )}
                                 </div>
                               </div>
                             </div>
@@ -535,22 +569,34 @@ function TableResultsAnalyses (props) {
                                   </h4>
                                 </div>
                                 <div className='resultSetsContainer'>
-                                  <h7>No datasets available</h7>
-                                  <h6 className='buttonResults'>
-                                    {result[1]} results
-                                  </h6>
+                                  <button
+                                    className='resultSetsButton'
+                                    onClick={() =>
+                                      handleClickDatasets2([index])
+                                    }
+                                  >
+                                    {' '}
+                                    <h7>NO DATASETS AVAILABLE</h7>
+                                  </button>
+                                  {openDatasetArray2[[index]] === true &&
+                                    triggerArray2[[index]] === true && 
+                                    result[1] !== 0 &&  <h6 className='buttonResults'>
+                                        {result[1]} results
+                                      </h6>
+                                    }
+                                     {openDatasetArray2[[index]] === true &&
+                                    triggerArray2[[index]] === true && 
+                                    result[1] === 0 &&  <h5 className='buttonResults'>
+                                        {result[1]} results
+                                      </h5>
+                                    }
                                 </div>
                                 <button
                                   className='buttonResults'
                                   onClick={() => {
                                     handleSeeResults(result[0].meta.beaconId)
                                   }}
-                                >
-                                  {result[2] === true &&
-                                    props.show === 'full' && (
-                                      <h7>See results</h7>
-                                    )}
-                                </button>
+                                ></button>
                               </div>
                             </div>
                           )}

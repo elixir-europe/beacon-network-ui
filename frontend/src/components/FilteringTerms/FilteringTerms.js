@@ -300,10 +300,6 @@ function FilteringTerms (props) {
         backspaceDelete={true}
         removeTag={remove}
       />
-      {state.list === 'error' || error && (
-        <h3>No filtering terms available. Please check your connection</h3>
-      )}
-
       {!error && (
         <div className='tableWrapper'>
           <table id='table'>

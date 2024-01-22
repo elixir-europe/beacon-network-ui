@@ -116,7 +116,7 @@ function Cohorts (props) {
         } catch (error) {
           setTimeOut(true)
           console.log(error)
-          setError('Unexpected error. Please retry')
+          setError('No information available right now')
         }
       }
       fetchDataCohorts().catch(console.error)

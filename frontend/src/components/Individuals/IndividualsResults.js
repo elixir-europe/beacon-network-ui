@@ -192,7 +192,7 @@ function IndividualsResults (props) {
             )
           }
           setTimeOut(true)
-
+          console.log(res.data)
           if (
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined

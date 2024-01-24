@@ -76,7 +76,7 @@ function VariantsResults (props) {
         res.data.responses.forEach(element => {
           beaconsList.push(element)
         })
-
+        
         beaconsList.reverse()
 
         if (props.showBar === true) {
@@ -195,6 +195,7 @@ function VariantsResults (props) {
                 configData.API_URL + '/g_variants',
                 jsonData1
               )
+              console.log(res)
             } else {
               const headers = { Authorization: `Bearer ${token}` }
 

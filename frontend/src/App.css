@@ -60,6 +60,7 @@ html {
 .resultSetsDiv {
   display: flex;
   margin-top: 5px;
+  align-items: center;
 }
 
 .containerTableResults {
@@ -1030,7 +1031,7 @@ h5 {
   padding: 2px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 760px) {
   .container1 a {
     display: flex;
     font-size: 11px;

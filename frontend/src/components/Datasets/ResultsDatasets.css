@@ -153,14 +153,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50%;
+  height: 100%;
   width: 100%;
 }
 
 .resultSetsContainer h6 {
   background: #86e4a8;
   border-radius: 2px;
-  width: fit-content;
+  width: fit-content !important;
   margin-left: 5px;
   padding: 3px;
 }

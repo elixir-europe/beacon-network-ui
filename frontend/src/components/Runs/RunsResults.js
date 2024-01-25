@@ -192,32 +192,46 @@ function RunsResults (props) {
             )
           }
           setTimeOut(true)
-
           if (
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
+              console.log(res.data.response)
               if (element.id && element.id !== '') {
+                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
-                  console.log(resultsPerDataset)
                   resultsPerDataset.forEach(element2 => {
+                    console.log(element2[0])
+                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
                       element2[3].push(element.resultsCount)
                     } else {
+                
                       let arrayResultsPerDataset = [
                         element.beaconId,
                         [element.id],
                         [element.exists],
                         [element.resultsCount]
                       ]
-                      resultsPerDataset.push(arrayResultsPerDataset)
+                      let found = false
+
+                      console.log(arrayResultsPerDataset)
+                      resultsPerDataset.forEach(element => {
+                        if (element[0] === arrayResultsPerDataset[0]) {
+                          found = true
+                        }
+                        console.log(found)
+                      })
+                      if (found === false) {
+                        resultsPerDataset.push(arrayResultsPerDataset)
+                      }
                     }
                   })
                 } else {
@@ -227,6 +241,7 @@ function RunsResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
+                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -295,7 +310,7 @@ function RunsResults (props) {
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
@@ -439,6 +454,7 @@ function RunsResults (props) {
                 results={results}
                 resultsPerDataset={resultsPerDataset}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsRuns>
             </div>
           )}
@@ -452,6 +468,7 @@ function RunsResults (props) {
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsRuns>
             </div>
           )}
@@ -463,6 +480,7 @@ function RunsResults (props) {
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsRuns>
             </div>
           )}

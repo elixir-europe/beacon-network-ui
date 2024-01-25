@@ -423,7 +423,7 @@ function Layout (props) {
       setPlaceholder('Search for any cohort')
     } else if (props.collection === 'Variant') {
       setPlaceholder('filtering term comma-separated')
-      setExtraIndividuals(false)
+      setExtraIndividuals(true)
       setShowVariants(true)
     } else if (props.collection === 'Analyses') {
       setPlaceholder('filtering term comma-separated')

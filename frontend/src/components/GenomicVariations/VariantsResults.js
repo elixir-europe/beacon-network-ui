@@ -76,7 +76,7 @@ function VariantsResults (props) {
         res.data.responses.forEach(element => {
           beaconsList.push(element)
         })
-        
+        console.log(res)
         beaconsList.reverse()
 
         if (props.showBar === true) {
@@ -196,6 +196,12 @@ function VariantsResults (props) {
                 jsonData1
               )
               console.log(res)
+
+             Object.defineProperty(res.data.response.resultSets[0], 'beaconId', {
+                value: 'es.chipdb.cnic.beacon'
+              })
+              
+              console.log(res)
             } else {
               const headers = { Authorization: `Bearer ${token}` }
 
@@ -211,15 +217,18 @@ function VariantsResults (props) {
               res.data.responseSummary.numTotalResults < 1 ||
               res.data.responseSummary.numTotalResults === undefined
             ) {
-              setError('ERROR. Please check the query and retry')
+              setError('No results. Please try another query')
               setNumberResults(0)
               setBoolean(false)
             } else {
               res.data.response.resultSets.forEach((element, index) => {
+                console.log(res.data.response)
                 if (element.id && element.id !== '') {
+                  console.log(resultsPerDataset)
                   if (resultsPerDataset.length > 0) {
-                    console.log(resultsPerDataset)
                     resultsPerDataset.forEach(element2 => {
+                      console.log(element2[0])
+                      console.log(element.beaconId)
                       if (element2[0] === element.beaconId) {
                         element2[1].push(element.id)
                         element2[2].push(element.exists)
@@ -231,7 +240,17 @@ function VariantsResults (props) {
                           [element.exists],
                           [element.resultsCount]
                         ]
-                        resultsPerDataset.push(arrayResultsPerDataset)
+                        let found = false
+
+                        console.log(arrayResultsPerDataset)
+                        resultsPerDataset.forEach(element => {
+                          if (element[0] === arrayResultsPerDataset[0]) {
+                            found = true
+                          }
+                        })
+                        if (found === false) {
+                          resultsPerDataset.push(arrayResultsPerDataset)
+                        }
                       }
                     })
                   } else {
@@ -241,6 +260,7 @@ function VariantsResults (props) {
                       [element.exists],
                       [element.resultsCount]
                     ]
+                    console.log(arrayResultsPerDataset)
                     resultsPerDataset.push(arrayResultsPerDataset)
                   }
                 }
@@ -312,7 +332,7 @@ function VariantsResults (props) {
               res.data.responseSummary.numTotalResults < 1 ||
               res.data.responseSummary.numTotalResults === undefined
             ) {
-              setError('ERROR. Please check the query and retry')
+              setError('No results. Please try another query')
               setNumberResults(0)
               setBoolean(false)
             } else {
@@ -444,7 +464,7 @@ function VariantsResults (props) {
           }
 
           var jsonData1 = {}
-         
+
           if (props.sequenceSubmitted) {
             jsonData1 = {
               meta: {
@@ -530,7 +550,7 @@ function VariantsResults (props) {
           setTimeOut(true)
           if (!res.data.responseSummary.numTotalResults) {
             setTimeOut(true)
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
@@ -643,10 +663,11 @@ function VariantsResults (props) {
                     results={results}
                     resultsPerDataset={resultsPerDataset}
                     beaconsList={beaconsList}
+                    resultSets={props.resultSets}
                   ></TableResultsVariant>
                 </div>
               )}
-           
+
               {show3 && error && <h3>&nbsp; {error} </h3>}
 
               {show2 && logInRequired === false && !error && (
@@ -657,11 +678,12 @@ function VariantsResults (props) {
                     resultsNotPerDataset={resultsNotPerDataset}
                     results={results}
                     beaconsList={beaconsList}
+                    resultSets={props.resultSets}
                   ></TableResultsVariant>
                 </div>
               )}
 
-              {show1 && logInRequired === false && !error &&(
+              {show1 && logInRequired === false && !error && (
                 <div className='containerTableResults'>
                   <TableResultsVariant
                     show={'boolean'}
@@ -669,6 +691,7 @@ function VariantsResults (props) {
                     resultsNotPerDataset={resultsNotPerDataset}
                     results={results}
                     beaconsList={beaconsList}
+                    resultSets={props.resultSets}
                   ></TableResultsVariant>
                 </div>
               )}

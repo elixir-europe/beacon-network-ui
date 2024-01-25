@@ -30,6 +30,7 @@ function Validator () {
 
   const submitVerifierUrl = async e => {
     setTimeout(false)
+    setErrorsFound('')
     e.preventDefault()
     try {
       if (verifierUrl !== '') {

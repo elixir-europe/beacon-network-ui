@@ -532,13 +532,13 @@ function Layout (props) {
           {/* <a href="https://www.cineca-project.eu/" target="_blank">
                         <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
                     </a> */}
-           <a href='https://elixir-europe.org/' target='_blank'>
+          <a href='https://elixir-europe.org/' target='_blank'>
             <img
               className='elixirLogo'
               src='./white-orange-logo.png'
               alt='elixirLogo'
             ></img>
-          </a> 
+          </a>
           {/* <a
             href='https://impact-data.bsc.es/'
             className='logoInstitution'
@@ -596,10 +596,10 @@ function Layout (props) {
             setExpansionSection={setExpansionSection}
           />
         )}
-
-        {showBar === true && (
-          <div className='container-fluid'>
-            {cohorts === false && showBar === true && (
+        <div className='container-fluid'>
+          {cohorts === false &&
+            props.collection !== 'Variant' &&
+            showBar === true && (
               <div>
                 <form className='d-flex' onSubmit={onSubmit}>
                   <input
@@ -621,20 +621,94 @@ function Layout (props) {
                 </form>
               </div>
             )}
-            {props.collection === 'Cohorts' && (
-              <CohortsModule
-                optionsCohorts={props.optionsCohorts}
-                selectedCohorts={props.selectedCohorts}
-                setSelectedCohorts={props.setSelectedCohorts}
-                setShowGraphs={props.setShowGraphs}
-              />
-            )}
+          {props.collection === 'Variant' && showBar === false && (
+            <div>
+              <form className='d-flex' onSubmit={onSubmit}>
+                <input
+                  className='formSearch'
+                  type='search'
+                  placeholder={placeholder}
+                  value={query}
+                  onChange={e => search(e)}
+                  aria-label='Search'
+                />
+
+                <button className='searchButton' type='submit'>
+                  <img
+                    className='searchIcon'
+                    src='./magnifier.png'
+                    alt='searchIcon'
+                  ></img>
+                </button>
+              </form>
+            </div>
+          )}
+          {props.collection === 'Cohorts' && (
+            <CohortsModule
+              optionsCohorts={props.optionsCohorts}
+              selectedCohorts={props.selectedCohorts}
+              setSelectedCohorts={props.setSelectedCohorts}
+              setShowGraphs={props.setShowGraphs}
+            />
+          )}
+        </div>
+        {showBar === true && props.collection !== 'Variant' && (
+          <div className='additionalOptions'>
+            <div className='example'>
+              {cohorts === false &&
+                props.collection !== '' &&
+                showBar === true && (
+                  <div className='bulbExample'>
+                    <button
+                      className='exampleQueries'
+                      onClick={handleExQueries}
+                    >
+                      Query Examples
+                    </button>
+                    <img
+                      className='bulbLogo'
+                      src='../light-bulb.png'
+                      alt='bulbIcon'
+                    ></img>
+                    <div className='examplesQueriesList'>
+                      {exampleQ[0] &&
+                        exampleQ.map(result => {
+                          return (
+                            <div id='exampleQueries'>
+                              <button
+                                className='exampleQuery'
+                                onClick={() => {
+                                  setPlaceholder(`${result[0]}`)
+                                  setQuery(`${result[0]}`)
+                                  setValue(`${result[0]}`)
+                                  setExampleQ([])
+                                }}
+                              >
+                                {result[1] !== undefined && (
+                                  <div className='text-example'>
+                                    {result[1]}
+                                  </div>
+                                )}
+
+                                {result[0]}
+                              </button>
+                            </div>
+                          )
+                        })}
+                    </div>
+                  </div>
+                )}
+              {props.collection !== '' && showBar === true && (
+                <button className='filters' onClick={handleFilteringTerms}>
+                  Filtering Terms
+                </button>
+              )}
+            </div>
           </div>
         )}
-
-        <div className='additionalOptions'>
-          <div className='example'>
-            {cohorts === false && props.collection !== '' && showBar === true && (
+        {showBar === false && props.collection === 'Variant' && (
+          <div className='additionalOptions'>
+            <div className='example'>
               <div className='bulbExample'>
                 <button className='exampleQueries' onClick={handleExQueries}>
                   Query Examples
@@ -669,22 +743,22 @@ function Layout (props) {
                     })}
                 </div>
               </div>
-            )}
-            {props.collection !== '' && showBar === true && (
+
               <button className='filters' onClick={handleFilteringTerms}>
                 Filtering Terms
               </button>
-            )}
+            </div>
           </div>
-        </div>
-        {showVariants === true && showBar === true && (
+        )}
+
+        {showVariants === true && showBar === false && (
           <button className='modeVariants' onClick={handleClick}>
             <h2 className='modeVariantsQueries'>Change to FORM mode</h2>
           </button>
         )}
-        {showVariants === true && showBar === false && (
+        {showVariants === true && showBar === true && (
           <button className='modeVariants' onClick={handleClick}>
-            <h2 className='modeVariantsQueries'>Change to BAR mode</h2>
+            <h2 className='modeVariantsQueries2'>Change to BAR mode </h2>
           </button>
         )}
         <hr></hr>
@@ -857,7 +931,7 @@ function Layout (props) {
             />
           </button>
         )}
-        {showVariants && showBar === false && hideForm === false && (
+        {showVariants && showBar === true && hideForm === false && (
           <form onSubmit={handleSubmit}>
             <div className='tabset'>
               <input

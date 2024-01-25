@@ -26,7 +26,7 @@ function VariantsResults (props) {
   const [queryArray, setQueryArray] = useState([])
   const [beaconsList, setBeaconsList] = useState([])
 
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(0)
   const [skip, setSkip] = useState(0)
 
   const [showVariantsResults, setShowVariantsResults] = useState(false)
@@ -195,12 +195,11 @@ function VariantsResults (props) {
                 configData.API_URL + '/g_variants',
                 jsonData1
               )
-              console.log(res)
 
-             Object.defineProperty(res.data.response.resultSets[0], 'beaconId', {
-                value: 'es.chipdb.cnic.beacon'
-              })
-              
+              // Object.defineProperty(res.data.response.resultSets[0], 'beaconId', {
+              //  value: 'es.chipdb.cnic.beacon'
+              //})
+
               console.log(res)
             } else {
               const headers = { Authorization: `Bearer ${token}` }

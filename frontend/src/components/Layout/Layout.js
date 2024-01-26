@@ -1098,7 +1098,7 @@ function Layout (props) {
                 <div className='advContainer2'>
                   <form className='advSearchForm' onSubmit={onSubmit}>
                     <div>
-                      <div className='resultset'>
+                      <div className='resultset2'>
                         <div className='resultSetsDiv2'>
                           <label>
                             <h2>Include Resultset Responses:</h2>
@@ -1218,7 +1218,7 @@ function Layout (props) {
                 </div>
               </div>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form className="variantsForm" onSubmit={handleSubmit}>
               <div className='tabset'>
                 <input
                   type='radio'

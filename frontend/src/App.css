@@ -45,9 +45,9 @@ html {
 .containerExtraSections2 {
   display: flex;
   flex-direction: column;
-  margin-left: -37%;
+  margin-left: -32%;
   margin-top: 10px;
-  margin-right: 20%;
+  margin-right: 14%;
 }
 
 .advSearch-module2 label h2 {
@@ -60,6 +60,7 @@ html {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 .extraSectionVariantFormMode {
   display: flex;
 }
@@ -131,14 +132,15 @@ html {
   display: flex;
   align-items: center;
   margin-left: 10px;
+  margin-top: 5px;
 }
 
 .switchDescendants h3 {
   color: #e16e00;
   text-transform: uppercase;
   margin-left: 3px !important;
-  margin-top: 17px;
-  font-size: 14px;
+  margin-top: 10px;
+  font-size: 12px;
 }
 
 .container-fluid {
@@ -639,7 +641,7 @@ select {
   align-items: center;
 }
 
-.resultSet {
+.resultSet2 {
   margin-top: -22px;
 }
 
@@ -1101,7 +1103,7 @@ h5 {
     margin-right: 0px;
   }
 
-  .resultset {
+  .resultset2 {
     display: flex;
     align-items: flex-end;
     justify-content: center;
@@ -1126,16 +1128,16 @@ h5 {
     text-underline-offset: 1px;
   }
 
-  .resultset {
+  .resultset2 {
     display: flex;
     align-items: flex-start;
-    width: 55vw;
+    width: 244px;
     flex-direction: column;
     justify-content: center;
     /* margin-left: 46px; */
     background: #e0e7ef;
-    padding: 17px;
-    border-radius: 2px;
+    padding-top: 10px;
+    padding-bottom: 1px;
   }
 
   .version {
@@ -1192,10 +1194,27 @@ h5 {
     color: #e16e00;
     text-transform: uppercase;
     margin-left: 3px !important;
-    margin-top: 14px;
-    font-size: 12px;
+    margin-top: 6px;
+    font-size: 10px;
   }
-
+  .css-1ycxvqq-MuiSwitch-root {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    width: 40px;
+    height: 24px;
+    overflow: hidden;
+    padding: 7px;
+    box-sizing: border-box;
+    position: relative;
+    -webkit-flex-shrink: 0;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    z-index: 0;
+    margin-top: -3px;
+    vertical-align: middle;
+  }
   .ReactModal__Content--after-open {
     width: 269px;
     font-size: 12px;
@@ -1273,7 +1292,8 @@ h5 {
     justify-content: center;
     align-items: center;
     z-index: 0;
-    height: 34px;
+    height: 84px;
+    margin-top: -21px;
   }
 
   .bulbLogo {

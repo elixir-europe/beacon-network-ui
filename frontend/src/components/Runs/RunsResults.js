@@ -178,33 +178,26 @@ function RunsResults (props) {
           }
 
           if (token === null) {
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData1
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData1)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
 
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData1,
-              { headers: headers }
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData1, {
+              headers: headers
+            })
           }
           setTimeOut(true)
-
           if (
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
               if (element.id && element.id !== '') {
                 if (resultsPerDataset.length > 0) {
-                  console.log(resultsPerDataset)
                   resultsPerDataset.forEach(element2 => {
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
@@ -217,7 +210,15 @@ function RunsResults (props) {
                         [element.exists],
                         [element.resultsCount]
                       ]
-                      resultsPerDataset.push(arrayResultsPerDataset)
+                      let found = false
+                      resultsPerDataset.forEach(element => {
+                        if (element[0] === arrayResultsPerDataset[0]) {
+                          found = true
+                        }
+                      })
+                      if (found === false) {
+                        resultsPerDataset.push(arrayResultsPerDataset)
+                      }
                     }
                   })
                 } else {
@@ -275,19 +276,14 @@ function RunsResults (props) {
 
           if (token === null) {
             console.log('Querying without token')
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData2
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData2)
           } else {
             console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
 
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData2,
-              { headers: headers }
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData2, {
+              headers: headers
+            })
           }
           setTimeOut(true)
 
@@ -295,25 +291,19 @@ function RunsResults (props) {
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
                       element2[3].push(element.resultsCount)
                     } else {
-                      console.log('hola')
-
                       let arrayResultsPerDataset = [
                         element.beaconId,
                         [element.id],
@@ -321,13 +311,10 @@ function RunsResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -341,7 +328,6 @@ function RunsResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -366,9 +352,10 @@ function RunsResults (props) {
           }
         }
       } catch (error) {
-        setError('No results. Please check the query and the connection and retry')
+        setError(
+          'No results. Please check the query and the connection and retry'
+        )
         setTimeOut(true)
-        console.log(error)
       }
     }
     apiCall()
@@ -439,10 +426,10 @@ function RunsResults (props) {
                 results={results}
                 resultsPerDataset={resultsPerDataset}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsRuns>
             </div>
           )}
-     
           {show3 && error && <h3>&nbsp; {error} </h3>}
           {show2 && !error && (
             <div className='containerTableResults'>
@@ -452,6 +439,7 @@ function RunsResults (props) {
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsRuns>
             </div>
           )}
@@ -463,6 +451,7 @@ function RunsResults (props) {
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsRuns>
             </div>
           )}

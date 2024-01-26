@@ -26,7 +26,7 @@ function VariantsResults (props) {
   const [queryArray, setQueryArray] = useState([])
   const [beaconsList, setBeaconsList] = useState([])
 
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(0)
   const [skip, setSkip] = useState(0)
 
   const [showVariantsResults, setShowVariantsResults] = useState(false)
@@ -50,7 +50,6 @@ function VariantsResults (props) {
   }
 
   const handleTypeResults3 = () => {
-    console.log(error)
     setShow3(true)
     setShow1(false)
     setShow2(false)
@@ -195,6 +194,9 @@ function VariantsResults (props) {
                 configData.API_URL + '/g_variants',
                 jsonData1
               )
+              // Object.defineProperty(res.data.response.resultSets[0], 'beaconId', {
+              //  value: 'es.chipdb.cnic.beacon'
+              //})
             } else {
               const headers = { Authorization: `Bearer ${token}` }
 
@@ -210,14 +212,13 @@ function VariantsResults (props) {
               res.data.responseSummary.numTotalResults < 1 ||
               res.data.responseSummary.numTotalResults === undefined
             ) {
-              setError('ERROR. Please check the query and retry')
+              setError('No results. Please try another query')
               setNumberResults(0)
               setBoolean(false)
             } else {
               res.data.response.resultSets.forEach((element, index) => {
                 if (element.id && element.id !== '') {
                   if (resultsPerDataset.length > 0) {
-                    console.log(resultsPerDataset)
                     resultsPerDataset.forEach(element2 => {
                       if (element2[0] === element.beaconId) {
                         element2[1].push(element.id)
@@ -230,7 +231,15 @@ function VariantsResults (props) {
                           [element.exists],
                           [element.resultsCount]
                         ]
-                        resultsPerDataset.push(arrayResultsPerDataset)
+                        let found = false
+                        resultsPerDataset.forEach(element => {
+                          if (element[0] === arrayResultsPerDataset[0]) {
+                            found = true
+                          }
+                        })
+                        if (found === false) {
+                          resultsPerDataset.push(arrayResultsPerDataset)
+                        }
                       }
                     })
                   } else {
@@ -278,9 +287,7 @@ function VariantsResults (props) {
                 requestedGranularity: 'record'
               }
             }
-            console.log(jsonData2)
             jsonData2 = JSON.stringify(jsonData2)
-            console.log(jsonData2)
             let token = null
             if (auth.userData === null) {
               token = getStoredToken()
@@ -294,11 +301,9 @@ function VariantsResults (props) {
                 configData.API_URL + '/g_variants',
                 jsonData2
               )
-              console.log(res)
             } else {
               console.log('Querying WITH token')
               const headers = { Authorization: `Bearer ${token}` }
-
               res = await axios.post(
                 configData.API_URL + '/g_variants',
                 jsonData2,
@@ -311,25 +316,19 @@ function VariantsResults (props) {
               res.data.responseSummary.numTotalResults < 1 ||
               res.data.responseSummary.numTotalResults === undefined
             ) {
-              setError('ERROR. Please check the query and retry')
+              setError('No results. Please try another query')
               setNumberResults(0)
               setBoolean(false)
             } else {
               res.data.response.resultSets.forEach((element, index) => {
-                console.log(res.data.response)
                 if (element.id && element.id !== '') {
-                  console.log(resultsPerDataset)
                   if (resultsPerDataset.length > 0) {
                     resultsPerDataset.forEach(element2 => {
-                      console.log(element2[0])
-                      console.log(element.beaconId)
                       if (element2[0] === element.beaconId) {
                         element2[1].push(element.id)
                         element2[2].push(element.exists)
                         element2[3].push(element.resultsCount)
                       } else {
-                        console.log('hola')
-
                         let arrayResultsPerDataset = [
                           element.beaconId,
                           [element.id],
@@ -337,13 +336,10 @@ function VariantsResults (props) {
                           [element.resultsCount]
                         ]
                         let found = false
-
-                        console.log(arrayResultsPerDataset)
                         resultsPerDataset.forEach(element => {
                           if (element[0] === arrayResultsPerDataset[0]) {
                             found = true
                           }
-                          console.log(found)
                         })
                         if (found === false) {
                           resultsPerDataset.push(arrayResultsPerDataset)
@@ -357,7 +353,6 @@ function VariantsResults (props) {
                       [element.exists],
                       [element.resultsCount]
                     ]
-                    console.log(arrayResultsPerDataset)
                     resultsPerDataset.push(arrayResultsPerDataset)
                   }
                 }
@@ -443,7 +438,7 @@ function VariantsResults (props) {
           }
 
           var jsonData1 = {}
-         
+
           if (props.sequenceSubmitted) {
             jsonData1 = {
               meta: {
@@ -516,7 +511,6 @@ function VariantsResults (props) {
               configData.API_URL + '/g_variants',
               jsonData1
             )
-            console.log(jsonData1)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
             res = await axios.post(
@@ -529,18 +523,14 @@ function VariantsResults (props) {
           setTimeOut(true)
           if (!res.data.responseSummary.numTotalResults) {
             setTimeOut(true)
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
@@ -553,13 +543,10 @@ function VariantsResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -573,7 +560,6 @@ function VariantsResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -600,7 +586,6 @@ function VariantsResults (props) {
       } catch (error) {
         setError('Connection error. Please retry')
         setTimeOut(true)
-        console.log(error)
       }
     }
     apiCall()
@@ -642,10 +627,11 @@ function VariantsResults (props) {
                     results={results}
                     resultsPerDataset={resultsPerDataset}
                     beaconsList={beaconsList}
+                    resultSets={props.resultSets}
                   ></TableResultsVariant>
                 </div>
               )}
-           
+
               {show3 && error && <h3>&nbsp; {error} </h3>}
 
               {show2 && logInRequired === false && !error && (
@@ -656,11 +642,12 @@ function VariantsResults (props) {
                     resultsNotPerDataset={resultsNotPerDataset}
                     results={results}
                     beaconsList={beaconsList}
+                    resultSets={props.resultSets}
                   ></TableResultsVariant>
                 </div>
               )}
 
-              {show1 && logInRequired === false && !error &&(
+              {show1 && logInRequired === false && !error && (
                 <div className='containerTableResults'>
                   <TableResultsVariant
                     show={'boolean'}
@@ -668,6 +655,7 @@ function VariantsResults (props) {
                     resultsNotPerDataset={resultsNotPerDataset}
                     results={results}
                     beaconsList={beaconsList}
+                    resultSets={props.resultSets}
                   ></TableResultsVariant>
                 </div>
               )}

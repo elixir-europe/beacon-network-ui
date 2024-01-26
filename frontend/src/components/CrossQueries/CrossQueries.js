@@ -66,7 +66,6 @@ function CrossQueries () {
       })
     } catch (error) {
       setError('Not found. Please retry')
-      console.log(error)
     }
   }
 

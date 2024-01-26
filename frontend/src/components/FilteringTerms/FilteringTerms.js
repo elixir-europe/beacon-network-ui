@@ -299,9 +299,6 @@ function FilteringTerms (props) {
         backspaceDelete={true}
         removeTag={remove}
       />
-      {error && (
-        <h3>No filtering terms available. Please check your connection</h3>
-      )}
 
       {!error && (
         <div className='tableWrapper'>

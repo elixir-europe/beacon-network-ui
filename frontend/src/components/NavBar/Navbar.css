@@ -216,8 +216,8 @@
   }
 
   .Sign-in6:hover ~ .animation {
-    width: 126px;
-    left: 90.5%;
+    width: 112px;
+    right: 16px;
     background-color: #7a9f9f;
   }
 
@@ -267,7 +267,7 @@
 
   .Members:hover ~ .animation {
     width: 146px;
-    right: 18.8%;
+    right: 268px;
     background-color: #4961b8;
   }
 
@@ -279,13 +279,13 @@
 
   .About:hover ~ .animation {
     width: 116px;
-    right: 10%;
+    right: 143px;
     background-color: #e575dd;
   }
 
   .About5:hover ~ .animation {
     width: 76px;
-    right: 277px;
+   right: 19.5%;
     background-color: #e575dd;
   }
 

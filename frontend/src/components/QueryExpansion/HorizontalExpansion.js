@@ -80,7 +80,6 @@ function HorizontalExpansion (props) {
       }
     } catch (error) {
       setError('NOT FOUND')
-      console.log(error)
     }
   }
 

@@ -38,6 +38,7 @@ function TableResultsIndividuals (props) {
   const [resultsSelectedFinal, setResultsSelectedFinal] = useState([])
 
   const [openDatasetArray, setOpenDataset] = useState([])
+  const [openDatasetArray2, setOpenDataset2] = useState([])
 
   const [editable, setEditable] = useState([])
 
@@ -45,6 +46,7 @@ function TableResultsIndividuals (props) {
   const [trigger2, setTrigger2] = useState(false)
 
   const [triggerArray, setTriggerArray] = useState([])
+  const [triggerArray2, setTriggerArray2] = useState([])
 
   const getSelectedRowsToExport = ({ apiRef }) => {
     const selectedRowIds = selectedGridRowsSelector(apiRef)
@@ -56,13 +58,14 @@ function TableResultsIndividuals (props) {
   }
 
   const handleClickDatasets = e => {
-    console.log(e)
-  
-
-    openDatasetArray[e] = true
-    console.log(openDatasetArray)
+    openDatasetArray[e] = true 
     triggerArray[e] = true
-    console.log(triggerArray)
+    setTrigger(!trigger)
+  }
+
+  const handleClickDatasets2 = e => {
+    openDatasetArray2[e] = true
+    triggerArray2[e] = true
     setTrigger(!trigger)
   }
 
@@ -352,9 +355,6 @@ function TableResultsIndividuals (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-    console.log(props.resultsPerDataset)
-    console.log(props.beaconsList)
-    console.log(arrayBeaconsIds)
     let count = 0
     props.beaconsList.forEach((element2, index2) => {
       count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
@@ -387,62 +387,84 @@ function TableResultsIndividuals (props) {
             <>
               {props.show !== 'full' && (
                 <>
-                    {props.resultsPerDataset.map((element, index) => {
-                      return (
-                        <>
-                          {element[0] === result[0].meta.beaconId && (
-                            <div className='datasetCardResults'>
-                              <div className='tittleResults'>
-                                <div className='tittle4'>
-                                  <img
-                                    className='logoBeacon'
-                                    src={
-                                      result[0].response.organization.logoUrl
-                                    }
-                                    alt={result[0].meta.beaconId}
-                                  />
-                                  <h4>
-                                    {result[0].response.organization.name}
-                                  </h4>
-                                </div>
+                  {props.resultsPerDataset.map((element, index) => {
+                    return (
+                      <>
+                        {element[0] === result[0].meta.beaconId && (
+                          <div className='datasetCardResults'>
+                            <div className='tittleResults'>
+                              <div className='tittle4'>
+                                <img
+                                  className='logoBeacon'
+                                  src={result[0].response.organization.logoUrl}
+                                  alt={result[0].meta.beaconId}
+                                />
+                                <h4>{result[0].response.organization.name}</h4>
+                              </div>
 
-                                {element[1].map((datasetObject, indexDataset) => {
-                                  return (
-
-                                    <div className='resultSetsContainer'>
+                              {element[1].map((datasetObject, indexDataset) => {
+                                return (
+                                  <div className='resultSetsContainer'>
                                     <button
                                       className='resultSetsButton'
-                                      onClick={() => handleClickDatasets([index,indexDataset])}
+                                      onClick={() =>
+                                        handleClickDatasets([
+                                          index,
+                                          indexDataset
+                                        ])
+                                      }
                                     >
-                                      <h7>{datasetObject.replaceAll('_', ' ')}</h7>
+                                      <h7>
+                                        {datasetObject.replaceAll('_', ' ')}
+                                      </h7>
                                     </button>
-                                    {openDatasetArray[[index,indexDataset]] === true &&
-                                      triggerArray[[index,indexDataset]] === true &&
+                                    {openDatasetArray[[index, indexDataset]] ===
+                                      true &&
+                                      triggerArray[[index, indexDataset]] ===
+                                        true &&
                                       element[2][indexDataset] === true &&
-                                      props.show === 'boolean' && <h6>FOUND</h6>}
-                                    {openDatasetArray[[index,indexDataset]] === true &&
-                                      triggerArray[[index,indexDataset]] === true &&
-                                      element[2][indexDataset] === false &&
                                       props.show === 'boolean' && (
+                                        <h6>FOUND</h6>
+                                      )}
+                                    {openDatasetArray[[index, indexDataset]] ===
+                                      true &&
+                                      triggerArray[[index, indexDataset]] ===
+                                        true &&
+                                      element[2][indexDataset] === false &&
+                                      props.show === 'boolean' &&
+                                      props.resultSets !== 'HIT' && (
                                         <h5>NOT FOUND</h5>
                                       )}
                                     {props.show === 'count' &&
-                                      triggerArray[[index,indexDataset]] === true && (
-                                        <h6>{element[3][indexDataset]} RESULTS</h6>
+                                      element[3][indexDataset] !== 0 &&
+                                      triggerArray[[index, indexDataset]] ===
+                                        true && (
+                                        <h6>
+                                          {element[3][indexDataset]} RESULTS
+                                        </h6>
+                                      )}
+                                    {props.show === 'count' &&
+                                      element[3][indexDataset] === 0 &&
+                                      triggerArray[[index, indexDataset]] ===
+                                        true && (
+                                        <h5>
+                                          {element[3][indexDataset]} RESULTS
+                                        </h5>
                                       )}
                                   </div>
-                                  )
-                                })}
-
-                               
-                              </div>
+                                )
+                              })}
                             </div>
-                          )}
-                        </>
-                      )
-                    })}
+                          </div>
+                        )}
+                      </>
+                    )
+                  })}
 
-                    {props.resultsNotPerDataset.map(element => {
+                  {props.resultSets !== 'HIT' &&
+                    props.resultSets !== 'MISS' &&
+                    props.resultSets !== 'ALL' &&
+                    props.resultsNotPerDataset.map((element, index) => {
                       return (
                         <>
                           {result[2] === true &&
@@ -464,8 +486,11 @@ function TableResultsIndividuals (props) {
                                   </div>
 
                                   <div className='resultSetsContainer'>
-                                    <h7>No datasets available</h7>
-                                    <h6>FOUND </h6>
+                                    {props.resultSets === 'NONE' && (
+                                      <>
+                                        <h6>FOUND </h6>
+                                      </>
+                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -488,8 +513,13 @@ function TableResultsIndividuals (props) {
                                     </h4>
                                   </div>
                                   <div className='resultSetsContainer'>
-                                    <h7>No datasets available</h7>
-                                    <h5 className='buttonResults'>NOT FOUND</h5>
+                                    {props.resultSets === 'NONE' && (
+                                      <>
+                                        <h5 className='buttonResults'>
+                                          NOT FOUND
+                                        </h5>
+                                      </>
+                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -512,26 +542,34 @@ function TableResultsIndividuals (props) {
                                     </h4>
                                   </div>
                                   <div className='resultSetsContainer'>
-                                    <h7>No datasets available</h7>
-                                    <h6 className='buttonResults'>
-                                      {result[1]} results
-                                    </h6>
+                                    {props.resultSets === 'NONE' && (
+                                      <>
+                                        {result[1] !== 0 && (
+                                          <h6 className='buttonResults'>
+                                            {result[1]} results
+                                          </h6>
+                                        )}
+                                        {result[1] === 0 && (
+                                          <h5 className='buttonResults'>
+                                            {result[1]} results
+                                          </h5>
+                                        )}
+                                      </>
+                                    )}
                                   </div>
                                   <button
                                     className='buttonResults'
                                     onClick={() => {
                                       handleSeeResults(result[0].meta.beaconId)
                                     }}
-                                  >
-                                   
-                                  </button>
+                                  ></button>
                                 </div>
                               </div>
                             )}
                         </>
                       )
                     })}
-              </>
+                </>
               )}
               {props.show === 'full' && result[2] === true && (
                 <div className='datasetCardResults'>

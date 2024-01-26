@@ -197,14 +197,13 @@ function IndividualsResults (props) {
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
               if (element.id && element.id !== '') {
                 if (resultsPerDataset.length > 0) {
-                  console.log(resultsPerDataset)
                   resultsPerDataset.forEach(element2 => {
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
@@ -217,7 +216,15 @@ function IndividualsResults (props) {
                         [element.exists],
                         [element.resultsCount]
                       ]
-                      resultsPerDataset.push(arrayResultsPerDataset)
+                      let found = false
+                      resultsPerDataset.forEach(element => {
+                        if (element[0] === arrayResultsPerDataset[0]) {
+                          found = true
+                        }
+                      })
+                      if (found === false) {
+                        resultsPerDataset.push(arrayResultsPerDataset)
+                      }
                     }
                   })
                 } else {
@@ -282,14 +289,11 @@ function IndividualsResults (props) {
           } else {
             console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
-            console.log(headers)
             res = await axios.post(
               configData.API_URL + '/individuals',
               jsonData2,
               { headers: headers }
             )
-            console.log(res)
-            console.log(jsonData2)
           }
           setTimeOut(true)
 
@@ -297,25 +301,19 @@ function IndividualsResults (props) {
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
           ) {
-            setError('ERROR. Please check the query and retry')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
                       element2[3].push(element.resultsCount)
                     } else {
-                      console.log('hola')
-
                       let arrayResultsPerDataset = [
                         element.beaconId,
                         [element.id],
@@ -323,13 +321,10 @@ function IndividualsResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -343,7 +338,6 @@ function IndividualsResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -370,7 +364,6 @@ function IndividualsResults (props) {
       } catch (error) {
         setError('Connection error. Please retry')
         setTimeOut(true)
-        console.log(error)
       }
     }
     apiCall()
@@ -441,12 +434,12 @@ function IndividualsResults (props) {
                 results={results}
                 resultsPerDataset={resultsPerDataset}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsIndividuals>
             </div>
           )}
-          {show3 && logInRequired === true && <h3>{messageLoginFullResp}</h3>}
           {show3 && error && <h3>&nbsp; {error} </h3>}
-          {show2 && (
+          {show2 && !error && (
             <div className='containerTableResults'>
               <TableResultsIndividuals
                 show={'count'}
@@ -454,10 +447,11 @@ function IndividualsResults (props) {
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsIndividuals>
             </div>
           )}
-          {show1 && (
+          {show1 && !error && (
             <div className='containerTableResults'>
               <TableResultsIndividuals
                 show={'boolean'}
@@ -465,6 +459,7 @@ function IndividualsResults (props) {
                 resultsNotPerDataset={resultsNotPerDataset}
                 results={results}
                 beaconsList={beaconsList}
+                resultSets={props.resultSets}
               ></TableResultsIndividuals>
             </div>
           )}

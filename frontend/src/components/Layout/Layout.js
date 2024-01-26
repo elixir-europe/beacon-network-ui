@@ -762,7 +762,167 @@ function Layout (props) {
           </button>
         )}
         <hr></hr>
-        {showExtraIndividuals && (
+        {!showVariants && (
+          <div className='containerExtraSections'>
+            {showButton && (
+              <button
+                className='arrowButton'
+                onClick={handleExtraSectionIndividuals}
+              >
+                <img
+                  className='arrowLogo'
+                  src='../arrow-down.png'
+                  alt='arrowIcon'
+                ></img>
+              </button>
+            )}
+            {!showButton && (
+              <button
+                className='arrowButton'
+                onClick={handleExtraSectionIndividuals}
+              >
+                <img
+                  className='arrowLogo'
+                  src='../arrow-up.png'
+                  alt='arrowUpIcon'
+                ></img>
+              </button>
+            )}
+            {showOptions && (
+              <div className='extraSections'>
+                <div className='advContainer'>
+                  <form className='advSearchForm' onSubmit={onSubmit}>
+                    <div>
+                      <div className='resultset'>
+                        <div className='resultSetsDiv'>
+                          <label>
+                            <h2>Include Resultset Responses</h2>
+                          </label>
+                          {resultSet === 'HIT' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={0}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'MISS' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={1}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'NONE' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={2}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'ALL' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={3}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                        </div>
+                        <div className='advSearch-module'>
+                          <label>
+                            <h2>Similarity</h2>
+                          </label>
+                          <input
+                            id='similarityCheck'
+                            type='checkbox'
+                            defaultChecked={false}
+                            onChange={() => setChecked2(!checked2)}
+                          />
+
+                          {checked2 && (
+                            <MultiSwitch
+                              texts={['Low', 'Medium', 'High']}
+                              selectedSwitch={0}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#4f85bc'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={60}
+                            ></MultiSwitch>
+                          )}
+                        </div>
+                        <div className='advSearch-module'>
+                          <label>
+                            <h2>Include Descendant Terms</h2>
+                          </label>
+                          <div className='switchDescendants'>
+                            <h3>False</h3>
+                            <Switch
+                              checked={checked}
+                              onChange={handleChangeSwitch}
+                              inputProps={{ 'aria-label': 'controlled' }}
+                              color='warning'
+                              size='small'
+                            />
+                            <h3>True</h3>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        {expansionSection === false && cohorts === false && (
+                          <button onClick={handleQEclick} className='btn-3'>
+                            <span className='spanQE'>Query expansion</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        {showVariants && showBar === false && (
           <div className='containerExtraSections'>
             {showButton && (
               <button
@@ -932,241 +1092,374 @@ function Layout (props) {
           </button>
         )}
         {showVariants && showBar === true && hideForm === false && (
-          <form onSubmit={handleSubmit}>
-            <div className='tabset'>
-              <input
-                type='radio'
-                name='tabset'
-                id='tab1'
-                aria-controls='sequence'
-              />
-              <label for='tab1'>Sequence queries</label>
+          <div className='extraSectionVariantFormMode'>
+            <div className='containerExtraSections2'>
+              <div className='extraSections2'>
+                <div className='advContainer2'>
+                  <form className='advSearchForm' onSubmit={onSubmit}>
+                    <div>
+                      <div className='resultset'>
+                        <div className='resultSetsDiv2'>
+                          <label>
+                            <h2>Include Resultset Responses:</h2>
+                          </label>
+                          {resultSet === 'HIT' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={0}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'10px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'MISS' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={1}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'10px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'NONE' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={2}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'10px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                          {resultSet === 'ALL' && (
+                            <MultiSwitch
+                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
+                              selectedSwitch={3}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle2}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#e29348'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'10px'}
+                              eachSwitchWidth={55}
+                            ></MultiSwitch>
+                          )}
+                        </div>
+                        <div className='advSearch-module2'>
+                          <label>
+                            <h2>Similarity</h2>
+                          </label>
+                          <input
+                            id='similarityCheck'
+                            type='checkbox'
+                            defaultChecked={false}
+                            onChange={() => setChecked2(!checked2)}
+                          />
 
-              <input
-                type='radio'
-                name='tabset'
-                id='tab2'
-                aria-controls='range'
-              />
-              <label for='tab2'>Range queries</label>
-
-              <input
-                type='radio'
-                name='tabset'
-                id='tab3'
-                aria-controls='gene'
-              />
-              <label for='tab3'>Gene ID queries</label>
-
-              <div className='tab-panels'>
-                <section id='sequence' class='tab-panel'>
-                  <button
-                    className='variantExampleButton'
-                    onClick={handleSequenceExample}
-                    type='button'
-                  >
-                    Query example
-                  </button>
-                  <div>
-                    <label className='labelVariants'>AssemblyID*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={assemblyId}
-                      onChange={handleChangeAssembly}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Reference name*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={referenceName}
-                      onChange={handleChangeRefN}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>
-                      Start (single value)*
-                    </label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={start}
-                      onChange={handleChangeStart}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>referenceBases</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={referenceBases}
-                      onChange={handleChangeReferenceB}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>alternateBases*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={alternateBases}
-                      onChange={handleChangeAlternateB}
-                    ></input>
-                  </div>
-                  <div className='DivButtonVariants'>
-                    <input
-                      className='buttonVariants'
-                      type='submit'
-                      value='Search'
-                      onClick={() => setSequenceSub(true)}
-                    />
-                  </div>
-                </section>
-                <section id='range' className='tab-panel'>
-                  <button
-                    className='variantExampleButton'
-                    onClick={handleRangeExample}
-                    type='button'
-                  >
-                    Query example
-                  </button>
-                  <div>
-                    <label className='labelVariants'>AssemblyID*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={assemblyId2}
-                      onChange={handleChangeAssembly2}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Reference name*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={referenceName2}
-                      onChange={handleChangeRefN2}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>
-                      Start (single value)*
-                    </label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={start2}
-                      onChange={handleChangeStart2}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>End (single value)*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={end}
-                      onChange={handleChangeEnd}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Variant type:</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={variantType}
-                      onChange={handleChangeVariantType}
-                    ></input>{' '}
-                  </div>
-                  <div>
-                    <h3>OR</h3>
-                    <div className='basesSection'>
-                      <div className='referenceBasesContainer'>
-                        <label className='labelVariants'>referenceBases:</label>
-                        <input
-                          className='inputVariants'
-                          type='text'
-                          value={referenceBases2}
-                          onChange={handleChangeReferenceB2}
-                        ></input>
-                      </div>
-                      <div>
-                        <label className='labelVariants'>alternateBases:</label>
-                        <input
-                          className='inputVariants'
-                          type='text'
-                          value={alternateBases2}
-                          onChange={handleChangeAlternateB2}
-                        ></input>
+                          {checked2 && (
+                            <MultiSwitch
+                              texts={['Low', 'Medium', 'High']}
+                              selectedSwitch={0}
+                              bgColor={'white'}
+                              onToggleCallback={onToggle}
+                              fontColor={'black'}
+                              selectedFontColor={'white'}
+                              border='0'
+                              selectedSwitchColor='#4f85bc'
+                              borderWidth='1'
+                              height={'23px'}
+                              fontSize={'12px'}
+                              eachSwitchWidth={60}
+                            ></MultiSwitch>
+                          )}
+                        </div>
+                        <div className='advSearch-module2'>
+                          <label>
+                            <h2>Include Descendant Terms:</h2>
+                          </label>
+                          <div className='switchDescendants2'>
+                            <h3>False</h3>
+                            <Switch
+                              checked={checked}
+                              onChange={handleChangeSwitch}
+                              inputProps={{ 'aria-label': 'controlled' }}
+                              color='warning'
+                              size='small'
+                            />
+                            <h3>True</h3>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div>
-                    <h3>OR</h3>
-                    <label className='labelVariants'>Aminoacid Change:</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={aminoacid}
-                      onChange={handleChangeAminoacid}
-                    ></input>
-                  </div>
-                  <div className='DivButtonVariants'>
-                    <input
-                      className='buttonVariants'
-                      type='submit'
-                      value='Search'
-                      onClick={() => setRangeSub(true)}
-                    />
-                  </div>
-                </section>
-                <section id='gene' className='tab-panel'>
-                  <button
-                    className='variantExampleButton'
-                    onClick={handleGeneExample}
-                    type='button'
-                  >
-                    Query example
-                  </button>
-                  <div>
-                    <label className='labelVariants'>Gene ID*</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={geneID}
-                      onChange={handleChangeGeneId}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>AssemblyID</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={assemblyId3}
-                      onChange={handleChangeAssembly3}
-                    ></input>
-                  </div>
-                  <div>
-                    <label className='labelVariants'>Variant type:</label>
-                    <input
-                      className='inputVariants'
-                      type='text'
-                      value={variantType2}
-                      onChange={handleChangeVariantType2}
-                    ></input>
-                  </div>
-                  <div className='DivButtonVariants'>
-                    <input
-                      className='buttonVariants'
-                      type='submit'
-                      value='Search'
-                      onClick={() => setGeneSub(true)}
-                    />
-                  </div>
-                </section>
+                  </form>
+                </div>
               </div>
             </div>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <div className='tabset'>
+                <input
+                  type='radio'
+                  name='tabset'
+                  id='tab1'
+                  aria-controls='sequence'
+                />
+                <label for='tab1'>Sequence queries</label>
+
+                <input
+                  type='radio'
+                  name='tabset'
+                  id='tab2'
+                  aria-controls='range'
+                />
+                <label for='tab2'>Range queries</label>
+
+                <input
+                  type='radio'
+                  name='tabset'
+                  id='tab3'
+                  aria-controls='gene'
+                />
+                <label for='tab3'>Gene ID queries</label>
+
+                <div className='tab-panels'>
+                  <section id='sequence' class='tab-panel'>
+                    <button
+                      className='variantExampleButton'
+                      onClick={handleSequenceExample}
+                      type='button'
+                    >
+                      Query example
+                    </button>
+                    <div>
+                      <label className='labelVariants'>AssemblyID*</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={assemblyId}
+                        onChange={handleChangeAssembly}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>Reference name*</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={referenceName}
+                        onChange={handleChangeRefN}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>
+                        Start (single value)*
+                      </label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={start}
+                        onChange={handleChangeStart}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>referenceBases</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={referenceBases}
+                        onChange={handleChangeReferenceB}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>alternateBases*</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={alternateBases}
+                        onChange={handleChangeAlternateB}
+                      ></input>
+                    </div>
+                    <div className='DivButtonVariants'>
+                      <input
+                        className='buttonVariants'
+                        type='submit'
+                        value='Search'
+                        onClick={() => setSequenceSub(true)}
+                      />
+                    </div>
+                  </section>
+                  <section id='range' className='tab-panel'>
+                    <button
+                      className='variantExampleButton'
+                      onClick={handleRangeExample}
+                      type='button'
+                    >
+                      Query example
+                    </button>
+                    <div>
+                      <label className='labelVariants'>AssemblyID*</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={assemblyId2}
+                        onChange={handleChangeAssembly2}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>Reference name*</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={referenceName2}
+                        onChange={handleChangeRefN2}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>
+                        Start (single value)*
+                      </label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={start2}
+                        onChange={handleChangeStart2}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>
+                        End (single value)*
+                      </label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={end}
+                        onChange={handleChangeEnd}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>Variant type:</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={variantType}
+                        onChange={handleChangeVariantType}
+                      ></input>{' '}
+                    </div>
+                    <div>
+                      <h3>OR</h3>
+                      <div className='basesSection'>
+                        <div className='referenceBasesContainer'>
+                          <label className='labelVariants'>
+                            referenceBases:
+                          </label>
+                          <input
+                            className='inputVariants'
+                            type='text'
+                            value={referenceBases2}
+                            onChange={handleChangeReferenceB2}
+                          ></input>
+                        </div>
+                        <div>
+                          <label className='labelVariants'>
+                            alternateBases:
+                          </label>
+                          <input
+                            className='inputVariants'
+                            type='text'
+                            value={alternateBases2}
+                            onChange={handleChangeAlternateB2}
+                          ></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <h3>OR</h3>
+                      <label className='labelVariants'>Aminoacid Change:</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={aminoacid}
+                        onChange={handleChangeAminoacid}
+                      ></input>
+                    </div>
+                    <div className='DivButtonVariants'>
+                      <input
+                        className='buttonVariants'
+                        type='submit'
+                        value='Search'
+                        onClick={() => setRangeSub(true)}
+                      />
+                    </div>
+                  </section>
+                  <section id='gene' className='tab-panel'>
+                    <button
+                      className='variantExampleButton'
+                      onClick={handleGeneExample}
+                      type='button'
+                    >
+                      Query example
+                    </button>
+                    <div>
+                      <label className='labelVariants'>Gene ID*</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={geneID}
+                        onChange={handleChangeGeneId}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>AssemblyID</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={assemblyId3}
+                        onChange={handleChangeAssembly3}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>Variant type:</label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={variantType2}
+                        onChange={handleChangeVariantType2}
+                      ></input>
+                    </div>
+                    <div className='DivButtonVariants'>
+                      <input
+                        className='buttonVariants'
+                        type='submit'
+                        value='Search'
+                        onClick={() => setGeneSub(true)}
+                      />
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </form>
+          </div>
         )}
       </nav>
 
@@ -1194,8 +1487,6 @@ function Layout (props) {
               alt='cancelIcon'
             ></img>
           </button>
-
-          <p>Help for alphanumerical and numerical queries.</p>
         </ReactModal>
         <ReactModal
           isOpen={isOpenModal2}

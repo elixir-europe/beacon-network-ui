@@ -101,6 +101,10 @@ function Layout (props) {
   const [assemblyId, setAssemblyId] = useState('')
   const [assemblyId2, setAssemblyId2] = useState('')
   const [assemblyId3, setAssemblyId3] = useState('')
+  const [variantMinLength, setVariantMinLength]= useState('')
+  const [variantMaxLength, setVariantMaxLength]= useState('')
+  const [variantMinLength2, setVariantMinLength2]= useState('')
+  const [variantMaxLength2, setVariantMaxLength2]= useState('')
 
   const [sequenceSubmitted, setSequenceSub] = useState(false)
   const [rangeSubmitted, setRangeSub] = useState(false)
@@ -373,6 +377,18 @@ function Layout (props) {
   const handleChangeAssembly = e => {
     setAssemblyId(e.target.value)
   }
+  const handleChangeVariantMaxLength = e => {
+    setVariantMaxLength(e.target.value)
+  }
+  const handleChangeVariantMinLength = e => {
+    setVariantMinLength(e.target.value)
+  }
+  const handleChangeVariantMaxLength2 = e => {
+    setVariantMaxLength2(e.target.value)
+  }
+  const handleChangeVariantMinLength2 = e => {
+    setVariantMinLength2(e.target.value)
+  }
 
   const handleClick = () => {
     setShowBar(!showBar)
@@ -404,6 +420,8 @@ function Layout (props) {
     setGeneId('EIF4A1')
     setVariantType2('DEL')
   }
+
+
 
   useEffect(() => {
     if (props.collection === 'Individuals') {
@@ -1396,6 +1414,28 @@ function Layout (props) {
                         onChange={handleChangeAminoacid}
                       ></input>
                     </div>
+                    <div>
+                      <label className='labelVariants'>
+                        Variant min. length:
+                      </label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={variantMinLength}
+                        onChange={handleChangeVariantMinLength}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>
+                        Variant max. length:
+                      </label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={variantMaxLength}
+                        onChange={handleChangeVariantMaxLength}
+                      ></input>
+                    </div>
                     <div className='DivButtonVariants'>
                       <input
                         className='buttonVariants'
@@ -1438,6 +1478,28 @@ function Layout (props) {
                         type='text'
                         value={variantType2}
                         onChange={handleChangeVariantType2}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>
+                        Variant min. length:
+                      </label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={variantMinLength2}
+                        onChange={handleChangeVariantMinLength2}
+                      ></input>
+                    </div>
+                    <div>
+                      <label className='labelVariants'>
+                        Variant max. length:
+                      </label>
+                      <input
+                        className='inputVariants'
+                        type='text'
+                        value={variantMaxLength2}
+                        onChange={handleChangeVariantMaxLength2}
                       ></input>
                     </div>
                     <div className='DivButtonVariants'>

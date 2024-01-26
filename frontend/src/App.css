@@ -69,7 +69,7 @@ html {
   margin-bottom: 19px;
   margin-right: 46px;
   margin-top: 7px;
-  color: rgb(68, 99, 176) !important;
+  color: rgb(102 116 152) !important;
   font-weight: 700 !important;
 }
 
@@ -91,6 +91,20 @@ html {
   color: rgba(12, 16, 64, 0.606);
   font-size: 16px;
   font-variant-caps: all-petite-caps;
+}
+
+.modeVariantsBarMode {
+  /* margin-bottom: 60px; */
+  margin-top: -15px;
+  margin-bottom: 31px;
+  color: rgba(12, 16, 64, 0.606);
+  font-size: 16px;
+  font-feature-settings: 'pcap', 'c2pc', "pcap", "c2pc";
+  font-variant-caps: all-petite-caps;
+}
+
+.modeVariantsBarMode:hover h2 {
+  color: rgb(236, 149, 0) !important;
 }
 
 .modeVariants:hover h2 {
@@ -1142,12 +1156,11 @@ h5 {
 
   .version {
     margin-bottom: 46px;
-    margin-right: 35px;
+    margin-right: 36px;
     margin-top: -35px;
-    color: rgb(68, 99, 176) !important;
+    color: rgb(102 116 152) !important;
     font-weight: 600;
   }
-
   .inputVariants {
     height: 24px;
     border: 1.5px solid #dfdfdf;

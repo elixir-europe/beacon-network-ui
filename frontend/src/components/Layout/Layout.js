@@ -596,6 +596,11 @@ function Layout (props) {
             setExpansionSection={setExpansionSection}
           />
         )}
+        {showVariants === true && showBar === false && (
+          <button className='modeVariantsBarMode' onClick={handleClick}>
+            <h2 className='modeVariantsQueries'>Change to FORM mode</h2>
+          </button>
+        )}
         <div className='container-fluid'>
           {cohorts === false &&
             props.collection !== 'Variant' &&
@@ -751,11 +756,6 @@ function Layout (props) {
           </div>
         )}
 
-        {showVariants === true && showBar === false && (
-          <button className='modeVariants' onClick={handleClick}>
-            <h2 className='modeVariantsQueries'>Change to FORM mode</h2>
-          </button>
-        )}
         {showVariants === true && showBar === true && (
           <button className='modeVariants' onClick={handleClick}>
             <h2 className='modeVariantsQueries2'>Change to BAR mode </h2>
@@ -1218,7 +1218,7 @@ function Layout (props) {
                 </div>
               </div>
             </div>
-            <form className="variantsForm" onSubmit={handleSubmit}>
+            <form className='variantsForm' onSubmit={handleSubmit}>
               <div className='tabset'>
                 <input
                   type='radio'

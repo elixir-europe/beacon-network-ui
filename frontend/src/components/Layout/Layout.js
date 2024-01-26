@@ -1706,6 +1706,10 @@ function Layout (props) {
               referenceBases2={referenceBases2}
               aminoacid={aminoacid}
               geneID={geneID}
+              variantMaxLength={variantMaxLength}
+              variantMaxLength2={variantMaxLength2}
+              variantMinLength={variantMinLength}
+              variantMinLength2={variantMinLength2}
             />
           </div>
         )}
@@ -1739,6 +1743,10 @@ function Layout (props) {
               referenceBases2={referenceBases2}
               aminoacid={aminoacid}
               geneID={geneID}
+              variantMaxLength={variantMaxLength}
+              variantMaxLength2={variantMaxLength2}
+              variantMinLength={variantMinLength}
+              variantMinLength2={variantMinLength2}
             />
           </div>
         )}
@@ -1772,6 +1780,10 @@ function Layout (props) {
               referenceBases2={referenceBases2}
               aminoacid={aminoacid}
               geneID={geneID}
+              variantMaxLength={variantMaxLength}
+              variantMaxLength2={variantMaxLength2}
+              variantMinLength={variantMinLength}
+              variantMinLength2={variantMinLength2}
             />
           </div>
         )}

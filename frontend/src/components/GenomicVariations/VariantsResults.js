@@ -397,6 +397,18 @@ function VariantsResults (props) {
           if (props.start2 !== '') {
             requestParametersRange['start'] = props.start2
           }
+          if (props.variantMinLength !== ''){
+            requestParametersRange['variantMinLength'] = props.variantMinLength
+          }
+          if (props.variantMaxLength !== ''){
+            requestParametersRange['variantMaxLength'] = props.variantMaxLength
+          }
+          if (props.variantMinLength2 !== ''){
+            requestParametersGene['variantMinLength'] = props.variantMinLength2
+          }
+          if (props.variantMaxLength2 !== ''){
+            requestParametersGene['variantMaxLength'] = props.variantMaxLength2
+          }
           if (props.end !== '') {
             requestParametersRange['end'] = props.end
           }

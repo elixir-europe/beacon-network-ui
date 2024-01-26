@@ -178,10 +178,7 @@ function AnalysesResults (props) {
           }
 
           if (token === null) {
-            res = await axios.post(
-              configData.API_URL + '/analyses',
-              jsonData1
-            )
+            res = await axios.post(configData.API_URL + '/analyses', jsonData1)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
 
@@ -192,7 +189,7 @@ function AnalysesResults (props) {
             )
           }
           setTimeOut(true)
-  
+
           if (
             res.data.responseSummary.numTotalResults < 1 ||
             res.data.responseSummary.numTotalResults === undefined
@@ -202,19 +199,14 @@ function AnalysesResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
                       element2[3].push(element.resultsCount)
                     } else {
-                
                       let arrayResultsPerDataset = [
                         element.beaconId,
                         [element.id],
@@ -223,12 +215,10 @@ function AnalysesResults (props) {
                       ]
                       let found = false
 
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -242,7 +232,7 @@ function AnalysesResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
+
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -291,10 +281,7 @@ function AnalysesResults (props) {
 
           if (token === null) {
             console.log('Querying without token')
-            res = await axios.post(
-              configData.API_URL + '/analyses',
-              jsonData2
-            )
+            res = await axios.post(configData.API_URL + '/analyses', jsonData2)
           } else {
             console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
@@ -316,20 +303,14 @@ function AnalysesResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
                       element2[3].push(element.resultsCount)
                     } else {
-                      console.log('hola')
-
                       let arrayResultsPerDataset = [
                         element.beaconId,
                         [element.id],
@@ -337,13 +318,10 @@ function AnalysesResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -357,7 +335,6 @@ function AnalysesResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -382,9 +359,10 @@ function AnalysesResults (props) {
           }
         }
       } catch (error) {
-        setError('No results. Please check the query and the connection and retry')
+        setError(
+          'No results. Please check the query and the connection and retry'
+        )
         setTimeOut(true)
-        console.log(error)
       }
     }
     apiCall()
@@ -459,7 +437,6 @@ function AnalysesResults (props) {
               ></TableResultsAnalyses>
             </div>
           )}
-     
           {show3 && error && <h3>&nbsp; {error} </h3>}
           {show2 && !error && (
             <div className='containerTableResults'>

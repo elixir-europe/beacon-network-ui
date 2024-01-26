@@ -50,7 +50,6 @@ function VariantsResults (props) {
   }
 
   const handleTypeResults3 = () => {
-    console.log(error)
     setShow3(true)
     setShow1(false)
     setShow2(false)
@@ -76,7 +75,7 @@ function VariantsResults (props) {
         res.data.responses.forEach(element => {
           beaconsList.push(element)
         })
-        console.log(res)
+
         beaconsList.reverse()
 
         if (props.showBar === true) {
@@ -195,12 +194,9 @@ function VariantsResults (props) {
                 configData.API_URL + '/g_variants',
                 jsonData1
               )
-
               // Object.defineProperty(res.data.response.resultSets[0], 'beaconId', {
               //  value: 'es.chipdb.cnic.beacon'
               //})
-
-              console.log(res)
             } else {
               const headers = { Authorization: `Bearer ${token}` }
 
@@ -221,13 +217,9 @@ function VariantsResults (props) {
               setBoolean(false)
             } else {
               res.data.response.resultSets.forEach((element, index) => {
-                console.log(res.data.response)
                 if (element.id && element.id !== '') {
-                  console.log(resultsPerDataset)
                   if (resultsPerDataset.length > 0) {
                     resultsPerDataset.forEach(element2 => {
-                      console.log(element2[0])
-                      console.log(element.beaconId)
                       if (element2[0] === element.beaconId) {
                         element2[1].push(element.id)
                         element2[2].push(element.exists)
@@ -240,8 +232,6 @@ function VariantsResults (props) {
                           [element.resultsCount]
                         ]
                         let found = false
-
-                        console.log(arrayResultsPerDataset)
                         resultsPerDataset.forEach(element => {
                           if (element[0] === arrayResultsPerDataset[0]) {
                             found = true
@@ -259,7 +249,6 @@ function VariantsResults (props) {
                       [element.exists],
                       [element.resultsCount]
                     ]
-                    console.log(arrayResultsPerDataset)
                     resultsPerDataset.push(arrayResultsPerDataset)
                   }
                 }
@@ -298,9 +287,7 @@ function VariantsResults (props) {
                 requestedGranularity: 'record'
               }
             }
-            console.log(jsonData2)
             jsonData2 = JSON.stringify(jsonData2)
-            console.log(jsonData2)
             let token = null
             if (auth.userData === null) {
               token = getStoredToken()
@@ -314,11 +301,9 @@ function VariantsResults (props) {
                 configData.API_URL + '/g_variants',
                 jsonData2
               )
-              console.log(res)
             } else {
               console.log('Querying WITH token')
               const headers = { Authorization: `Bearer ${token}` }
-
               res = await axios.post(
                 configData.API_URL + '/g_variants',
                 jsonData2,
@@ -336,20 +321,14 @@ function VariantsResults (props) {
               setBoolean(false)
             } else {
               res.data.response.resultSets.forEach((element, index) => {
-                console.log(res.data.response)
                 if (element.id && element.id !== '') {
-                  console.log(resultsPerDataset)
                   if (resultsPerDataset.length > 0) {
                     resultsPerDataset.forEach(element2 => {
-                      console.log(element2[0])
-                      console.log(element.beaconId)
                       if (element2[0] === element.beaconId) {
                         element2[1].push(element.id)
                         element2[2].push(element.exists)
                         element2[3].push(element.resultsCount)
                       } else {
-                        console.log('hola')
-
                         let arrayResultsPerDataset = [
                           element.beaconId,
                           [element.id],
@@ -357,13 +336,10 @@ function VariantsResults (props) {
                           [element.resultsCount]
                         ]
                         let found = false
-
-                        console.log(arrayResultsPerDataset)
                         resultsPerDataset.forEach(element => {
                           if (element[0] === arrayResultsPerDataset[0]) {
                             found = true
                           }
-                          console.log(found)
                         })
                         if (found === false) {
                           resultsPerDataset.push(arrayResultsPerDataset)
@@ -377,7 +353,6 @@ function VariantsResults (props) {
                       [element.exists],
                       [element.resultsCount]
                     ]
-                    console.log(arrayResultsPerDataset)
                     resultsPerDataset.push(arrayResultsPerDataset)
                   }
                 }
@@ -536,7 +511,6 @@ function VariantsResults (props) {
               configData.API_URL + '/g_variants',
               jsonData1
             )
-            console.log(jsonData1)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
             res = await axios.post(
@@ -554,13 +528,9 @@ function VariantsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
@@ -573,13 +543,10 @@ function VariantsResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -593,7 +560,6 @@ function VariantsResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -620,7 +586,6 @@ function VariantsResults (props) {
       } catch (error) {
         setError('Connection error. Please retry')
         setTimeOut(true)
-        console.log(error)
       }
     }
     apiCall()

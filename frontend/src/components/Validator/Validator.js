@@ -25,7 +25,6 @@ function Validator () {
       .catch(() => {
         alert('something went wrong')
       })
-    console.log('COPY DONE')
   }
 
   const submitVerifierUrl = async e => {
@@ -67,7 +66,6 @@ function Validator () {
         setTimeout(true)
       }
     } catch (error) {
-      console.log(error)
       setErrror('An error occured. Please check the URL and retry.')
     }
   }

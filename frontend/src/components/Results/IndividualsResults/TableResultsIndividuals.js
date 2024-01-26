@@ -58,20 +58,14 @@ function TableResultsIndividuals (props) {
   }
 
   const handleClickDatasets = e => {
-    console.log(e)
-
-    openDatasetArray[e] = true
-    console.log(openDatasetArray)
+    openDatasetArray[e] = true 
     triggerArray[e] = true
-    console.log(triggerArray)
     setTrigger(!trigger)
   }
 
   const handleClickDatasets2 = e => {
     openDatasetArray2[e] = true
-
     triggerArray2[e] = true
-    console.log(triggerArray)
     setTrigger(!trigger)
   }
 
@@ -361,9 +355,6 @@ function TableResultsIndividuals (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-    console.log(props.resultsPerDataset)
-    console.log(props.beaconsList)
-    console.log(arrayBeaconsIds)
     let count = 0
     props.beaconsList.forEach((element2, index2) => {
       count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)

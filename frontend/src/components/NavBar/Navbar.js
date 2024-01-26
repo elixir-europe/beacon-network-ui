@@ -25,17 +25,13 @@ function Navbar () {
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log(auth)
     authenticateUser()
     let token = getStoredToken()
     let isAuthenticated = false
     if (token === null) {
       isAuthenticated = auth.userData?.id_token ? true : false
-      console.log(isAuthenticated)
-      console.log(auth.userData)
     } else {
       isAuthenticated = true
-      console.log(isAuthenticated)
     }
 
     if (isAuthenticated || isLoggedIn === true) {

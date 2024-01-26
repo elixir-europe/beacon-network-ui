@@ -202,13 +202,9 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
@@ -221,13 +217,10 @@ function IndividualsResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -241,7 +234,6 @@ function IndividualsResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -294,18 +286,14 @@ function IndividualsResults (props) {
               configData.API_URL + '/individuals',
               jsonData2
             )
-            console.log(res)
           } else {
             console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
-            console.log(headers)
             res = await axios.post(
               configData.API_URL + '/individuals',
               jsonData2,
               { headers: headers }
             )
-            console.log(res)
-            console.log(jsonData2)
           }
           setTimeOut(true)
 
@@ -318,13 +306,9 @@ function IndividualsResults (props) {
             setBoolean(false)
           } else {
             res.data.response.resultSets.forEach((element, index) => {
-              console.log(res.data.response)
               if (element.id && element.id !== '') {
-                console.log(resultsPerDataset)
                 if (resultsPerDataset.length > 0) {
                   resultsPerDataset.forEach(element2 => {
-                    console.log(element2[0])
-                    console.log(element.beaconId)
                     if (element2[0] === element.beaconId) {
                       element2[1].push(element.id)
                       element2[2].push(element.exists)
@@ -337,13 +321,10 @@ function IndividualsResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
-                      console.log(arrayResultsPerDataset)
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
                         }
-                        console.log(found)
                       })
                       if (found === false) {
                         resultsPerDataset.push(arrayResultsPerDataset)
@@ -357,7 +338,6 @@ function IndividualsResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-                  console.log(arrayResultsPerDataset)
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -384,7 +364,6 @@ function IndividualsResults (props) {
       } catch (error) {
         setError('Connection error. Please retry')
         setTimeOut(true)
-        console.log(error)
       }
     }
     apiCall()

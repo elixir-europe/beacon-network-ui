@@ -58,20 +58,8 @@ function TableResultsAnalyses (props) {
   }
 
   const handleClickDatasets = e => {
-    console.log(e)
-
     openDatasetArray[e] = true
-    console.log(openDatasetArray)
     triggerArray[e] = true
-    console.log(triggerArray)
-    setTrigger(!trigger)
-  }
-
-  const handleClickDatasets2 = e => {
-    openDatasetArray2[e] = true
-
-    triggerArray2[e] = true
-    console.log(triggerArray)
     setTrigger(!trigger)
   }
 
@@ -175,8 +163,6 @@ function TableResultsAnalyses (props) {
     })
     resultsSelectedFinal.forEach((element, index) => {
       if (element[1] !== undefined) {
-        console.log(element[0])
-
         let analysisDateJson = []
         if (
           element[1].analysisDate !== '' &&
@@ -188,7 +174,6 @@ function TableResultsAnalyses (props) {
             analysisDateJson = element[1].analysisDate.toString()
           }
         }
-
         let pipelineNameJson = []
         if (
           element[1].pipelineName !== '' &&
@@ -362,7 +347,6 @@ function TableResultsAnalyses (props) {
         }
 
         rows.push(myObjRows)
-        console.log(rows)
 
         if (index === resultsSelectedFinal.length - 1) {
           setEditable(rows.map(o => ({ ...o })))
@@ -374,9 +358,6 @@ function TableResultsAnalyses (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-    console.log(props.resultsPerDataset)
-    console.log(props.beaconsList)
-    console.log(arrayBeaconsIds)
     let count = 0
     props.beaconsList.forEach((element2, index2) => {
       count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
@@ -398,8 +379,7 @@ function TableResultsAnalyses (props) {
     })
 
     setShowDatasets(true)
-    console.log(props.resultsNotPerDataset)
-    console.log(props.resultsPerDataset)
+   
   }, [])
 
   return (

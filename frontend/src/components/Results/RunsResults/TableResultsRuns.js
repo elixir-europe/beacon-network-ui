@@ -58,20 +58,14 @@ function TableResultsRuns (props) {
   }
 
   const handleClickDatasets = e => {
-    console.log(e)
-
     openDatasetArray[e] = true
-    console.log(openDatasetArray)
     triggerArray[e] = true
-    console.log(triggerArray)
     setTrigger(!trigger)
   }
 
   const handleClickDatasets2 = e => {
     openDatasetArray2[e] = true
-
     triggerArray2[e] = true
-    console.log(triggerArray)
     setTrigger(!trigger)
   }
 
@@ -179,8 +173,6 @@ function TableResultsRuns (props) {
     })
     resultsSelectedFinal.forEach((element, index) => {
       if (element[1] !== undefined) {
-        console.log(element[0])
-
         let runDateJson = []
         if (element[1].runDate !== '' && element[1].runDate !== undefined) {
           if (typeof element[1].runDate === 'string') {
@@ -287,7 +279,6 @@ function TableResultsRuns (props) {
         }
 
         rows.push(myObjRows)
-        console.log(rows)
 
         if (index === resultsSelectedFinal.length - 1) {
           setEditable(rows.map(o => ({ ...o })))
@@ -299,9 +290,6 @@ function TableResultsRuns (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-    console.log(props.resultsPerDataset)
-    console.log(props.beaconsList)
-    console.log(arrayBeaconsIds)
     let count = 0
     props.beaconsList.forEach((element2, index2) => {
       count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
@@ -323,8 +311,6 @@ function TableResultsRuns (props) {
     })
 
     setShowDatasets(true)
-    console.log(props.resultsNotPerDataset)
-    console.log(props.resultsPerDataset)
   }, [])
 
   return (

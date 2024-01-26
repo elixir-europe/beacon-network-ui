@@ -77,18 +77,16 @@ function Cohorts (props) {
       const fetchDataCohorts = async () => {
         try {
           let res = await axios.get(configData.API_URL + '/cohorts')
-          console.log(res)
           res.data.response.collections.forEach(element => {
-            if (optionsCohorts.length > 0){
+            if (optionsCohorts.length > 0) {
               optionsCohorts.forEach(cohort => {
-                if (cohort.value === element.id){
+                if (cohort.value === element.id) {
                   let obj = {
                     value: element.id + count,
                     label: element.id
                   }
-                  setCount(count+1)
-                  console.log(obj)
-                  element.id = element.id +count
+                  setCount(count + 1)
+                  element.id = element.id + count
                   optionsCohorts.push(obj)
                 } else {
                   let obj = {
@@ -97,7 +95,6 @@ function Cohorts (props) {
                   }
                   optionsCohorts.push(obj)
                 }
-  
               })
             } else {
               let obj = {
@@ -106,7 +103,7 @@ function Cohorts (props) {
               }
               optionsCohorts.push(obj)
             }
-           
+
             arrayCohorts.push(element)
             const timer = setTimeout(() => {
               setTriggerLayout(true)
@@ -115,7 +112,6 @@ function Cohorts (props) {
           })
         } catch (error) {
           setTimeOut(true)
-          console.log(error)
           setError('No information available right now')
         }
       }
@@ -182,12 +178,8 @@ function Cohorts (props) {
   // }
 
   useEffect(() => {
-    console.log(selectedCohorts)
-    console.log(arrayCohorts)
     const apiCall = () => {
-    
       arrayCohorts.forEach(element => {
-        console.log(element)
         if (element.id === selectedCohorts.value) {
           if (element.collectionEvents) {
             element.collectionEvents.forEach(element2 => {
@@ -209,11 +201,10 @@ function Cohorts (props) {
                 let entriesGeo = ''
                 let valuesDiseases = ''
                 let labelsDiseases = ''
-                console.log(element2.eventGenders)
+               
                 // for (var i = 0; i < res.data.response.collections.length; i++) {
                 if (element2.eventGenders !== undefined) {
                   sexs = element2.eventGenders.distribution.genders
-                  console.log(sexs)
                   setDataAvailable(true)
                 }
                 if (element2.eventEthnicities !== undefined) {
@@ -271,7 +262,7 @@ function Cohorts (props) {
                 if (labelsEthnicities !== '') {
                   setLabelsEthnicities(labelsEthnicities)
                 }
-                console.log(geoData)
+         
                 if (geoData !== '') {
                   valuesGeo = Object.values(geoData)
                   labelsGeo = Object.keys(geoData)

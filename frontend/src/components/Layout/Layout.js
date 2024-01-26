@@ -194,7 +194,6 @@ function Layout (props) {
         }
       } catch (error) {
         setError('No filtering terms now available for Individuals collection')
-        console.log(error)
         setTimeOut(true)
       }
     } else if (props.collection === 'Cohorts') {
@@ -211,7 +210,6 @@ function Layout (props) {
         }
       } catch (error) {
         setError('No filtering terms now available for Cohorts collection')
-        console.log(error)
         setTimeOut(true)
       }
     } else if (props.collection === 'Variant') {
@@ -228,7 +226,6 @@ function Layout (props) {
         }
       } catch (error) {
         setError('No filtering terms now available for Variant collection')
-        console.log(error)
         setTimeOut(true)
       }
     } else if (props.collection === 'Analyses') {
@@ -245,7 +242,6 @@ function Layout (props) {
         }
       } catch (error) {
         setError('No filtering terms now available for Analyses collection')
-        console.log(error)
         setTimeOut(true)
       }
     } else if (props.collection === 'Runs') {
@@ -260,7 +256,6 @@ function Layout (props) {
         }
       } catch (error) {
         setError('No filtering terms now available for Runs collection')
-        console.log(error)
         setTimeOut(true)
       }
     } else if (props.collection === 'Biosamples') {
@@ -278,7 +273,6 @@ function Layout (props) {
         }
       } catch (error) {
         setError('No filtering terms now available for Biosamples collection')
-        console.log(error)
         setTimeOut(true)
       }
     }
@@ -481,8 +475,7 @@ function Layout (props) {
     if (queryAux !== query) {
       setTriggerQuery(!triggerQuery)
     }
-    console.log(query)
-
+   
     setExampleQ([])
 
     if (query === '1' || query === '') {
@@ -529,10 +522,10 @@ function Layout (props) {
           BEACON VALIDATOR
         </NavLink>
         <div className='logos'>
-          {/* <a href="https://www.cineca-project.eu/" target="_blank">
+          {/* <a href="https://www.cineca-project.eu/" target="_blank" rel="noreferrer">
                         <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
                     </a> */}
-          <a href='https://elixir-europe.org/' target='_blank'>
+          <a href='https://elixir-europe.org/' target='_blank' rel="noreferrer">
             <img
               className='elixirLogo'
               src='./white-orange-logo.png'
@@ -542,7 +535,7 @@ function Layout (props) {
           {/* <a
             href='https://impact-data.bsc.es/'
             className='logoInstitution'
-            target='_blank'
+            target='_blank' rel="noreferrer" 
           >
             <img
               className='impactLogo'

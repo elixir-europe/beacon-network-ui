@@ -81,10 +81,18 @@ input:focus-visible + label {
   max-width: 65em;
 }
 
+@media (max-width: 980px) {
+  .tabset {
+    margin-top: 16px;
+  }
+
+}
+
 @media (max-width: 380px) {
   .tabset {
     display: flex;
     flex-direction: column;
+    margin-top: 16px;
   }
 
   .tabset > input:checked + label {

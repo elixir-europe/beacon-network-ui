@@ -26,7 +26,7 @@ function VariantsResults (props) {
   const [queryArray, setQueryArray] = useState([])
   const [beaconsList, setBeaconsList] = useState([])
 
-  const [limit, setLimit] = useState(0)
+  const [limit, setLimit] = useState(10)
   const [skip, setSkip] = useState(0)
 
   const [showVariantsResults, setShowVariantsResults] = useState(false)
@@ -68,7 +68,7 @@ function VariantsResults (props) {
           isAuthenticated = true
         }
       }
-
+      console.log(props.variantMinLength)
       try {
         let res = await axios.get(configData.API_URL + '/info')
 
@@ -78,7 +78,7 @@ function VariantsResults (props) {
 
         beaconsList.reverse()
 
-        if (props.showBar === true) {
+        if (props.showBar === false) {
           setShowVariantsResults(true)
           if (props.query !== null) {
             if (props.query.includes(',')) {
@@ -519,10 +519,12 @@ function VariantsResults (props) {
 
           if (token === null) {
             console.log('Querying without token')
+            console.log(jsonData1)
             res = await axios.post(
               configData.API_URL + '/g_variants',
               jsonData1
             )
+            console.log(res)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
             res = await axios.post(

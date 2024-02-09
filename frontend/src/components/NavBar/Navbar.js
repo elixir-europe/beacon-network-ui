@@ -126,14 +126,6 @@ function Navbar () {
             Network members
           </NavLink>
         )}
-        {!isLoggedIn && (
-          <NavLink
-            to='/about'
-            className={({ isActive }) => (isActive ? 'About2' : 'About')}
-          >
-            About
-          </NavLink>
-        )}
 
         {!isLoggedIn && (
           <NavLink
@@ -152,15 +144,6 @@ function Navbar () {
             className={({ isActive }) => (isActive ? 'Members4' : 'Members3')}
           >
             Network members
-          </NavLink>
-        )}
-
-        {isLoggedIn && (
-          <NavLink
-            to='/about'
-            className={({ isActive }) => (isActive ? 'About6' : 'About5')}
-          >
-            About
           </NavLink>
         )}
 
@@ -222,16 +205,7 @@ function Navbar () {
                       {' '}
                       <h1>Network members</h1>
                     </NavLink>
-                    <NavLink
-                      to='/about'
-                      onClick={handleMenu}
-                      className={({ isActive }) =>
-                        isActive ? 'About2' : 'About'
-                      }
-                    >
-                      {' '}
-                      <h1>About</h1>
-                    </NavLink>
+
                     {!isLoggedIn && (
                       <NavLink
                         exact
@@ -348,16 +322,7 @@ function Navbar () {
                       {' '}
                       <h1>Network members</h1>
                     </NavLink>
-                    <NavLink
-                      to='/about'
-                      onClick={handleMenu}
-                      className={({ isActive }) =>
-                        isActive ? 'About2' : 'About'
-                      }
-                    >
-                      {' '}
-                      <h1>About</h1>
-                    </NavLink>
+
                     {!isLoggedIn && (
                       <NavLink
                         exact

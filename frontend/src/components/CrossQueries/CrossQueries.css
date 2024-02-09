@@ -39,6 +39,7 @@ select {
   align-items: center;
   width: 100vw;
   flex-direction: column;
+  height: 100vh;
 }
 
 .crossQueriesForm label {

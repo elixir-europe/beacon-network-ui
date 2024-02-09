@@ -191,8 +191,9 @@ function AnalysesResults (props) {
           setTimeOut(true)
 
           if (
-            res.data.responseSummary.numTotalResults < 1 ||
-            res.data.responseSummary.numTotalResults === undefined
+            (res.data.responseSummary.numTotalResults < 1 ||
+              res.data.responseSummary.numTotalResults === undefined) &&
+            props.resultSets !== 'MISS'
           ) {
             setError('No results. Please try another query')
             setNumberResults(0)
@@ -295,10 +296,11 @@ function AnalysesResults (props) {
           setTimeOut(true)
 
           if (
-            res.data.responseSummary.numTotalResults < 1 ||
-            res.data.responseSummary.numTotalResults === undefined
+            (res.data.responseSummary.numTotalResults < 1 ||
+              res.data.responseSummary.numTotalResults === undefined) &&
+            props.resultSets !== 'MISS'
           ) {
-            setError('No results. Please try another query')
+            setError('. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
@@ -417,9 +419,11 @@ function AnalysesResults (props) {
                 <button className='typeResults' onClick={handleTypeResults2}>
                   <h5>Count</h5>
                 </button>
-                <button className='typeResults' onClick={handleTypeResults3}>
-                  <h5>Full response</h5>
-                </button>
+                {props.resultSets !== 'MISS' && (
+                  <button className='typeResults' onClick={handleTypeResults3}>
+                    <h5>Full response</h5>
+                  </button>
+                )}
               </div>
             </div>
           )}

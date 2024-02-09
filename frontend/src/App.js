@@ -19,6 +19,7 @@ import Validator from './components/Validator/Validator'
 import SignInFormNoLS from './components/SignIn/SignInFormNoLS'
 import AboutSection from './components/AboutSection/AboutSection'
 import SignInOptions from './components/SignInOptions/SignInOptions'
+import Footer from './components/Footer/Footer'
 
 function App () {
   return (
@@ -42,6 +43,7 @@ function App () {
         <Route path='/about' element={<AboutSection />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>
+      <Footer/>
     </div>
   )
 }

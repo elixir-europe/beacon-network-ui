@@ -170,6 +170,7 @@ function VariantsResults (props) {
                 apiVersion: '2.0'
               },
               query: {
+                requestParameters: {},
                 filters: arrayFilter,
                 includeResultsetResponses: `${props.resultSets}`,
                 pagination: {
@@ -209,8 +210,9 @@ function VariantsResults (props) {
             setTimeOut(true)
 
             if (
-              res.data.responseSummary.numTotalResults < 1 ||
-              res.data.responseSummary.numTotalResults === undefined
+              (res.data.responseSummary.numTotalResults < 1 ||
+                res.data.responseSummary.numTotalResults === undefined) &&
+              props.resultSets !== 'MISS'
             ) {
               setError('No results. Please try another query')
               setNumberResults(0)
@@ -277,6 +279,7 @@ function VariantsResults (props) {
                 apiVersion: '2.0'
               },
               query: {
+                requestParameters: {},
                 filters: arrayFilter,
                 includeResultsetResponses: `${props.resultSets}`,
                 pagination: {
@@ -313,8 +316,9 @@ function VariantsResults (props) {
             setTimeOut(true)
 
             if (
-              res.data.responseSummary.numTotalResults < 1 ||
-              res.data.responseSummary.numTotalResults === undefined
+              (res.data.responseSummary.numTotalResults < 1 ||
+                res.data.responseSummary.numTotalResults === undefined) &&
+              props.resultSets !== 'MISS'
             ) {
               setError('No results. Please try another query')
               setNumberResults(0)
@@ -397,16 +401,16 @@ function VariantsResults (props) {
           if (props.start2 !== '') {
             requestParametersRange['start'] = props.start2
           }
-          if (props.variantMinLength !== ''){
+          if (props.variantMinLength !== '') {
             requestParametersRange['variantMinLength'] = props.variantMinLength
           }
-          if (props.variantMaxLength !== ''){
+          if (props.variantMaxLength !== '') {
             requestParametersRange['variantMaxLength'] = props.variantMaxLength
           }
-          if (props.variantMinLength2 !== ''){
+          if (props.variantMinLength2 !== '') {
             requestParametersGene['variantMinLength'] = props.variantMinLength2
           }
-          if (props.variantMaxLength2 !== ''){
+          if (props.variantMaxLength2 !== '') {
             requestParametersGene['variantMaxLength'] = props.variantMaxLength2
           }
           if (props.end !== '') {
@@ -525,6 +529,7 @@ function VariantsResults (props) {
               jsonData1
             )
             console.log(res)
+            console.log(jsonData1)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
             res = await axios.post(
@@ -535,7 +540,11 @@ function VariantsResults (props) {
           }
 
           setTimeOut(true)
-          if (!res.data.responseSummary.numTotalResults) {
+          if (
+            (res.data.responseSummary.numTotalResults < 1 ||
+              res.data.responseSummary.numTotalResults === undefined) &&
+            props.resultSets !== 'MISS'
+          ) {
             setTimeOut(true)
             setError('No results. Please try another query')
             setNumberResults(0)
@@ -629,9 +638,9 @@ function VariantsResults (props) {
                 <button className='typeResults' onClick={handleTypeResults2}>
                   <h5>Count</h5>
                 </button>
-                <button className='typeResults' onClick={handleTypeResults3}>
+                {props.resultSets !== 'MISS' &&<button className='typeResults' onClick={handleTypeResults3}>
                   <h5>Full response</h5>
-                </button>
+                </button>}
               </div>
 
               {show3 && logInRequired === false && !error && (

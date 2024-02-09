@@ -2,7 +2,7 @@ import './AboutSection.css'
 
 function AboutSection () {
   return (
-    <div>
+    <div className='aboutContainer'>
   
     </div>
   )

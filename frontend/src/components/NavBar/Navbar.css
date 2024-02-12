@@ -266,8 +266,8 @@
   }
 
   .Members:hover ~ .animation {
-    width: 146px;
-    right: 268px;
+    width: 160px;
+    right: 134px;
     background-color: #4961b8;
   }
 
@@ -285,7 +285,7 @@
 
   .About5:hover ~ .animation {
     width: 76px;
-   right: 19.5%;
+    right: 19.5%;
     background-color: #e575dd;
   }
 

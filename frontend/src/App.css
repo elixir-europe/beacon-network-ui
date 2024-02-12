@@ -99,7 +99,7 @@ html {
   margin-bottom: 31px;
   color: rgba(12, 16, 64, 0.606);
   font-size: 16px;
-  font-feature-settings: 'pcap', 'c2pc', "pcap", "c2pc";
+  font-feature-settings: 'pcap', 'c2pc', 'pcap', 'c2pc';
   font-variant-caps: all-petite-caps;
 }
 
@@ -284,7 +284,6 @@ html {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
 }
-
 
 .labelVariantsTittle {
   font-size: 16px;
@@ -654,6 +653,8 @@ select {
   /* justify-content: center; */
   align-content: center;
   align-items: center;
+  padding-bottom: 10px;
+  min-height: 630px;
 }
 
 .resultSet2 {

@@ -106,15 +106,6 @@ function Navbar () {
         >
           Cohorts
         </NavLink>
-        <NavLink
-          exact
-          to='/allScopes/cross-queries/%20/'
-          className={({ isActive }) =>
-            isActive ? 'Cross-queries2' : 'Cross-queries'
-          }
-        >
-          Cross queries
-        </NavLink>
         <div class='animation nav2'></div>
       </nav>
       <nav className='nav3'>
@@ -124,14 +115,6 @@ function Navbar () {
             className={({ isActive }) => (isActive ? 'Members2' : 'Members')}
           >
             Network members
-          </NavLink>
-        )}
-        {!isLoggedIn && (
-          <NavLink
-            to='/about'
-            className={({ isActive }) => (isActive ? 'About2' : 'About')}
-          >
-            About
           </NavLink>
         )}
 
@@ -152,15 +135,6 @@ function Navbar () {
             className={({ isActive }) => (isActive ? 'Members4' : 'Members3')}
           >
             Network members
-          </NavLink>
-        )}
-
-        {isLoggedIn && (
-          <NavLink
-            to='/about'
-            className={({ isActive }) => (isActive ? 'About6' : 'About5')}
-          >
-            About
           </NavLink>
         )}
 
@@ -222,16 +196,7 @@ function Navbar () {
                       {' '}
                       <h1>Network members</h1>
                     </NavLink>
-                    <NavLink
-                      to='/about'
-                      onClick={handleMenu}
-                      className={({ isActive }) =>
-                        isActive ? 'About2' : 'About'
-                      }
-                    >
-                      {' '}
-                      <h1>About</h1>
-                    </NavLink>
+
                     {!isLoggedIn && (
                       <NavLink
                         exact
@@ -329,16 +294,6 @@ function Navbar () {
                       <h1>Cohorts</h1>
                     </NavLink>
                     <NavLink
-                      exact
-                      to='/allScopes/cross-queries/%20/'
-                      onClick={handleMenu}
-                      className={({ isActive }) =>
-                        isActive ? 'Cross-queries2' : 'Cross-queries'
-                      }
-                    >
-                      <h1>Cross queries</h1>
-                    </NavLink>
-                    <NavLink
                       to='/members'
                       onClick={handleMenu}
                       className={({ isActive }) =>
@@ -348,16 +303,7 @@ function Navbar () {
                       {' '}
                       <h1>Network members</h1>
                     </NavLink>
-                    <NavLink
-                      to='/about'
-                      onClick={handleMenu}
-                      className={({ isActive }) =>
-                        isActive ? 'About2' : 'About'
-                      }
-                    >
-                      {' '}
-                      <h1>About</h1>
-                    </NavLink>
+
                     {!isLoggedIn && (
                       <NavLink
                         exact

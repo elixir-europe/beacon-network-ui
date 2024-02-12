@@ -101,10 +101,10 @@ function Layout (props) {
   const [assemblyId, setAssemblyId] = useState('')
   const [assemblyId2, setAssemblyId2] = useState('')
   const [assemblyId3, setAssemblyId3] = useState('')
-  const [variantMinLength, setVariantMinLength]= useState('')
-  const [variantMaxLength, setVariantMaxLength]= useState('')
-  const [variantMinLength2, setVariantMinLength2]= useState('')
-  const [variantMaxLength2, setVariantMaxLength2]= useState('')
+  const [variantMinLength, setVariantMinLength] = useState('')
+  const [variantMaxLength, setVariantMaxLength] = useState('')
+  const [variantMinLength2, setVariantMinLength2] = useState('')
+  const [variantMaxLength2, setVariantMaxLength2] = useState('')
 
   const [sequenceSubmitted, setSequenceSub] = useState(false)
   const [rangeSubmitted, setRangeSub] = useState(false)
@@ -421,8 +421,6 @@ function Layout (props) {
     setVariantType2('DEL')
   }
 
-
-
   useEffect(() => {
     if (props.collection === 'Individuals') {
       setPlaceholder('filtering term comma-separated, ID><=value')
@@ -493,7 +491,7 @@ function Layout (props) {
     if (queryAux !== query) {
       setTriggerQuery(!triggerQuery)
     }
-   
+
     setExampleQ([])
 
     if (query === '1' || query === '') {
@@ -529,21 +527,11 @@ function Layout (props) {
   return (
     <div className='container1'>
       <div className='container2'>
-        <button className='helpButton' onClick={handleHelpModal2}>
-          <img
-            className='questionLogo2'
-            src='./question.png'
-            alt='questionIcon'
-          ></img>
-        </button>
-        <NavLink className='NavlinkVerifier' exact to='/validator'>
-          BEACON VALIDATOR
-        </NavLink>
         <div className='logos'>
           {/* <a href="https://www.cineca-project.eu/" target="_blank" rel="noreferrer">
                         <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
                     </a> */}
-          <a href='https://elixir-europe.org/' target='_blank' rel="noreferrer">
+          <a href='https://elixir-europe.org/' target='_blank' rel='noreferrer'>
             <img
               className='elixirLogo'
               src='./white-orange-logo.png'
@@ -1596,7 +1584,7 @@ function Layout (props) {
           <div>
             <IndividualsResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               ID={ID}
               operator={operator}
               valueFree={valueFree}
@@ -1610,7 +1598,7 @@ function Layout (props) {
           <div>
             <IndividualsResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               ID={ID}
               operator={operator}
               valueFree={valueFree}
@@ -1624,7 +1612,7 @@ function Layout (props) {
           <div>
             <AnalysesResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               ID={ID}
               operator={operator}
               valueFree={valueFree}
@@ -1638,7 +1626,7 @@ function Layout (props) {
           <div>
             <AnalysesResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               ID={ID}
               operator={operator}
               valueFree={valueFree}
@@ -1652,7 +1640,7 @@ function Layout (props) {
           <div>
             <RunsResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               ID={ID}
               operator={operator}
               valueFree={valueFree}
@@ -1666,7 +1654,7 @@ function Layout (props) {
           <div>
             <RunsResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               ID={ID}
               operator={operator}
               valueFree={valueFree}
@@ -1683,7 +1671,7 @@ function Layout (props) {
               sequenceSubmitted={sequenceSubmitted}
               rangeSubmitted={rangeSubmitted}
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               showResultsVariants={showResultsVariants}
               setHideForm={setHideForm}
               showBar={showBar}
@@ -1720,7 +1708,7 @@ function Layout (props) {
               sequenceSubmitted={sequenceSubmitted}
               rangeSubmitted={rangeSubmitted}
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               showResultsVariants={showResultsVariants}
               setHideForm={setHideForm}
               showBar={showBar}
@@ -1757,7 +1745,7 @@ function Layout (props) {
               sequenceSubmitted={sequenceSubmitted}
               rangeSubmitted={rangeSubmitted}
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               showResultsVariants={showResultsVariants}
               setHideForm={setHideForm}
               showBar={showBar}
@@ -1791,7 +1779,7 @@ function Layout (props) {
           <div>
             <BiosamplesResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}
@@ -1802,7 +1790,7 @@ function Layout (props) {
           <div>
             <BiosamplesResults
               query={query}
-              resultSets={resultSet}
+              resultSets={resultSetAux}
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}

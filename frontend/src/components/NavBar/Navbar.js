@@ -18,13 +18,18 @@ function Navbar () {
     logOutUser,
     authenticateUser,
     getStoredToken,
-    userNameToShare
+    userNameToShare,
+    setUserNameToShare
   } = useContext(AuthContext)
 
   const auth = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
+    let user = localStorage.getItem('userName')
+    if (user !== ''){
+      setUserNameToShare(user)
+    }
     authenticateUser()
     let token = getStoredToken()
     let isAuthenticated = false
@@ -39,7 +44,7 @@ function Navbar () {
     } else {
       setIsLoggedIn(false)
     }
-  }, [])
+  }, [userNameToShare])
 
   const handleHelpModal1 = () => {
     setIsOpenModal1(true)

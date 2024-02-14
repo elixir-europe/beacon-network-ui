@@ -12,6 +12,7 @@ export default function SignInFormNoLS () {
   const [error, setError] = useState('')
 
   const navigate = useNavigate()
+
   const {
     storeToken,
     setIsLoggedIn,
@@ -77,7 +78,7 @@ export default function SignInFormNoLS () {
       if (readableResponse.access_token) {
         navigate('/')
         setIsLoggedIn(true)
-        setUserNameToShare(userName)
+        setUserNameToShare(localStorage.setItem('userName', userName))
       } else {
         setError(
           'User not found. Please check the username and the password and retry'

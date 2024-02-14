@@ -94,10 +94,21 @@ function IndividualsResults (props) {
               }
               arrayFilter.push(alphaNumFilter)
             } else {
-              const filter2 = {
+              let filter2 = {
                 id: element,
                 includeDescendantTerms: props.descendantTerm
               }
+              props.filteringTerms.data.response.filteringTerms.forEach(
+                element2 => {
+                  if (element === element2.label) {
+                    filter2 = {
+                      id: element2.id,
+                      includeDescendantTerms: props.descendantTerm
+                    }
+                  }
+                }
+              )
+
               arrayFilter.push(filter2)
             }
           })
@@ -133,9 +144,18 @@ function IndividualsResults (props) {
             }
             arrayFilter.push(alphaNumFilter)
           } else {
-            const filter = {
-              id: props.query
-            }
+            let filter = { id: props.query }
+            let labelToOntology = 0
+            props.filteringTerms.data.response.filteringTerms.forEach(
+              element => {
+                if (props.query === element.label) {
+                  labelToOntology = element.id
+                  filter = {
+                    id: labelToOntology
+                  }
+                }
+              }
+            )
             arrayFilter.push(filter)
           }
         }
@@ -275,6 +295,7 @@ function IndividualsResults (props) {
             }
           }
           jsonData2 = JSON.stringify(jsonData2)
+          console.log(jsonData2)
           let token = null
           if (auth.userData === null) {
             token = getStoredToken()
@@ -422,9 +443,11 @@ function IndividualsResults (props) {
                 <button className='typeResults' onClick={handleTypeResults2}>
                   <h5>Count</h5>
                 </button>
-                {props.resultSets !== 'MISS' && <button className='typeResults' onClick={handleTypeResults3}>
-                  <h5>Full response</h5>
-                </button>}
+                {props.resultSets !== 'MISS' && (
+                  <button className='typeResults' onClick={handleTypeResults3}>
+                    <h5>Full response</h5>
+                  </button>
+                )}
               </div>
             </div>
           )}

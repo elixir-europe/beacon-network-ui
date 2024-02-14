@@ -181,125 +181,26 @@ function Layout (props) {
     setIsOpenModal6(true)
   }
 
-  const handleFilteringTerms = async e => {
-    setTimeOut(false)
-    if (props.collection === 'Individuals') {
-      try {
-        let res = await axios.get(
-          configData.API_URL + '/individuals/filtering_terms'
-        )
-        setTimeOut(true)
-
-        if (res.data.response.filteringTerms !== undefined) {
-          setFilteringTerms(res)
-          setResults(null)
-        } else {
-          setError('No filtering terms now available')
-        }
-      } catch (error) {
-        setError('No filtering terms now available for Individuals collection')
-        setTimeOut(true)
-      }
-    } else if (props.collection === 'Cohorts') {
-      try {
-        let res = await axios.get(
-          configData.API_URL + '/cohorts/filtering_terms'
-        )
-        setTimeOut(true)
-        if (res.data.response.filteringTerms !== undefined) {
-          setFilteringTerms(res)
-          setResults(null)
-        } else {
-          setError('No filtering terms now available')
-        }
-      } catch (error) {
-        setError('No filtering terms now available for Cohorts collection')
-        setTimeOut(true)
-      }
-    } else if (props.collection === 'Variant') {
-      try {
-        let res = await axios.get(
-          configData.API_URL + '/g_variants/filtering_terms'
-        )
-        setTimeOut(true)
-        if (res.data.response.filteringTerms !== undefined) {
-          setFilteringTerms(res)
-          setResults(null)
-        } else {
-          setError('No filtering terms now available')
-        }
-      } catch (error) {
-        setError('No filtering terms now available for Variant collection')
-        setTimeOut(true)
-      }
-    } else if (props.collection === 'Analyses') {
-      try {
-        let res = await axios.get(
-          configData.API_URL + '/analyses/filtering_terms'
-        )
-        setTimeOut(true)
-        if (res.data.response.filteringTerms !== undefined) {
-          setFilteringTerms(res)
-          setResults(null)
-        } else {
-          setError('No filtering terms now available')
-        }
-      } catch (error) {
-        setError('No filtering terms now available for Analyses collection')
-        setTimeOut(true)
-      }
-    } else if (props.collection === 'Runs') {
-      try {
-        let res = await axios.get(configData.API_URL + '/runs/filtering_terms')
-        setTimeOut(true)
-        if (res.data.response.filteringTerms !== undefined) {
-          setFilteringTerms(res)
-          setResults(null)
-        } else {
-          setError('No filtering terms now available')
-        }
-      } catch (error) {
-        setError('No filtering terms now available for Runs collection')
-        setTimeOut(true)
-      }
-    } else if (props.collection === 'Biosamples') {
-      try {
-        let res = await axios.get(
-          configData.API_URL + '/biosamples/filtering_terms'
-        )
-        setTimeOut(true)
-        if (res.data.response.filteringTerms !== undefined) {
-          setFilteringTerms(res)
-          setResults(null)
-        } else {
-          setTimeOut(true)
-          setError('No filtering terms now available')
-        }
-      } catch (error) {
-        setError('No filtering terms now available for Biosamples collection')
-        setTimeOut(true)
-      }
-    }
-
+  const handleSeeFilteringTerms = () => {
     setShowFilteringTerms(true)
   }
 
   const handleExQueries = () => {
     if (props.collection === 'Individuals') {
       setExampleQ([
+        ['female', 'NCIT:C16576'],
+        ['African', 'NCIT:C42331'],
+        ['Cardiovascular Neoplasm', 'NCIT:C4784'],
         ['Weight>100'],
-        ['NCIT:C16576', 'female'],
         ['geographicOrigin=%land%'],
-        ['geographicOrigin!England'],
-        ['NCIT:C42331', 'African'],
-        ['NCIT:C4784', 'Cardiovascular Neoplasm']
+        ['geographicOrigin!England']
       ])
     } else if (props.collection === 'Variant') {
       setExampleQ([['GENO:GENO_0000458']])
     } else if (props.collection === 'Biosamples') {
       setExampleQ([
-        ['UBERON:0000178', 'blood'],
-        ['EFO:0009654', 'reference sample'],
+        ['blood', 'UBERON:0000178'],
+        ['reference sample', 'EFO:0009654'],
         ['sampleOriginType:blood']
       ])
     } else if (props.collection === 'Runs') {
@@ -451,22 +352,125 @@ function Layout (props) {
     const fetchData = async () => {
       //for query expansion
       try {
-        let res = await axios.get(
-          configData.API_URL + '/individuals/filtering_terms'
-        )
-        if (res !== null) {
-          res.data.response.filteringTerms.forEach(element => {
-            if (element.type !== 'custom') {
-              arrayFilteringTerms.push(element.id)
-              arrayFilteringTermsQE.push(element)
-            }
-          })
+        setTimeOut(false)
+        if (props.collection === 'Individuals') {
+          try {
+            let res = await axios.get(
+              configData.API_URL + '/individuals/filtering_terms'
+            )
+            setTimeOut(true)
 
-          setstate({
-            query: '',
-            list: arrayFilteringTerms
-          })
+            if (res.data.response.filteringTerms !== undefined) {
+              setFilteringTerms(res)
+              setResults(null)
+            } else {
+              setError('No filtering terms now available')
+            }
+            if (res !== null) {
+              res.data.response.filteringTerms.forEach(element => {
+                if (element.type !== 'custom') {
+                  arrayFilteringTerms.push(element.id)
+                  arrayFilteringTermsQE.push(element)
+                }
+              })
+    
+              setstate({
+                query: '',
+                list: arrayFilteringTerms
+              })
+            }
+          } catch (error) {
+            setError(
+              'No filtering terms now available for Individuals collection'
+            )
+            setTimeOut(true)
+          }
+        } else if (props.collection === 'Cohorts') {
+          try {
+            let res = await axios.get(
+              configData.API_URL + '/cohorts/filtering_terms'
+            )
+            setTimeOut(true)
+            if (res.data.response.filteringTerms !== undefined) {
+              setFilteringTerms(res)
+              setResults(null)
+            } else {
+              setError('No filtering terms now available')
+            }
+          } catch (error) {
+            setError('No filtering terms now available for Cohorts collection')
+            setTimeOut(true)
+          }
+        } else if (props.collection === 'Variant') {
+          try {
+            let res = await axios.get(
+              configData.API_URL + '/g_variants/filtering_terms'
+            )
+            setTimeOut(true)
+            if (res.data.response.filteringTerms !== undefined) {
+              setFilteringTerms(res)
+              setResults(null)
+            } else {
+              setError('No filtering terms now available')
+            }
+          } catch (error) {
+            setError('No filtering terms now available for Variant collection')
+            setTimeOut(true)
+          }
+        } else if (props.collection === 'Analyses') {
+          try {
+            let res = await axios.get(
+              configData.API_URL + '/analyses/filtering_terms'
+            )
+            setTimeOut(true)
+            if (res.data.response.filteringTerms !== undefined) {
+              setFilteringTerms(res)
+              setResults(null)
+            } else {
+              setError('No filtering terms now available')
+            }
+          } catch (error) {
+            setError('No filtering terms now available for Analyses collection')
+            setTimeOut(true)
+          }
+        } else if (props.collection === 'Runs') {
+          try {
+            let res = await axios.get(
+              configData.API_URL + '/runs/filtering_terms'
+            )
+            setTimeOut(true)
+            if (res.data.response.filteringTerms !== undefined) {
+              setFilteringTerms(res)
+              setResults(null)
+            } else {
+              setError('No filtering terms now available')
+            }
+          } catch (error) {
+            setError('No filtering terms now available for Runs collection')
+            setTimeOut(true)
+          }
+        } else if (props.collection === 'Biosamples') {
+          try {
+            let res = await axios.get(
+              configData.API_URL + '/biosamples/filtering_terms'
+            )
+            setTimeOut(true)
+            if (res.data.response.filteringTerms !== undefined) {
+              setFilteringTerms(res)
+              setResults(null)
+            } else {
+              setTimeOut(true)
+              setError('No filtering terms now available')
+            }
+          } catch (error) {
+            setError(
+              'No filtering terms now available for Biosamples collection'
+            )
+            setTimeOut(true)
+          }
         }
+
+   
       } catch (error) {
         console.log(error)
       }
@@ -479,6 +483,8 @@ function Layout (props) {
   }, [])
 
   const onSubmit = async event => {
+    console.log(query)
+    console.log(value)
     event.preventDefault()
 
     setIsSub(true)
@@ -683,8 +689,8 @@ function Layout (props) {
                                 className='exampleQuery'
                                 onClick={() => {
                                   setPlaceholder(`${result[0]}`)
-                                  setQuery(`${result[0]}`)
-                                  setValue(`${result[0]}`)
+                                  setQuery(`${[result[0]]}`)
+                                  setValue(`${result[1]}`)
                                   setExampleQ([])
                                 }}
                               >
@@ -703,9 +709,7 @@ function Layout (props) {
                   </div>
                 )}
               {props.collection !== '' && showBar === true && (
-                <button className='filters' onClick={handleFilteringTerms}>
-                  Filtering Terms
-                </button>
+                <button className='filters' onClick={handleSeeFilteringTerms}>Filtering Terms </button>
               )}
             </div>
           </div>
@@ -732,7 +736,7 @@ function Layout (props) {
                             onClick={() => {
                               setPlaceholder(`${result[0]}`)
                               setQuery(`${result[0]}`)
-                              setValue(`${result[0]}`)
+                              setValue(`${result[1]}`)
                               setExampleQ([])
                             }}
                           >
@@ -748,9 +752,7 @@ function Layout (props) {
                 </div>
               </div>
 
-              <button className='filters' onClick={handleFilteringTerms}>
-                Filtering Terms
-              </button>
+              <button className='filters' onClick={handleSeeFilteringTerms}>Filtering Terms</button>
             </div>
           </div>
         )}
@@ -1583,6 +1585,7 @@ function Layout (props) {
         {isSubmitted && results === 'Individuals' && triggerQuery && (
           <div>
             <IndividualsResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               ID={ID}
@@ -1597,6 +1600,7 @@ function Layout (props) {
         {isSubmitted && results === 'Individuals' && !triggerQuery && (
           <div>
             <IndividualsResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               ID={ID}
@@ -1611,6 +1615,7 @@ function Layout (props) {
         {isSubmitted && results === 'Analyses' && triggerQuery && (
           <div>
             <AnalysesResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               ID={ID}
@@ -1625,6 +1630,7 @@ function Layout (props) {
         {isSubmitted && results === 'Analyses' && !triggerQuery && (
           <div>
             <AnalysesResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               ID={ID}
@@ -1639,6 +1645,7 @@ function Layout (props) {
         {isSubmitted && results === 'Runs' && triggerQuery && (
           <div>
             <RunsResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               ID={ID}
@@ -1653,6 +1660,7 @@ function Layout (props) {
         {isSubmitted && results === 'Runs' && !triggerQuery && (
           <div>
             <RunsResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               ID={ID}
@@ -1667,6 +1675,7 @@ function Layout (props) {
         {isSubmitted && results === 'Variant' && triggerQuery && (
           <div>
             <VariantsResults
+              filteringTerms={filteringTerms}
               geneSubmitted={geneSubmitted}
               sequenceSubmitted={sequenceSubmitted}
               rangeSubmitted={rangeSubmitted}
@@ -1704,6 +1713,7 @@ function Layout (props) {
         {isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
+              filteringTerms={filteringTerms}
               geneSubmitted={geneSubmitted}
               sequenceSubmitted={sequenceSubmitted}
               rangeSubmitted={rangeSubmitted}
@@ -1741,6 +1751,7 @@ function Layout (props) {
         {!isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
+              filteringTerms={filteringTerms}
               geneSubmitted={geneSubmitted}
               sequenceSubmitted={sequenceSubmitted}
               rangeSubmitted={rangeSubmitted}
@@ -1778,6 +1789,7 @@ function Layout (props) {
         {isSubmitted && results === 'Biosamples' && triggerQuery && (
           <div>
             <BiosamplesResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               descendantTerm={descendantTerm}
@@ -1789,6 +1801,7 @@ function Layout (props) {
         {isSubmitted && results === 'Biosamples' && !triggerQuery && (
           <div>
             <BiosamplesResults
+              filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
               descendantTerm={descendantTerm}

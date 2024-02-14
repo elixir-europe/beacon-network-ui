@@ -229,8 +229,10 @@ p a {
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
+  width: 100vw;
+  margin-top: 20px;
   padding-bottom: 60px;
-  margin-top: 60px;
+  min-height: 700px;
 }
 
 @media (max-width: 860px) {
@@ -258,7 +260,7 @@ p a {
     justify-content: center;
     align-content: center;
     width: 100vw;
-    margin-top: 60px;
+    margin-top: 20px;
     padding-bottom: 60px;
   }
 

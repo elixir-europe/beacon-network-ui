@@ -205,7 +205,7 @@ function TableResultsVariant (props) {
                                               <h5>NOT FOUND</h5>
                                             )}
                                           {props.show === 'count' &&
-                                            element[3][indexDataset] !== 0 && (
+                                            element[3][indexDataset] !== 0 && element[3][indexDataset] !== 1 &&(
                                               <h6>
                                                 {element[3][indexDataset]}{' '}
                                                 RESULTS
@@ -273,7 +273,7 @@ function TableResultsVariant (props) {
                                               <h5>NOT FOUND</h5>
                                             )}
                                           {props.show === 'count' &&
-                                            element[3][indexDataset] !== 0 && (
+                                            element[3][indexDataset] !== 0 &&  element[3][indexDataset] !== 1 && (
                                               <h6>
                                                 {element[3][indexDataset]}{' '}
                                                 RESULTS

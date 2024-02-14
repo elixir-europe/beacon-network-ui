@@ -94,10 +94,21 @@ function AnalysesResults (props) {
               }
               arrayFilter.push(alphaNumFilter)
             } else {
-              const filter2 = {
+              let filter2 = {
                 id: element,
                 includeDescendantTerms: props.descendantTerm
               }
+              props.filteringTerms.data.response.filteringTerms.forEach(
+                element2 => {
+                  if (element === element2.label) {
+                    filter2 = {
+                      id: element2.id,
+                      includeDescendantTerms: props.descendantTerm
+                    }
+                  }
+                }
+              )
+
               arrayFilter.push(filter2)
             }
           })
@@ -133,9 +144,18 @@ function AnalysesResults (props) {
             }
             arrayFilter.push(alphaNumFilter)
           } else {
-            const filter = {
-              id: props.query
-            }
+            let filter = { id: props.query }
+            let labelToOntology = 0
+            props.filteringTerms.data.response.filteringTerms.forEach(
+              element => {
+                if (props.query === element.label) {
+                  labelToOntology = element.id
+                  filter = {
+                    id: labelToOntology
+                  }
+                }
+              }
+            )
             arrayFilter.push(filter)
           }
         }
@@ -178,7 +198,10 @@ function AnalysesResults (props) {
           }
 
           if (token === null) {
-            res = await axios.post(configData.API_URL + '/analyses', jsonData1)
+            res = await axios.post(
+              configData.API_URL + '/analyses',
+              jsonData1
+            )
           } else {
             const headers = { Authorization: `Bearer ${token}` }
 
@@ -215,7 +238,6 @@ function AnalysesResults (props) {
                         [element.resultsCount]
                       ]
                       let found = false
-
                       resultsPerDataset.forEach(element => {
                         if (element[0] === arrayResultsPerDataset[0]) {
                           found = true
@@ -233,7 +255,6 @@ function AnalysesResults (props) {
                     [element.exists],
                     [element.resultsCount]
                   ]
-
                   resultsPerDataset.push(arrayResultsPerDataset)
                 }
               }
@@ -241,6 +262,7 @@ function AnalysesResults (props) {
               if (element.id === undefined || element.id === '') {
                 let arrayResultsNoDatasets = [element.beaconId]
                 resultsNotPerDataset.push(arrayResultsNoDatasets)
+                console.log(arrayResultsNoDatasets)
               }
 
               if (res.data.response.resultSets[index].results) {
@@ -273,6 +295,7 @@ function AnalysesResults (props) {
             }
           }
           jsonData2 = JSON.stringify(jsonData2)
+          console.log(jsonData2)
           let token = null
           if (auth.userData === null) {
             token = getStoredToken()
@@ -282,25 +305,28 @@ function AnalysesResults (props) {
 
           if (token === null) {
             console.log('Querying without token')
-            res = await axios.post(configData.API_URL + '/analyses', jsonData2)
+            res = await axios.post(
+              configData.API_URL + '/analyses',
+              jsonData2
+            )
           } else {
             console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
-
             res = await axios.post(
               configData.API_URL + '/analyses',
               jsonData2,
               { headers: headers }
             )
           }
-          setTimeOut(true)
 
+          setTimeOut(true)
+          console.log(res.data)
           if (
             (res.data.responseSummary.numTotalResults < 1 ||
               res.data.responseSummary.numTotalResults === undefined) &&
             props.resultSets !== 'MISS'
           ) {
-            setError('. Please try another query')
+            setError('No results. Please try another query')
             setNumberResults(0)
             setBoolean(false)
           } else {
@@ -361,9 +387,7 @@ function AnalysesResults (props) {
           }
         }
       } catch (error) {
-        setError(
-          'No results. Please check the query and the connection and retry'
-        )
+        setError('Connection error. Please retry')
         setTimeOut(true)
       }
     }

@@ -881,7 +881,7 @@ function TableResultsBiosamples (props) {
         }
 
         rows.push(myObjRows)
-     
+
         if (index === resultsSelectedFinal.length - 1) {
           setEditable(rows.map(o => ({ ...o })))
 
@@ -913,7 +913,6 @@ function TableResultsBiosamples (props) {
     })
 
     setShowDatasets(true)
-
   }, [])
 
   return (
@@ -923,7 +922,7 @@ function TableResultsBiosamples (props) {
         beaconsArrayResultsOrdered.map(result => {
           return (
             <>
-            {props.show !== 'full' && (
+              {props.show !== 'full' && (
                 <>
                   {props.resultSets === 'MISS' &&
                     props.resultsPerDataset.map((element, index) => {
@@ -1003,7 +1002,8 @@ function TableResultsBiosamples (props) {
                                             <h5>NOT FOUND</h5>
                                           )}
                                         {props.show === 'count' &&
-                                          element[3][indexDataset] !== 0 && (
+                                          element[3][indexDataset] !== 0 &&
+                                          element[3][indexDataset] !== 1 && (
                                             <h6>
                                               {element[3][indexDataset]} RESULTS
                                             </h6>
@@ -1068,7 +1068,8 @@ function TableResultsBiosamples (props) {
                                             <h5>NOT FOUND</h5>
                                           )}
                                         {props.show === 'count' &&
-                                          element[3][indexDataset] !== 0 && (
+                                          element[3][indexDataset] !== 0 &&
+                                          element[3][indexDataset] !== 1 && (
                                             <h6>
                                               {element[3][indexDataset]} RESULTS
                                             </h6>
@@ -1197,7 +1198,8 @@ function TableResultsBiosamples (props) {
                         </>
                       )
                     })}
-                  {props.resultSets !== 'HIT' && result[2] === false &&
+                  {props.resultSets !== 'HIT' &&
+                    result[2] === false &&
                     props.resultsNotPerDataset.map((element, index) => {
                       return (
                         <>

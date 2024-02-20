@@ -438,7 +438,13 @@ function IndividualsResults (props) {
               <div className='selectGranularity'>
                 <h4>Granularity:</h4>
                 <button className='typeResults' onClick={handleTypeResults1}>
-                  <h5>Boolean</h5>
+                  <h5
+                    className={({ isActive }) =>
+                      isActive ? 'granularityActive' : 'granularityNoActive'
+                    }
+                  >
+                    Boolean
+                  </h5>
                 </button>
                 <button className='typeResults' onClick={handleTypeResults2}>
                   <h5>Count</h5>

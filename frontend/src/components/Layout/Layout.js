@@ -41,8 +41,8 @@ function Layout (props) {
   const [expansionSection, setExpansionSection] = useState(false)
   const [arrayFilteringTermsQE, setArrayFilteringTermsQE] = useState([])
 
-  const [resultSet, setResultset] = useState('HIT')
-  const [resultSetAux, setResultsetAux] = useState('HIT')
+  const [resultSet, setResultset] = useState('ALL')
+  const [resultSetAux, setResultsetAux] = useState('ALL')
 
   const [descendantTerm, setDescendantTerm] = useState('true')
 
@@ -323,6 +323,7 @@ function Layout (props) {
   }
 
   useEffect(() => {
+ 
     if (props.collection === 'Individuals') {
       setPlaceholder('filtering term comma-separated, ID><=value')
       setExtraIndividuals(true)
@@ -352,7 +353,6 @@ function Layout (props) {
     const fetchData = async () => {
       //for query expansion
       try {
-        setTimeOut(false)
         if (props.collection === 'Individuals') {
           try {
             let res = await axios.get(
@@ -802,7 +802,7 @@ function Layout (props) {
                           {resultSet === 'HIT' && (
                             <MultiSwitch
                               texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={0}
+                              selectedSwitch={3}
                               bgColor={'white'}
                               onToggleCallback={onToggle2}
                               fontColor={'black'}

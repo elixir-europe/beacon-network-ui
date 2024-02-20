@@ -23,6 +23,14 @@
   margin: 0px !important;
 }
 
+.granularityActive {
+  color: rgb(92, 165, 211) !important;
+  font-size: 14px;
+}
+.granularityNoActive {
+  color: rgb(222, 82, 82) !important;
+  font-size: 14px;
+}
 .measuresContainer {
   display: flex;
 }
@@ -94,11 +102,6 @@ h4 {
   margin-left: 10px;
 }
 
-.selectGranularity h5 {
-  font-size: 14px;
-  color: #8985c1;
-}
-
 .selectGranularity h4 {
   font-size: 14px;
 }
@@ -118,7 +121,6 @@ h4 {
 .results {
   flex-wrap: wrap;
   justify-content: center;
-
 }
 
 .typeResults {

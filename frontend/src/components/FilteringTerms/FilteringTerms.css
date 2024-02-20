@@ -1,11 +1,11 @@
 .search-box {
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   width: 100%;
 }
 
 .search-tr {
   display: flex;
-  width: 40%;
 }
 
 thead {
@@ -23,7 +23,7 @@ thead {
 
 .thead2 {
   position: sticky;
-  top: 73.6px;
+  top: 61.4px;
   z-index: 2;
 }
 
@@ -36,8 +36,11 @@ thead {
 
 .tableWrapper {
   height: 100vh;
-  width: 90vw;
+  width: 95vw;
   overflow: scroll;
+  display: flex;
+
+  justify-content: center;
 }
 
 .generalContainer {
@@ -214,14 +217,14 @@ thead {
 }
 
 .searchTermInput {
-  margin: 10px;
-  width: 90%;
+  margin: 5px;
+  width: 60%;
   height: 28px;
 }
 
 .searchTermInput1 {
-  margin: 10px;
-  width: 90%;
+  margin: 5px;
+  width: 60%;
   height: 28px;
 }
 
@@ -231,8 +234,8 @@ tr {
 }
 
 .terms1 {
-  background-color: #efedf4;
-  border-bottom: solid #8985c1;
+  background-color: #e7eef5;
+  border-bottom: solid #3d72a6;
 }
 
 .checkbox {

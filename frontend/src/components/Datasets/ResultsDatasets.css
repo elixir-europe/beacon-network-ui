@@ -170,14 +170,25 @@ p a {
   justify-content: center;
   height: 100%;
   width: 100%;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+.resultSetsContainer h5 {
+  /* padding: 0px; */
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  margin-right: 0px;
+  margin-left: 5px;
 }
 
 .resultSetsContainer h6 {
-  background: #86e4a8;
   border-radius: 2px;
   width: fit-content !important;
   margin-left: 5px;
   padding: 3px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .tittleResults h2 {

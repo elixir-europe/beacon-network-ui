@@ -27,6 +27,7 @@ function FilteringTerms (props) {
 
   const [trigger, setTrigger] = useState(false)
 
+  const [hide, setHide] = useState(true)
   const remove = tag => {
     setSelected(selected.filter(t => t.value !== tag.value))
 
@@ -230,7 +231,7 @@ function FilteringTerms (props) {
           label: infoValue[0],
           value: infoValue[0]
         }
-  
+
         selected.push(newTag)
       }
 
@@ -276,7 +277,6 @@ function FilteringTerms (props) {
   }
 
   const handleCheck2 = e => {
-    
     if (e.target.checked === false) {
       let newValueChosen = valueChosen.filter(valor => valor !== e.target.value)
       setValueChosen(newValueChosen)
@@ -345,53 +345,57 @@ function FilteringTerms (props) {
                   </form>
                 </th>
               </tr>
-              <tr className='search-tr'>
-                <th
-                  className='search-box sorting'
-                  tabIndex='0'
-                  aria-controls='DataTables_Table_0'
-                  rowSpan='1'
-                  colSpan='2'
-                  aria-sort='ascending'
-                  aria-label=': activate to sort column descending'
-                >
-                  <form>
-                    <input
-                      className='searchTermInput'
-                      type='search'
-                      onChange={handleChange3}
-                      placeholder='Search by type'
-                    />
-                  </form>
-                </th>
-              </tr>
-              <tr className='search-tr'>
-                <th
-                  className='search-box sorting'
-                  tabIndex='0'
-                  aria-controls='DataTables_Table_0'
-                  rowSpan='1'
-                  colSpan='2'
-                  aria-sort='ascending'
-                  aria-label=': activate to sort column descending'
-                >
-                  <form>
-                    <input
-                      className='searchTermInput'
-                      type='search'
-                      onChange={handleChange4}
-                      placeholder='Search by scope'
-                    />
-                  </form>
-                </th>
-              </tr>
+              {hide === false && (
+                <tr className='search-tr'>
+                  <th
+                    className='search-box sorting'
+                    tabIndex='0'
+                    aria-controls='DataTables_Table_0'
+                    rowSpan='1'
+                    colSpan='2'
+                    aria-sort='ascending'
+                    aria-label=': activate to sort column descending'
+                  >
+                    <form>
+                      <input
+                        className='searchTermInput'
+                        type='search'
+                        onChange={handleChange3}
+                        placeholder='Search by type'
+                      />
+                    </form>
+                  </th>
+                </tr>
+              )}
+              {hide === false && (
+                <tr className='search-tr'>
+                  <th
+                    className='search-box sorting'
+                    tabIndex='0'
+                    aria-controls='DataTables_Table_0'
+                    rowSpan='1'
+                    colSpan='2'
+                    aria-sort='ascending'
+                    aria-label=': activate to sort column descending'
+                  >
+                    <form>
+                      <input
+                        className='searchTermInput'
+                        type='search'
+                        onChange={handleChange4}
+                        placeholder='Search by scope'
+                      />
+                    </form>
+                  </th>
+                </tr>
+              )}
             </thead>
             <thead className='thead2'>
               <tr>
                 <th className='th4'>term</th>
                 <th className='th5'>label</th>
-                <th className='th6'>type</th>
-                <th className='th7'>scopes</th>
+                {hide === false && <th className='th6'>type</th>}
+                {hide === false && <th className='th7'>scopes</th>}
               </tr>
             </thead>
             {props.filteringTerms.data !== undefined &&
@@ -436,16 +440,20 @@ function FilteringTerms (props) {
                             <td className='th1'>-</td>
                           )}
 
-                          <td className='th3'>{term.type}</td>
+                          {hide === false && (
+                            <td className='th3'>{term.type}</td>
+                          )}
 
-                          <td className='th1'>
-                            {term.scopes !== undefined &&
-                              term.scopes.map((term2, index) => {
-                                return index < term.scopes.length - 1
-                                  ? term2 + '' + ','
-                                  : term2 + ''
-                              })}
-                          </td>
+                          {hide === false && (
+                            <td className='th1'>
+                              {term.scopes !== undefined &&
+                                term.scopes.map((term2, index) => {
+                                  return index < term.scopes.length - 1
+                                    ? term2 + '' + ','
+                                    : term2 + ''
+                                })}
+                            </td>
+                          )}
                         </tr>
                       )}
                       {index % 2 == !0 && (
@@ -484,15 +492,19 @@ function FilteringTerms (props) {
                             <td className='th1'>-</td>
                           )}
 
-                          <td className='th3'>{term.type}</td>
+                          {hide === false && (
+                            <td className='th3'>{term.type}</td>
+                          )}
 
-                          <td className='th1'>
-                            {term.scopes.map((term2, index) => {
-                              return index < term.scopes.length - 1
-                                ? term2 + '' + ','
-                                : term2 + ''
-                            })}
-                          </td>
+                          {hide === false && (
+                            <td className='th1'>
+                              {term.scopes.map((term2, index) => {
+                                return index < term.scopes.length - 1
+                                  ? term2 + '' + ','
+                                  : term2 + ''
+                              })}
+                            </td>
+                          )}
                         </tr>
                       )}
 

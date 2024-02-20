@@ -1,7 +1,45 @@
 import './Footer.css'
 import { NavLink } from 'react-router-dom'
+import { useEffect } from 'react'
+import { AuthContext } from '../context/AuthContext'
+import { useContext } from 'react'
+import { useAuth } from 'oidc-react'
 
 function Footer (props) {
+  const {
+    isLoggedIn,
+    setIsLoggedIn,
+    logOutUser,
+    authenticateUser,
+    getStoredToken,
+    userNameToShare,
+    setUserNameToShare
+  } = useContext(AuthContext)
+
+  const handleClick = () => {
+    setIsLoggedIn(false)
+    auth.signOut()
+    logOutUser()
+  }
+  const auth = useAuth()
+
+  useEffect(() => {
+    authenticateUser()
+    let token = getStoredToken()
+    let isAuthenticated = false
+    if (token === null) {
+      isAuthenticated = auth.userData?.id_token ? true : false
+    } else {
+      isAuthenticated = true
+    }
+
+    if (isAuthenticated || isLoggedIn === true) {
+      setIsLoggedIn(true)
+    } else {
+      setIsLoggedIn(false)
+    }
+  }, [])
+
   return (
     <div className='footerContainer'>
       <footer className='footer'>
@@ -52,7 +90,7 @@ function Footer (props) {
               GitHub
             </a>
           </li>
-          <li className='social-icon__item'>
+          {/* <li className='social-icon__item'>
             <a
               className='social-icon__link'
               href='https://docs.genomebeacons.org/'
@@ -69,7 +107,7 @@ function Footer (props) {
             >
               Documentation
             </a>
-          </li>
+          </li> */}
           <li className='social-icon__item'>
             <NavLink exact to='/members' className='social-icon__link'>
               <ion-icon name='globe-outline'></ion-icon>
@@ -84,20 +122,47 @@ function Footer (props) {
               Network members
             </NavLink>
           </li>
-          <li className='social-icon__item'>
-            <NavLink exact to='/sign-in-options' className='social-icon__link'>
-              <ion-icon name='log-in-outline'></ion-icon>
-            </NavLink>
-            <NavLink
-              exact
-              to='/sign-in-options'
-              className={({ isActive }) =>
-                isActive ? 'menu__linkActive' : 'menu__link'
-              }
-            >
-              Log in
-            </NavLink>
-          </li>
+          {isLoggedIn === false && (
+            <li className='social-icon__item'>
+              <NavLink
+                exact
+                to='/sign-in-options'
+                className='social-icon__link'
+              >
+                <ion-icon name='log-in-outline'></ion-icon>
+              </NavLink>
+              <NavLink
+                exact
+                to='/sign-in-options'
+                className={({ isActive }) =>
+                  isActive ? 'menu__linkActive' : 'menu__link'
+                }
+              >
+                Log in
+              </NavLink>
+            </li>
+          )}
+          {isLoggedIn === true && (
+            <li className='social-icon__item'>
+              <NavLink
+                exact
+                to='/sign-in-options'
+                className='social-icon__link'
+              >
+                <ion-icon name='log-out-outline'></ion-icon>
+              </NavLink>
+              <NavLink
+                exact
+                to='/'
+                className={({ isActive }) =>
+                  isActive ? 'menu__link' : 'menu__link'
+                }
+                onClick={handleClick}
+              >
+                Log out
+              </NavLink>
+            </li>
+          )}
         </ul>
       </footer>
     </div>

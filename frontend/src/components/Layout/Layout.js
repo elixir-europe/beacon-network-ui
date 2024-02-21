@@ -558,7 +558,7 @@ function Layout (props) {
               alt='impactLogo'
             ></img>
           </a> */}
-          <h1 className='version'>v0.5.0</h1>
+          <h1 className='version'>v0.5.1</h1>
         </div>
       </div>
 
@@ -1826,16 +1826,7 @@ function Layout (props) {
             setQuery={setQuery}
           />
         )}
-            {results !== null && timeOut === true && showFilteringTerms && (
-          <FilteringTerms
-            filteringTerms={filteringTerms}
-            collection={props.collection}
-            setPlaceholder={setPlaceholder}
-            placeholder={placeholder}
-            query={query}
-            setQuery={setQuery}
-          />
-        )}
+      
         {timeOut === true && error && <h5>{error}</h5>}
       </div>
     </div>

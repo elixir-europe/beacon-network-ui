@@ -403,6 +403,8 @@ function IndividualsResults (props) {
     setShow2(false)
     setShow3(false)
     setIsActive1(true)
+    setIsActive2(false)
+    setIsActive3(false)
   }
 
   const handleTypeResults2 = () => {
@@ -410,6 +412,8 @@ function IndividualsResults (props) {
     setShow1(false)
     setShow3(false)
     setIsActive2(true)
+    setIsActive3(false)
+    setIsActive1(false)
   }
 
   const handleTypeResults3 = () => {
@@ -417,6 +421,8 @@ function IndividualsResults (props) {
     setShow1(false)
     setShow2(false)
     setIsActive3(true)
+    setIsActive1(false)
+    setIsActive2(false)
   }
   const onSubmit = () => {
     setSkipTrigger(skip)

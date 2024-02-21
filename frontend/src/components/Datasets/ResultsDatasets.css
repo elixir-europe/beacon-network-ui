@@ -13,8 +13,6 @@ p a {
 
 .logoBeacon {
   height: 30px;
-  margin-top: 7px;
-
   padding-left: 10px;
 }
 
@@ -238,12 +236,12 @@ p a {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
+  align-content: flex-start;
   width: 100vw;
   margin-top: 20px;
   padding-bottom: 60px;
   min-height: 700px;
+  justify-content: center;
 }
 
 @media (max-width: 860px) {
@@ -269,7 +267,7 @@ p a {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: center;
+    align-content: flex-start;
     width: 100vw;
     margin-top: 20px;
     padding-bottom: 60px;

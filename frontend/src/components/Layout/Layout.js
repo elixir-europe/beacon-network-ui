@@ -62,7 +62,7 @@ function Layout (props) {
 
   const [showFilteringTerms, setShowFilteringTerms] = useState(false)
   const [filteringTerms, setFilteringTerms] = useState(false)
-  const [filteringTermsButton,  setShowFilteringTermsButton] = useState(false)
+  const [filteringTermsButton, setShowFilteringTermsButton] = useState(false)
   const [showVariants, setShowVariants] = useState(false)
 
   const [showResultsVariants, setShowResultsVariants] = useState(true)
@@ -313,10 +313,15 @@ function Layout (props) {
   }
 
   const handleRangeExample = e => {
-    setAlternateBases2('A')
-    setRefBases2('G')
-    setStart2('16050114')
-    setEnd('16050115')
+    setAlternateBases2('CTT')
+    setRefBases2('C')
+    setStart2('16055848')
+    setEnd('16055849')
+    setAssemblyId2('GRCh38')
+    setRefName2('22')
+    setVariantMinLength('2')
+    setVariantMaxLength('3')
+
   }
 
   const handleGeneExample = e => {
@@ -325,7 +330,7 @@ function Layout (props) {
   }
 
   useEffect(() => {
- 
+    setError('')
     if (props.collection === 'Individuals') {
       setPlaceholder('filtering term comma-separated, ID><=value')
       setExtraIndividuals(true)
@@ -365,9 +370,7 @@ function Layout (props) {
             if (res.data.response.filteringTerms !== undefined) {
               setFilteringTerms(res)
               setResults(null)
-            } else {
-              setError('No filtering terms now available')
-            }
+            } 
             if (res !== null) {
               res.data.response.filteringTerms.forEach(element => {
                 if (element.type !== 'custom') {
@@ -375,7 +378,7 @@ function Layout (props) {
                   arrayFilteringTermsQE.push(element)
                 }
               })
-    
+
               setstate({
                 query: '',
                 list: arrayFilteringTerms
@@ -471,8 +474,6 @@ function Layout (props) {
             setTimeOut(true)
           }
         }
-
-   
       } catch (error) {
         console.log(error)
       }
@@ -711,12 +712,18 @@ function Layout (props) {
                     </div>
                   </div>
                 )}
-              {props.collection !== '' && showBar === true && filteringTermsButton && (
-                <button className='filters' onClick={handleSeeFilteringTerms}>Filtering Terms </button>
-              )}
-               {props.collection !== '' && showBar === true && !filteringTermsButton && (
-                <button className='filters'>Filtering Terms </button>
-              )}
+              {props.collection !== '' &&
+                showBar === true &&
+                filteringTermsButton && (
+                  <button className='filters' onClick={handleSeeFilteringTerms}>
+                    Filtering Terms{' '}
+                  </button>
+                )}
+              {props.collection !== '' &&
+                showBar === true &&
+                !filteringTermsButton && (
+                  <button className='filters'>Filtering Terms </button>
+                )}
             </div>
           </div>
         )}
@@ -758,7 +765,9 @@ function Layout (props) {
                 </div>
               </div>
 
-              <button className='filters' onClick={handleSeeFilteringTerms}>Filtering Terms</button>
+              <button className='filters' onClick={handleSeeFilteringTerms}>
+                Filtering Terms
+              </button>
             </div>
           </div>
         )}
@@ -1261,7 +1270,7 @@ function Layout (props) {
                       Query example
                     </button>
                     <div>
-                      <label className='labelVariants'>AssemblyID*</label>
+                      <label className='labelVariants'>AssemblyID</label>
                       <input
                         className='inputVariants'
                         type='text'
@@ -1270,7 +1279,7 @@ function Layout (props) {
                       ></input>
                     </div>
                     <div>
-                      <label className='labelVariants'>Reference name*</label>
+                      <label className='labelVariants'>Reference name</label>
                       <input
                         className='inputVariants'
                         type='text'
@@ -1280,7 +1289,7 @@ function Layout (props) {
                     </div>
                     <div>
                       <label className='labelVariants'>
-                        Start (single value)*
+                        Start (single value)
                       </label>
                       <input
                         className='inputVariants'
@@ -1299,7 +1308,7 @@ function Layout (props) {
                       ></input>
                     </div>
                     <div>
-                      <label className='labelVariants'>alternateBases*</label>
+                      <label className='labelVariants'>alternateBases</label>
                       <input
                         className='inputVariants'
                         type='text'
@@ -1325,7 +1334,7 @@ function Layout (props) {
                       Query example
                     </button>
                     <div>
-                      <label className='labelVariants'>AssemblyID*</label>
+                      <label className='labelVariants'>AssemblyID</label>
                       <input
                         className='inputVariants'
                         type='text'
@@ -1334,7 +1343,7 @@ function Layout (props) {
                       ></input>
                     </div>
                     <div>
-                      <label className='labelVariants'>Reference name*</label>
+                      <label className='labelVariants'>Reference name</label>
                       <input
                         className='inputVariants'
                         type='text'
@@ -1344,7 +1353,7 @@ function Layout (props) {
                     </div>
                     <div>
                       <label className='labelVariants'>
-                        Start (single value)*
+                        Start (single value)
                       </label>
                       <input
                         className='inputVariants'
@@ -1355,7 +1364,7 @@ function Layout (props) {
                     </div>
                     <div>
                       <label className='labelVariants'>
-                        End (single value)*
+                        End (single value)
                       </label>
                       <input
                         className='inputVariants'
@@ -1450,7 +1459,7 @@ function Layout (props) {
                       Query example
                     </button>
                     <div>
-                      <label className='labelVariants'>Gene ID*</label>
+                      <label className='labelVariants'>Gene ID</label>
                       <input
                         className='inputVariants'
                         type='text'
@@ -1826,8 +1835,8 @@ function Layout (props) {
             setQuery={setQuery}
           />
         )}
-      
-        {timeOut === true && error && <h5>{error}</h5>}
+
+        {timeOut === true && error && showFilteringTerms && <h5>{error}</h5>}
       </div>
     </div>
   )

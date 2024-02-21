@@ -3,7 +3,12 @@ import './AboutSection.css'
 function AboutSection () {
   return (
     <div className='aboutContainer'>
-  
+      <div className='messageContainer'>
+        <h8 className='message'> coming soon . . .</h8>
+        <a>
+          <ion-icon color='white' name='rocket-outline'></ion-icon>
+        </a>
+      </div>
     </div>
   )
 }

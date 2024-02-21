@@ -149,7 +149,7 @@ function Footer (props) {
                 to='/sign-in-options'
                 className='social-icon__link'
               >
-                <ion-icon name='log-out-outline'></ion-icon>
+                <ion-icon name='log-out-outline' ></ion-icon>
               </NavLink>
               <NavLink
                 exact

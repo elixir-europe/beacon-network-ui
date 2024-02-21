@@ -373,7 +373,7 @@
 
   .nav4Container {
     display: flex;
-    width: 180px;
+    width: 14px;
     z-index: 1;
   }
 
@@ -495,7 +495,7 @@
 
   .menuNav {
     background-color: #235c94;
-    height: 180px;
+    height: 130px;
     width: 145px;
     margin-top: 22px;
     border-radius: 9px;
@@ -914,7 +914,7 @@
   }
   .menuNav2 {
     background-color: #235c94;
-    height: 266px;
+    height: 212px;
     width: 161px;
     margin-top: 22px;
     border-radius: 9px;

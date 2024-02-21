@@ -40,6 +40,10 @@ function IndividualsResults (props) {
   const [queryArray, setQueryArray] = useState([])
   const [arrayFilter, setArrayFilter] = useState([])
 
+  const [isActive1, setIsActive1] = useState(false)
+  const [isActive2, setIsActive2] = useState(false)
+  const [isActive3, setIsActive3] = useState(false)
+
   const { getStoredToken, authenticateUser } = useContext(AuthContext)
   let queryStringTerm = ''
 
@@ -398,18 +402,21 @@ function IndividualsResults (props) {
     setShow1(true)
     setShow2(false)
     setShow3(false)
+    setIsActive1(true)
   }
 
   const handleTypeResults2 = () => {
     setShow2(true)
     setShow1(false)
     setShow3(false)
+    setIsActive2(true)
   }
 
   const handleTypeResults3 = () => {
     setShow3(true)
     setShow1(false)
     setShow2(false)
+    setIsActive3(true)
   }
   const onSubmit = () => {
     setSkipTrigger(skip)
@@ -439,19 +446,31 @@ function IndividualsResults (props) {
                 <h4>Granularity:</h4>
                 <button className='typeResults' onClick={handleTypeResults1}>
                   <h5
-                    className={({ isActive }) =>
-                      isActive ? 'granularityActive' : 'granularityNoActive'
+                    className={
+                      isActive1 ? 'granularityActive' : 'granularityNoActive'
                     }
                   >
                     Boolean
                   </h5>
                 </button>
                 <button className='typeResults' onClick={handleTypeResults2}>
-                  <h5>Count</h5>
+                  <h5
+                    className={
+                      isActive2 ? 'granularityActive' : 'granularityNoActive'
+                    }
+                  >
+                    Count
+                  </h5>
                 </button>
                 {props.resultSets !== 'MISS' && (
                   <button className='typeResults' onClick={handleTypeResults3}>
-                    <h5>Full response</h5>
+                    <h5
+                      className={
+                        isActive3 ? 'granularityActive' : 'granularityNoActive'
+                      }
+                    >
+                      Full response
+                    </h5>
                   </button>
                 )}
               </div>

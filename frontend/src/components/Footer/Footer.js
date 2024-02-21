@@ -72,7 +72,7 @@ function Footer (props) {
               Beacon validator
             </NavLink>
           </li>
-          <li className='social-icon__item'>
+          {/* <li className='social-icon__item'>
             <a
               className='social-icon__link'
               href='https://github.com/elixir-europe/beacon-network-ui/'
@@ -89,7 +89,7 @@ function Footer (props) {
             >
               GitHub
             </a>
-          </li>
+          </li> */}
           {/* <li className='social-icon__item'>
             <a
               className='social-icon__link'

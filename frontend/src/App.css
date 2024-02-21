@@ -68,7 +68,7 @@ html {
 .version {
   margin-bottom: 19px;
   margin-right: 46px;
-  margin-top: 7px;
+  margin-top: 4px;
   color: rgb(102 116 152) !important;
   font-weight: 700 !important;
 }
@@ -311,7 +311,7 @@ html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-    color: #756d6d;
+  color: #756d6d;
 }
 
 .buttonAlphanum:hover {
@@ -594,10 +594,10 @@ html {
   align-items: center;
 }
 
-.elixirLogo {
+.laMaratoLogo {
   height: 91px;
   margin-top: 29px;
-  margin-right: 21px;
+  margin-right: 10px;
 }
 
 .comming_message {
@@ -662,7 +662,6 @@ select {
   align-items: center;
   padding-bottom: 55px;
   min-height: 280px;
-
 }
 
 .resultSet2 {
@@ -1169,12 +1168,20 @@ h5 {
   }
 
   .version {
-    margin-bottom: 46px;
+    margin-bottom: 63px;
     margin-right: 36px;
-    margin-top: -35px;
+    margin-top: -10px;
     color: rgb(102 116 152) !important;
     font-weight: 600;
   }
+
+  .laMaratoLogo {
+    height: 70px;
+    margin-top: 18px;
+    margin-bottom: 5px;
+    margin-right: 21px;
+  }
+
   .inputVariants {
     height: 24px;
     border: 1.5px solid #dfdfdf;

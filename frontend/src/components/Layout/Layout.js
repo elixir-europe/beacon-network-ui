@@ -62,7 +62,7 @@ function Layout (props) {
 
   const [showFilteringTerms, setShowFilteringTerms] = useState(false)
   const [filteringTerms, setFilteringTerms] = useState(false)
-
+  const [filteringTermsButton,  setShowFilteringTermsButton] = useState(false)
   const [showVariants, setShowVariants] = useState(false)
 
   const [showResultsVariants, setShowResultsVariants] = useState(true)
@@ -183,6 +183,8 @@ function Layout (props) {
 
   const handleSeeFilteringTerms = () => {
     setShowFilteringTerms(true)
+    setResults(null)
+    setTimeOut(true)
   }
 
   const handleExQueries = () => {
@@ -474,6 +476,7 @@ function Layout (props) {
       } catch (error) {
         console.log(error)
       }
+      setShowFilteringTermsButton(true)
     }
 
     // call the function
@@ -708,8 +711,11 @@ function Layout (props) {
                     </div>
                   </div>
                 )}
-              {props.collection !== '' && showBar === true && (
+              {props.collection !== '' && showBar === true && filteringTermsButton && (
                 <button className='filters' onClick={handleSeeFilteringTerms}>Filtering Terms </button>
+              )}
+               {props.collection !== '' && showBar === true && !filteringTermsButton && (
+                <button className='filters'>Filtering Terms </button>
               )}
             </div>
           </div>
@@ -1811,6 +1817,16 @@ function Layout (props) {
           </div>
         )}
         {results === null && timeOut === true && showFilteringTerms && (
+          <FilteringTerms
+            filteringTerms={filteringTerms}
+            collection={props.collection}
+            setPlaceholder={setPlaceholder}
+            placeholder={placeholder}
+            query={query}
+            setQuery={setQuery}
+          />
+        )}
+            {results !== null && timeOut === true && showFilteringTerms && (
           <FilteringTerms
             filteringTerms={filteringTerms}
             collection={props.collection}

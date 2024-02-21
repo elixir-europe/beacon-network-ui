@@ -20,7 +20,7 @@ function FilteringTerms (props) {
   const [state, setstate] = useState({
     query: '',
     list:
-      props.filteringTerms !== false
+      props.filteringTerms.data !== undefined
         ? props.filteringTerms.data.response.filteringTerms
         : 'error'
   })
@@ -93,8 +93,10 @@ function FilteringTerms (props) {
   const [ID, setId] = useState('')
 
   useEffect(() => {
+    console.log(props.filteringTerms)
     if (state.list === 'error') {
       setError(true)
+      console.log("holi")
     } else {
       setError(false)
     }
@@ -304,7 +306,7 @@ function FilteringTerms (props) {
         <div className='tableWrapper'>
           <table id='table'>
             <thead className='thead1'>
-              <tr className='search-tr'>
+              <tr className='search-tr1'>
                 <th
                   className='search-box sorting'
                   tabIndex='0'
@@ -314,7 +316,7 @@ function FilteringTerms (props) {
                   aria-sort='ascending'
                   aria-label=': activate to sort column descending'
                 >
-                  <form>
+                  <form className='inputTerm'>
                     <input
                       className='searchTermInput1'
                       type='search'
@@ -325,7 +327,7 @@ function FilteringTerms (props) {
                   </form>
                 </th>
               </tr>
-              <tr className='search-tr'>
+              <tr className='search-tr2'>
                 <th
                   className='search-box sorting'
                   tabIndex='0'
@@ -335,7 +337,7 @@ function FilteringTerms (props) {
                   aria-sort='ascending'
                   aria-label=': activate to sort column descending'
                 >
-                  <form>
+                  <form className='inputLabel'>
                     <input
                       className='searchTermInput'
                       type='search'

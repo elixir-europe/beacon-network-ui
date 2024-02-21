@@ -539,14 +539,14 @@ function Layout (props) {
       <div className='container2'>
         <div className='logos'>
           <a
-            href='https://www.ccma.cat/tv3/marato/'
+            href='https://impact-data.bsc.es/'
             className='logoInstitution'
             target='_blank' rel="noreferrer" 
           >
             <img
-              className='laMaratoLogo'
-              src='../laMaratoLogo.png'
-              alt='laMaratoLogo'
+              className='impactLogo'
+              src='../impactLogo.png'
+              alt='impactLogo'
             ></img>
           </a> 
           <h1 className='version'>v0.5.1</h1>

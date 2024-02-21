@@ -594,10 +594,10 @@ html {
   align-items: center;
 }
 
-.laMaratoLogo {
-  height: 91px;
-  margin-top: 29px;
-  margin-right: 10px;
+.impactLogo {
+  height: 60px;
+  margin-top: 42px;
+  margin-right: 30px;
 }
 
 .comming_message {
@@ -1170,16 +1170,15 @@ h5 {
   .version {
     margin-bottom: 63px;
     margin-right: 36px;
-    margin-top: -10px;
+    margin-top: 5px;
     color: rgb(102 116 152) !important;
     font-weight: 600;
   }
 
-  .laMaratoLogo {
-    height: 70px;
-    margin-top: 18px;
-    margin-bottom: 5px;
-    margin-right: 21px;
+  .impactLogo {
+    height: 42px;
+    margin-top: 31px;
+    margin-right: 30px;
   }
 
   .inputVariants {

@@ -96,7 +96,7 @@ function FilteringTerms (props) {
     console.log(props.filteringTerms)
     if (state.list === 'error') {
       setError(true)
-      console.log("holi")
+      console.log('holi')
     } else {
       setError(false)
     }
@@ -563,7 +563,7 @@ function FilteringTerms (props) {
                                 className='buttonAlphanum'
                                 onClick={handdleInclude}
                               >
-                                Include
+                                <ion-icon name='add-circle'></ion-icon>
                               </button>
                             </div>
                           </tr>

@@ -26,7 +26,7 @@ function VariantsResults (props) {
   const [queryArray, setQueryArray] = useState([])
   const [beaconsList, setBeaconsList] = useState([])
 
-  const [limit, setLimit] = useState(10)
+  const [limit, setLimit] = useState(0)
   const [skip, setSkip] = useState(0)
 
   const [showVariantsResults, setShowVariantsResults] = useState(false)

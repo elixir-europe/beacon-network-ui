@@ -121,7 +121,7 @@ ion-icon {
   }
 
   ion-icon {
-    font-size: 24px;
+    font-size: 28px;
   }
 
   .social-icon__item {
@@ -222,5 +222,20 @@ ion-icon {
     margin: 0 -2px;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 350px) {
+  .footerContainer {
+    background-color: #3d72a6;
+    height: 40vh;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
   }
 }

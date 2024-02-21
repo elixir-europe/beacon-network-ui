@@ -311,6 +311,7 @@ html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+    color: #756d6d;
 }
 
 .buttonAlphanum:hover {
@@ -670,6 +671,7 @@ select {
 
 .cohortsModule {
   display: flex;
+  width: 100vw;
 }
 
 .tittleAlph {
@@ -1019,8 +1021,8 @@ h5 {
   margin: 4px;
   padding: 6px;
   box-shadow: 1px 1px 2px #a3a0a0;
-  width: 222px;
-  height: 12px;
+  width: 168px;
+  height: 27px;
   border-radius: 4px;
   overflow: auto;
 }
@@ -1028,11 +1030,11 @@ h5 {
 .ValueForm {
   background: white;
   border: 2px solid rgba(12, 16, 64, 0.606);
-  margin: 20px;
+  margin-left: 5px;
   padding: 6px;
   box-shadow: 1px 1px 2px #a3a0a0;
-  width: 16%;
-  height: 12px;
+  width: 30%;
+  height: 27px;
   border-radius: 4px;
 }
 

@@ -40,6 +40,10 @@ function RunsResults (props) {
   const [queryArray, setQueryArray] = useState([])
   const [arrayFilter, setArrayFilter] = useState([])
 
+  const [isActive1, setIsActive1] = useState(false)
+  const [isActive2, setIsActive2] = useState(false)
+  const [isActive3, setIsActive3] = useState(false)
+
   const { getStoredToken, authenticateUser } = useContext(AuthContext)
   let queryStringTerm = ''
 
@@ -47,6 +51,33 @@ function RunsResults (props) {
 
   const auth = useAuth()
   let isAuthenticated = auth.userData?.id_token ? true : false
+
+  const handleTypeResults1 = () => {
+    setShow1(true)
+    setShow2(false)
+    setShow3(false)
+    setIsActive1(true)
+    setIsActive2(false)
+    setIsActive3(false)
+  }
+
+  const handleTypeResults2 = () => {
+    setShow2(true)
+    setShow1(false)
+    setShow3(false)
+    setIsActive2(true)
+    setIsActive3(false)
+    setIsActive1(false)
+  }
+
+  const handleTypeResults3 = () => {
+    setShow3(true)
+    setShow1(false)
+    setShow2(false)
+    setIsActive3(true)
+    setIsActive1(false)
+    setIsActive2(false)
+  }
 
   useEffect(() => {
     const apiCall = async () => {
@@ -198,18 +229,13 @@ function RunsResults (props) {
           }
 
           if (token === null) {
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData1
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData1)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
 
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData1,
-              { headers: headers }
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData1, {
+              headers: headers
+            })
           }
           setTimeOut(true)
 
@@ -305,18 +331,13 @@ function RunsResults (props) {
 
           if (token === null) {
             console.log('Querying without token')
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData2
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData2)
           } else {
             console.log('Querying WITH token')
             const headers = { Authorization: `Bearer ${token}` }
-            res = await axios.post(
-              configData.API_URL + '/runs',
-              jsonData2,
-              { headers: headers }
-            )
+            res = await axios.post(configData.API_URL + '/runs', jsonData2, {
+              headers: headers
+            })
           }
 
           setTimeOut(true)
@@ -394,23 +415,6 @@ function RunsResults (props) {
     apiCall()
   }, [])
 
-  const handleTypeResults1 = () => {
-    setShow1(true)
-    setShow2(false)
-    setShow3(false)
-  }
-
-  const handleTypeResults2 = () => {
-    setShow2(true)
-    setShow1(false)
-    setShow3(false)
-  }
-
-  const handleTypeResults3 = () => {
-    setShow3(true)
-    setShow1(false)
-    setShow2(false)
-  }
   const onSubmit = () => {
     setSkipTrigger(skip)
     setLimitTrigger(limit)
@@ -438,14 +442,32 @@ function RunsResults (props) {
               <div className='selectGranularity'>
                 <h4>Granularity:</h4>
                 <button className='typeResults' onClick={handleTypeResults1}>
-                  <h5>Boolean</h5>
+                  <h5
+                    className={
+                      isActive1 ? 'granularityActive' : 'granularityNoActive'
+                    }
+                  >
+                    Boolean
+                  </h5>
                 </button>
                 <button className='typeResults' onClick={handleTypeResults2}>
-                  <h5>Count</h5>
+                  <h5
+                    className={
+                      isActive2 ? 'granularityActive' : 'granularityNoActive'
+                    }
+                  >
+                    Count
+                  </h5>
                 </button>
                 {props.resultSets !== 'MISS' && (
                   <button className='typeResults' onClick={handleTypeResults3}>
-                    <h5>Full response</h5>
+                    <h5
+                      className={
+                        isActive3 ? 'granularityActive' : 'granularityNoActive'
+                      }
+                    >
+                      Full response
+                    </h5>
                   </button>
                 )}
               </div>

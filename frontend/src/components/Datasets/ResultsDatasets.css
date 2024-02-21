@@ -382,9 +382,9 @@ p a {
     justify-content: center;
     align-items: center;
     width: -moz-fit-content;
-    width: 100%;
+    width: fit-content;
     background: #c8d4e6;
-    height: 60px;
+    height: fit-content;
     margin-top: 2px;
   }
 }

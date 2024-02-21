@@ -6,7 +6,7 @@
 
 .search-tr1 {
   display: flex;
-  width: 28%;
+  width: 34%;
 }
 
 .search-tr2 {
@@ -42,7 +42,7 @@ thead {
 }
 
 tbody{
-  width: 80% !important;
+  width: 60vw !important;
 }
 
 .thead2 {
@@ -58,7 +58,7 @@ tbody{
   font-size: 15px;
   /* width: 90%; */
   flex-direction: column;
-  margin-left: 15vw;
+  margin-left: 1vw;
 
 }
 
@@ -258,7 +258,7 @@ tbody{
 
 tr {
   display: flex;
-  width: 80%;
+  width: 100%;
   align-items: center;
   justify-content: flex-start;
 }

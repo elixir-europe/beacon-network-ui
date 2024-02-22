@@ -325,8 +325,7 @@ function Layout (props) {
   }
 
   const handleGeneExample = e => {
-    setGeneId('EIF4A1')
-    setVariantType2('DEL')
+    setGeneId('CHR_START-DUXAP8')
   }
 
   useEffect(() => {

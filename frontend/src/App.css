@@ -66,11 +66,20 @@ html {
 }
 
 .version {
-  margin-bottom: 19px;
-  margin-right: 46px;
-  margin-top: 4px;
+  margin-bottom: 27px;
+  margin-right: 27px;
+  margin-top: -10px;
   color: rgb(102 116 152) !important;
   font-weight: 700 !important;
+}
+
+.logosVersionContainer {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 20px;
 }
 
 .searchButton {
@@ -595,9 +604,78 @@ html {
 }
 
 .impactLogo {
-  height: 60px;
+  height: 35px;
+  margin-top: 40px;
+  margin-right: 11px;
+  -webkit-filter: grayscale(20%);
+  filter: grayscale(100%);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.impactLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+.federLogo {
+  height: 33px;
+  margin-top: 42px;
+  margin-right: 14px;
+  -webkit-filter: grayscale(20%);
+  filter: grayscale(100%);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.federLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+.iscLogo {
+  height: 33px;
+  margin-top: 42px;
+  margin-right: 14px;
+  -webkit-filter: grayscale(20%);
+  filter: grayscale(100%);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.iscLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+.ministerioLogo {
+  height: 33px;
+  margin-top: 42px;
+  margin-right: 14px;
+  -webkit-filter: grayscale(20%);
+  filter: grayscale(100%);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.ministerioLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+.laCaixaLogo {
+  height: 33px;
   margin-top: 42px;
   margin-right: 30px;
+  -webkit-filter: grayscale(20%);
+  filter: grayscale(100%);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.laCaixaLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
 }
 
 .comming_message {
@@ -726,9 +804,10 @@ hr {
   display: flex;
   width: 100vw;
   align-items: flex-end;
-  margin-bottom: -11px;
-  margin-top: -16px;
-  flex-direction: column;
+  margin-bottom: 19px;
+  margin-top: -8px;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .helpButton:hover {
@@ -1168,17 +1247,70 @@ h5 {
   }
 
   .version {
-    margin-bottom: 63px;
-    margin-right: 36px;
-    margin-top: 5px;
+    margin-bottom: 39px;
+    margin-right: 25px;
+    margin-top: -14px;
     color: rgb(102 116 152) !important;
-    font-weight: 600;
+    font-weight: 700 !important;
+  }
+
+  .logosVersionContainer {
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 20px;
   }
 
   .impactLogo {
-    height: 42px;
+    height: 31px;
+    margin-top: 31px;
+    margin-right: 10px;
+    -webkit-filter: grayscale(20%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+  }
+
+  .federLogo {
+    height: 31px;
+    margin-top: 31px;
+    margin-right: 10px;
+    -webkit-filter: grayscale(20%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+  }
+
+  .iscLogo {
+    height: 31px;
+    margin-top: 31px;
+    margin-right: 10px;
+    -webkit-filter: grayscale(20%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+  }
+
+  .ministerioLogo {
+    height: 31px;
+    margin-top: 31px;
+    margin-right: 10px;
+    -webkit-filter: grayscale(20%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+  }
+
+  .laCaixaLogo {
+    height: 31px;
     margin-top: 31px;
     margin-right: 30px;
+    -webkit-filter: grayscale(20%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
   }
 
   .inputVariants {

@@ -38,7 +38,7 @@ export default function SignInFormNoLS () {
       var details = {
         grant_type: 'password',
         client_id: 'beacon',
-        client_secret: 'WGahOcaJcbQ2srhBsNH56NhhDxH5M51f',
+        client_secret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET,
         username: userName,
         password: password,
         realm: 'Beacon',

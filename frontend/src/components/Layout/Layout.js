@@ -538,19 +538,32 @@ function Layout (props) {
         <div className='logosVersionContainer'>
           <div className='logos'>
             <a
-              href='https://www.ccma.cat/tv3/marato/'
+              href='https://elixir-europe.org/'
               className='logoInstitution'
               target='_blank'
               rel='noreferrer'
-              title='This project has been funded by TV3 La Marató Foundation under the identification code 202040-31'
+              title='The project "Beacon Infrastructure (2021-23)" has been funded by ELIXIR Europe'
             >
               <img
-                className='laMaratoLogo'
-                src='../laMaratoLogo.png'
-                alt='laMaratoLogo'
+                className='elixirLogo'
+                src='./white-orange-logo.png'
+                alt='elixirLogo'
               ></img>
             </a>
 
+            <a
+              href='https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en'
+              className='logoInstitution'
+              target='_blank'
+              rel='noreferrer'
+              title='Funded by the European Union'
+            >
+              <img
+                className='horizonEuropeLogo'
+                src='../horizonEuropeLogo.png'
+                alt='horizonEuropeLogo'
+              ></img>
+            </a>
             <a
               href='https://fundacionlacaixa.org/es/'
               className='logoInstitution'

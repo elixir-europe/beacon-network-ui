@@ -603,13 +603,13 @@ html {
   align-items: center;
 }
 
-.laMaratoLogo {
-  height: 81px;
+.elixirLogo {
+  height: 91px;
   -webkit-filter: grayscale(20%);
-  filter: grayscale(60%);
+  filter: grayscale(100%);
 }
 
-.laMaratoLogo:hover {
+.elixirLogo:hover {
   -webkit-filter: grayscale(0%);
   filter: grayscale(0%);
 }
@@ -625,6 +625,22 @@ html {
 }
 
 .laCaixaLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+.horizonEuropeLogo{
+  height: 35px;
+  margin-right: 16px;
+  margin-left: 4px;
+  margin-top: 3px;
+  -webkit-filter: grayscale(20%);
+  filter: grayscale(100%);
+  -webkit-transition: 0.2s ease-in-out;
+  transition: 0.2s ease-in-out;
+}
+
+.horizonEuropeLogo:hover {
   -webkit-filter: grayscale(0%);
   filter: grayscale(0%);
 }
@@ -1196,13 +1212,15 @@ h5 {
     padding-bottom: 1px;
   }
 
-  .laMaratoLogo {
-    height: 70px;
-    margin-bottom: 5px;
+  .elixirLogo {
+    height: 60px;
+    -webkit-filter: grayscale(20%);
+    filter: grayscale(100%);
   }
-  .laMaratoLogo:hover {
-    -webkit-filter: grayscale(50%);
-    filter: grayscale(50%);
+
+  .elixirLogo:hover {
+    -webkit-filter: grayscale(0%);
+    filter: grayscale(0%);
   }
 
   .version {
@@ -1225,6 +1243,16 @@ h5 {
   .laCaixaLogo {
     height: 31px;
     margin-right: 30px;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    -webkit-transition: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+  }
+
+  .horizonEuropeLogo{
+    height: 31px;
+    margin-right: 16px;
+    margin-left: 4px;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     -webkit-transition: 0.2s ease-in-out;
@@ -1411,13 +1439,6 @@ h5 {
     width: 26px;
     margin-top: -1px;
     margin-left: -8px;
-  }
-
-  .elixirLogo {
-    height: 70px;
-    margin-top: 18px;
-    margin-bottom: 37px;
-    margin-right: 21px;
   }
 
   .searchButton {

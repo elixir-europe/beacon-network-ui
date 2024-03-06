@@ -6,7 +6,7 @@ function AboutSection () {
       <div className='messageContainer'>
         <h8 className='message'> coming soon . . .</h8>
         <a>
-          <ion-icon color='white' name='rocket-outline'></ion-icon>
+          <ion-icon color='white' className="rocketIcon" name='rocket-outline'></ion-icon>
         </a>
       </div>
     </div>

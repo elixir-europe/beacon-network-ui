@@ -608,7 +608,7 @@ html {
   margin-top: 40px;
   margin-right: 11px;
   -webkit-filter: grayscale(20%);
-  filter: grayscale(100%);
+  filter: grayscale(60%);
   -webkit-transition: 0.2s ease-in-out;
   transition: 0.2s ease-in-out;
 }
@@ -1287,7 +1287,7 @@ h5 {
     height: 31px;
     margin-top: 31px;
     margin-right: 10px;
-    -webkit-filter: grayscale(20%);
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     -webkit-transition: 0.2s ease-in-out;
     transition: 0.2s ease-in-out;
@@ -1297,7 +1297,7 @@ h5 {
     height: 31px;
     margin-top: 31px;
     margin-right: 10px;
-    -webkit-filter: grayscale(20%);
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     -webkit-transition: 0.2s ease-in-out;
     transition: 0.2s ease-in-out;
@@ -1307,7 +1307,7 @@ h5 {
     height: 31px;
     margin-top: 31px;
     margin-right: 30px;
-    -webkit-filter: grayscale(20%);
+    -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     -webkit-transition: 0.2s ease-in-out;
     transition: 0.2s ease-in-out;

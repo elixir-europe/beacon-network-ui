@@ -321,7 +321,6 @@ function Layout (props) {
     setRefName2('22')
     setVariantMinLength('2')
     setVariantMaxLength('3')
-
   }
 
   const handleGeneExample = e => {
@@ -369,7 +368,7 @@ function Layout (props) {
             if (res.data.response.filteringTerms !== undefined) {
               setFilteringTerms(res)
               setResults(null)
-            } 
+            }
             if (res !== null) {
               res.data.response.filteringTerms.forEach(element => {
                 if (element.type !== 'custom') {
@@ -536,28 +535,70 @@ function Layout (props) {
   return (
     <div className='container1'>
       <div className='container2'>
-        <div className='logos'>
-          {/* <a href="https://www.cineca-project.eu/" target="_blank" rel="noreferrer">
-                        <img className="cinecaLogo" src="./CINECA_logo.png" alt='cinecaLogo'></img>
-                    </a> */}
-          <a href='https://elixir-europe.org/' target='_blank' rel='noreferrer'>
-            <img
-              className='elixirLogo'
-              src='./white-orange-logo.png'
-              alt='elixirLogo'
-            ></img>
-          </a>
-          {/* <a
-            href='https://impact-data.bsc.es/'
-            className='logoInstitution'
-            target='_blank' rel="noreferrer" 
-          >
-            <img
-              className='impactLogo'
-              src='../impactLogo.png'
-              alt='impactLogo'
-            ></img>
-          </a> */}
+        <div className='logosVersionContainer'>
+          <div className='logos'>
+            <a
+              href='https://impact-data.bsc.es/'
+              className='logoInstitution'
+              target='_blank'
+              rel='noreferrer'
+              title="El proyecto IMPaCT-Data (Exp. IMP/00019) ha sido financiado por el Instituto de Salud Carlos III, co-financiado por el Fondo Europeo de Desarrollo Regional (FEDER, “Una manera de hacer Europa“)"
+            >
+              <img
+                className='impactLogo'
+                src='../impactLogo.png'
+                alt='impactLogo'
+              ></img>
+            </a>
+            <a
+              href='https://www.fondoseuropeos.hacienda.gob.es/sitios/dgfc/es-ES/paginas/feder.aspx/'
+              className='logoInstitution'
+              target='_blank'
+              rel='noreferrer'
+            >
+              <img
+                className='federLogo'
+                src='../feder_logo.png'
+                alt='federLogo'
+              ></img>
+            </a>
+            <a
+              href='https://www.ciencia.gob.es/'
+              className='logoInstitution'
+              target='_blank'
+              rel='noreferrer'
+            >
+              <img
+                className='ministerioLogo'
+                src='../ministerio_logo.png'
+                alt='ministerioLogo'
+              ></img>
+            </a>
+            <a
+              href='https://www.isciii.es/Paginas/Inicio.aspx/'
+              className='logoInstitution'
+              target='_blank'
+              rel='noreferrer'
+            >
+              <img
+                className='iscLogo'
+                src='../ISCIII_logo.png'
+                alt='iscLogo'
+              ></img>
+            </a>
+            <a
+              href='https://fundacionlacaixa.org/es/'
+              className='logoInstitution'
+              target='_blank'
+              rel='noreferrer'
+            >
+              <img
+                className='laCaixaLogo'
+                src='../caixa_logo.png'
+                alt='laCaixaLogo'
+              ></img>
+            </a>
+          </div>
           <h1 className='version'>v0.5.1</h1>
         </div>
       </div>

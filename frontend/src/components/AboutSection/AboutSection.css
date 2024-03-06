@@ -9,6 +9,7 @@
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
   margin-right: 26px;
+  transition:  2s, color 1s;
 }
 
 .messageContainer {
@@ -24,4 +25,10 @@
   color: #2f2fb8;
   margin-top: 2px;
   font-size: 40px;
+ 
+  transition-duration: 2s;
+  transition-timing-function: linear;
+  transition-delay: 1s;
 }
+
+

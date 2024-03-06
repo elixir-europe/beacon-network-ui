@@ -14,6 +14,7 @@ p a {
 .logoBeacon {
   height: 30px;
   padding-left: 10px;
+  margin-top: 8px;
 }
 
 #descriptionEGA {
@@ -57,9 +58,9 @@ p a {
 
 .tittle h2 {
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: center;
-  margin-top: 5px !important;
+  margin-top: 7px !important;
   margin-bottom: 5px !important;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -91,10 +92,19 @@ p a {
 }
 
 .tittle2 h1 {
-  font-size: 14px;
-  font-weight: normal;
-  margin: 14px;
-  color: #5d5454;
+  font-size: 12.5px;
+  font-weight: 500;
+  /* margin: 14px; */
+  margin-right: 14px;
+  margin-left: 14px;
+  margin-bottom: 14px;
+  margin-top: 27px;
+  color: #5d5454 !important;
+}
+
+.tittle2 h1:hover {
+  color: #5d5454 !important;
+  font-weight: 500;
 }
 
 .line {
@@ -141,6 +151,7 @@ p a {
   display: flex;
   padding: 2px;
   flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .tittleResults {
@@ -211,6 +222,7 @@ p a {
   align-items: center;
   width: 100%;
   background: #c8d4e6;
+  flex-wrap: wrap;
 }
 
 .tittle4 {
@@ -314,6 +326,7 @@ p a {
     padding: 2px;
     flex-direction: column;
     font-size: 9px !important;
+    flex-wrap: wrap;
   }
 
   .tittle h2 {
@@ -323,11 +336,12 @@ p a {
     color: rgba(12, 16, 64, 0.606);
     font-size: 10px;
     font-weight: 600;
-    margin-left: 10px;
+    align-items: center;
   }
 
   .logoBeacon {
     margin-left: 10px;
+    margin-top: 8px;
   }
 
   .datasetCard a {
@@ -351,9 +365,18 @@ p a {
 
   .tittle2 h1 {
     font-size: 11px;
-    font-weight: normal;
-    margin: 14px;
-    color: #5d5454;
+    font-weight: 500;
+    /* margin: 14px; */
+    margin-right: 14px;
+    margin-left: 14px;
+    margin-bottom: 14px;
+    margin-top: 27px;
+    color: #5d5454 !important;
+  }
+
+  .tittle2 h1:hover {
+    color: #5d5454 !important;
+    font-weight: 500;
   }
 }
 

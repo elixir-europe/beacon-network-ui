@@ -66,9 +66,9 @@ html {
 }
 
 .version {
-  margin-bottom: 27px;
-  margin-right: 27px;
-  margin-top: -10px;
+  margin-bottom: 19px;
+  margin-right: 25px;
+  margin-top: 4px;
   color: rgb(102 116 152) !important;
   font-weight: 700 !important;
 }
@@ -603,70 +603,21 @@ html {
   align-items: center;
 }
 
-.impactLogo {
-  height: 35px;
-  margin-top: 40px;
-  margin-right: 11px;
+.laMaratoLogo {
+  height: 81px;
   -webkit-filter: grayscale(20%);
   filter: grayscale(60%);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
 }
 
-.impactLogo:hover {
-  -webkit-filter: grayscale(0%);
-  filter: grayscale(0%);
-}
-
-.federLogo {
-  height: 33px;
-  margin-top: 42px;
-  margin-right: 14px;
-  -webkit-filter: grayscale(20%);
-  filter: grayscale(100%);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
-}
-
-.federLogo:hover {
-  -webkit-filter: grayscale(0%);
-  filter: grayscale(0%);
-}
-
-.iscLogo {
-  height: 33px;
-  margin-top: 42px;
-  margin-right: 14px;
-  -webkit-filter: grayscale(20%);
-  filter: grayscale(100%);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
-}
-
-.iscLogo:hover {
-  -webkit-filter: grayscale(0%);
-  filter: grayscale(0%);
-}
-
-.ministerioLogo {
-  height: 33px;
-  margin-top: 42px;
-  margin-right: 14px;
-  -webkit-filter: grayscale(20%);
-  filter: grayscale(100%);
-  -webkit-transition: 0.2s ease-in-out;
-  transition: 0.2s ease-in-out;
-}
-
-.ministerioLogo:hover {
+.laMaratoLogo:hover {
   -webkit-filter: grayscale(0%);
   filter: grayscale(0%);
 }
 
 .laCaixaLogo {
-  height: 33px;
-  margin-top: 42px;
+  height: 35px;
   margin-right: 30px;
+  margin-top: 3px;
   -webkit-filter: grayscale(20%);
   filter: grayscale(100%);
   -webkit-transition: 0.2s ease-in-out;
@@ -803,9 +754,8 @@ hr {
 .logos {
   display: flex;
   width: 100vw;
-  align-items: flex-end;
-  margin-bottom: 19px;
-  margin-top: -8px;
+  align-items: center;
+  margin-top: 8px;
   flex-direction: row;
   justify-content: flex-end;
 }
@@ -1246,12 +1196,21 @@ h5 {
     padding-bottom: 1px;
   }
 
+  .laMaratoLogo {
+    height: 70px;
+    margin-bottom: 5px;
+  }
+  .laMaratoLogo:hover {
+    -webkit-filter: grayscale(50%);
+    filter: grayscale(50%);
+  }
+
   .version {
-    margin-bottom: 39px;
+    margin-bottom: 63px;
     margin-right: 25px;
-    margin-top: -14px;
+    margin-top: -10px;
     color: rgb(102 116 152) !important;
-    font-weight: 700 !important;
+    font-weight: 600;
   }
 
   .logosVersionContainer {
@@ -1263,49 +1222,8 @@ h5 {
     margin-bottom: 20px;
   }
 
-  .impactLogo {
-    height: 31px;
-    margin-top: 31px;
-    margin-right: 10px;
-    -webkit-filter: grayscale(20%);
-    filter: grayscale(100%);
-    -webkit-transition: 0.2s ease-in-out;
-    transition: 0.2s ease-in-out;
-  }
-
-  .federLogo {
-    height: 31px;
-    margin-top: 31px;
-    margin-right: 10px;
-    -webkit-filter: grayscale(20%);
-    filter: grayscale(100%);
-    -webkit-transition: 0.2s ease-in-out;
-    transition: 0.2s ease-in-out;
-  }
-
-  .iscLogo {
-    height: 31px;
-    margin-top: 31px;
-    margin-right: 10px;
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-    -webkit-transition: 0.2s ease-in-out;
-    transition: 0.2s ease-in-out;
-  }
-
-  .ministerioLogo {
-    height: 31px;
-    margin-top: 31px;
-    margin-right: 10px;
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-    -webkit-transition: 0.2s ease-in-out;
-    transition: 0.2s ease-in-out;
-  }
-
   .laCaixaLogo {
     height: 31px;
-    margin-top: 31px;
     margin-right: 30px;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);

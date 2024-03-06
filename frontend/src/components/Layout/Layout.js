@@ -538,54 +538,19 @@ function Layout (props) {
         <div className='logosVersionContainer'>
           <div className='logos'>
             <a
-              href='https://impact-data.bsc.es/'
+              href='https://www.ccma.cat/tv3/marato/'
               className='logoInstitution'
               target='_blank'
               rel='noreferrer'
-              title="El proyecto IMPaCT-Data (Exp. IMP/00019) ha sido financiado por el Instituto de Salud Carlos III, co-financiado por el Fondo Europeo de Desarrollo Regional (FEDER, “Una manera de hacer Europa“)"
+              title='This project has been funded by TV3 La Marató Foundation under the identification code 202040-31'
             >
               <img
-                className='impactLogo'
-                src='../impactLogo.png'
-                alt='impactLogo'
+                className='laMaratoLogo'
+                src='../laMaratoLogo.png'
+                alt='laMaratoLogo'
               ></img>
             </a>
-            <a
-              href='https://www.fondoseuropeos.hacienda.gob.es/sitios/dgfc/es-ES/paginas/feder.aspx/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='federLogo'
-                src='../feder_logo.png'
-                alt='federLogo'
-              ></img>
-            </a>
-            <a
-              href='https://www.ciencia.gob.es/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='ministerioLogo'
-                src='../ministerio_logo.png'
-                alt='ministerioLogo'
-              ></img>
-            </a>
-            <a
-              href='https://www.isciii.es/Paginas/Inicio.aspx/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='iscLogo'
-                src='../ISCIII_logo.png'
-                alt='iscLogo'
-              ></img>
-            </a>
+
             <a
               href='https://fundacionlacaixa.org/es/'
               className='logoInstitution'

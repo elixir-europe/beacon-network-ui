@@ -538,52 +538,30 @@ function Layout (props) {
         <div className='logosVersionContainer'>
           <div className='logos'>
             <a
-              href='https://impact-data.bsc.es/'
+              href='https://elixir-europe.org/'
               className='logoInstitution'
               target='_blank'
               rel='noreferrer'
-              title="El proyecto IMPaCT-Data (Exp. IMP/00019) ha sido financiado por el Instituto de Salud Carlos III, co-financiado por el Fondo Europeo de Desarrollo Regional (FEDER, “Una manera de hacer Europa“)"
+              title='The project "Beacon Infrastructure (2021-23)" has been funded by ELIXIR Europe'
             >
               <img
-                className='impactLogo'
-                src='../impactLogo.png'
-                alt='impactLogo'
+                className='elixirLogo'
+                src='./white-orange-logo.png'
+                alt='elixirLogo'
               ></img>
             </a>
+
             <a
-              href='https://www.fondoseuropeos.hacienda.gob.es/sitios/dgfc/es-ES/paginas/feder.aspx/'
+              href='https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en'
               className='logoInstitution'
               target='_blank'
               rel='noreferrer'
+              title='Funded by the European Union'
             >
               <img
-                className='federLogo'
-                src='../feder_logo.png'
-                alt='federLogo'
-              ></img>
-            </a>
-            <a
-              href='https://www.ciencia.gob.es/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='ministerioLogo'
-                src='../ministerio_logo.png'
-                alt='ministerioLogo'
-              ></img>
-            </a>
-            <a
-              href='https://www.isciii.es/Paginas/Inicio.aspx/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='iscLogo'
-                src='../ISCIII_logo.png'
-                alt='iscLogo'
+                className='horizonEuropeLogo'
+                src='../horizonEuropeLogo.png'
+                alt='horizonEuropeLogo'
               ></img>
             </a>
             <a

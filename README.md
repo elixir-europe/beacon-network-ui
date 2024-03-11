@@ -1,4 +1,4 @@
-Find [here] (https://github.com/elixir-europe/beacon-network-backend) the Beacon Network Backend repository.
+Find [here](https://github.com/elixir-europe/beacon-network-backend) the Beacon Network Backend repository.
 
 ## Instructions on how to deploy the Beacon Network User Interface
 

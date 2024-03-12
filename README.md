@@ -32,7 +32,4 @@ Then please edit the file config.json, which can be found inside folder [fronten
  }
 ```
 
-Finally, please include the URL of your User interface to the file beacon/_ _main_ _.py (line 103), so that it becomes part of the list of URLs accepted by CORS.
-
-
 Note that in the root folder (frontend) you will find a file called .gitignore with the list of all files that need to be ignored.

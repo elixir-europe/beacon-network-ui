@@ -2,7 +2,7 @@ Find [here](https://github.com/elixir-europe/beacon-network-backend) the Beacon 
 
 ## Instructions on how to deploy the Beacon Network User Interface
 
-Please first create a .env file inside the frontend folder so that you can modify some variables as follows:
+Please first create a .env file inside the frontend folder so that you can modify some variables. Take into account that the file below will not be copied to GitHub as it contains keys and for security reasons it should ignored: 
 
 ```bash
 REACT_APP_CLIENT_ID="ID of your LS Login"
@@ -10,12 +10,13 @@ REACT_APP_CLIENT_SECRET="password of your LS Login"
 REACT_APP_KEYCLOAK_CLIENT_SECRET="password of your Keycloak login"
 ```
 
+
 You will need to have created your Life Science and Keycloak environments before.
+Tip: for Life Science environment, please first [create a user](https://lifescience-ri.eu/ls-login/users/how-to-get-and-use-life-science-id.html) . After that you will need to register a service registry in order to be able to administrate your logins. Please go [here](https://services.aai.lifescience-ri.eu/spreg/) and ask for a New Service - type OIDC -.
 
-Take into account that the above file will not be copied to GitHub as it contains keys and for security reasons it should ignored.
 
 
-After that please proceed to execute the next command in order to deploy the UI.
+Now please proceed to execute the next command in order to deploy the UI.
  
  ```bash
 docker-compose up -d –build

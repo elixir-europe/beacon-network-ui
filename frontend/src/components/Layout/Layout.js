@@ -493,12 +493,7 @@ function Layout (props) {
     setResultsetAux(resultSet)
     setQueryAux(query)
 
-    if (resultSet !== resultSetAux) {
-      setTriggerQuery(!triggerQuery)
-    }
-    if (queryAux !== query) {
-      setTriggerQuery(!triggerQuery)
-    }
+    setTriggerQuery(!triggerQuery)
 
     setExampleQ([])
 
@@ -542,7 +537,7 @@ function Layout (props) {
               className='logoInstitution'
               target='_blank'
               rel='noreferrer'
-              title="El proyecto IMPaCT-Data (Exp. IMP/00019) ha sido financiado por el Instituto de Salud Carlos III, co-financiado por el Fondo Europeo de Desarrollo Regional (FEDER, “Una manera de hacer Europa“)"
+              title='El proyecto IMPaCT-Data (Exp. IMP/00019) ha sido financiado por el Instituto de Salud Carlos III, co-financiado por el Fondo Europeo de Desarrollo Regional (FEDER, “Una manera de hacer Europa“)'
             >
               <img
                 className='impactLogo'

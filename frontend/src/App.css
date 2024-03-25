@@ -749,6 +749,8 @@ select {
 .cohortsModule {
   display: flex;
   width: 100vw;
+  align-items: center;
+  justify-content: center;
 }
 
 .tittleAlph {

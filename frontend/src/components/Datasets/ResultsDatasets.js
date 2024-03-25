@@ -19,9 +19,16 @@ function ResultsDatasets(props) {
                 let res = await axios.get(configData.API_URL +'/info')
                 res.data.responses.forEach(element => {
                     resp.push(element)
-                });
+                })
+                resp.forEach((element, index) => {
+                    if (element.meta.beaconId === 'org.ega-archive.ga4gh-approval-beacon-test'){
+                        resp.splice(index, 1)
+                        resp.push(element)
+                        resp.reverse()
+                    }
+                })
                 setTrigger(true)
-                resp.reverse()
+                
             } catch (error) {
                 console.log(error)
             }

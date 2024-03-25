@@ -493,12 +493,7 @@ function Layout (props) {
     setResultsetAux(resultSet)
     setQueryAux(query)
 
-    if (resultSet !== resultSetAux) {
-      setTriggerQuery(!triggerQuery)
-    }
-    if (queryAux !== query) {
-      setTriggerQuery(!triggerQuery)
-    }
+    setTriggerQuery(!triggerQuery)
 
     setExampleQ([])
 

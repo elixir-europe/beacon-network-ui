@@ -29,7 +29,7 @@
   }
 
   .containerUserName h5 {
-    color: rgb(138 160 232);
+    color: rgb(210 252 255);
     font-weight: bold;
     /* width: 150%; */
     display: flex;
@@ -61,19 +61,19 @@
     display: flex;
     width: 100vw;
     position: relative;
-    height: 57px;
-    background-color: #34495e;
+    height: 62px;
+    background-color: #4480bd;
     font-size: 0;
     z-index: 2;
   }
 
   .nav2 {
-    width: 70%;
+    width: 10%;
     display: flex;
     justify-content: flex-start;
   }
   .nav3 {
-    width: 35%;
+    width: 90%;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -175,11 +175,11 @@
   }
 
   .Members {
-    width: 146px;
+    width: 153px;
   }
 
   .Members2 {
-    width: 160px;
+    width: 153px;
     background-color: #4961b8;
   }
 
@@ -207,20 +207,25 @@
   }
 
   .Sign-in6 {
-    width: 140px;
+    width: 136px;
   }
 
   .Sign-in5 {
-    width: 143px;
-    background-color: #7a9f9f;
+    width: 136px;
+    background-color: #0c7a7a;
   }
 
   .Sign-in6:hover ~ .animation {
     width: 112px;
     right: 16px;
-    background-color: #7a9f9f;
+    background-color: #0c7a7a;
   }
 
+  .Members3:hover ~ .animation {
+    background-color: #4961b8;
+    width: 150px;
+    right: 290px;
+  }
   .nav3 .Sign-in3 {
     display: flex;
     align-items: center;
@@ -239,7 +244,7 @@
     margin-right: 50px;
   }
 
-  .Sign-in3:hover {
+  .Sign-in3:hover ~ .animation {
     width: 96px;
     border-radius: 2px;
     background-color: #7a9f9f;
@@ -266,15 +271,70 @@
   }
 
   .Members:hover ~ .animation {
-    width: 160px;
-    right: 134px;
+    width: 150px;
+    right: 138px;
     background-color: #4961b8;
   }
 
-  .Members3:hover ~ .animation {
-    width: 150px;
-    right: 20.5%;
-    background-color: #4961b8;
+  .Home2 {
+    width: 120px;
+
+    background-color: #acc2c1;
+  }
+
+  .Home6 {
+    width: 123px;
+  }
+
+  .Home5 {
+    width: 123px;
+    background-color: #acc2c1;
+  }
+
+  .Home6:hover ~ .animation {
+    background-color: #acc2c1;
+    right: 458px;
+    width: 100px;
+  }
+
+  .containerUserName:hover ~ .animation {
+    background-color: #eb9662;
+    right: 0px;
+    width: 260px;
+  }
+
+  .Home:hover ~ .animation {
+    background-color: #acc2c1;
+    right: 298px;
+    width: 100px;
+  }
+
+  .Home {
+    width: 120px;
+  }
+
+  .Home6 ion-icon {
+    margin-top: 16px;
+    font-size: 26px;
+  }
+
+  .Home5 ion-icon {
+    margin-top: 16px;
+    font-size: 26px;
+  }
+
+  .Home ion-icon {
+    margin-top: 16px;
+    font-size: 26px;
+  }
+
+  .Home2 ion-icon {
+    margin-top: 16px;
+    font-size: 26px;
+  }
+
+  .Home3 .active {
+    margin-top: 30px;
   }
 
   .About:hover ~ .animation {
@@ -306,13 +366,13 @@
 
   .Variants:hover ~ .animation {
     width: 120px;
-    left: 240px;
+    left: 120px;
     background-color: #3498db;
   }
 
   .Runs:hover ~ .animation {
     width: 120px;
-    left: 360px;
+    left: 240px;
     background-color: #9b59b6;
   }
   .Analyses:hover ~ .animation {
@@ -495,7 +555,7 @@
 
   .menuNav {
     background-color: #235c94;
-    height: 130px;
+    height: 160px;
     width: 145px;
     margin-top: 22px;
     border-radius: 9px;
@@ -629,13 +689,13 @@
 
   .Variants:hover ~ .animation {
     width: 120px;
-    left: 240px;
+    left: 120px;
     background-color: #3498db;
   }
 
   .Runs:hover ~ .animation {
     width: 120px;
-    left: 360px;
+    left: 240px;
     background-color: #9b59b6;
   }
   .Analyses:hover ~ .animation {
@@ -672,6 +732,10 @@
     width: 17px;
     margin-right: -11px;
     margin-top: 21px !important;
+  }
+
+  ion-icon {
+    font-size: 26px !important;
   }
 
   .userNameSmallScreen {
@@ -735,7 +799,7 @@
   .arrowUpIcon {
     width: 24px;
     margin-bottom: -33px;
-    margin-left: 66px;
+    margin-left: 51px;
   }
 
   h1:hover {
@@ -746,7 +810,6 @@
   h1 {
     text-transform: uppercase;
     font-size: 10px;
-    margin-left: 7px;
     margin-top: 5px;
     width: -moz-fit-content;
     width: fit-content;
@@ -764,7 +827,7 @@
 
   .Individuals2 {
     width: 157px;
-    height: 20px;
+    height: 21px;
     margin-left: 2px;
     background-color: #1abc9c;
     border-radius: 4px;
@@ -773,51 +836,57 @@
 
   .Variants2 {
     width: 157px;
-    height: 23px;
+    height: 22px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Biosamples2 {
     width: 157px;
-    height: 23px;
+    height: 27px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Members2 {
-    width: 146px;
-    height: 23px;
+    width: 126px;
+    height: 25px;
     border-radius: 4px;
     background-color: #4961b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .Sign-in5 {
-    width: 157px;
-    height: 23px;
+    width: 124px;
+    height: 25px;
     margin-top: 2px;
-    margin-left: 2px;
+    /* margin-left: 2px; */
     border-radius: 4px;
+    display: flex;
     background-color: #7a9f9f;
+    align-items: center;
+    justify-content: center;
   }
 
   .Runs2 {
     width: 157px;
-    height: 23px;
+    height: 27px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Cohorts2 {
     width: 157px;
-    height: 23px;
+    height: 27px;
     margin-left: 2px;
     border-radius: 4px;
   }
 
   .Cross-queries2 {
     width: 157px;
-    height: 23px;
+    height: 27px;
     margin-left: 2px;
     border-radius: 4px;
   }
@@ -834,7 +903,7 @@
 
   .Analyses2 {
     width: 157px;
-    height: 23px;
+    height: 27px;
     margin-left: 2px;
     border-radius: 4px;
   }
@@ -914,8 +983,8 @@
   }
   .menuNav2 {
     background-color: #235c94;
-    height: 212px;
-    width: 161px;
+    height: 119px;
+    width: 126px;
     margin-top: 22px;
     border-radius: 9px;
     box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
@@ -923,8 +992,8 @@
     display: flex;
     /* align-content: center; */
     justify-content: center;
-    /* align-items: center; */
     flex-direction: column;
     margin-left: 0px;
+    align-items: center;
   }
 }

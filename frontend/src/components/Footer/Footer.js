@@ -72,24 +72,6 @@ function Footer (props) {
               Beacon validator
             </NavLink>
           </li>
-          <li className='social-icon__item'>
-            <a
-              className='social-icon__link'
-              href='https://github.com/elixir-europe/beacon-network-ui/'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <ion-icon name='logo-github'></ion-icon>
-            </a>
-            <a
-              className='menu__link'
-              href='https://github.com/elixir-europe/beacon-network-ui/'
-              target='_blank'
-              rel='noreferrer'
-            >
-              GitHub UI
-            </a>
-          </li>
           {/* <li className='social-icon__item'>
             <a
               className='social-icon__link'
@@ -126,7 +108,7 @@ function Footer (props) {
               Documentation
             </a>
           </li> */}
-          <li className='social-icon__item'>
+          {/* <li className='social-icon__item'>
             <NavLink exact to='/members' className='social-icon__link'>
               <ion-icon name='globe-outline'></ion-icon>
             </NavLink>
@@ -139,7 +121,7 @@ function Footer (props) {
             >
               Network members
             </NavLink>
-          </li>
+          </li> */}
           {isLoggedIn === false && (
             <li className='social-icon__item'>
               <NavLink
@@ -167,7 +149,7 @@ function Footer (props) {
                 to='/sign-in-options'
                 className='social-icon__link'
               >
-                <ion-icon name='log-out-outline'></ion-icon>
+                <ion-icon name='log-out-outline' ></ion-icon>
               </NavLink>
               <NavLink
                 exact

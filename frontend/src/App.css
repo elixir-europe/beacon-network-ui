@@ -84,10 +84,10 @@ html {
 }
 
 .version {
-  margin-right: 37px;
+  margin-right: 20px;
   margin-top: -18px;
   color: #3176b1 !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 
 .logosVersionContainer {
@@ -853,12 +853,13 @@ p a {
 }
 
 .elixirLogo {
-  margin-bottom: -10px;
-  height: 55px;
+  margin-bottom: -13px;
+  height: 58px;
   margin-right: 10px;
   filter: grayscale(40%);
   transition: 0.2s ease-in-out;
 }
+
 
 .elixirLogo:hover {
   -webkit-filter: grayscale(0%);
@@ -1534,8 +1535,8 @@ h5 {
   }
 
   .laCaixaLogo {
-    height: 31px;
-    margin-top: 31px;
+    height: 33px;
+    margin-top: 33px;
     margin-right: 30px;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
@@ -1723,13 +1724,6 @@ h5 {
     width: 27px;
     margin-top: -1px;
     margin-left: -8px;
-  }
-
-  .elixirLogo {
-    height: 70px;
-    margin-top: 18px;
-    margin-bottom: 37px;
-    margin-right: 21px;
   }
 
   .searchButton {
@@ -2082,12 +2076,6 @@ h5 {
     margin-left: -8px;
   }
 
-  .elixirLogo {
-    height: 70px;
-    margin-top: 18px;
-    margin-bottom: 37px;
-    margin-right: 21px;
-  }
 
   .searchButton {
     height: 30px;

@@ -1,48 +1,45 @@
 import '../../App.css'
-import './LayoutVariantsTable.css'
+import './Layout.css'
 import FilteringTerms from '../FilteringTerms/FilteringTerms'
-import { NavLink } from 'react-router-dom'
-
-import ResultsDatasets from '../Datasets/ResultsDatasets'
+import filtersConfig from '../../config-examples-cancer.json'
+import filtersConfig2 from '../../config-examples-covid.json'
 import VariantsResults from '../GenomicVariations/VariantsResults'
-import HorizontalExpansion from '../QueryExpansion/HorizontalExpansion'
+
 import BiosamplesResults from '../Biosamples/BiosamplesResults'
 
 import React, { useState, useEffect } from 'react'
-
-import OutsideClickHandler from 'react-outside-click-handler'
-
-import Switch from '@mui/material/Switch'
-import MultiSwitch from 'react-multi-switch-toggle'
 
 import configData from '../../config.json'
 
 import axios from 'axios'
 
-import ReactModal from 'react-modal'
-
 import IndividualsResults from '../Individuals/IndividualsResults'
 import AnalysesResults from '../Analyses/AnalysesResults'
 import RunsResults from '../Runs/RunsResults'
-
-import CohortsModule from '../Cohorts/CohortsModule'
+import FilterContent from '../FiltersComponent/FiltersComponent'
+import BeaconInfo from '../Dataset/BeaconInfo'
 
 function Layout (props) {
   const [error, setError] = useState(null)
-
-  const [placeholder, setPlaceholder] = useState('')
+  const [activeTab, setActiveTab] = useState('tab1')
+  const [placeholder, setPlaceholder] = useState(
+    'filtering term comma-separated, ID><=value'
+  )
 
   const [results, setResults] = useState(null)
-  const [query, setQuery] = useState(null)
+  const [query, setQuery] = useState('')
   const [queryAux, setQueryAux] = useState(null)
-
+  const [filtersTab1, setFiltersTab1] = useState(filtersConfig.filters)
+  const [filtersTab2, setFiltersTab2] = useState(filtersConfig2.filters)
   const [exampleQ, setExampleQ] = useState([])
 
+  const [isNetwork, setIsNetwork] = useState(false)
+  const [showFilters, setShowFilters] = useState(true)
   const [expansionSection, setExpansionSection] = useState(false)
   const [arrayFilteringTermsQE, setArrayFilteringTermsQE] = useState([])
 
-  const [resultSet, setResultset] = useState('ALL')
-  const [resultSetAux, setResultsetAux] = useState('ALL')
+  const [resultSet, setResultset] = useState('HIT')
+  const [resultSetAux, setResultsetAux] = useState('HIT')
 
   const [descendantTerm, setDescendantTerm] = useState('true')
 
@@ -61,125 +58,54 @@ function Layout (props) {
   const [showButton, setShowButton] = useState(true)
 
   const [showFilteringTerms, setShowFilteringTerms] = useState(false)
-  const [filteringTerms, setFilteringTerms] = useState(false)
+  const [filteringTerms, setFilteringTerms] = useState([])
   const [filteringTermsButton, setShowFilteringTermsButton] = useState(false)
   const [showVariants, setShowVariants] = useState(false)
 
   const [showResultsVariants, setShowResultsVariants] = useState(true)
-
-  const [triggerCohorts, setTriggerCohorts] = useState(true)
 
   const [trigger, setTrigger] = useState(false)
   const [triggerQuery, setTriggerQuery] = useState(false)
 
   const [showBar, setShowBar] = useState(true)
 
-  const [isOpenModal1, setIsOpenModal1] = useState(false)
-  const [isOpenModal2, setIsOpenModal2] = useState(false)
-  const [isOpenModal4, setIsOpenModal4] = useState(false)
-  const [isOpenModal5, setIsOpenModal5] = useState(false)
-  const [isOpenModal6, setIsOpenModal6] = useState(false)
+  const [collection, setCollection] = useState('Individuals')
+  const [granularity, setGranularity] = useState('count')
+
+  const [terms, setTerm] = useState([])
 
   const [showExtraIndividuals, setExtraIndividuals] = useState(false)
-  const [showOptions, setShowOptions] = useState(false)
-
-  const [referenceName, setRefName] = useState('')
-  const [referenceName2, setRefName2] = useState('')
-  const [start, setStart] = useState('')
-  const [start2, setStart2] = useState('')
-  const [end, setEnd] = useState('')
-  const [variantType, setVariantType] = useState('')
-  const [variantType2, setVariantType2] = useState('')
-  const [alternateBases, setAlternateBases] = useState('')
-  const [alternateBases2, setAlternateBases2] = useState('')
-  const [alternateBases3, setAlternateBases3] = useState('')
-  const [referenceBases, setRefBases] = useState('')
-  const [referenceBases2, setRefBases2] = useState('')
-  const [aminoacid, setAminoacid] = useState('')
-  const [aminoacid2, setAminoacid2] = useState('')
-  const [geneID, setGeneId] = useState('')
-  const [assemblyId, setAssemblyId] = useState('')
-  const [assemblyId2, setAssemblyId2] = useState('')
-  const [assemblyId3, setAssemblyId3] = useState('')
-  const [variantMinLength, setVariantMinLength] = useState('')
-  const [variantMaxLength, setVariantMaxLength] = useState('')
-  const [variantMinLength2, setVariantMinLength2] = useState('')
-  const [variantMaxLength2, setVariantMaxLength2] = useState('')
-
-  const [sequenceSubmitted, setSequenceSub] = useState(false)
-  const [rangeSubmitted, setRangeSub] = useState(false)
-  const [geneSubmitted, setGeneSub] = useState(false)
-
-  const [hideForm, setHideForm] = useState(false)
+  const [inputValuesTab1, setInputValuesTab1] = useState({})
+  const [inputValuesTab2, setInputValuesTab2] = useState({})
+  const [checkedOptionsTab1, setCheckedOptionsTab1] = useState({})
+  const [checkedOptionsTab2, setCheckedOptionsTab2] = useState({})
+  // Set initial state with the input values obtained from filters
 
   const [state, setstate] = useState({
     query: '',
     list: []
   })
 
-  const [checked, setChecked] = useState(true)
-  const [checked2, setChecked2] = useState(false)
-
+  const [showAlphanum, setShowAlphanum] = useState(false)
+  const [alphanumSchemaField, setAlphanumSchemaField] = useState('')
+  const [alphanumValue, setAlphanumValue] = useState('')
   const [timeOut, setTimeOut] = useState(true)
 
   const [isSubmitted, setIsSub] = useState(false)
 
   const [arrayFilteringTerms, setArrayFilteringTerms] = useState([])
 
-  const handleChangeSwitch = e => {
-    setDescendantTerm(e.target.checked)
-    setChecked(e.target.checked)
-  }
+  const [countGeneModule, setCountGeneModule] = useState(0)
+  const [countSeqModule, setCountSeqModule] = useState(0)
+  const [countRangeModule, setCountRangeModule] = useState(0)
 
-  const onToggle = selectedItem => {
-    if (selectedItem === 0) {
-      setSimilarity('low')
-    } else if (selectedItem === 1) {
-      setSimilarity('medium')
-    } else {
-      setSimilarity('high')
-    }
-  }
+  const [rangeModuleArray, setRangeModuleArray] = useState([])
+  const [seqModuleArray, setSeqModuleArray] = useState([])
+  const [geneModuleArray, setGeneModuleArray] = useState([])
 
-  const onToggle2 = selectedItem => {
-    if (selectedItem === 0) {
-      setResultset('HIT')
-    } else if (selectedItem === 1) {
-      setResultset('MISS')
-    } else if (selectedItem === 2) {
-      setResultset('NONE')
-    } else {
-      setResultset('ALL')
-    }
-  }
+  const [trigger3, setTrigger3] = useState(false)
 
-  const handleCloseModal1 = () => {
-    setIsOpenModal1(false)
-  }
-
-  const handleHelpModal2 = () => {
-    setIsOpenModal2(true)
-  }
-
-  const handleCloseModal2 = () => {
-    setIsOpenModal2(false)
-  }
-
-  const handleCloseModal3 = () => {
-    setPopUp(false)
-  }
-
-  const handleHelpModal4 = () => {
-    setIsOpenModal4(true)
-  }
-
-  const handleHelpModal5 = () => {
-    setIsOpenModal5(true)
-  }
-
-  const handleHelpModal6 = () => {
-    setIsOpenModal6(true)
-  }
+  const [arrayRequestParameters, setArrayReqParameters] = useState([])
 
   const handleSeeFilteringTerms = () => {
     setShowFilteringTerms(true)
@@ -187,293 +113,212 @@ function Layout (props) {
     setTimeOut(true)
   }
 
-  const handleExQueries = () => {
-    if (props.collection === 'Individuals') {
-      setExampleQ([
-        ['female', 'NCIT:C16576'],
-        ['African', 'NCIT:C42331'],
-        ['Cardiovascular Neoplasm', 'NCIT:C4784'],
-        ['Weight>100'],
-        ['geographicOrigin=%land%'],
-        ['geographicOrigin!England']
-      ])
-    } else if (props.collection === 'Variant') {
-      setExampleQ([['GENO:GENO_0000458']])
-    } else if (props.collection === 'Biosamples') {
-      setExampleQ([
-        ['blood', 'UBERON:0000178'],
-        ['reference sample', 'EFO:0009654'],
-        ['sampleOriginType:blood']
-      ])
-    } else if (props.collection === 'Runs') {
-      setExampleQ([['OBI:0002048']])
-    } else if (props.collection === 'Analyses') {
-      setExampleQ([['']])
+  // Function to handle input change and update state
+  const handleInputChange = (e, identifier, tab) => {
+    const { value } = e.target
+    if (tab === 'tab1') {
+      setInputValuesTab1(prevState => ({
+        ...prevState,
+        [identifier]: value
+      }))
+    } else if (tab === 'tab2') {
+      setInputValuesTab2(prevState => ({
+        ...prevState,
+        [identifier]: value
+      }))
     }
   }
 
-  const handleExtraSectionIndividuals = e => {
-    setShowOptions(!showOptions)
-    setShowButton(!showButton)
+  const handleIdChanges = e => {
+    setId(e.target.value)
+  }
+  const handleOperatorchange = e => {
+    setOperator(e.target.value)
   }
 
-  const handleChangeStart = e => {
-    setStart(e.target.value)
+  const handleValueChanges = e => {
+    setValueFree(e.target.value)
   }
-  const handleChangeStart2 = e => {
-    setStart2(e.target.value)
-  }
-  const handleChangeRefN2 = e => {
-    setRefName2(e.target.value)
-  }
-  const handleChangeAlternateB2 = e => {
-    setAlternateBases2(e.target.value)
-  }
-  const handleChangeAssembly2 = e => {
-    setAssemblyId2(e.target.value)
-  }
-  const handleChangeAssembly3 = e => {
-    setAssemblyId3(e.target.value)
+  const handdleInclude = e => {
+    console.log(valueFree)
+    console.log(operator)
+    if (ID !== '' && valueFree !== '' && operator !== '') {
+      if (query !== null && query !== '') {
+        setQuery(query + ',' + `${ID}${operator}${valueFree}`)
+      }
+      if (query === null || query == '') {
+        setQuery(`${ID}${operator}${valueFree}`)
+      }
+    }
   }
 
-  const handleChangeAlternateB = e => {
-    setAlternateBases(e.target.value)
+  const handleOption = (e, array, optionIndex, tab) => {
+    const updatedInputValues =
+      tab === 'tab1' ? { ...inputValuesTab1 } : { ...inputValuesTab2 }
+    const updatedCheckedOptions =
+      tab === 'tab1' ? { ...checkedOptionsTab1 } : { ...checkedOptionsTab2 }
+    const filterIndex = e.target.getAttribute('data-filter-index')
+    const elementLabel = e.target.getAttribute('data-element-label') // Get the element label from the checkbox
+    const optionId = `option-${filterIndex}-${optionIndex}-${elementLabel}` // Construct the correct key
+
+    updatedCheckedOptions[optionId] = e.target.checked // Update the checked state
+
+    if (tab === 'tab1') {
+      setCheckedOptionsTab1(updatedCheckedOptions)
+    } else {
+      setCheckedOptionsTab2(updatedCheckedOptions)
+    }
+
+    let start, end, variantType, referenceBases, alternateBases
+    const title = []
+    const value = []
+
+    array.forEach(element => {
+      title.push(element.schemaField)
+      const inputValue =
+        updatedInputValues[
+          `${optionIndex}-${element.label}-${element.schemaField}`
+        ]
+      value.push(inputValue || element.value)
+
+      switch (element.schemaField) {
+        case 'start':
+          start = inputValue || element.value
+          break
+        case 'end':
+          end = inputValue || element.value
+          break
+        case 'variantType':
+          variantType = inputValue || element.value
+          break
+        case 'referenceBases':
+          referenceBases = inputValue || element.value
+          break
+        case 'alternateBases':
+          alternateBases = inputValue || element.value
+          break
+        default:
+          break
+      }
+    })
+
+    const specialQuery =
+      start && end && variantType && referenceBases && alternateBases
+        ? `${start}-${end}:${variantType}:${referenceBases}>${alternateBases}`
+        : null
+
+    const arrayQuery = title
+      .map((titleQuery, indexQuery) =>
+        titleQuery === 'geneId'
+          ? `${titleQuery}:${value[indexQuery]}`
+          : `${titleQuery}=${value[indexQuery]}`
+      )
+      .join('&')
+
+    if (e.target.checked) {
+      setQuery(prevQuery => {
+        if (!prevQuery) return specialQuery || arrayQuery
+        return `${prevQuery},${specialQuery || arrayQuery}`
+      })
+    } else {
+      setQuery(prevQuery => {
+        const updatedQuery = prevQuery
+          .split(',')
+          .filter(item => item !== (specialQuery || arrayQuery))
+          .join(',')
+        return updatedQuery || ''
+      })
+    }
+
+    if (tab === 'tab1') {
+      setInputValuesTab1(updatedInputValues)
+    } else {
+      setInputValuesTab2(updatedInputValues)
+    }
   }
 
-  const handleChangeAlternateB3 = e => {
-    setAlternateBases3(e.target.value)
+  const handleOptionAlphanum = (schemaField, value) => {
+    setShowAlphanum(true)
+    setAlphanumSchemaField(schemaField)
+    setAlphanumValue(value)
+    setId(schemaField)
   }
 
-  const handleChangeReferenceB = e => {
-    setRefBases(e.target.value)
-  }
-  const handleChangeReferenceB2 = e => {
-    setRefBases2(e.target.value)
+  const handleChangeSelection1 = e => {
+    setGranularity(e.target.value)
   }
 
-  const handleChangeRefN = e => {
-    setRefName(e.target.value)
+  const handleChangeSelection2 = e => {
+    console.log(e.target.value)
+    if (e.target.value === 'Individuals') {
+      setCollection('Individuals')
+    }
+    if (e.target.value === 'Variant') {
+      setCollection('Variant')
+    }
+    if (e.target.value === 'Biosamples') {
+      setCollection('Biosamples')
+    }
   }
 
-  const handleChangeEnd = e => {
-    setEnd(e.target.value)
-  }
+  const handleReset = () => {
+    // Clear the query state
+    setQuery('')
 
-  const handleChangeVariantType = e => {
-    setVariantType(e.target.value)
-  }
-  const handleChangeVariantType2 = e => {
-    setVariantType2(e.target.value)
-  }
+    // Clear the state for input values and checked options
+    setInputValuesTab1({})
+    setInputValuesTab2({})
+    setCheckedOptionsTab1({})
+    setCheckedOptionsTab2({})
 
-  const handleChangeAminoacid = e => {
-    setAminoacid(e.target.value)
-  }
-  const handleChangeAminoacid2 = e => {
-    setAminoacid2(e.target.value)
-  }
-
-  const handleChangeGeneId = e => {
-    setGeneId(e.target.value)
-  }
-
-  const handleChangeAssembly = e => {
-    setAssemblyId(e.target.value)
-  }
-  const handleChangeVariantMaxLength = e => {
-    setVariantMaxLength(e.target.value)
-  }
-  const handleChangeVariantMinLength = e => {
-    setVariantMinLength(e.target.value)
-  }
-  const handleChangeVariantMaxLength2 = e => {
-    setVariantMaxLength2(e.target.value)
-  }
-  const handleChangeVariantMinLength2 = e => {
-    setVariantMinLength2(e.target.value)
-  }
-
-  const handleClick = () => {
-    setShowBar(!showBar)
-    setShowResultsVariants(false)
-  }
-
-  const handleHideVariantsForm = e => {
-    setHideForm(false)
-  }
-
-  const handleQEclick = e => {
-    setExpansionSection(true)
-  }
-
-  const handleSequenceExample = e => {
-    setAlternateBases('A')
-    setRefBases('G')
-    setStart('16050114')
-  }
-
-  const handleRangeExample = e => {
-    setAlternateBases2('CTT')
-    setRefBases2('C')
-    setStart2('16055848')
-    setEnd('16055849')
-    setAssemblyId2('GRCh38')
-    setRefName2('22')
-    setVariantMinLength('2')
-    setVariantMaxLength('3')
-  }
-
-  const handleGeneExample = e => {
-    setGeneId('CHR_START-DUXAP8')
+    // Uncheck all checkboxes manually
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]')
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false
+    })
   }
 
   useEffect(() => {
     setError('')
-    if (props.collection === 'Individuals') {
-      setPlaceholder('filtering term comma-separated, ID><=value')
-      setExtraIndividuals(true)
-    } else if (props.collection === 'Biosamples') {
-      setPlaceholder('filtering term comma-separated')
-    } else if (props.collection === 'Cohorts') {
-      setShowCohorts(true)
-      setExtraIndividuals(false)
-      setPlaceholder('Search for any cohort')
-    } else if (props.collection === 'Variant') {
-      setPlaceholder('filtering term comma-separated')
-      setExtraIndividuals(true)
-      setShowVariants(true)
-    } else if (props.collection === 'Analyses') {
-      setPlaceholder('filtering term comma-separated')
-      setExtraIndividuals(false)
-    } else if (props.collection === 'Runs') {
-      setPlaceholder('filtering term comma-separated')
-      setExtraIndividuals(false)
-    } else if (props.collection === 'Datasets') {
-      setPlaceholder('filtering term comma-separated')
-      setExtraIndividuals(false)
-    } else {
-      setPlaceholder('')
-    }
 
     const fetchData = async () => {
-      //for query expansion
       try {
-        if (props.collection === 'Individuals') {
-          try {
-            let res = await axios.get(
-              configData.API_URL + '/individuals/filtering_terms'
-            )
-            setTimeOut(true)
+        let res = await axios.get(
+          configData.API_URL + '/filtering_terms?limit=0'
+        )
+        let res2 = await axios.get(configData.API_URL + '/info')
+        console.log(res2)
+        if (res2.data.meta.isAggregated) {
+          setIsNetwork(true)
+        }
+        setTimeOut(true)
+        console.log(res)
 
-            if (res.data.response.filteringTerms !== undefined) {
-              setFilteringTerms(res)
-              setResults(null)
-            }
-            if (res !== null) {
-              res.data.response.filteringTerms.forEach(element => {
-                if (element.type !== 'custom') {
-                  arrayFilteringTerms.push(element.id)
-                  arrayFilteringTermsQE.push(element)
-                }
-              })
+        if (res.data.response.filteringTerms !== undefined) {
+          res.data.response.filteringTerms.forEach(element => {
+            filteringTerms.push(element)
+          })
 
-              setstate({
-                query: '',
-                list: arrayFilteringTerms
-              })
+          console.log(filteringTerms)
+          setResults(null)
+        }
+        if (res !== null) {
+          res.data.response.filteringTerms.forEach(element => {
+            if (element.type !== 'custom') {
+              arrayFilteringTerms.push(element.id)
+              arrayFilteringTermsQE.push(element)
             }
-          } catch (error) {
-            setError(
-              'No filtering terms now available for Individuals collection'
-            )
-            setTimeOut(true)
-          }
-        } else if (props.collection === 'Cohorts') {
-          try {
-            let res = await axios.get(
-              configData.API_URL + '/cohorts/filtering_terms'
-            )
-            setTimeOut(true)
-            if (res.data.response.filteringTerms !== undefined) {
-              setFilteringTerms(res)
-              setResults(null)
-            } else {
-              setError('No filtering terms now available')
-            }
-          } catch (error) {
-            setError('No filtering terms now available for Cohorts collection')
-            setTimeOut(true)
-          }
-        } else if (props.collection === 'Variant') {
-          try {
-            let res = await axios.get(
-              configData.API_URL + '/g_variants/filtering_terms'
-            )
-            setTimeOut(true)
-            if (res.data.response.filteringTerms !== undefined) {
-              setFilteringTerms(res)
-              setResults(null)
-            } else {
-              setError('No filtering terms now available')
-            }
-          } catch (error) {
-            setError('No filtering terms now available for Variant collection')
-            setTimeOut(true)
-          }
-        } else if (props.collection === 'Analyses') {
-          try {
-            let res = await axios.get(
-              configData.API_URL + '/analyses/filtering_terms'
-            )
-            setTimeOut(true)
-            if (res.data.response.filteringTerms !== undefined) {
-              setFilteringTerms(res)
-              setResults(null)
-            } else {
-              setError('No filtering terms now available')
-            }
-          } catch (error) {
-            setError('No filtering terms now available for Analyses collection')
-            setTimeOut(true)
-          }
-        } else if (props.collection === 'Runs') {
-          try {
-            let res = await axios.get(
-              configData.API_URL + '/runs/filtering_terms'
-            )
-            setTimeOut(true)
-            if (res.data.response.filteringTerms !== undefined) {
-              setFilteringTerms(res)
-              setResults(null)
-            } else {
-              setError('No filtering terms now available')
-            }
-          } catch (error) {
-            setError('No filtering terms now available for Runs collection')
-            setTimeOut(true)
-          }
-        } else if (props.collection === 'Biosamples') {
-          try {
-            let res = await axios.get(
-              configData.API_URL + '/biosamples/filtering_terms'
-            )
-            setTimeOut(true)
-            if (res.data.response.filteringTerms !== undefined) {
-              setFilteringTerms(res)
-              setResults(null)
-            } else {
-              setTimeOut(true)
-              setError('No filtering terms now available')
-            }
-          } catch (error) {
-            setError(
-              'No filtering terms now available for Biosamples collection'
-            )
-            setTimeOut(true)
-          }
+          })
+
+          setstate({
+            query: '',
+            list: arrayFilteringTerms
+          })
         }
       } catch (error) {
         console.log(error)
+        setTimeOut(true)
+        setError('No filtering terms now available')
       }
       setShowFilteringTermsButton(true)
     }
@@ -484,7 +329,24 @@ function Layout (props) {
       .catch(console.error)
   }, [])
 
+  useEffect(() => {
+    if (collection === 'Individuals') {
+      setPlaceholder('filtering term comma-separated, ID><=value')
+      setExtraIndividuals(true)
+    }
+    if (collection === 'Variant') {
+      setPlaceholder('filtering term comma-separated')
+      setExtraIndividuals(true)
+      setShowVariants(true)
+    }
+    if (collection === 'Biosamples') {
+      setPlaceholder('filtering term comma-separated, ID><=value')
+      setExtraIndividuals(true)
+    }
+  }, [collection])
+
   const onSubmit = async event => {
+    setShowFilters(false)
     console.log(query)
     console.log(value)
     event.preventDefault()
@@ -495,1128 +357,275 @@ function Layout (props) {
 
     setTriggerQuery(!triggerQuery)
 
+    setTriggerQuery(!triggerQuery)
+
+    let arrayRequestParameters2 =
+      geneModuleArray + seqModuleArray + rangeModuleArray
+
+    setArrayReqParameters(geneModuleArray + seqModuleArray + rangeModuleArray)
+    if (arrayRequestParameters !== arrayRequestParameters2) {
+      setTriggerQuery(!triggerQuery)
+    }
+
     setExampleQ([])
 
     if (query === '1' || query === '') {
       setQuery(null)
     }
-    if (props.collection === 'Individuals') {
+    if (collection === 'Individuals') {
       setResults('Individuals')
-    } else if (props.collection === 'Variant') {
+    } else if (collection === 'Variant') {
       setResults('Variant')
-    } else if (props.collection === 'Biosamples') {
+    } else if (collection === 'Biosamples') {
       setResults('Biosamples')
-    } else if (props.collection === 'Analyses') {
+    } else if (collection === 'Analyses') {
       setResults('Analyses')
-    } else if (props.collection === 'Runs') {
+    } else if (collection === 'Runs') {
       setResults('Runs')
     }
   }
 
-  function search (e) {
-    setQuery(e.target.value)
+  const search = (e) => {
+    const newQuery = e.target.value;
+  
+    // Update the query state
+    setQuery(newQuery);
+  
+    const queryTerms = newQuery.split(',').map(term => term.trim());
+  
+    // Update the checked state for "tab1" checkboxes
+    const updatedCheckedOptionsTab1 = { ...checkedOptionsTab1 };
+    Object.keys(updatedCheckedOptionsTab1).forEach(key => {
+      const optionValue = key.split('-').slice(3).join('-');
+      updatedCheckedOptionsTab1[key] = queryTerms.some(term => term.includes(optionValue));
+    });
+    setCheckedOptionsTab1(updatedCheckedOptionsTab1);
+  
+    // Update the checked state for "tab2" checkboxes
+    const updatedCheckedOptionsTab2 = { ...checkedOptionsTab2 };
+    Object.keys(updatedCheckedOptionsTab2).forEach(key => {
+      const optionValue = key.split('-').slice(3).join('-');
+      updatedCheckedOptionsTab2[key] = queryTerms.some(term => term.includes(optionValue));
+    });
+    setCheckedOptionsTab2(updatedCheckedOptionsTab2);
+  };
+  
+  const handleShowFilterEx = () => {
+    setShowFilters(true)
   }
 
-  const handleSubmit = async e => {
-    setShowVariants(true)
-    e.preventDefault()
-    setPlaceholder('filtering term comma-separated, ID><=value')
-    setIsSub(!isSubmitted)
-    setExampleQ([])
-    setTimeOut(true)
-    setResults('Variant')
-  }
+  useEffect(() => {
+    const initializeInputValues = filters => {
+      const initialInputValues = {}
+      filters.forEach((filter, index) => {
+        filter.options.forEach((option, indexOption) => {
+          option.forEach(element => {
+            if (filter.type === 'input') {
+              const identifier = `${indexOption}-${element.label}-${element.schemaField}`
+              initialInputValues[identifier] = element.label || ''
+            }
+          })
+        })
+      })
+      return initialInputValues
+    }
+
+    setInputValuesTab1(initializeInputValues(filtersTab1))
+    setInputValuesTab2(initializeInputValues(filtersTab2))
+  }, [filtersTab1, filtersTab2])
 
   return (
     <div className='container1'>
-      <div className='container2'>
-        <div className='logosVersionContainer'>
-          <div className='logos'>
-            <a
-              href='https://impact-data.bsc.es/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-              title='El proyecto IMPaCT-Data (Exp. IMP/00019) ha sido financiado por el Instituto de Salud Carlos III, co-financiado por el Fondo Europeo de Desarrollo Regional (FEDER, “Una manera de hacer Europa“)'
-            >
-              <img
-                className='impactLogo'
-                src='../impactLogo.png'
-                alt='impactLogo'
-              ></img>
-            </a>
-            <a
-              href='https://www.fondoseuropeos.hacienda.gob.es/sitios/dgfc/es-ES/paginas/feder.aspx/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='federLogo'
-                src='../feder_logo.png'
-                alt='federLogo'
-              ></img>
-            </a>
-            <a
-              href='https://www.ciencia.gob.es/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='ministerioLogo'
-                src='../ministerio_logo.png'
-                alt='ministerioLogo'
-              ></img>
-            </a>
-            <a
-              href='https://www.isciii.es/Paginas/Inicio.aspx/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='iscLogo'
-                src='../ISCIII_logo.png'
-                alt='iscLogo'
-              ></img>
-            </a>
-            <a
-              href='https://fundacionlacaixa.org/es/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='laCaixaLogo'
-                src='../caixa_logo.png'
-                alt='laCaixaLogo'
-              ></img>
-            </a>
+      <div className='sectionModules'>
+        <div className='container2'>
+          <div className='logosVersionContainer'>
+            <div className='logos'>
+              <a
+                href='https://ega-archive.org/'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <img
+                  className='ega-logo'
+                  src='../ega-archive.png'
+                  alt='EGAarchive'
+                ></img>
+              </a>
+            </div>
+            <h1 className='version'>v0.5.5</h1>
           </div>
-          <h1 className='version'>v0.5.1</h1>
         </div>
-      </div>
-
-      <div className='Modal1'>
-        {popUp && (
-          <ReactModal
-            isOpen={popUp}
-            onRequestClose={handleCloseModal3}
-            shouldCloseOnOverlayClick={true}
-            style={{
-              overlay: {
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                zIndex: 3,
-                backgroundColor: 'rgba(255, 255, 255, 0.75)'
-              }
-            }}
+        <div className='containerSelection'>
+          <select
+            name='select'
+            className='selectModule1'
+            onChange={handleChangeSelection1}
           >
-            <button onClick={handleCloseModal3}>
+            <option value='boolean' className='optionClass'>
+              Do you have?...{' '}
+            </option>
+            <option value='count' selected>
+              How many?...
+            </option>
+            <option value='record'>Can you give me details on?...</option>
+          </select>
+
+          <select
+            name='select2'
+            className='selectModule2'
+            onChange={handleChangeSelection2}
+          >
+            <option value='Individuals' selected>
+              Individuals
+            </option>
+            <option value='Variant'>Genomic variants</option>
+            <option value='Biosamples'>Biosamples</option>
+          </select>
+          <h14>having ... </h14>
+          <form onSubmit={onSubmit} className='formInput'>
+            <div className='textAreaDiv'>
+              <textarea
+                className='inputSearch'
+                type='text'
+                placeholder={placeholder}
+                value={query}
+                onChange={e => search(e)}
+              />
+              <input
+                className='resetButton'
+                type='reset'
+                value='Clear'
+                onClick={handleReset}
+              ></input>
+            </div>
+            <button className='searchButton' type='submit'>
               <img
-                className='closeLogo'
-                src='./cancel.png'
-                alt='cancelIcon'
+                className='searchIcon'
+                src='./magnifier.png'
+                alt='searchIcon'
               ></img>
             </button>
-
-            <p>
-              Please, bear in mind that you might have to log in to get
-              information from some datasets.
-            </p>
-          </ReactModal>
-        )}
-      </div>
-      <nav className='navbar'>
-        {expansionSection === true && (
-          <HorizontalExpansion
-            arrayFilteringTermsQE={arrayFilteringTermsQE}
-            query={query}
-            setQuery={setQuery}
-            setExpansionSection={setExpansionSection}
-          />
-        )}
-        {showVariants === true && showBar === false && (
-          <button className='modeVariantsBarMode' onClick={handleClick}>
-            <h2 className='modeVariantsQueries'>Change to FORM mode</h2>
-          </button>
-        )}
-        <div className='container-fluid'>
-          {cohorts === false &&
-            props.collection !== 'Variant' &&
-            showBar === true && (
-              <div>
-                <form className='d-flex' onSubmit={onSubmit}>
-                  <input
-                    className='formSearch'
-                    type='search'
-                    placeholder={placeholder}
-                    value={query}
-                    onChange={e => search(e)}
-                    aria-label='Search'
-                  />
-
-                  <button className='searchButton' type='submit'>
-                    <img
-                      className='searchIcon'
-                      src='./magnifier.png'
-                      alt='searchIcon'
-                    ></img>
-                  </button>
-                </form>
-              </div>
-            )}
-          {props.collection === 'Variant' && showBar === false && (
-            <div>
-              <form className='d-flex' onSubmit={onSubmit}>
-                <input
-                  className='formSearch'
-                  type='search'
-                  placeholder={placeholder}
-                  value={query}
-                  onChange={e => search(e)}
-                  aria-label='Search'
-                />
-
-                <button className='searchButton' type='submit'>
-                  <img
-                    className='searchIcon'
-                    src='./magnifier.png'
-                    alt='searchIcon'
-                  ></img>
-                </button>
-              </form>
-            </div>
-          )}
-          {props.collection === 'Cohorts' && (
-            <CohortsModule
-              optionsCohorts={props.optionsCohorts}
-              selectedCohorts={props.selectedCohorts}
-              setSelectedCohorts={props.setSelectedCohorts}
-              setShowGraphs={props.setShowGraphs}
-            />
-          )}
+          </form>
         </div>
-        {showBar === true && props.collection !== 'Variant' && (
-          <div className='additionalOptions'>
-            <div className='example'>
-              {cohorts === false &&
-                props.collection !== '' &&
-                showBar === true && (
-                  <div className='bulbExample'>
-                    <button
-                      className='exampleQueries'
-                      onClick={handleExQueries}
-                    >
-                      Query Examples
-                    </button>
-                    <img
-                      className='bulbLogo'
-                      src='../light-bulb.png'
-                      alt='bulbIcon'
-                    ></img>
-                    <div className='examplesQueriesList'>
-                      {exampleQ[0] &&
-                        exampleQ.map(result => {
-                          return (
-                            <div id='exampleQueries'>
-                              <button
-                                className='exampleQuery'
-                                onClick={() => {
-                                  setPlaceholder(`${result[0]}`)
-                                  setQuery(`${[result[0]]}`)
-                                  setValue(`${result[1]}`)
-                                  setExampleQ([])
-                                }}
-                              >
-                                {result[1] !== undefined && (
-                                  <div className='text-example'>
-                                    {result[1]}
-                                  </div>
-                                )}
-
-                                {result[0]}
-                              </button>
-                            </div>
-                          )
-                        })}
-                    </div>
-                  </div>
-                )}
-              {props.collection !== '' &&
-                showBar === true &&
-                filteringTermsButton && (
-                  <button className='filters' onClick={handleSeeFilteringTerms}>
-                    Filtering Terms{' '}
-                  </button>
-                )}
-              {props.collection !== '' &&
-                showBar === true &&
-                !filteringTermsButton && (
-                  <button className='filters'>Filtering Terms </button>
-                )}
-            </div>
-          </div>
-        )}
-        {showBar === false && props.collection === 'Variant' && (
-          <div className='additionalOptions'>
-            <div className='example'>
-              <div className='bulbExample'>
-                <button className='exampleQueries' onClick={handleExQueries}>
-                  Query Examples
-                </button>
-                <img
-                  className='bulbLogo'
-                  src='../light-bulb.png'
-                  alt='bulbIcon'
-                ></img>
-                <div className='examplesQueriesList'>
-                  {exampleQ[0] &&
-                    exampleQ.map(result => {
-                      return (
-                        <div id='exampleQueries'>
-                          <button
-                            className='exampleQuery'
-                            onClick={() => {
-                              setPlaceholder(`${result[0]}`)
-                              setQuery(`${result[0]}`)
-                              setValue(`${result[1]}`)
-                              setExampleQ([])
-                            }}
-                          >
-                            {result[1] !== undefined && (
-                              <div className='text-example'>{result[1]}</div>
-                            )}
-
-                            {result[0]}
-                          </button>
-                        </div>
-                      )
-                    })}
-                </div>
-              </div>
-
-              <button className='filters' onClick={handleSeeFilteringTerms}>
-                Filtering Terms
-              </button>
-            </div>
-          </div>
-        )}
-
-        {showVariants === true && showBar === true && (
-          <button className='modeVariants' onClick={handleClick}>
-            <h2 className='modeVariantsQueries2'>Change to BAR mode </h2>
-          </button>
-        )}
-        <hr></hr>
-        {!showVariants && (
-          <div className='containerExtraSections'>
-            {showButton && (
-              <button
-                className='arrowButton'
-                onClick={handleExtraSectionIndividuals}
-              >
-                <img
-                  className='arrowLogo'
-                  src='../arrow-down.png'
-                  alt='arrowIcon'
-                ></img>
-              </button>
-            )}
-            {!showButton && (
-              <button
-                className='arrowButton'
-                onClick={handleExtraSectionIndividuals}
-              >
-                <img
-                  className='arrowLogo'
-                  src='../arrow-up.png'
-                  alt='arrowUpIcon'
-                ></img>
-              </button>
-            )}
-            {showOptions && (
-              <div className='extraSections'>
-                <div className='advContainer'>
-                  <form className='advSearchForm' onSubmit={onSubmit}>
-                    <div>
-                      <div className='resultset'>
-                        <div className='resultSetsDiv'>
-                          <label>
-                            <h2>Include Resultset Responses</h2>
-                          </label>
-                          {resultSet === 'HIT' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={3}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'MISS' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={1}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'NONE' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={2}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'ALL' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={3}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                        </div>
-                        <div className='advSearch-module'>
-                          <label>
-                            <h2>Similarity</h2>
-                          </label>
-                          <input
-                            id='similarityCheck'
-                            type='checkbox'
-                            defaultChecked={false}
-                            onChange={() => setChecked2(!checked2)}
-                          />
-
-                          {checked2 && (
-                            <MultiSwitch
-                              texts={['Low', 'Medium', 'High']}
-                              selectedSwitch={0}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#4f85bc'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={60}
-                            ></MultiSwitch>
-                          )}
-                        </div>
-                        <div className='advSearch-module'>
-                          <label>
-                            <h2>Include Descendant Terms</h2>
-                          </label>
-                          <div className='switchDescendants'>
-                            <h3>False</h3>
-                            <Switch
-                              checked={checked}
-                              onChange={handleChangeSwitch}
-                              inputProps={{ 'aria-label': 'controlled' }}
-                              color='warning'
-                              size='small'
-                            />
-                            <h3>True</h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        {expansionSection === false && cohorts === false && (
-                          <button onClick={handleQEclick} className='btn-3'>
-                            <span className='spanQE'>Query expansion</span>
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {showVariants && showBar === false && (
-          <div className='containerExtraSections'>
-            {showButton && (
-              <button
-                className='arrowButton'
-                onClick={handleExtraSectionIndividuals}
-              >
-                <img
-                  className='arrowLogo'
-                  src='../arrow-down.png'
-                  alt='arrowIcon'
-                ></img>
-              </button>
-            )}
-            {!showButton && (
-              <button
-                className='arrowButton'
-                onClick={handleExtraSectionIndividuals}
-              >
-                <img
-                  className='arrowLogo'
-                  src='../arrow-up.png'
-                  alt='arrowUpIcon'
-                ></img>
-              </button>
-            )}
-            {showOptions && (
-              <div className='extraSections'>
-                <div className='advContainer'>
-                  <form className='advSearchForm' onSubmit={onSubmit}>
-                    <div>
-                      <div className='resultset'>
-                        <div className='resultSetsDiv'>
-                          <label>
-                            <h2>Include Resultset Responses</h2>
-                          </label>
-                          {resultSet === 'HIT' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={0}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'MISS' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={1}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'NONE' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={2}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'ALL' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={3}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                        </div>
-                        <div className='advSearch-module'>
-                          <label>
-                            <h2>Similarity</h2>
-                          </label>
-                          <input
-                            id='similarityCheck'
-                            type='checkbox'
-                            defaultChecked={false}
-                            onChange={() => setChecked2(!checked2)}
-                          />
-
-                          {checked2 && (
-                            <MultiSwitch
-                              texts={['Low', 'Medium', 'High']}
-                              selectedSwitch={0}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#4f85bc'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={60}
-                            ></MultiSwitch>
-                          )}
-                        </div>
-                        <div className='advSearch-module'>
-                          <label>
-                            <h2>Include Descendant Terms</h2>
-                          </label>
-                          <div className='switchDescendants'>
-                            <h3>False</h3>
-                            <Switch
-                              checked={checked}
-                              onChange={handleChangeSwitch}
-                              inputProps={{ 'aria-label': 'controlled' }}
-                              color='warning'
-                              size='small'
-                            />
-                            <h3>True</h3>
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        {expansionSection === false && cohorts === false && (
-                          <button onClick={handleQEclick} className='btn-3'>
-                            <span className='spanQE'>Query expansion</span>
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-        {hideForm === true && (
-          <button onClick={handleHideVariantsForm}>
-            <img
-              className='arrowLogo'
-              src='../arrow-down.png'
-              alt='arrowIcon'
-            />
-          </button>
-        )}
-        {showVariants && showBar === true && hideForm === false && (
-          <div className='extraSectionVariantFormMode'>
-            <div className='containerExtraSections2'>
-              <div className='extraSections2'>
-                <div className='advContainer2'>
-                  <form className='advSearchForm' onSubmit={onSubmit}>
-                    <div>
-                      <div className='resultset2'>
-                        <div className='resultSetsDiv2'>
-                          <label>
-                            <h2>Include Resultset Responses:</h2>
-                          </label>
-                          {resultSet === 'HIT' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={0}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'10px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'MISS' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={1}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'10px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'NONE' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={2}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'10px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                          {resultSet === 'ALL' && (
-                            <MultiSwitch
-                              texts={['HIT', 'MISS', 'NONE', 'ALL']}
-                              selectedSwitch={3}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle2}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#e29348'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'10px'}
-                              eachSwitchWidth={55}
-                            ></MultiSwitch>
-                          )}
-                        </div>
-                        <div className='advSearch-module2'>
-                          <label>
-                            <h2>Similarity</h2>
-                          </label>
-                          <input
-                            id='similarityCheck'
-                            type='checkbox'
-                            defaultChecked={false}
-                            onChange={() => setChecked2(!checked2)}
-                          />
-
-                          {checked2 && (
-                            <MultiSwitch
-                              texts={['Low', 'Medium', 'High']}
-                              selectedSwitch={0}
-                              bgColor={'white'}
-                              onToggleCallback={onToggle}
-                              fontColor={'black'}
-                              selectedFontColor={'white'}
-                              border='0'
-                              selectedSwitchColor='#4f85bc'
-                              borderWidth='1'
-                              height={'23px'}
-                              fontSize={'12px'}
-                              eachSwitchWidth={60}
-                            ></MultiSwitch>
-                          )}
-                        </div>
-                        <div className='advSearch-module2'>
-                          <label>
-                            <h2>Include Descendant Terms:</h2>
-                          </label>
-                          <div className='switchDescendants2'>
-                            <h3>False</h3>
-                            <Switch
-                              checked={checked}
-                              onChange={handleChangeSwitch}
-                              inputProps={{ 'aria-label': 'controlled' }}
-                              color='warning'
-                              size='small'
-                            />
-                            <h3>True</h3>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-            <form className='variantsForm' onSubmit={handleSubmit}>
-              <div className='tabset'>
-                <input
-                  type='radio'
-                  name='tabset'
-                  id='tab1'
-                  aria-controls='sequence'
-                />
-                <label for='tab1'>Sequence queries</label>
-
-                <input
-                  type='radio'
-                  name='tabset'
-                  id='tab2'
-                  aria-controls='range'
-                />
-                <label for='tab2'>Range queries</label>
-
-                <input
-                  type='radio'
-                  name='tabset'
-                  id='tab3'
-                  aria-controls='gene'
-                />
-                <label for='tab3'>Gene ID queries</label>
-
-                <div className='tab-panels'>
-                  <section id='sequence' class='tab-panel'>
-                    <button
-                      className='variantExampleButton'
-                      onClick={handleSequenceExample}
-                      type='button'
-                    >
-                      Query example
-                    </button>
-                    <div>
-                      <label className='labelVariants'>AssemblyID</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={assemblyId}
-                        onChange={handleChangeAssembly}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>Reference name</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={referenceName}
-                        onChange={handleChangeRefN}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>
-                        Start (single value)
-                      </label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={start}
-                        onChange={handleChangeStart}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>referenceBases</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={referenceBases}
-                        onChange={handleChangeReferenceB}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>alternateBases</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={alternateBases}
-                        onChange={handleChangeAlternateB}
-                      ></input>
-                    </div>
-                    <div className='DivButtonVariants'>
-                      <input
-                        className='buttonVariants'
-                        type='submit'
-                        value='Search'
-                        onClick={() => setSequenceSub(true)}
-                      />
-                    </div>
-                  </section>
-                  <section id='range' className='tab-panel'>
-                    <button
-                      className='variantExampleButton'
-                      onClick={handleRangeExample}
-                      type='button'
-                    >
-                      Query example
-                    </button>
-                    <div>
-                      <label className='labelVariants'>AssemblyID</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={assemblyId2}
-                        onChange={handleChangeAssembly2}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>Reference name</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={referenceName2}
-                        onChange={handleChangeRefN2}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>
-                        Start (single value)
-                      </label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={start2}
-                        onChange={handleChangeStart2}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>
-                        End (single value)
-                      </label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={end}
-                        onChange={handleChangeEnd}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>Variant type:</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={variantType}
-                        onChange={handleChangeVariantType}
-                      ></input>{' '}
-                    </div>
-                    <div>
-                      <h3>OR</h3>
-                      <div className='basesSection'>
-                        <div className='referenceBasesContainer'>
-                          <label className='labelVariants'>
-                            referenceBases:
-                          </label>
-                          <input
-                            className='inputVariants'
-                            type='text'
-                            value={referenceBases2}
-                            onChange={handleChangeReferenceB2}
-                          ></input>
-                        </div>
-                        <div>
-                          <label className='labelVariants'>
-                            alternateBases:
-                          </label>
-                          <input
-                            className='inputVariants'
-                            type='text'
-                            value={alternateBases2}
-                            onChange={handleChangeAlternateB2}
-                          ></input>
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <h3>OR</h3>
-                      <label className='labelVariants'>Aminoacid Change:</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={aminoacid}
-                        onChange={handleChangeAminoacid}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>
-                        Variant min. length:
-                      </label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={variantMinLength}
-                        onChange={handleChangeVariantMinLength}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>
-                        Variant max. length:
-                      </label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={variantMaxLength}
-                        onChange={handleChangeVariantMaxLength}
-                      ></input>
-                    </div>
-                    <div className='DivButtonVariants'>
-                      <input
-                        className='buttonVariants'
-                        type='submit'
-                        value='Search'
-                        onClick={() => setRangeSub(true)}
-                      />
-                    </div>
-                  </section>
-                  <section id='gene' className='tab-panel'>
-                    <button
-                      className='variantExampleButton'
-                      onClick={handleGeneExample}
-                      type='button'
-                    >
-                      Query example
-                    </button>
-                    <div>
-                      <label className='labelVariants'>Gene ID</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={geneID}
-                        onChange={handleChangeGeneId}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>AssemblyID</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={assemblyId3}
-                        onChange={handleChangeAssembly3}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>Variant type:</label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={variantType2}
-                        onChange={handleChangeVariantType2}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>
-                        Variant min. length:
-                      </label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={variantMinLength2}
-                        onChange={handleChangeVariantMinLength2}
-                      ></input>
-                    </div>
-                    <div>
-                      <label className='labelVariants'>
-                        Variant max. length:
-                      </label>
-                      <input
-                        className='inputVariants'
-                        type='text'
-                        value={variantMaxLength2}
-                        onChange={handleChangeVariantMaxLength2}
-                      ></input>
-                    </div>
-                    <div className='DivButtonVariants'>
-                      <input
-                        className='buttonVariants'
-                        type='submit'
-                        value='Search'
-                        onClick={() => setGeneSub(true)}
-                      />
-                    </div>
-                  </section>
-                </div>
-              </div>
-            </form>
-          </div>
-        )}
-      </nav>
-
-      <div>
-        <ReactModal
-          isOpen={isOpenModal1}
-          onRequestClose={handleCloseModal1}
-          shouldCloseOnOverlayClick={true}
-          style={{
-            overlay: {
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: 3,
-              backgroundColor: 'rgba(255, 255, 255, 0.75)'
-            }
-          }}
-        >
-          <button onClick={handleCloseModal1}>
-            <img
-              className='closeLogo'
-              src='./cancel.png'
-              alt='cancelIcon'
-            ></img>
-          </button>
-        </ReactModal>
-        <ReactModal
-          isOpen={isOpenModal2}
-          onRequestClose={handleCloseModal2}
-          shouldCloseOnOverlayClick={true}
-          style={{
-            overlay: {
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              zIndex: 3,
-              backgroundColor: 'rgba(255, 255, 255, 0.75)'
-            }
-          }}
-        >
-          <button onClick={handleCloseModal2}>
-            <img
-              className='closeLogo'
-              src='./cancel.png'
-              alt='cancelIcon'
-            ></img>
-          </button>
-
-          <p>
-            "Please use the online validator to check your Beacon API for
-            specification compliance before it is included to the network. It
-            will check the metadata, defined endpoints and responses over
-            Beacon's v2 Schemas."{' '}
-          </p>
-        </ReactModal>
       </div>
+      {showAlphanum && (
+        <tr className='termsAlphanum'>
+          <div className='alphanumContainer2'>
+            <div className='alphaIdModule'>
+              <div className='listTerms'>
+                <label>
+                  <h2>ID</h2>
+                </label>
 
-      <hr></hr>
+                <input
+                  className='IdForm2'
+                  type='text'
+                  value={alphanumValue}
+                  autoComplete='on'
+                  placeholder={'write and filter by ID'}
+                  onChange={handleIdChanges}
+                  aria-label='ID'
+                />
+
+                <div id='operator2'>
+                  <select
+                    className='selectedOperator2'
+                    onChange={handleOperatorchange}
+                    name='selectedOperator'
+                  >
+                    <option value=''> </option>
+                    <option value='='>= </option>
+                    <option value='<'>&lt;</option>
+                    <option value='>'>&gt;</option>
+                    <option value='!'>!</option>
+                    <option value='%'>%</option>
+                  </select>
+                </div>
+
+                <label id='value2'>
+                  <h2>Value</h2>
+                </label>
+                <input
+                  className='ValueForm2'
+                  type='text'
+                  autoComplete='on'
+                  placeholder={'free text/ value'}
+                  onChange={handleValueChanges}
+                  aria-label='Value'
+                />
+              </div>
+            </div>
+            <button className='buttonAlphanum' onClick={handdleInclude}>
+              <ion-icon name='add-circle'></ion-icon>
+            </button>
+          </div>
+        </tr>
+      )}
+      {showFilters && (
+        <div className='layout-container'>
+          <div className='tabs'>
+            <div
+              className={`tab ${activeTab === 'tab1' ? 'active' : ''}`}
+              onClick={() => setActiveTab('tab1')}
+            >
+              CANCER
+            </div>
+            <div
+              className={`tab ${activeTab === 'tab2' ? 'active' : ''}`}
+              onClick={() => setActiveTab('tab2')}
+            >
+              COVID
+            </div>
+          </div>
+          <div className='tab-content'>
+            {activeTab === 'tab1' && (
+              <FilterContent
+                filters={filtersTab1}
+                handleOption={(e, array, optionIndex) =>
+                  handleOption(e, array, optionIndex, 'tab1')
+                }
+                handleOptionAlphanum={handleOptionAlphanum}
+                handleInputChange={(e, key) =>
+                  handleInputChange(e, key, 'tab1')
+                }
+                inputValues={inputValuesTab1}
+                checkedOptions={checkedOptionsTab1}
+                activeTab={activeTab}
+              />
+            )}
+            {activeTab === 'tab2' && (
+              <FilterContent
+                filters={filtersTab2}
+                handleOption={(e, array, optionIndex) =>
+                  handleOption(e, array, optionIndex, 'tab2')
+                }
+                handleOptionAlphanum={handleOptionAlphanum}
+                handleInputChange={(e, key) =>
+                  handleInputChange(e, key, 'tab2')
+                }
+                inputValues={inputValuesTab2}
+                checkedOptions={checkedOptionsTab2}
+                activeTab={activeTab}
+              />
+            )}
+          </div>
+          <button
+            className='buttonAllFilters'
+            onClick={handleSeeFilteringTerms}
+          >
+            <img className='filterIcon' src='../../filter.png'></img>
+            <h4>All filtering terms</h4>
+          </button>
+        </div>
+      )}
+
+      {showFilters === false && (
+        <button onClick={handleShowFilterEx} className='buttonShowExamples'>
+          Show examples
+        </button>
+      )}
+
       <div className='results'>
         {timeOut === false && (
           <div className='loaderLogo'>
@@ -1629,9 +638,7 @@ function Layout (props) {
             </div>
           </div>
         )}
-        {results === null && !showFilteringTerms && (
-          <ResultsDatasets trigger={trigger} />
-        )}
+
         {isSubmitted && results === 'Individuals' && triggerQuery && (
           <div>
             <IndividualsResults
@@ -1644,12 +651,19 @@ function Layout (props) {
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
+              granularity={granularity}
+              collection={collection}
+              isNetwork={isNetwork}
             />
           </div>
         )}
         {isSubmitted && results === 'Individuals' && !triggerQuery && (
           <div>
             <IndividualsResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
@@ -1659,12 +673,18 @@ function Layout (props) {
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
+              granularity={granularity}
+              collection={collection}
             />
           </div>
         )}
         {isSubmitted && results === 'Analyses' && triggerQuery && (
           <div>
             <AnalysesResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
@@ -1680,6 +700,7 @@ function Layout (props) {
         {isSubmitted && results === 'Analyses' && !triggerQuery && (
           <div>
             <AnalysesResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
@@ -1695,6 +716,7 @@ function Layout (props) {
         {isSubmitted && results === 'Runs' && triggerQuery && (
           <div>
             <RunsResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
@@ -1704,12 +726,16 @@ function Layout (props) {
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
             />
           </div>
         )}
         {isSubmitted && results === 'Runs' && !triggerQuery && (
           <div>
             <RunsResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
@@ -1719,156 +745,130 @@ function Layout (props) {
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
             />
           </div>
         )}
         {isSubmitted && results === 'Variant' && triggerQuery && (
           <div>
             <VariantsResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
-              geneSubmitted={geneSubmitted}
-              sequenceSubmitted={sequenceSubmitted}
-              rangeSubmitted={rangeSubmitted}
               query={query}
               resultSets={resultSetAux}
-              showResultsVariants={showResultsVariants}
-              setHideForm={setHideForm}
-              showBar={showBar}
-              aminoacid2={aminoacid2}
-              assemblyId2={assemblyId2}
-              assemblyId3={assemblyId3}
-              alternateBases3={alternateBases3}
-              alternateBases2={alternateBases2}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
               isSubmitted={isSubmitted}
-              variantType2={variantType2}
-              start2={start2}
-              referenceName2={referenceName2}
-              referenceName={referenceName}
-              assemblyId={assemblyId}
-              start={start}
-              end={end}
-              variantType={variantType}
-              alternateBases={alternateBases}
-              referenceBases={referenceBases}
-              referenceBases2={referenceBases2}
-              aminoacid={aminoacid}
-              geneID={geneID}
-              variantMaxLength={variantMaxLength}
-              variantMaxLength2={variantMaxLength2}
-              variantMinLength={variantMinLength}
-              variantMinLength2={variantMinLength2}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
+              granularity={granularity}
+              collection={collection}
             />
           </div>
         )}
         {isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
-              geneSubmitted={geneSubmitted}
-              sequenceSubmitted={sequenceSubmitted}
-              rangeSubmitted={rangeSubmitted}
               query={query}
               resultSets={resultSetAux}
-              showResultsVariants={showResultsVariants}
-              setHideForm={setHideForm}
-              showBar={showBar}
-              aminoacid2={aminoacid2}
-              assemblyId2={assemblyId2}
-              assemblyId3={assemblyId3}
-              alternateBases3={alternateBases3}
-              alternateBases2={alternateBases2}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
               isSubmitted={isSubmitted}
-              variantType2={variantType2}
-              start2={start2}
-              referenceName2={referenceName2}
-              referenceName={referenceName}
-              assemblyId={assemblyId}
-              start={start}
-              end={end}
-              variantType={variantType}
-              alternateBases={alternateBases}
-              referenceBases={referenceBases}
-              referenceBases2={referenceBases2}
-              aminoacid={aminoacid}
-              geneID={geneID}
-              variantMaxLength={variantMaxLength}
-              variantMaxLength2={variantMaxLength2}
-              variantMinLength={variantMinLength}
-              variantMinLength2={variantMinLength2}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
+              granularity={granularity}
+              collection={collection}
             />
           </div>
         )}
         {!isSubmitted && results === 'Variant' && !triggerQuery && (
           <div>
             <VariantsResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
-              geneSubmitted={geneSubmitted}
-              sequenceSubmitted={sequenceSubmitted}
-              rangeSubmitted={rangeSubmitted}
               query={query}
               resultSets={resultSetAux}
-              showResultsVariants={showResultsVariants}
-              setHideForm={setHideForm}
-              showBar={showBar}
-              aminoacid2={aminoacid2}
-              assemblyId2={assemblyId2}
-              assemblyId3={assemblyId3}
-              alternateBases3={alternateBases3}
-              alternateBases2={alternateBases2}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
+              descendantTerm={descendantTerm}
+              similarity={similarity}
               isSubmitted={isSubmitted}
-              variantType2={variantType2}
-              start2={start2}
-              referenceName2={referenceName2}
-              referenceName={referenceName}
-              assemblyId={assemblyId}
-              start={start}
-              end={end}
-              variantType={variantType}
-              alternateBases={alternateBases}
-              referenceBases={referenceBases}
-              referenceBases2={referenceBases2}
-              aminoacid={aminoacid}
-              geneID={geneID}
-              variantMaxLength={variantMaxLength}
-              variantMaxLength2={variantMaxLength2}
-              variantMinLength={variantMinLength}
-              variantMinLength2={variantMinLength2}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
+              granularity={granularity}
+              collection={collection}
             />
           </div>
         )}
         {isSubmitted && results === 'Biosamples' && triggerQuery && (
           <div>
             <BiosamplesResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
+              granularity={granularity}
+              collection={collection}
             />
           </div>
         )}
         {isSubmitted && results === 'Biosamples' && !triggerQuery && (
           <div>
             <BiosamplesResults
+              isNetwork={isNetwork}
               filteringTerms={filteringTerms}
               query={query}
               resultSets={resultSetAux}
+              ID={ID}
+              operator={operator}
+              valueFree={valueFree}
               descendantTerm={descendantTerm}
               similarity={similarity}
               isSubmitted={isSubmitted}
+              rangeModuleArray={rangeModuleArray}
+              seqModuleArray={seqModuleArray}
+              geneModuleArray={geneModuleArray}
+              granularity={granularity}
+              collection={collection}
             />
           </div>
         )}
         {results === null && timeOut === true && showFilteringTerms && (
           <FilteringTerms
             filteringTerms={filteringTerms}
-            collection={props.collection}
+            collection={collection}
             setPlaceholder={setPlaceholder}
             placeholder={placeholder}
             query={query}
             setQuery={setQuery}
           />
+        )}
+
+        {results === null && !showFilteringTerms && isNetwork && (
+          <BeaconInfo trigger={trigger} />
         )}
 
         {timeOut === true && error && showFilteringTerms && <h5>{error}</h5>}

@@ -5,9 +5,11 @@ import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+
+
 export default function SignInFormNoLS () {
-  const [userName, setUserName] = useState('dummy_user')
-  const [password, setPassword] = useState('dummy_pw')
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
   const navigate = useNavigate()
@@ -36,14 +38,15 @@ export default function SignInFormNoLS () {
       e.preventDefault()
       var details = {
         grant_type: 'password',
-        client_id: 'beacon',
+        client_id: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
         client_secret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET,
         username: userName,
         password: password,
-        realm: 'Beacon',
+        realm: process.env.REACT_APP_KEYCLOAK_CLIENT_REALM,
         scope: 'openid',
         requested_token_type: 'urn:ietf:params:oauth:token-type:refresh_token'
       }
+      console.log(process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET)
 
       var formBody = []
       for (var property in details) {
@@ -106,7 +109,7 @@ export default function SignInFormNoLS () {
                 className='login__input'
                 placeholder='Enter your username'
                 name='userName'
-                value='dummy_user'
+         
                 onChange={e => {
                   handleChange1(e)
                 }}
@@ -123,7 +126,7 @@ export default function SignInFormNoLS () {
                 id='password'
                 placeholder='Enter your password'
                 name='password'
-                value='dummy_pw'
+        
                 onChange={e => {
                   handleChange2(e)
                 }}

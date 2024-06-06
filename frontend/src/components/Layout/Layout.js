@@ -140,8 +140,6 @@ function Layout (props) {
     setValueFree(e.target.value)
   }
   const handdleInclude = e => {
-    console.log(valueFree)
-    console.log(operator)
     if (ID !== '' && valueFree !== '' && operator !== '') {
       if (query !== null && query !== '') {
         setQuery(query + ',' + `${ID}${operator}${valueFree}`)
@@ -249,7 +247,6 @@ function Layout (props) {
   }
 
   const handleChangeSelection2 = e => {
-    console.log(e.target.value)
     if (e.target.value === 'Individuals') {
       setCollection('Individuals')
     }
@@ -287,19 +284,17 @@ function Layout (props) {
           configData.API_URL + '/filtering_terms?limit=0'
         )
         let res2 = await axios.get(configData.API_URL + '/info')
-        console.log(res2)
+
         if (res2.data.meta.isAggregated) {
           setIsNetwork(true)
         }
         setTimeOut(true)
-        console.log(res)
 
         if (res.data.response.filteringTerms !== undefined) {
           res.data.response.filteringTerms.forEach(element => {
             filteringTerms.push(element)
           })
 
-          console.log(filteringTerms)
           setResults(null)
         }
         if (res !== null) {
@@ -316,7 +311,6 @@ function Layout (props) {
           })
         }
       } catch (error) {
-        console.log(error)
         setTimeOut(true)
         setError('No filtering terms now available')
       }
@@ -347,8 +341,7 @@ function Layout (props) {
 
   const onSubmit = async event => {
     setShowFilters(false)
-    console.log(query)
-    console.log(value)
+
     event.preventDefault()
 
     setIsSub(true)

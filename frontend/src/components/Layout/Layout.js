@@ -385,31 +385,35 @@ function Layout (props) {
     }
   }
 
-  const search = (e) => {
-    const newQuery = e.target.value;
-  
+  const search = e => {
+    const newQuery = e.target.value
+
     // Update the query state
-    setQuery(newQuery);
-  
-    const queryTerms = newQuery.split(',').map(term => term.trim());
-  
+    setQuery(newQuery)
+
+    const queryTerms = newQuery.split(',').map(term => term.trim())
+
     // Update the checked state for "tab1" checkboxes
-    const updatedCheckedOptionsTab1 = { ...checkedOptionsTab1 };
+    const updatedCheckedOptionsTab1 = { ...checkedOptionsTab1 }
     Object.keys(updatedCheckedOptionsTab1).forEach(key => {
-      const optionValue = key.split('-').slice(3).join('-');
-      updatedCheckedOptionsTab1[key] = queryTerms.some(term => term.includes(optionValue));
-    });
-    setCheckedOptionsTab1(updatedCheckedOptionsTab1);
-  
+      const optionValue = key.split('-').slice(3).join('-')
+      updatedCheckedOptionsTab1[key] = queryTerms.some(term =>
+        term.includes(optionValue)
+      )
+    })
+    setCheckedOptionsTab1(updatedCheckedOptionsTab1)
+
     // Update the checked state for "tab2" checkboxes
-    const updatedCheckedOptionsTab2 = { ...checkedOptionsTab2 };
+    const updatedCheckedOptionsTab2 = { ...checkedOptionsTab2 }
     Object.keys(updatedCheckedOptionsTab2).forEach(key => {
-      const optionValue = key.split('-').slice(3).join('-');
-      updatedCheckedOptionsTab2[key] = queryTerms.some(term => term.includes(optionValue));
-    });
-    setCheckedOptionsTab2(updatedCheckedOptionsTab2);
-  };
-  
+      const optionValue = key.split('-').slice(3).join('-')
+      updatedCheckedOptionsTab2[key] = queryTerms.some(term =>
+        term.includes(optionValue)
+      )
+    })
+    setCheckedOptionsTab2(updatedCheckedOptionsTab2)
+  }
+
   const handleShowFilterEx = () => {
     setShowFilters(true)
   }
@@ -438,39 +442,37 @@ function Layout (props) {
     <div className='container1'>
       <div className='sectionModules'>
         <div className='container2'>
-        <div className='logosVersionContainer'>
-          <div className='logos'>
-            <a
-              href='https://www.ccma.cat/tv3/marato/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-              title='This project has been funded by TV3 La Marató Foundation under the identification code 202040-31'
-            >
-              <img
-                className='laMaratoLogo'
-                src='../laMaratoLogo.png'
-                alt='laMaratoLogo'
-              ></img>
-            </a>
+          <div className='logosVersionContainer'>
+            <div className='logos'>
+              <a
+                href='https://www.ccma.cat/tv3/marato/'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+                title='This project has been funded by TV3 La Marató Foundation under the identification code 202040-31'
+              >
+                <img
+                  className='laMaratoLogo'
+                  src='../laMaratoLogo.png'
+                  alt='laMaratoLogo'
+                ></img>
+              </a>
 
-            <a
-              href='https://fundacionlacaixa.org/es/'
-              className='logoInstitution'
-              target='_blank'
-              rel='noreferrer'
-            >
-              <img
-                className='laCaixaLogo'
-                src='../caixa_logo.png'
-                alt='laCaixaLogo'
-              ></img>
-            </a>
+              <a
+                href='https://fundacionlacaixa.org/es/'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <img
+                  className='laCaixaLogo'
+                  src='../caixa_logo.png'
+                  alt='laCaixaLogo'
+                ></img>
+              </a>
+            </div>
+            <h1 className='version'>v0.5.5</h1>
           </div>
-          <h1 className='version'>v0.5.1</h1>
-        </div>
-      </div>
-
         </div>
         <div className='containerSelection'>
           <select

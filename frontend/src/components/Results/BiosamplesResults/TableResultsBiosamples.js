@@ -1,230 +1,306 @@
-import './TableResultsBiosamples.css'
 import '../IndividualsResults/TableResultsIndividuals.css'
-import '../../Datasets/ResultsDatasets.css'
+import '../../Dataset/BeaconInfo'
 import * as React from 'react'
-import {
-  DataGrid,
-  GridToolbar,
-  selectedGridRowsSelector,
-  gridFilteredSortedRowIdsSelector,
-  GridToolbarContainer,
-  GridToolbarExport
-} from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import CrossQueries from '../../CrossQueries/CrossQueries'
+import { FaBars, FaEye, FaEyeSlash } from 'react-icons/fa' // Import icons from react-icons library
+import { FiLayers, FiDownload } from 'react-icons/fi'
 
-function CustomToolbar () {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  )
-}
 function TableResultsBiosamples (props) {
   const [showDatsets, setShowDatasets] = useState(false)
-
   const [showResults, setShowResults] = useState(false)
-
-  const [arrayBeaconsIds, setArrayBeaconsIds] = useState([])
-  const [rows, setRows] = useState([])
-  const [ids, setIds] = useState([])
-
-  const [beaconsArrayResults, setBeaconsArrayResults] = useState([])
-
-  const [beaconsArrayResultsOrdered, setBeaconsArrayResultsOrdered] = useState(
-    []
-  )
-
   const [resultsSelected, setResultsSelected] = useState(props.results)
+  const [arrayBeaconsIds, setArrayBeaconsIds] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
   const [resultsSelectedFinal, setResultsSelectedFinal] = useState([])
-
-  const [openDatasetArray, setOpenDataset] = useState([])
-  const [openDatasetArray2, setOpenDataset2] = useState([])
-
   const [editable, setEditable] = useState([])
-
   const [trigger, setTrigger] = useState(false)
   const [trigger2, setTrigger2] = useState(false)
+  const [exportMenuVisible, setExportMenuVisible] = useState(false)
+  const [showCrossQuery, setShowCrossQuery] = useState(false)
+  const [parameterCrossQuery, setParamCrossQuery] = useState('')
+  const [expandedRows, setExpandedRows] = useState(
+    Array.from({ length: props.beaconsList.length }, (_, index) => index)
+  )
+  const [currentPage, setCurrentPage] = useState(1)
+  const [rowsPerPage] = useState(10) // You can make this dynamic if needed
 
-  const [triggerArray, setTriggerArray] = useState([])
-  const [triggerArray2, setTriggerArray2] = useState([])
+  const [filteredData, setFilteredData] = useState(editable)
 
-  const getSelectedRowsToExport = ({ apiRef }) => {
-    const selectedRowIds = selectedGridRowsSelector(apiRef)
-    if (selectedRowIds.size > 0) {
-      return Array.from(selectedRowIds.keys())
+  const indexOfLastRow = currentPage * rowsPerPage
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage
+  const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow)
+
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage)
+
+  const [note, setNote] = useState('')
+  const [isOpenModal2, setIsOpenModal2] = useState(false)
+
+  const [filterValues, setFilterValues] = useState({
+    BiosampleId: '',
+    individualId: '',
+    Beacon: '',
+    biosampleStatus: '',
+    sampleOriginDetail: '',
+    collectionDate: '',
+    collectionMoment: '',
+    obtentionProcedure: '',
+    tumorProgression: '',
+    tumorGrade: '',
+    pathologicalStage: '',
+    pathologicalTnmFinding: '',
+    histologicalDiagnosis: '',
+    diagnosticMarkers: '',
+    phenotypicFeatures: '',
+    measurements: '',
+    sampleProcessing: '',
+    sampleStorage: ''
+    // Add other column names here
+  })
+
+  const [menuVisible, setMenuVisible] = useState(false)
+
+  const toggleMenu = () => {
+    setMenuVisible(prevState => !prevState)
+  }
+
+  const [columnVisibility, setColumnVisibility] = useState({
+    BiosampleId: true,
+    individualId: true,
+    Beacon: true,
+    biosampleStatus: true,
+    sampleOriginDetail: false,
+    collectionDate: true,
+    collectionMoment: true,
+    obtentionProcedure: false,
+    tumorProgression: false,
+    tumorGrade: false,
+    pathologicalStage: true,
+    pathologicalTnmFinding: true,
+    histologicalDiagnosis: true,
+    diagnosticMarkers: false,
+    phenotypicFeatures: false,
+    measurements: true,
+    sampleProcessing: false,
+    sampleStorage: true
+    // Add more columns as needed
+  })
+  const handleNextPage = () => {
+    setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))
+  }
+
+  const handlePreviousPage = () => {
+    setCurrentPage(prevPage => Math.max(prevPage - 1, 1))
+  }
+
+  const handlePageClick = pageNumber => {
+    setCurrentPage(pageNumber)
+  }
+
+  const getPages = () => {
+    const pages = []
+    const maxDisplayedPages = 5
+    const totalVisiblePages = maxDisplayedPages + 4 // Total number of buttons (first, last, current range, and ellipses)
+
+    if (totalPages <= totalVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      const startRange = Math.max(2, currentPage - 2)
+      const endRange = Math.min(totalPages - 1, currentPage + 2)
+
+      pages.push(1)
+      if (startRange > 2) pages.push('...')
+      for (let i = startRange; i <= endRange; i++) {
+        pages.push(i)
+      }
+      if (endRange < totalPages - 1) pages.push('...')
+      pages.push(totalPages)
     }
 
-    return gridFilteredSortedRowIdsSelector(apiRef)
+    return pages
   }
 
-  const handleClickDatasets = e => {
-    openDatasetArray[e] = true
-    triggerArray[e] = true
-    setTrigger(!trigger)
+  const showAllColumns = () => {
+    const columns = document.querySelectorAll('th')
+    const rows = document.querySelectorAll('td')
+
+    // Update column visibility state and remove hidden class for all columns
+    columns.forEach(column => {
+      column.classList.remove('hidden')
+      const columnName = column.dataset.columnName
+      setColumnVisibility(prevState => ({
+        ...prevState,
+        [columnName]: true
+      }))
+    })
+
+    // Change the icon of all rows to the normal eye
+    rows.forEach(row => {
+      row.classList.remove('hidden')
+    })
+
+    setColumnVisibility(prevState => {
+      const updatedVisibility = {}
+      Object.keys(prevState).forEach(column => {
+        updatedVisibility[column] = true
+      })
+      return updatedVisibility
+    })
   }
 
-  const handleClickDatasets2 = e => {
-    openDatasetArray2[e] = true
-    triggerArray2[e] = true
-    setTrigger(!trigger)
-  }
+  const toggleColumnVisibility = columnName => {
+    const columns = document.querySelectorAll('th[data-column-name]')
+    const rows = document.querySelectorAll(
+      `td[data-column-name="${columnName}"]`
+    )
 
-  let columns = [
-    {
-      field: 'id',
-      headerName: 'Row',
-      width: 100,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'BiosampleId',
-      headerName: 'Biosample ID',
-      width: 150,
-      headerClassName: 'super-app-theme--header',
-      renderCell: params => (
-        <Link to={`cross-queries/${params.row.BiosampleId}`}>
-          {params.row.BiosampleId}
-        </Link>
-      )
-    },
-    {
-      field: 'Beacon',
-      headerName: 'Beacon ID',
-      width: 340,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'individualId',
-      headerName: 'Individual ID',
-      width: 150,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'biosampleStatus',
-      headerName: 'Biosample status',
-      width: 240,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'collectionDate',
-      headerName: 'Collection date',
-      width: 250,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'collectionMoment',
-      headerName: 'Collection moment',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'sampleOriginType',
-      headerName: 'Sample origin type',
-      width: 350,
-      headerClassName: 'super-app-theme--header',
-      cellClass: 'pre'
-    },
-    {
-      field: 'sampleOriginDetail',
-      headerName: 'Sample origin detail',
-      width: 200,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'obtentionProcedure',
-      headerName: 'Obtention procedure',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'tumorProgression',
-      headerName: 'Tumor progression',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'tumorGrade',
-      headerName: 'Tumor Grade',
-      width: 200,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'pathologicalStage',
-      headerName: 'Pathological stage',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'pathologicalTnmFinding',
-      headerName: 'Pathological TNM findings',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'histologicalDiagnosis',
-      headerName: 'Histological diagnosis',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'diagnosticMarkers',
-      headerName: 'Diagnostic markers',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'phenotypicFeatures',
-      headerName: 'Phenotypic features',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'measurements',
-      headerName: 'Measurements',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'sampleProcessing',
-      headerName: 'Sample processing',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'sampleStorage',
-      headerName: 'Sample storage',
-      width: 300,
-      headerClassName: 'super-app-theme--header'
-    }
-  ]
-
-  const handleSeeResults = e => {
-    resultsSelected.forEach(element => {
-      if (element[0] === e) {
-        resultsSelectedFinal.push(element)
+    columns.forEach(column => {
+      if (column.dataset.columnName === columnName) {
+        column.classList.toggle('hidden')
       }
     })
-    setShowResults(true)
-    setShowDatasets(false)
-    setTrigger(true)
+
+    rows.forEach(row => {
+      row.classList.toggle('hidden')
+    })
+
+    setColumnVisibility(prevVisibility => ({
+      ...prevVisibility,
+      [columnName]: !prevVisibility[columnName]
+    }))
   }
 
-  function getOccurrence (array, value) {
-    var count = 0
-    array.forEach(v => v === value && count++)
-    return count
+  const handleFilterChange = (e, columnName) => {
+    const { value } = e.target
+    setFilterValues({ ...filterValues, [columnName]: value })
+
+    const updatedFilteredData = editable.filter(row =>
+      row[columnName].toLowerCase().includes(value.toLowerCase())
+    )
+
+    setFilteredData(updatedFilteredData)
+  }
+
+  const toggleExportMenu = () => {
+    setExportMenuVisible(prevState => !prevState)
+  }
+
+  const exportToCSV = () => {
+    // Ensure props.results is not null or undefined
+    if (!props.results) return
+
+    // Get all keys from the first row of props.results
+    const header = Object.keys(props.results[0])
+
+    // Convert each row to CSV format
+    const csv = [
+      header.join(','), // Header row
+      ...props.results.map(row =>
+        header
+          .map(fieldName => {
+            const value = row[fieldName]
+            // Check if the value is an object
+            if (typeof value === 'object') {
+              // Stringify the object
+              return JSON.stringify(value)
+            } else {
+              // Otherwise, return the value as is
+              return value
+            }
+          })
+          .join(',')
+      )
+    ].join('\n')
+
+    // Create a blob object from the CSV content
+    const blob = new Blob([csv], { type: 'text/csv' })
+
+    // Create a URL for the blob object
+    const url = window.URL.createObjectURL(blob)
+
+    // Create a temporary <a> element to trigger the download
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'exported_data.csv')
+
+    // Programmatically click the link to start the download
+    document.body.appendChild(link)
+    link.click()
+
+    // Clean up by revoking the URL and removing the temporary <a> element
+    window.URL.revokeObjectURL(url)
+    document.body.removeChild(link)
+  }
+
+  const exportToJSON = () => {
+    // Ensure props.results is not null or undefined
+    if (!props.results) return
+
+    // Convert the results to JSON
+    const jsonString = JSON.stringify(props.results, null, 2)
+
+    // Create a blob object from the JSON content
+    const blob = new Blob([jsonString], { type: 'application/json' })
+
+    // Create a URL for the blob object
+    const url = URL.createObjectURL(blob)
+
+    // Create a temporary <a> element to trigger the download
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'exported_data.json')
+
+    // Programmatically click the link to start the download
+    document.body.appendChild(link)
+    link.click()
+
+    // Clean up by revoking the URL and removing the temporary <a> element
+    URL.revokeObjectURL(url)
+    document.body.removeChild(link)
+  }
+  const showNote = e => {
+    setNote(e)
+    setIsOpenModal2(true)
+  }
+
+  const handleShowCrossQuery = e => {
+    setShowCrossQuery(true)
+    console.log(e.target.innerText.trim())
+    setParamCrossQuery(e.target.innerText)
+  }
+  const toggleRow = index => {
+    setExpandedRows(prevState => {
+      const currentIndex = prevState.indexOf(index)
+      if (currentIndex === -1) {
+        return [...prevState, index]
+      } else {
+        const updatedRows = [...prevState]
+        updatedRows.splice(currentIndex, 1)
+        return updatedRows
+      }
+    })
   }
 
   useEffect(() => {
-    setRows([])
-    setIds([])
+    console.log(resultsSelected)
+    if (props.show === 'full') {
+      setResultsSelectedFinal(resultsSelected)
+      setShowResults(true)
+      setShowDatasets(false)
+      setTrigger(true)
+    }
 
+    if (resultsSelected.length === 0) {
+      setErrorMessage('NO RESULTS')
+    }
     resultsSelected.forEach((element, index) => {
       arrayBeaconsIds.push(element[0])
     })
+
     resultsSelectedFinal.forEach((element, index) => {
-      if (element[1] !== undefined) {
+      if (element[1] !== undefined && element[1]._id) {
         let biosampleStatus_id = ''
         let biosampleStatus_label = ''
         let stringBiosampleStatus = ''
@@ -434,51 +510,16 @@ function TableResultsBiosamples (props) {
           }
         }
 
-        let pathologicalStageJson = []
+        let patho_id = ''
+        let patho_label = ''
+        let stringPatho = ''
 
-        if (
-          element[1].pathologicalStage !== '' &&
-          element[1].pathologicalStage !== undefined
-        ) {
-          if (typeof element[1].pathologicalStage === 'object') {
-            element[1].pathologicalStage.forEach(element2 => {
-              pathologicalStageJson.push(
-                JSON.stringify(element2, null, 2)
-                  .replaceAll('[', '')
-                  .replaceAll(']', '')
-                  .replaceAll('{', '')
-                  .replaceAll('}', '')
-                  .replaceAll(',', '')
-                  .replaceAll(' ,', '')
-                  .replaceAll(', ', '')
-                  .replaceAll('"', '')
-              )
-            })
-            pathologicalStageJson = pathologicalStageJson.toString()
-            pathologicalStageJson = pathologicalStageJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            pathologicalStageJson = pathologicalStageJson.replaceAll(',', '')
-          } else {
-            pathologicalStageJson = JSON.stringify(
-              element[1].pathologicalStage,
-              null,
-              2
-            )
-              .replaceAll('[', '')
-              .replaceAll(']', '')
-              .replaceAll('{', '')
-              .replaceAll('}', '')
-              .replaceAll(',', '')
-              .replaceAll(' ,', '')
-              .replaceAll(', ', '')
-              .replaceAll('"', '')
-            pathologicalStageJson = pathologicalStageJson.toString()
-            pathologicalStageJson = pathologicalStageJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            pathologicalStageJson = pathologicalStageJson.replaceAll(',', '')
-          }
+        if (element[1].pathologicalStage) {
+          patho_id = element[1].pathologicalStage.id
+          patho_label = element[1].pathologicalStage.label
+          stringPatho = `${element[1].pathologicalStage.label} / ${element[1].pathologicalStage.id}`
+        } else {
+          stringPatho = ''
         }
 
         let pathologicalTnmFindingJson = []
@@ -534,57 +575,19 @@ function TableResultsBiosamples (props) {
           }
         }
 
-        let histologicalDiagnosisJson = []
+        let histologicalDiagnosis_id = ''
+        let histologicalDiagnosis_label = ''
+        let stringHistologicalDiagnosis = ''
 
         if (
           element[1].histologicalDiagnosis !== '' &&
           element[1].histologicalDiagnosis !== undefined
         ) {
-          if (typeof element[1].histologicalDiagnosis === 'object') {
-            element[1].histologicalDiagnosis.forEach(element2 => {
-              histologicalDiagnosisJson.push(
-                JSON.stringify(element2, null, 2)
-                  .replaceAll('[', '')
-                  .replaceAll(']', '')
-                  .replaceAll('{', '')
-                  .replaceAll('}', '')
-                  .replaceAll(',', '')
-                  .replaceAll(' ,', '')
-                  .replaceAll(', ', '')
-                  .replaceAll('"', '')
-              )
-            })
-            histologicalDiagnosisJson = histologicalDiagnosisJson.toString()
-            histologicalDiagnosisJson = histologicalDiagnosisJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            histologicalDiagnosisJson = histologicalDiagnosisJson.replaceAll(
-              ',',
-              ''
-            )
-          } else {
-            histologicalDiagnosisJson = JSON.stringify(
-              element[1].histologicalDiagnosis,
-              null,
-              2
-            )
-              .replaceAll('[', '')
-              .replaceAll(']', '')
-              .replaceAll('{', '')
-              .replaceAll('}', '')
-              .replaceAll(',', '')
-              .replaceAll(' ,', '')
-              .replaceAll(', ', '')
-              .replaceAll('"', '')
-            histologicalDiagnosisJson = histologicalDiagnosisJson.toString()
-            histologicalDiagnosisJson = histologicalDiagnosisJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            histologicalDiagnosisJson = histologicalDiagnosisJson.replaceAll(
-              ',',
-              ''
-            )
-          }
+          histologicalDiagnosis_id = element[1].histologicalDiagnosis.id
+          histologicalDiagnosis_label = element[1].histologicalDiagnosis.label
+          stringHistologicalDiagnosis = `${histologicalDiagnosis_id} / ${histologicalDiagnosis_label}`
+        } else {
+          stringHistologicalDiagnosis = ''
         }
 
         let diagnosticMarkersJson = []
@@ -771,120 +774,46 @@ function TableResultsBiosamples (props) {
           }
         }
 
-        let sampleStorageJson = []
+        let sampleStorage_id = ''
+        let sampleStorage_label = ''
+        let stringSampleStorage = ''
 
         if (
           element[1].sampleStorage !== '' &&
           element[1].sampleStorage !== undefined
         ) {
-          if (typeof element[1].sampleStorage === 'object') {
-            element[1].sampleStorage.forEach(element2 => {
-              sampleStorageJson.push(
-                JSON.stringify(element2, null, 2)
-                  .replaceAll('[', '')
-                  .replaceAll(']', '')
-                  .replaceAll('{', '')
-                  .replaceAll('}', '')
-                  .replaceAll(',', '')
-                  .replaceAll(' ,', '')
-                  .replaceAll(', ', '')
-                  .replaceAll('"', '')
-              )
-            })
-            sampleStorageJson = sampleStorageJson.toString()
-            sampleStorageJson = sampleStorageJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            sampleStorageJson = sampleStorageJson.replaceAll(',', '')
-          } else {
-            sampleStorageJson = JSON.stringify(
-              element[1].sampleStorage,
-              null,
-              2
-            )
-              .replaceAll('[', '')
-              .replaceAll(']', '')
-              .replaceAll('{', '')
-              .replaceAll('}', '')
-              .replaceAll(',', '')
-              .replaceAll(' ,', '')
-              .replaceAll(', ', '')
-              .replaceAll('"', '')
-            sampleStorageJson = sampleStorageJson.toString()
-            sampleStorageJson = sampleStorageJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            sampleStorageJson = sampleStorageJson.replaceAll(',', '')
-          }
+          sampleStorage_id = element[1].sampleStorage.id
+          sampleStorage_label = element[1].sampleStorage.label
+          stringSampleStorage = `${sampleStorage_id} / ${sampleStorage_label}`
+        } else {
+          stringSampleStorage = ''
         }
 
-        var myObjRows = new Object()
-        myObjRows.id = index
-        if (element[1].id !== '') {
-          myObjRows.BiosampleId = element[1].id
-        }
-        if (element[1].individualId !== '') {
-          myObjRows.individualId = element[1].individualId
-        }
-        myObjRows.Beacon = element[0]
-
-        if (stringBiosampleStatus !== '') {
-          myObjRows.biosampleStatus = stringBiosampleStatus
-        }
-        if (stringSampleOriginType !== '') {
-          myObjRows.sampleOriginType = stringSampleOriginType
-        }
-        if (stringSampleOriginDetail !== '') {
-          myObjRows.sampleOriginDetail = stringSampleOriginDetail
-        }
-        if (collectionDateJson !== '') {
-          myObjRows.collectionDate = collectionDateJson
-        }
-        if (collectionMomentJson !== '') {
-          myObjRows.collectionMoment = collectionMomentJson
-        }
-        if (obtentionProcedureJson !== '') {
-          myObjRows.obtentionProcedure = obtentionProcedureJson
-        }
-        if (tumorProgressionJson !== '') {
-          myObjRows.tumorProgression = tumorProgressionJson
-        }
-        if (tumorGradeJson !== '') {
-          myObjRows.tumorGrade = tumorGradeJson
-        }
-
-        if (pathologicalStageJson !== '') {
-          myObjRows.pathologicalStage = pathologicalStageJson
-        }
-
-        if (pathologicalTnmFindingJson !== '') {
-          myObjRows.pathologicalTnmFinding = pathologicalTnmFindingJson
-        }
-
-        if (histologicalDiagnosisJson !== '') {
-          myObjRows.histologicalDiagnosis = histologicalDiagnosisJson
-        }
-        if (diagnosticMarkersJson !== '') {
-          myObjRows.diagnosticMarkers = diagnosticMarkersJson
-        }
-        if (phenotypicFeaturesJson !== '') {
-          myObjRows.phenotypicFeatures = phenotypicFeaturesJson
-        }
-        if (measurementsJson !== '') {
-          myObjRows.measurements = measurementsJson
-        }
-        if (sampleProcessingJson !== '') {
-          myObjRows.sampleProcessing = sampleProcessingJson
-        }
-        if (sampleStorageJson !== '') {
-          myObjRows.sampleStorage = sampleStorageJson
-        }
-
-        rows.push(myObjRows)
+        editable.push({
+          id: index,
+          BiosampleId: element[1].id,
+          individualId: element[1].individualId,
+          Beacon: element[0],
+          biosampleStatus: stringBiosampleStatus,
+          sampleOriginType: stringSampleOriginType,
+          //  sampleOriginDetail: stringSampleOriginDetail,
+          collectionDate: collectionDateJson,
+          collectionMoment: collectionMomentJson,
+          //  obtentionProcedure: obtentionProcedureJson,
+          //  tumorProgression: tumorProgressionJson,
+          //tumorGrade: tumorGradeJson,
+          pathologicalStage: stringPatho,
+          pathologicalTnmFinding: pathologicalTnmFindingJson,
+          histologicalDiagnosis: stringHistologicalDiagnosis,
+          //    diagnosticMarkers: diagnosticMarkersJson,
+          //    phenotypicFeatures: phenotypicFeaturesJson,
+          measurements: measurementsJson,
+          //  sampleProcessing: sampleProcessingJson,
+          sampleStorage: stringSampleStorage
+        })
+        console.log(editable)
 
         if (index === resultsSelectedFinal.length - 1) {
-          setEditable(rows.map(o => ({ ...o })))
-
           setTrigger2(true)
         }
       }
@@ -892,457 +821,837 @@ function TableResultsBiosamples (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-    let count = 0
-    props.beaconsList.forEach((element2, index2) => {
-      count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
-      if (count > 0) {
-        beaconsArrayResults.push([element2, count, true])
-      } else {
-        beaconsArrayResults.push([element2, count, false])
-      }
-    })
-    beaconsArrayResults.forEach(element => {
-      if (element[2] === true) {
-        beaconsArrayResultsOrdered.push(element)
-      }
-    })
-    beaconsArrayResults.forEach(element => {
-      if (element[2] === false) {
-        beaconsArrayResultsOrdered.push(element)
-      }
-    })
-
     setShowDatasets(true)
   }, [])
 
   return (
     <div className='containerBeaconResults'>
       {showDatsets === true &&
-        beaconsArrayResultsOrdered.length > 0 &&
-        beaconsArrayResultsOrdered.map(result => {
+        props.results.length > 0 &&
+        props.beaconsList.map((result, beaconIndex) => {
           return (
-            <>
-              {props.show !== 'full' && (
-                <>
-                  {props.resultSets === 'MISS' &&
-                    props.resultsPerDataset.map((element, index) => {
-                      return (
-                        <>
-                          {element[0] === result[0].meta.beaconId && (
-                            <div className='datasetCardResults'>
-                              <div className='tittleResults'>
-                                <div className='tittle4'>
-                                  <img
-                                    className='logoBeacon'
-                                    src={
-                                      result[0].response.organization.logoUrl
-                                    }
-                                    alt={result[0].meta.beaconId}
-                                  />
-                                  <h4>
-                                    {result[0].response.organization.name}
-                                  </h4>
-                                </div>
-
-                                {element[1].map(
-                                  (datasetObject, indexDataset) => {
-                                    return (
-                                      <div className='resultSetsContainer'>
-                                        <h7>
-                                          {datasetObject.replaceAll('_', ' ')}
-                                        </h7>
-                                      </div>
-                                    )
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      )
-                    })}
-
-                  {props.resultSets !== 'MISS' &&
-                    props.resultSets !== 'HIT' &&
-                    props.resultsPerDataset.map((element, index) => {
-                      return (
-                        <>
-                          {element[0] === result[0].meta.beaconId && (
-                            <div className='datasetCardResults'>
-                              <div className='tittleResults'>
-                                <div className='tittle4'>
-                                  <img
-                                    className='logoBeacon'
-                                    src={
-                                      result[0].response.organization.logoUrl
-                                    }
-                                    alt={result[0].meta.beaconId}
-                                  />
-                                  <h4>
-                                    {result[0].response.organization.name}
-                                  </h4>
-                                </div>
-
-                                {element[1].map(
-                                  (datasetObject, indexDataset) => {
-                                    return (
-                                      <div className='resultSetsContainer'>
-                                        {props.resultSets !== 'NONE' && (
-                                          <h7>
-                                            {datasetObject.replaceAll('_', ' ')}
-                                          </h7>
-                                        )}
-
-                                        {element[2][indexDataset] === true &&
-                                          props.show === 'boolean' && (
-                                            <h6>FOUND</h6>
-                                          )}
-                                        {element[2][indexDataset] === false &&
-                                          props.show === 'boolean' && (
-                                            <h5>NOT FOUND</h5>
-                                          )}
-                                        {props.show === 'count' &&
-                                          element[3][indexDataset] !== 0 &&
-                                          element[3][indexDataset] !== 1 && (
-                                            <h6>
-                                              {element[3][indexDataset]} RESULTS
-                                            </h6>
-                                          )}
-                                        {props.show === 'count' &&
-                                          element[3][indexDataset] === 0 && (
-                                            <h5>
-                                              {element[3][indexDataset]} RESULTS
-                                            </h5>
-                                          )}
-                                        {props.show === 'count' &&
-                                          element[3][indexDataset] === 1 && (
-                                            <h5>
-                                              {element[3][indexDataset]} RESULT
-                                            </h5>
-                                          )}
-                                      </div>
-                                    )
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      )
-                    })}
-                  {props.resultSets === 'HIT' &&
-                    result[2] === true &&
-                    props.resultsPerDataset.map((element, index) => {
-                      return (
-                        <>
-                          {element[0] === result[0].meta.beaconId && (
-                            <div className='datasetCardResults'>
-                              <div className='tittleResults'>
-                                <div className='tittle4'>
-                                  <img
-                                    className='logoBeacon'
-                                    src={
-                                      result[0].response.organization.logoUrl
-                                    }
-                                    alt={result[0].meta.beaconId}
-                                  />
-                                  <h4>
-                                    {result[0].response.organization.name}
-                                  </h4>
-                                </div>
-
-                                {element[1].map(
-                                  (datasetObject, indexDataset) => {
-                                    return (
-                                      <div className='resultSetsContainer'>
-                                        <h7>
-                                          {datasetObject.replaceAll('_', ' ')}
-                                        </h7>
-
-                                        {element[2][indexDataset] === true &&
-                                          props.show === 'boolean' && (
-                                            <h6>FOUND</h6>
-                                          )}
-                                        {element[2][indexDataset] === false &&
-                                          props.show === 'boolean' && (
-                                            <h5>NOT FOUND</h5>
-                                          )}
-                                        {props.show === 'count' &&
-                                          element[3][indexDataset] !== 0 &&
-                                          element[3][indexDataset] !== 1 && (
-                                            <h6>
-                                              {element[3][indexDataset]} RESULTS
-                                            </h6>
-                                          )}
-                                        {props.show === 'count' &&
-                                          element[3][indexDataset] === 0 && (
-                                            <h5>
-                                              {element[3][indexDataset]} RESULTS
-                                            </h5>
-                                          )}
-                                        {props.show === 'count' &&
-                                          element[3][indexDataset] === 1 && (
-                                            <h5>
-                                              {element[3][indexDataset]} RESULT
-                                            </h5>
-                                          )}
-                                      </div>
-                                    )
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      )
-                    })}
-
-                  {props.resultSets !== 'MISS' &&
-                    result[2] === true &&
-                    props.resultsNotPerDataset.map((element, index) => {
-                      return (
-                        <>
-                          {result[2] === true &&
-                            props.show === 'boolean' &&
-                            element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-
-                                  <div className='resultSetsContainer'>
-                                    <>
-                                      <h6>FOUND </h6>
-                                    </>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          {result[2] === false &&
-                            props.show === 'boolean' &&
-                            element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-                                  <div className='resultSetsContainer'>
-                                    <>
-                                      <h5 className='buttonResults'>
-                                        NOT FOUND
-                                      </h5>
-                                    </>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                          {props.show === 'count' &&
-                            element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-                                  <div className='resultSetsContainer'>
-                                    <>
-                                      {result[1] !== 0 && (
-                                        <h6 className='buttonResults'>
-                                          {result[1]} results
-                                        </h6>
-                                      )}
-                                      {result[1] === 0 && (
-                                        <h5 className='buttonResults'>
-                                          {result[1]} results
-                                        </h5>
-                                      )}
-                                    </>
-                                  </div>
-                                  <button
-                                    className='buttonResults'
-                                    onClick={() => {
-                                      handleSeeResults(result[0].meta.beaconId)
-                                    }}
-                                  ></button>
-                                </div>
-                              </div>
-                            )}
-                        </>
-                      )
-                    })}
-                  {props.resultSets !== 'HIT' &&
-                    result[2] === false &&
-                    props.resultsNotPerDataset.map((element, index) => {
-                      return (
-                        <>
-                          {result[2] === true &&
-                            props.show === 'boolean' &&
-                            element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-
-                                  <div className='resultSetsContainer'>
-                                    <>
-                                      <h6>FOUND </h6>
-                                    </>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          {result[2] === false &&
-                            props.show === 'boolean' &&
-                            element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-                                  <div className='resultSetsContainer'>
-                                    <>
-                                      <h5 className='buttonResults'>
-                                        NOT FOUND
-                                      </h5>
-                                    </>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-
-                          {props.show === 'count' &&
-                            element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-                                  <div className='resultSetsContainer'>
-                                    <>
-                                      {result[1] !== 0 && (
-                                        <h6 className='buttonResults'>
-                                          {result[1]} results
-                                        </h6>
-                                      )}
-                                      {result[1] === 0 && (
-                                        <h5 className='buttonResults'>
-                                          {result[1]} results
-                                        </h5>
-                                      )}
-                                    </>
-                                  </div>
-                                  <button
-                                    className='buttonResults'
-                                    onClick={() => {
-                                      handleSeeResults(result[0].meta.beaconId)
-                                    }}
-                                  ></button>
-                                </div>
-                              </div>
-                            )}
-                        </>
-                      )
-                    })}
-                </>
-              )}
-              {props.show === 'full' && result[2] === true && (
-                <div className='datasetCardResults'>
-                  <div className='tittleResults'>
-                    <div className='tittle4'>
-                      <img
-                        className='logoBeacon'
-                        src={result[0].response.organization.logoUrl}
-                        alt={result[0].meta.beaconId}
-                      />
-                      <h2>{result[0].response.organization.name}</h2>
-                    </div>
-                    <div className='seeResultsContainer'>
-                      <button
-                        className='buttonResults'
-                        onClick={() => {
-                          handleSeeResults(result[0].meta.beaconId)
-                        }}
-                      >
-                        {result[2] === true && props.show === 'full' && (
-                          <h7>See results</h7>
+            <table className='tableGranularity'>
+              <thead className='theadGranularity'>
+                <tr id='trGranuHeader'>
+                  <th className='thGranularityTitleBeacon'>Beacon</th>
+                  <th className='thGranularityTitle'>Dataset</th>
+                  <th className='thGranularityTitle'>Result</th>
+                </tr>
+              </thead>
+              <tbody className='tbodyGranu'>
+                {props.resultsPerDataset.map((dataset, index2) => (
+                  <React.Fragment key={index2}>
+                    <tr
+                      className='trGranuBeacon'
+                      onClick={() => toggleRow(index2)}
+                    >
+                      <td className='tdGranu'>
+                        {dataset[0]}
+                        {expandedRows.includes(index2) ? (
+                          <ion-icon name='chevron-down-outline'></ion-icon>
+                        ) : (
+                          <ion-icon name='chevron-up-outline'></ion-icon>
                         )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </>
+                      </td>
+                    </tr>
+                    {expandedRows.includes(index2) && (
+                      <React.Fragment key={`expanded-${index2}`}>
+                        {props.show === 'boolean' &&
+                          dataset[2].map((booleanElement, booleanIndex) => (
+                            <tr
+                              className='trGranu'
+                              key={`boolean-${booleanIndex}`}
+                            >
+                              <td className='tdGranu'></td>
+                              <td
+                                className={`tdGranu ${
+                                  booleanElement ? 'tdFound' : 'tdNotFound'
+                                }`}
+                              >
+                                {dataset[1][booleanIndex]}
+                              </td>
+                              <td
+                                className={`tdGranu ${
+                                  booleanElement
+                                    ? 'tdFoundDataset'
+                                    : 'tdNotFoundDataset'
+                                }`}
+                              >
+                                {booleanElement ? 'YES' : 'No, sorry'}
+                              </td>
+                            </tr>
+                          ))}
+                        {props.show === 'count' &&
+                          dataset[3].map((countElement, countIndex) => (
+                            <tr className='trGranu' key={`count-${countIndex}`}>
+                              <td className='tdGranu'></td>
+                              <td
+                                className={`tdGranu ${
+                                  countElement !== undefined &&
+                                  countElement !== null &&
+                                  countElement !== 0
+                                    ? 'tdFoundDataset'
+                                    : 'tdNotFoundDataset'
+                                }`}
+                              >
+                                {dataset[1][countIndex]}
+                              </td>
+                              <td
+                                className={`tdGranu ${
+                                  countElement !== undefined &&
+                                  countElement !== null &&
+                                  countElement !== 0
+                                    ? 'tdFound'
+                                    : 'tdNotFound'
+                                }`}
+                              >
+                                {countElement}
+                              </td>
+                            </tr>
+                          ))}
+                      </React.Fragment>
+                    )}
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
           )
         })}
 
-      {showDatsets === false && showResults === true && trigger2 === true && (
-        <DataGrid
-          getRowHeight={() => 'auto'}
-          checkboxSelection
-          columns={columns}
-          rows={editable}
-          slots={{ toolbar: CustomToolbar }}
-          slotProps={{
-            toolbar: {
-              printOptions: { getRowsToExport: getSelectedRowsToExport }
-            }
-          }}
+      {showDatsets === true && props.results.length === 0 && (
+        <h5 className='errorConnection'>
+          No results, sorry. Please check the connection and retry
+        </h5>
+      )}
+
+      {!showCrossQuery &&
+        showDatsets === false &&
+        props.results.length > 0 &&
+        showResults === true && (
+          <div className='table-container'>
+            <div className='menu-icon-container'>
+              <div className='export-menu'>
+                <button className='exportButton' onClick={toggleExportMenu}>
+                  <FiDownload />
+                </button>
+                {exportMenuVisible && (
+                  <>
+                    <ul className='column-list'>
+                      <li onClick={exportToJSON}>Export to JSON</li>
+                      <li onClick={exportToCSV}>Export to CSV</li>
+                    </ul>
+                  </>
+                )}
+              </div>
+              <div className='menu-container'>
+                <FaBars onClick={toggleMenu} />
+                {menuVisible && (
+                  <>
+                    <ul className='column-list'>
+                      <li onClick={showAllColumns}>
+                        Show All Columns
+                        <FiLayers />
+                      </li>
+                      {Object.keys(columnVisibility).map(column => (
+                        <li
+                          key={column}
+                          onClick={() => toggleColumnVisibility(column)}
+                        >
+                          {column}
+                          {columnVisibility[column] ? (
+                            <FaEye />
+                          ) : (
+                            <FaEyeSlash />
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className='header-container'>
+              <table className='tableResults'>
+                <thead className='theadResults'>
+                  <tr>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.BiosampleId ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Biosample Id</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('BiosampleId')}
+                      >
+                        {columnVisibility.BiosampleId ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Biosample ID'
+                        onChange={e => handleFilterChange(e, 'BiosampleId')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.individualId ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Individual Id</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('individualId')}
+                      >
+                        {columnVisibility.individualId ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter individual Id'
+                        onChange={e => handleFilterChange(e, 'individualId')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.Beacon ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Beacon</span>
+                      <button onClick={() => toggleColumnVisibility('Beacon')}>
+                        {columnVisibility.Beacon ? <FaEye /> : <FaEyeSlash />}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Beacon'
+                        onChange={e => handleFilterChange(e, 'Beacon')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.biosampleStatus ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Biosample Status</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('biosampleStatus')
+                        }
+                      >
+                        {columnVisibility.biosampleStatus ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter biosample status'
+                        onChange={e => handleFilterChange(e, 'biosampleStatus')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.sampleOriginType ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Sample Origin Type</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('sampleOriginType')
+                        }
+                      >
+                        {columnVisibility.sampleOriginType ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter sample origin type'
+                        onChange={e =>
+                          handleFilterChange(e, 'sampleOriginType')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.sampleOriginDetail
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Sample Origin Detail</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('sampleOriginDetail')
+                        }
+                      >
+                        {columnVisibility.sampleOriginDetail ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter sample origin detail'
+                        onChange={e =>
+                          handleFilterChange(e, 'sampleOriginDetail')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.collectionDate ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Collection Date</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('collectionDate')}
+                      >
+                        {columnVisibility.collectionDate ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter case level data'
+                        onChange={e => handleFilterChange(e, 'collectionDate')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.collectionMoment ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Collection Moment</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('collectionMoment')
+                        }
+                      >
+                        {columnVisibility.collectionMoment ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter collection moment'
+                        onChange={e =>
+                          handleFilterChange(e, 'collectionMoment')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.obtentionProcedure
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Obtention Procedure</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('obtentionProcedure')
+                        }
+                      >
+                        {columnVisibility.obtentionProcedure ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter obtention procedure'
+                        onChange={e =>
+                          handleFilterChange(e, 'obtentionProcedure')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.tumorProgression ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Tumor Progression</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('tumorProgression')
+                        }
+                      >
+                        {columnVisibility.tumorProgression ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter tumor progression'
+                        onChange={e =>
+                          handleFilterChange(e, 'tumorProgression')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.tumorGrade ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Tumor Grade</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('tumorGrade')}
+                      >
+                        {columnVisibility.tumorGrade ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter tumor grade'
+                        onChange={e => handleFilterChange(e, 'tumorGrade')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.pathologicalStage
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Pathological Stage</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('pathologicalStage')
+                        }
+                      >
+                        {columnVisibility.pathologicalStage ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter pathological stage'
+                        onChange={e =>
+                          handleFilterChange(e, 'pathologicalStage')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.pathologicalTnmFinding
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Pathological Tnm Finding</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('pathologicalTnmFinding')
+                        }
+                      >
+                        {columnVisibility.pathologicalTnmFinding ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter pathological Tnm finding'
+                        onChange={e =>
+                          handleFilterChange(e, 'pathologicalTnmFinding')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.histologicalDiagnosis
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Histological Diagnosis</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('histologicalDiagnosis')
+                        }
+                      >
+                        {columnVisibility.histologicalDiagnosis ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter histological diagnosis'
+                        onChange={e =>
+                          handleFilterChange(e, 'histologicalDiagnosis')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.diagnosticMarkers
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Diagnostic Markers</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('diagnosticMarkers')
+                        }
+                      >
+                        {columnVisibility.diagnosticMarkers ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter diagnostic markers'
+                        onChange={e =>
+                          handleFilterChange(e, 'diagnosticMarkers')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.phenotypicFeatures
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Phenotypic Features</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('phenotypicFeatures')
+                        }
+                      >
+                        {columnVisibility.phenotypicFeatures ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter phenotypic features'
+                        onChange={e =>
+                          handleFilterChange(e, 'phenotypicFeatures')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.measurements ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Measurements</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('measurements')}
+                      >
+                        {columnVisibility.measurements ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter measurements'
+                        onChange={e => handleFilterChange(e, 'measurements')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.sampleProcessing ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Sample Processing</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('sampleProcessing')
+                        }
+                      >
+                        {columnVisibility.sampleProcessing ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter sample processing'
+                        onChange={e =>
+                          handleFilterChange(e, 'sampleProcessing')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.sampleStorage ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Sample Storage</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('sampleStorage')}
+                      >
+                        {columnVisibility.sampleStorage ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter sample storage'
+                        onChange={e => handleFilterChange(e, 'sampleStorage')}
+                      />
+                    </th>
+
+                    {/* Add more column headers here */}
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div className='body-container'>
+              <table className='tableResults'>
+                <tbody className='tbodyResults'>
+                  {currentRows.map((row, index) => (
+                    <tr key={index}>
+                      <td
+                        className={
+                          columnVisibility.BiosampleId ? 'visible-id' : 'hidden'
+                        }
+                      >
+                        <img
+                          src='../arrows-cross.png'
+                          className='crossQsymbol'
+                        ></img>
+                        <button
+                          onClick={handleShowCrossQuery}
+                          className='crossQButtonTable'
+                        >
+                          {row.BiosampleId}
+                        </button>
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.IndividualId ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.individualId}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.Beacon ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.Beacon}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.biosampleStatus
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.biosampleStatus}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.sampleOriginType
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.sampleOriginType}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.sampleOriginDetail
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.sampleOriginDetail}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.collectionDate ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.collectionDate}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.collectionMoment
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.collectionMoment}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.obtentionProcedure
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.obtentionProcedure}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.tumorProgression
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.tumorProgression}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.tumorGrade ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.tumorGrade}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.pathologicalStage
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.pathologicalStage}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.pathologicalTnmFinding
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.pathologicalTnmFinding}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.histologicalDiagnosis
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.histologicalDiagnosis}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.diagnosticMarkers
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.diagnosticMarkers}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.phenotypicFeatures
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.phenotypicFeatures}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.measurements ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.measurements}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.sampleProcessing
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.sampleProcessing}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.sampleStorage ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.sampleStorage}
+                      </td>
+
+                      {/* Render other row cells here */}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+      {props.show === 'full' && props.results.length > 0 && !showCrossQuery && (
+        <div className='pagination-controls'>
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          {getPages().map((page, index) =>
+            typeof page === 'number' ? (
+              <button
+                key={index}
+                onClick={() => handlePageClick(page)}
+                className={currentPage === page ? 'active' : ''}
+              >
+                {page}
+              </button>
+            ) : (
+              <span key={index} className='ellipsis'>
+                {page}
+              </span>
+            )
+          )}
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
+      {props.show === 'full' &&
+        props.results.length === 0 &&
+        !showCrossQuery && (
+          <h5 className='noResultsFullResponse'>No results, sorry.</h5>
+        )}
+      {showCrossQuery && (
+        <CrossQueries
+          parameter={parameterCrossQuery}
+          collection={'biosamples'}
+          setShowCrossQuery={setShowCrossQuery}
         />
       )}
     </div>

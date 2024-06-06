@@ -108,7 +108,7 @@ function Footer (props) {
               Documentation
             </a>
           </li> */}
-          <li className='social-icon__item'>
+          {/* <li className='social-icon__item'>
             <NavLink exact to='/members' className='social-icon__link'>
               <ion-icon name='globe-outline'></ion-icon>
             </NavLink>
@@ -121,7 +121,7 @@ function Footer (props) {
             >
               Network members
             </NavLink>
-          </li>
+          </li> */}
           {isLoggedIn === false && (
             <li className='social-icon__item'>
               <NavLink

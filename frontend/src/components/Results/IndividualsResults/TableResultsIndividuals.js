@@ -1,168 +1,287 @@
 import './TableResultsIndividuals.css'
-import '../../Datasets/ResultsDatasets.css'
 import * as React from 'react'
-import {
-  DataGrid,
-  GridToolbar,
-  selectedGridRowsSelector,
-  gridFilteredSortedRowIdsSelector,
-  GridToolbarContainer,
-  GridToolbarExport
-} from '@mui/x-data-grid'
 import { useState, useEffect } from 'react'
+import CrossQueries from '../../CrossQueries/CrossQueries'
+import { FaBars, FaEye, FaEyeSlash } from 'react-icons/fa' // Import icons from react-icons library
+import { FiLayers, FiDownload } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 
-function CustomToolbar () {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-    </GridToolbarContainer>
-  )
-}
 function TableResultsIndividuals (props) {
   const [showDatsets, setShowDatasets] = useState(false)
-
   const [showResults, setShowResults] = useState(false)
-
-  const [arrayBeaconsIds, setArrayBeaconsIds] = useState([])
-  const [rows, setRows] = useState([])
-  const [ids, setIds] = useState([])
-
-  const [beaconsArrayResults, setBeaconsArrayResults] = useState([])
-
-  const [beaconsArrayResultsOrdered, setBeaconsArrayResultsOrdered] = useState(
-    []
-  )
-
   const [resultsSelected, setResultsSelected] = useState(props.results)
+  const [arrayBeaconsIds, setArrayBeaconsIds] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
   const [resultsSelectedFinal, setResultsSelectedFinal] = useState([])
-
-  const [openDatasetArray, setOpenDataset] = useState([])
-  const [openDatasetArray2, setOpenDataset2] = useState([])
-
   const [editable, setEditable] = useState([])
-
   const [trigger, setTrigger] = useState(false)
   const [trigger2, setTrigger2] = useState(false)
+  const [exportMenuVisible, setExportMenuVisible] = useState(false)
+  const [showCrossQuery, setShowCrossQuery] = useState(false)
+  const [parameterCrossQuery, setParamCrossQuery] = useState('')
+  const [expandedRows, setExpandedRows] = useState(
+    Array.from({ length: props.beaconsList.length }, (_, index) => index)
+  )
+  const [currentPage, setCurrentPage] = useState(1)
+  const [rowsPerPage] = useState(10) // You can make this dynamic if needed
 
-  const [triggerArray, setTriggerArray] = useState([])
-  const [triggerArray2, setTriggerArray2] = useState([])
+  const [filteredData, setFilteredData] = useState(editable)
 
-  const getSelectedRowsToExport = ({ apiRef }) => {
-    const selectedRowIds = selectedGridRowsSelector(apiRef)
-    if (selectedRowIds.size > 0) {
-      return Array.from(selectedRowIds.keys())
+  const indexOfLastRow = currentPage * rowsPerPage
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage
+  const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow)
+
+  const totalPages = Math.ceil(filteredData.length / rowsPerPage)
+
+  const [note, setNote] = useState('')
+  const [isOpenModal2, setIsOpenModal2] = useState(false)
+
+  const [filterValues, setFilterValues] = useState({
+    IndividualId: '',
+    ethnicity: '',
+    Beacon: '',
+    interventionsOrProcedures: '',
+    sex: '',
+    diseases: '',
+    treatments: '',
+    phenotypicFeatures: ''
+    // Add other column names here
+  })
+
+  const [menuVisible, setMenuVisible] = useState(false)
+
+  const toggleMenu = () => {
+    setMenuVisible(prevState => !prevState)
+  }
+
+  const [columnVisibility, setColumnVisibility] = useState({
+    IndividualId: true,
+    ethnicity: true,
+    Beacon: true,
+    interventionsOrProcedures: true,
+    sex: true,
+    diseases: true,
+    treatments: true,
+    phenotypicFeatures: true
+    // Add more columns as needed
+  })
+  const handleNextPage = () => {
+    setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))
+  }
+
+  const handlePreviousPage = () => {
+    setCurrentPage(prevPage => Math.max(prevPage - 1, 1))
+  }
+
+  const handlePageClick = pageNumber => {
+    setCurrentPage(pageNumber)
+  }
+
+  const getPages = () => {
+    const pages = []
+    const maxDisplayedPages = 5
+    const totalVisiblePages = maxDisplayedPages + 4 // Total number of buttons (first, last, current range, and ellipses)
+
+    if (totalPages <= totalVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i)
+      }
+    } else {
+      const startRange = Math.max(2, currentPage - 2)
+      const endRange = Math.min(totalPages - 1, currentPage + 2)
+
+      pages.push(1)
+      if (startRange > 2) pages.push('...')
+      for (let i = startRange; i <= endRange; i++) {
+        pages.push(i)
+      }
+      if (endRange < totalPages - 1) pages.push('...')
+      pages.push(totalPages)
     }
 
-    return gridFilteredSortedRowIdsSelector(apiRef)
+    return pages
   }
 
-  const handleClickDatasets = e => {
-    openDatasetArray[e] = true
-    triggerArray[e] = true
-    setTrigger(!trigger)
+  const showAllColumns = () => {
+    const columns = document.querySelectorAll('th')
+    const rows = document.querySelectorAll('td')
+
+    // Update column visibility state and remove hidden class for all columns
+    columns.forEach(column => {
+      column.classList.remove('hidden')
+      const columnName = column.dataset.columnName
+      setColumnVisibility(prevState => ({
+        ...prevState,
+        [columnName]: true
+      }))
+    })
+
+    // Change the icon of all rows to the normal eye
+    rows.forEach(row => {
+      row.classList.remove('hidden')
+    })
+
+    setColumnVisibility(prevState => {
+      const updatedVisibility = {}
+      Object.keys(prevState).forEach(column => {
+        updatedVisibility[column] = true
+      })
+      return updatedVisibility
+    })
   }
 
-  const handleClickDatasets2 = e => {
-    openDatasetArray2[e] = true
-    triggerArray2[e] = true
-    setTrigger(!trigger)
-  }
+  const toggleColumnVisibility = columnName => {
+    const columns = document.querySelectorAll('th[data-column-name]')
+    const rows = document.querySelectorAll(
+      `td[data-column-name="${columnName}"]`
+    )
 
-  const columns = [
-    {
-      field: 'id',
-      headerName: 'Row',
-      width: 100,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'IndividualId',
-      headerName: 'Individual ID',
-      width: 150,
-      headerClassName: 'super-app-theme--header',
-      renderCell: params => (
-        <Link to={`/individuals/cross-queries/${params.row.IndividualId}`}>
-          {params.row.IndividualId}
-        </Link>
-      )
-    },
-    {
-      field: 'Beacon',
-      headerName: 'Beacon ID',
-      width: 340,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'ethnicity',
-      headerName: 'ethnicity',
-      width: 240,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'geographicOrigin',
-      headerName: 'geographicOrigin',
-      width: 250,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'interventionsOrProcedures',
-      headerName: 'interventionsOrProcedures',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'measures',
-      headerName: 'measures',
-      width: 350,
-      headerClassName: 'super-app-theme--header',
-      cellClass: 'pre'
-    },
-    {
-      field: 'sex',
-      headerName: 'sex',
-      width: 200,
-      headerClassName: 'super-app-theme--header'
-    },
-    {
-      field: 'diseases',
-      headerName: 'diseases',
-      width: 350,
-      headerClassName: 'super-app-theme--header'
-    }
-    //   { field: 'pedigrees', headerName: 'pedigrees', width: 150 },
-    // { field: 'treatments', headerName: 'treatments', width: 150 },
-    //{ field: 'interventionsOrProcedures', headerName: 'interventionsOrProcedures', width: 150 },
-    // { field: 'exposures', headerName: 'exposures', width: 150 },
-    // { field: 'karyotypicSex', headerName: 'karyotypicSex', width: 150 },
-  ]
-
-  const handleSeeResults = e => {
-    resultsSelected.forEach(element => {
-      if (element[0] === e) {
-        resultsSelectedFinal.push(element)
+    columns.forEach(column => {
+      if (column.dataset.columnName === columnName) {
+        column.classList.toggle('hidden')
       }
     })
-    setShowResults(true)
-    setShowDatasets(false)
-    setTrigger(true)
+
+    rows.forEach(row => {
+      row.classList.toggle('hidden')
+    })
+
+    setColumnVisibility(prevVisibility => ({
+      ...prevVisibility,
+      [columnName]: !prevVisibility[columnName]
+    }))
   }
 
-  function getOccurrence (array, value) {
-    var count = 0
-    array.forEach(v => v === value && count++)
-    return count
+  const handleFilterChange = (e, columnName) => {
+    const { value } = e.target
+    setFilterValues({ ...filterValues, [columnName]: value })
+
+    const updatedFilteredData = editable.filter(row =>
+      row[columnName].toLowerCase().includes(value.toLowerCase())
+    )
+
+    setFilteredData(updatedFilteredData)
+  }
+
+  const toggleExportMenu = () => {
+    setExportMenuVisible(prevState => !prevState)
+  }
+
+  const exportToCSV = () => {
+    // Ensure props.results is not null or undefined
+    if (!props.results) return
+
+    // Get all keys from the first row of props.results
+    const header = Object.keys(props.results[0])
+
+    // Convert each row to CSV format
+    const csv = [
+      header.join(','), // Header row
+      ...props.results.map(row =>
+        header
+          .map(fieldName => {
+            const value = row[fieldName]
+            // Check if the value is an object
+            if (typeof value === 'object') {
+              // Stringify the object
+              return JSON.stringify(value)
+            } else {
+              // Otherwise, return the value as is
+              return value
+            }
+          })
+          .join(',')
+      )
+    ].join('\n')
+
+    // Create a blob object from the CSV content
+    const blob = new Blob([csv], { type: 'text/csv' })
+
+    // Create a URL for the blob object
+    const url = window.URL.createObjectURL(blob)
+
+    // Create a temporary <a> element to trigger the download
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'exported_data.csv')
+
+    // Programmatically click the link to start the download
+    document.body.appendChild(link)
+    link.click()
+
+    // Clean up by revoking the URL and removing the temporary <a> element
+    window.URL.revokeObjectURL(url)
+    document.body.removeChild(link)
+  }
+
+  const exportToJSON = () => {
+    // Ensure props.results is not null or undefined
+    if (!props.results) return
+
+    // Convert the results to JSON
+    const jsonString = JSON.stringify(props.results, null, 2)
+
+    // Create a blob object from the JSON content
+    const blob = new Blob([jsonString], { type: 'application/json' })
+
+    // Create a URL for the blob object
+    const url = URL.createObjectURL(blob)
+
+    // Create a temporary <a> element to trigger the download
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', 'exported_data.json')
+
+    // Programmatically click the link to start the download
+    document.body.appendChild(link)
+    link.click()
+
+    // Clean up by revoking the URL and removing the temporary <a> element
+    URL.revokeObjectURL(url)
+    document.body.removeChild(link)
+  }
+
+  const showNote = e => {
+    setNote(e)
+    setIsOpenModal2(true)
+  }
+
+  const handleShowCrossQuery = e => {
+    setShowCrossQuery(true)
+    console.log(e.target.innerText.trim())
+    setParamCrossQuery(e.target.innerText)
+  }
+  const toggleRow = index => {
+    setExpandedRows(prevState => {
+      const currentIndex = prevState.indexOf(index)
+      if (currentIndex === -1) {
+        return [...prevState, index]
+      } else {
+        const updatedRows = [...prevState]
+        updatedRows.splice(currentIndex, 1)
+        return updatedRows
+      }
+    })
+    console.log(expandedRows)
   }
 
   useEffect(() => {
-    setRows([])
-    setIds([])
+    if (props.show === 'full') {
+      setResultsSelectedFinal(resultsSelected)
+      setShowResults(true)
+      setShowDatasets(false)
+      setTrigger(true)
+    }
 
+    if (resultsSelected.length === 0) {
+      setErrorMessage('NO RESULTS')
+    }
     resultsSelected.forEach((element, index) => {
       arrayBeaconsIds.push(element[0])
     })
+
     resultsSelectedFinal.forEach((element, index) => {
-      if (element[1] !== undefined) {
+      if (element[1] !== undefined && element[1]._id) {
         let eth_id = ''
         let eth_label = ''
         let stringEth = ''
@@ -205,27 +324,18 @@ function TableResultsIndividuals (props) {
           stringGeographic = ''
         }
 
-        let measuresJson = []
+        let measuresJson = ''
         if (element[1].measures !== '' && element[1].measures !== undefined) {
           if (typeof element[1].measures === 'object') {
-            element[1].measures.forEach(element2 => {
-              measuresJson.push(
-                JSON.stringify(element2, null, 2)
-                  .replaceAll('[', '')
-                  .replaceAll(']', '')
-                  .replaceAll('{', '')
-                  .replaceAll('}', '')
-                  .replaceAll(',', '')
-                  .replaceAll(' ,', '')
-                  .replaceAll(', ', '')
-                  .replaceAll('"', '')
-              )
-            })
-            measuresJson = measuresJson.toString()
-            measuresJson = measuresJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            measuresJson = measuresJson.replaceAll(',', '')
+            measuresJson = JSON.stringify(element[1].measures, null, 2)
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('{', '')
+              .replaceAll('}', '')
+              .replaceAll(',', '')
+              .replaceAll(' ,', '')
+              .replaceAll(', ', '')
+              .replaceAll('"', '')
           } else {
             measuresJson = JSON.stringify(element[1].measures, null, 2)
               .replaceAll('[', '')
@@ -236,43 +346,57 @@ function TableResultsIndividuals (props) {
               .replaceAll(' ,', '')
               .replaceAll(', ', '')
               .replaceAll('"', '')
-
-            measuresJson = measuresJson.toString()
-            measuresJson = measuresJson
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            measuresJson = measuresJson.replaceAll(',', '')
           }
         }
 
-        let interventionsProcedures = []
+        let phenoJson = ''
+        if (
+          element[1].phenotypicFeatures !== '' &&
+          element[1].phenotypicFeatures !== undefined
+        ) {
+          if (typeof element[1].phenotypicFeatures === 'object') {
+            phenoJson = JSON.stringify(element[1].phenotypicFeatures, null, 2)
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('{', '')
+              .replaceAll('}', '')
+              .replaceAll(',', '')
+              .replaceAll(' ,', '')
+              .replaceAll(', ', '')
+              .replaceAll('"', '')
+          } else {
+            phenoJson = JSON.stringify(element[1].phenotypicFeatures, null, 2)
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('{', '')
+              .replaceAll('}', '')
+              .replaceAll(',', '')
+              .replaceAll(' ,', '')
+              .replaceAll(', ', '')
+              .replaceAll('"', '')
+          }
+        }
+
+        let interventionsProcedures = ''
 
         if (
           element[1].interventionsOrProcedures !== '' &&
           element[1].interventionsOrProcedures !== undefined
         ) {
           if (typeof element[1].interventionsOrProcedures === 'object') {
-            element[1].interventionsOrProcedures.forEach(element2 => {
-              interventionsProcedures.push(
-                JSON.stringify(element2, null, 2)
-                  .replaceAll('[', '')
-                  .replaceAll(']', '')
-                  .replaceAll('{', '')
-                  .replaceAll('}', '')
-                  .replaceAll(',', '')
-                  .replaceAll(' ,', '')
-                  .replaceAll(', ', '')
-                  .replaceAll('"', '')
-              )
-            })
-            interventionsProcedures = interventionsProcedures.toString()
-            interventionsProcedures = interventionsProcedures
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            interventionsProcedures = interventionsProcedures.replaceAll(
-              ',',
-              ''
+            interventionsProcedures = JSON.stringify(
+              element[1].interventionsOrProcedures,
+              null,
+              2
             )
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('{', '')
+              .replaceAll('}', '')
+              .replaceAll(',', '')
+              .replaceAll(' ,', '')
+              .replaceAll(', ', '')
+              .replaceAll('"', '')
           } else {
             interventionsProcedures = JSON.stringify(
               element[1].interventionsOrProcedures,
@@ -287,37 +411,22 @@ function TableResultsIndividuals (props) {
               .replaceAll(' ,', '')
               .replaceAll(', ', '')
               .replaceAll('"', '')
-            interventionsProcedures = interventionsProcedures.toString()
-            interventionsProcedures = interventionsProcedures
-              .replaceAll(', ', ',')
-              .replaceAll(' ,', ',')
-            interventionsProcedures = interventionsProcedures.replaceAll(
-              ',',
-              ''
-            )
           }
         }
 
-        let diseases = []
+        let diseases = ''
 
         if (element[1].diseases !== '' && element[1].diseases !== undefined) {
           if (typeof element[1].diseases === 'object') {
-            element[1].diseases.forEach(element2 => {
-              diseases.push(
-                JSON.stringify(element2, null, 2)
-                  .replaceAll('[', '')
-                  .replaceAll(']', '')
-                  .replaceAll('{', '')
-                  .replaceAll('}', '')
-                  .replaceAll(',', '')
-                  .replaceAll(' ,', '')
-                  .replaceAll(', ', '')
-                  .replaceAll('"', '')
-              )
-            })
-            diseases = diseases.toString()
-            diseases = diseases.replaceAll(', ', ',').replaceAll(' ,', ',')
-            diseases = diseases.replaceAll(',', '')
+            diseases = JSON.stringify(element[1].diseases, null, 2)
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('{', '')
+              .replaceAll('}', '')
+              .replaceAll(',', '')
+              .replaceAll(' ,', '')
+              .replaceAll(', ', '')
+              .replaceAll('"', '')
           } else {
             diseases = JSON.stringify(element[1].diseases, null, 2)
               .replaceAll('[', '')
@@ -328,26 +437,51 @@ function TableResultsIndividuals (props) {
               .replaceAll(' ,', '')
               .replaceAll(', ', '')
               .replaceAll('"', '')
-            diseases = diseases.toString()
-            diseases = diseases.replaceAll(', ', ',').replaceAll(' ,', ',')
-            diseases = diseases.replaceAll(',', '')
           }
         }
 
-        rows.push({
+        let treatments = ''
+
+        if (
+          element[1].treatments !== '' &&
+          element[1].treatments !== undefined
+        ) {
+          if (typeof element[1].treatments === 'object') {
+            treatments = JSON.stringify(element[1].treatments, null, 2)
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('{', '')
+              .replaceAll('}', '')
+              .replaceAll(',', '')
+              .replaceAll(' ,', '')
+              .replaceAll(', ', '')
+              .replaceAll('"', '')
+          } else {
+            treatments = JSON.stringify(element[1].treatments, null, 2)
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('{', '')
+              .replaceAll('}', '')
+              .replaceAll(',', '')
+              .replaceAll(' ,', '')
+              .replaceAll(', ', '')
+              .replaceAll('"', '')
+          }
+        }
+
+        editable.push({
           id: index,
           IndividualId: element[1].id,
           Beacon: element[0],
           ethnicity: stringEth,
-          geographicOrigin: stringGeographic,
           interventionsOrProcedures: interventionsProcedures,
-          measures: measuresJson,
           sex: stringSex,
-          diseases: diseases
+          diseases: diseases,
+          treatments: treatments,
+          phenotypicFeatures: phenoJson
         })
 
         if (index === resultsSelectedFinal.length - 1) {
-          setEditable(rows.map(o => ({ ...o })))
           setTrigger2(true)
         }
       }
@@ -355,474 +489,485 @@ function TableResultsIndividuals (props) {
   }, [trigger, resultsSelectedFinal])
 
   useEffect(() => {
-    let count = 0
-    props.beaconsList.forEach((element2, index2) => {
-      count = getOccurrence(arrayBeaconsIds, element2.meta.beaconId)
-      if (count > 0) {
-        beaconsArrayResults.push([element2, count, true])
-      } else {
-        beaconsArrayResults.push([element2, count, false])
-      }
-    })
-    beaconsArrayResults.forEach(element => {
-      if (element[2] === true) {
-        beaconsArrayResultsOrdered.push(element)
-      }
-    })
-    beaconsArrayResults.forEach(element => {
-      if (element[2] === false) {
-        beaconsArrayResultsOrdered.push(element)
-      }
-    })
-
+    console.log(props.results)
     setShowDatasets(true)
   }, [])
 
   return (
     <div className='containerBeaconResults'>
       {showDatsets === true &&
-        beaconsArrayResultsOrdered.length > 0 &&
-        beaconsArrayResultsOrdered.map(result => {
+        props.beaconsList.map((result, beaconIndex) => {
           return (
-            <>
-                {props.show !== 'full' && (
-                  <>
-                    {props.resultSets === 'MISS' &&
-                      props.resultsPerDataset.map((element, index) => {
-                        return (
-                          <>
-                            {element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
+            <table className='tableGranularity' key={beaconIndex}>
+              <thead className='theadGranularity'>
+                <tr id='trGranuHeader'>
+                  <th className='thGranularityTitleBeacon'>Beacon</th>
+                  <th className='thGranularityTitle'>Dataset</th>
+                  <th className='thGranularityTitle'>Result</th>
+                </tr>
+              </thead>
+              <tbody className='tbodyGranu'>
+                {props.results.length > 0 &&
+                  props.resultsPerDataset.map((dataset, index2) => {
+                    const totalCount = dataset[3]
+                      ? dataset[3].reduce((acc, count) => acc + count, 0)
+                      : 0
+                    const allTrue = dataset[2]
+                      ? dataset[2].every(booleanElement => booleanElement)
+                      : 'No, sorry'
 
-                                  {element[1].map(
-                                    (datasetObject, indexDataset) => {
-                                      return (
-                                        <div className='resultSetsContainer'>
-                                          <h7>
-                                            {datasetObject.replaceAll('_', ' ')}
-                                          </h7>
-                                        </div>
-                                      )
-                                    }
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          </>
-                        )
-                    })}
-
-                    {props.resultSets !== 'MISS' &&
-                      props.resultSets !== 'HIT' &&
-                      props.resultsPerDataset.map((element, index) => {
-                        return (
-                          <>
-                            {element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-
-                                  {element[1].map(
-                                    (datasetObject, indexDataset) => {
-                                      return (
-                                        <div className='resultSetsContainer'>
-                                          {props.resultSets !== 'NONE' && (
-                                            <h7>
-                                              {datasetObject.replaceAll(
-                                                '_',
-                                                ' '
-                                              )}
-                                            </h7>
-                                          )}
-
-                                          {element[2][indexDataset] === true &&
-                                            props.show === 'boolean' && (
-                                              <h6>FOUND</h6>
-                                            )}
-                                          {element[2][indexDataset] === false &&
-                                            props.show === 'boolean' && (
-                                              <h5>NOT FOUND</h5>
-                                            )}
-                                          {props.show === 'count' &&
-                                            element[3][indexDataset] !== 0 && element[3][indexDataset] !== 1 &&(
-                                              <h6>
-                                                {element[3][indexDataset]}{' '}
-                                                RESULTS
-                                              </h6>
-                                            )}
-                                          {props.show === 'count' &&
-                                            element[3][indexDataset] === 0 && (
-                                              <h5>
-                                                {element[3][indexDataset]}{' '}
-                                                RESULTS
-                                              </h5>
-                                            )}
-                                          {props.show === 'count' &&
-                                            element[3][indexDataset] === 1 && (
-                                              <h5>
-                                                {element[3][indexDataset]}{' '}
-                                                RESULT
-                                              </h5>
-                                            )}
-                                        </div>
-                                      )
-                                    }
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          </>
-                        )
-                      })}
-                    {props.resultSets === 'HIT' &&
-                      result[2] === true &&
-                      props.resultsPerDataset.map((element, index) => {
-                        return (
-                          <>
-                            {element[0] === result[0].meta.beaconId && (
-                              <div className='datasetCardResults'>
-                                <div className='tittleResults'>
-                                  <div className='tittle4'>
-                                    <img
-                                      className='logoBeacon'
-                                      src={
-                                        result[0].response.organization.logoUrl
-                                      }
-                                      alt={result[0].meta.beaconId}
-                                    />
-                                    <h4>
-                                      {result[0].response.organization.name}
-                                    </h4>
-                                  </div>
-
-                                  {element[1].map(
-                                    (datasetObject, indexDataset) => {
-                                      return (
-                                        <div className='resultSetsContainer'>
-                                          <h7>
-                                            {datasetObject.replaceAll('_', ' ')}
-                                          </h7>
-
-                                          {element[2][indexDataset] === true &&
-                                            props.show === 'boolean' && (
-                                              <h6>FOUND</h6>
-                                            )}
-                                          {element[2][indexDataset] === false &&
-                                            props.show === 'boolean' && (
-                                              <h5>NOT FOUND</h5>
-                                            )}
-                                          {props.show === 'count' &&
-                                            element[3][indexDataset] !== 0 &&  element[3][indexDataset] !== 1 && (
-                                              <h6>
-                                                {element[3][indexDataset]}{' '}
-                                                RESULTS
-                                              </h6>
-                                            )}
-                                          {props.show === 'count' &&
-                                            element[3][indexDataset] === 0 && (
-                                              <h5>
-                                                {element[3][indexDataset]}{' '}
-                                                RESULTS
-                                              </h5>
-                                            )}
-                                          {props.show === 'count' &&
-                                            element[3][indexDataset] === 1 && (
-                                              <h5>
-                                                {element[3][indexDataset]}{' '}
-                                                RESULT
-                                              </h5>
-                                            )}
-                                        </div>
-                                      )
-                                    }
-                                  )}
-                                </div>
-                              </div>
-                            )}
-                          </>
-                        )
-                      })}
-
-                    {props.resultSets !== 'MISS' &&
-                      result[2] === true &&
-                      props.resultsNotPerDataset.map((element, index) => {
-                        return (
-                          <>
-                            {result[2] === true &&
-                              props.show === 'boolean' &&
-                              element[0] === result[0].meta.beaconId && (
-                                <div className='datasetCardResults'>
-                                  <div className='tittleResults'>
-                                    <div className='tittle4'>
-                                      <img
-                                        className='logoBeacon'
-                                        src={
-                                          result[0].response.organization
-                                            .logoUrl
-                                        }
-                                        alt={result[0].meta.beaconId}
-                                      />
-                                      <h4>
-                                        {result[0].response.organization.name}
-                                      </h4>
-                                    </div>
-
-                                    <div className='resultSetsContainer'>
-                                      <>
-                                        <h6>FOUND </h6>
-                                      </>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            {result[2] === false &&
-                              props.show === 'boolean' &&
-                              element[0] === result[0].meta.beaconId && (
-                                <div className='datasetCardResults'>
-                                  <div className='tittleResults'>
-                                    <div className='tittle4'>
-                                      <img
-                                        className='logoBeacon'
-                                        src={
-                                          result[0].response.organization
-                                            .logoUrl
-                                        }
-                                        alt={result[0].meta.beaconId}
-                                      />
-                                      <h4>
-                                        {result[0].response.organization.name}
-                                      </h4>
-                                    </div>
-                                    <div className='resultSetsContainer'>
-                                      <>
-                                        <h5 className='buttonResults'>
-                                          NOT FOUND
-                                        </h5>
-                                      </>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-
-                            {props.show === 'count' &&
-                              element[0] === result[0].meta.beaconId && (
-                                <div className='datasetCardResults'>
-                                  <div className='tittleResults'>
-                                    <div className='tittle4'>
-                                      <img
-                                        className='logoBeacon'
-                                        src={
-                                          result[0].response.organization
-                                            .logoUrl
-                                        }
-                                        alt={result[0].meta.beaconId}
-                                      />
-                                      <h4>
-                                        {result[0].response.organization.name}
-                                      </h4>
-                                    </div>
-                                    <div className='resultSetsContainer'>
-                                      <>
-                                        {result[1] !== 0 && (
-                                          <h6 className='buttonResults'>
-                                            {result[1]} results
-                                          </h6>
-                                        )}
-                                        {result[1] === 0 && (
-                                          <h5 className='buttonResults'>
-                                            {result[1]} results
-                                          </h5>
-                                        )}
-                                      </>
-                                    </div>
-                                    <button
-                                      className='buttonResults'
-                                      onClick={() => {
-                                        handleSeeResults(
-                                          result[0].meta.beaconId
-                                        )
-                                      }}
-                                    ></button>
-                                  </div>
-                                </div>
-                              )}
-                          </>
-                        )
-                      })}
-                    {props.resultSets !== 'HIT' &&
-                      result[2] === false &&
-                      props.resultsNotPerDataset.map((element, index) => {
-                        return (
-                          <>
-                            {result[2] === true &&
-                              props.show === 'boolean' &&
-                              element[0] === result[0].meta.beaconId && (
-                                <div className='datasetCardResults'>
-                                  <div className='tittleResults'>
-                                    <div className='tittle4'>
-                                      <img
-                                        className='logoBeacon'
-                                        src={
-                                          result[0].response.organization
-                                            .logoUrl
-                                        }
-                                        alt={result[0].meta.beaconId}
-                                      />
-                                      <h4>
-                                        {result[0].response.organization.name}
-                                      </h4>
-                                    </div>
-
-                                    <div className='resultSetsContainer'>
-                                      <>
-                                        <h6>FOUND </h6>
-                                      </>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            {result[2] === false &&
-                              props.show === 'boolean' &&
-                              element[0] === result[0].meta.beaconId && (
-                                <div className='datasetCardResults'>
-                                  <div className='tittleResults'>
-                                    <div className='tittle4'>
-                                      <img
-                                        className='logoBeacon'
-                                        src={
-                                          result[0].response.organization
-                                            .logoUrl
-                                        }
-                                        alt={result[0].meta.beaconId}
-                                      />
-                                      <h4>
-                                        {result[0].response.organization.name}
-                                      </h4>
-                                    </div>
-                                    <div className='resultSetsContainer'>
-                                      <>
-                                        <h5 className='buttonResults'>
-                                          NOT FOUND
-                                        </h5>
-                                      </>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-
-                            {props.show === 'count' &&
-                              element[0] === result[0].meta.beaconId && (
-                                <div className='datasetCardResults'>
-                                  <div className='tittleResults'>
-                                    <div className='tittle4'>
-                                      <img
-                                        className='logoBeacon'
-                                        src={
-                                          result[0].response.organization
-                                            .logoUrl
-                                        }
-                                        alt={result[0].meta.beaconId}
-                                      />
-                                      <h4>
-                                        {result[0].response.organization.name}
-                                      </h4>
-                                    </div>
-                                    <div className='resultSetsContainer'>
-                                      <>
-                                        {result[1] !== 0 && (
-                                          <h6 className='buttonResults'>
-                                            {result[1]} results
-                                          </h6>
-                                        )}
-                                        {result[1] === 0 && (
-                                          <h5 className='buttonResults'>
-                                            {result[1]} results
-                                          </h5>
-                                        )}
-                                      </>
-                                    </div>
-                                    <button
-                                      className='buttonResults'
-                                      onClick={() => {
-                                        handleSeeResults(
-                                          result[0].meta.beaconId
-                                        )
-                                      }}
-                                    ></button>
-                                  </div>
-                                </div>
-                              )}
-                          </>
-                        )
-                      })}
-                  </>
-                )}
-                {props.show === 'full' && result[2] === true && (
-                  <div className='datasetCardResults'>
-                    <div className='tittleResults'>
-                      <div className='tittle4'>
-                        <img
-                          className='logoBeacon'
-                          src={result[0].response.organization.logoUrl}
-                          alt={result[0].meta.beaconId}
-                        />
-                        <h2>{result[0].response.organization.name}</h2>
-                      </div>
-                      <div className='seeResultsContainer'>
-                        <button
-                          className='buttonResults'
-                          onClick={() => {
-                            handleSeeResults(result[0].meta.beaconId)
-                          }}
+                    return (
+                      <React.Fragment key={index2}>
+                        <tr
+                          className='trGranuBeacon'
+                          onClick={() => toggleRow(index2)}
                         >
-                          {result[2] === true && props.show === 'full' && (
-                            <h7>See results</h7>
-                          )}
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                          <td className='tdGranuBeacon'>
+                            {dataset[0]}
+                            {expandedRows.includes(index2) ? (
+                              <ion-icon name='chevron-down-outline'></ion-icon>
+                            ) : (
+                              <ion-icon name='chevron-up-outline'></ion-icon>
+                            )}
+                          </td>
+                          <td className='tdGranuBeacon'></td>
+                          <td className='tdGranuBeacon'>
+                            {props.show === 'boolean'
+                              ? allTrue
+                                ? 'YES'
+                                : 'No, sorry'
+                              : totalCount}
+                          </td>
+                        </tr>
+                        {expandedRows.includes(index2) && (
+                          <React.Fragment key={`expanded-${index2}`}>
+                            {props.show === 'boolean' &&
+                              dataset[2].map((booleanElement, booleanIndex) => (
+                                <tr
+                                  className='trGranu'
+                                  key={`boolean-${booleanIndex}`}
+                                >
+                                  <td className='tdGranu'></td>
+                                  <td
+                                    className={`tdGranu ${
+                                      booleanElement
+                                        ? 'tdFoundDataset'
+                                        : 'tdNotFoundDataset'
+                                    }`}
+                                  >
+                                    {dataset[1][booleanIndex]}
+                                  </td>
+                                  <td
+                                    className={`tdGranu ${
+                                      booleanElement ? 'tdFound' : 'tdNotFound'
+                                    }`}
+                                  >
+                                    {booleanElement ? 'YES' : 'No, sorry'}
+                                  </td>
+                                </tr>
+                              ))}
+                            {props.show === 'count' &&
+                              dataset[3].map((countElement, countIndex) => (
+                                <tr
+                                  className='trGranu'
+                                  key={`count-${countIndex}`}
+                                >
+                                  <td className='tdGranu'></td>
+                                  <td
+                                    className={`tdGranu ${
+                                      countElement !== undefined &&
+                                      countElement !== null &&
+                                      countElement !== 0
+                                        ? 'tdFoundDataset'
+                                        : 'tdNotFoundDataset'
+                                    }`}
+                                  >
+                                    {dataset[1][countIndex]}
+                                  </td>
+                                  <td
+                                    className={`tdGranu ${
+                                      countElement !== undefined &&
+                                      countElement !== null &&
+                                      countElement !== 0
+                                        ? 'tdFound'
+                                        : 'tdNotFound'
+                                    }`}
+                                  >
+                                    {countElement}
+                                  </td>
+                                </tr>
+                              ))}
+                          </React.Fragment>
+                        )}
+                      </React.Fragment>
+                    )
+                  })}
+                {props.results.length === 0 && (
+                  <React.Fragment key={beaconIndex}>
+                    <tr
+                      className='trGranuBeacon'
+                      onClick={() => toggleRow(beaconIndex)}
+                    >
+                      <td className='tdGranuBeaconNoResults'>{result.id}</td>
+                      <td className='tdGranuNoResults'></td>
+                      {props.show === 'boolean' && (
+                        <td
+                          className={`tdGranuNoResults ${'tdNotFoundDataset'}`}
+                        >
+                          No, sorry
+                        </td>
+                      )}
+                      {props.show === 'count' && (
+                        <td className={`tdGranu ${'tdNotFound'}`}>0 results</td>
+                      )}
+                    </tr>
+                  </React.Fragment>
                 )}
-            </>
+              </tbody>
+            </table>
           )
         })}
 
-      {showDatsets === false && showResults === true && trigger2 === true && (
-        <DataGrid
-          getRowHeight={() => 'auto'}
-          checkboxSelection
-          columns={columns}
-          rows={editable}
-          slots={{ toolbar: CustomToolbar }}
-          slotProps={{
-            toolbar: {
-              printOptions: { getRowsToExport: getSelectedRowsToExport }
-            }
-          }}
+      {!showCrossQuery &&
+        showDatsets === false &&
+        props.results.length > 0 &&
+        showResults === true && (
+          <div className='table-container'>
+            <div className='menu-icon-container'>
+              <div className='export-menu'>
+                <button className='exportButton' onClick={toggleExportMenu}>
+                  <FiDownload />
+                </button>
+                {exportMenuVisible && (
+                  <>
+                    <ul className='column-list'>
+                      <li onClick={exportToJSON}>Export to JSON</li>
+                      <li onClick={exportToCSV}>Export to CSV</li>
+                    </ul>
+                  </>
+                )}
+              </div>
+              <div className='menu-container'>
+                <FaBars onClick={toggleMenu} />
+                {menuVisible && (
+                  <>
+                    <ul className='column-list'>
+                      <li onClick={showAllColumns}>
+                        Show All Columns
+                        <FiLayers />
+                      </li>
+                      {Object.keys(columnVisibility).map(column => (
+                        <li
+                          key={column}
+                          onClick={() => toggleColumnVisibility(column)}
+                        >
+                          {column}
+                          {columnVisibility[column] ? (
+                            <FaEye />
+                          ) : (
+                            <FaEyeSlash />
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className='header-container'>
+              <table className='tableResults'>
+                <thead className='theadResults'>
+                  <tr>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.IndividualId ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Individual ID</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('IndividualId')}
+                      >
+                        {columnVisibility.IndividualId ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Individual ID'
+                        onChange={e => handleFilterChange(e, 'IndividualId')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.ethnicity ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Ethnicity</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('ethnicity')}
+                      >
+                        {columnVisibility.ethnicity ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Ethnicity'
+                        onChange={e => handleFilterChange(e, 'ethnicity')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.Beacon ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Beacon</span>
+                      <button onClick={() => toggleColumnVisibility('Beacon')}>
+                        {columnVisibility.Beacon ? <FaEye /> : <FaEyeSlash />}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Beacon'
+                        onChange={e => handleFilterChange(e, 'Beacon')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.interventionsOrProcedures
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Procedures</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('interventionsOrProcedures')
+                        }
+                      >
+                        {columnVisibility.interventionsOrProcedures ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Procedures'
+                        onChange={e =>
+                          handleFilterChange(e, 'interventionsOrProcedures')
+                        }
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.sex ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Sex</span>
+                      <button onClick={() => toggleColumnVisibility('sex')}>
+                        {columnVisibility.sex ? <FaEye /> : <FaEyeSlash />}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Sex'
+                        onChange={e => handleFilterChange(e, 'sex')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.diseases ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Diseases</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('diseases')}
+                      >
+                        {columnVisibility.diseases ? <FaEye /> : <FaEyeSlash />}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Diseases'
+                        onChange={e => handleFilterChange(e, 'diseases')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.treatments ? 'visible' : 'hidden'
+                      }`}
+                    >
+                      <span>Treatments</span>
+                      <button
+                        onClick={() => toggleColumnVisibility('treatments')}
+                      >
+                        {columnVisibility.treatments ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Treatments'
+                        onChange={e => handleFilterChange(e, 'treatments')}
+                      />
+                    </th>
+                    <th
+                      className={`sticky-header ${
+                        columnVisibility.phenotypicFeatures
+                          ? 'visible'
+                          : 'hidden'
+                      }`}
+                    >
+                      <span>Phenotypic Features</span>
+                      <button
+                        onClick={() =>
+                          toggleColumnVisibility('phenotypicFeatures')
+                        }
+                      >
+                        {columnVisibility.phenotypicFeatures ? (
+                          <FaEye />
+                        ) : (
+                          <FaEyeSlash />
+                        )}
+                      </button>
+                      <input
+                        type='text'
+                        placeholder='Filter Phenotypic Features'
+                        onChange={e =>
+                          handleFilterChange(e, 'phenotypicFeatures')
+                        }
+                      />
+                    </th>
+
+                    {/* Add more column headers here */}
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div className='body-container'>
+              <table className='tableResults'>
+                <tbody className='tbodyResults'>
+                  {currentRows.map((row, index) => (
+                    <tr key={index}>
+                      <td
+                        className={
+                          columnVisibility.IndividualId
+                            ? 'visible-id'
+                            : 'hidden'
+                        }
+                      >
+                        <img
+                          src='../arrows-cross.png'
+                          className='crossQsymbol'
+                        ></img>
+                        <button
+                          onClick={handleShowCrossQuery}
+                          className='crossQButtonTable'
+                        >
+                          {row.IndividualId}
+                        </button>
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.ethnicity ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.ethnicity}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.Beacon ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.Beacon}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.interventionsOrProcedures
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.interventionsOrProcedures}
+                      </td>
+                      <td
+                        className={columnVisibility.sex ? 'visible' : 'hidden'}
+                      >
+                        {row.sex}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.diseases ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.diseases}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.treatments ? 'visible' : 'hidden'
+                        }
+                      >
+                        {row.treatments}
+                      </td>
+                      <td
+                        className={
+                          columnVisibility.phenotypicFeatures
+                            ? 'visible'
+                            : 'hidden'
+                        }
+                      >
+                        {row.phenotypicFeatures}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+      {props.show === 'full' && props.results.length > 0 && !showCrossQuery && (
+        <div className='pagination-controls'>
+          <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          {getPages().map((page, index) =>
+            typeof page === 'number' ? (
+              <button
+                key={index}
+                onClick={() => handlePageClick(page)}
+                className={currentPage === page ? 'active' : ''}
+              >
+                {page}
+              </button>
+            ) : (
+              <span key={index} className='ellipsis'>
+                {page}
+              </span>
+            )
+          )}
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
+      {props.show === 'full' &&
+        props.results.length === 0 &&
+        !showCrossQuery && (
+          <h5 className='noResultsFullResponse'>No results, sorry.</h5>
+        )}
+      {showCrossQuery && (
+        <CrossQueries
+          parameter={parameterCrossQuery}
+          collection={'individuals'}
+          setShowCrossQuery={setShowCrossQuery}
         />
       )}
     </div>

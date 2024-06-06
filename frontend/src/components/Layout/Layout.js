@@ -385,31 +385,35 @@ function Layout (props) {
     }
   }
 
-  const search = (e) => {
-    const newQuery = e.target.value;
-  
+  const search = e => {
+    const newQuery = e.target.value
+
     // Update the query state
-    setQuery(newQuery);
-  
-    const queryTerms = newQuery.split(',').map(term => term.trim());
-  
+    setQuery(newQuery)
+
+    const queryTerms = newQuery.split(',').map(term => term.trim())
+
     // Update the checked state for "tab1" checkboxes
-    const updatedCheckedOptionsTab1 = { ...checkedOptionsTab1 };
+    const updatedCheckedOptionsTab1 = { ...checkedOptionsTab1 }
     Object.keys(updatedCheckedOptionsTab1).forEach(key => {
-      const optionValue = key.split('-').slice(3).join('-');
-      updatedCheckedOptionsTab1[key] = queryTerms.some(term => term.includes(optionValue));
-    });
-    setCheckedOptionsTab1(updatedCheckedOptionsTab1);
-  
+      const optionValue = key.split('-').slice(3).join('-')
+      updatedCheckedOptionsTab1[key] = queryTerms.some(term =>
+        term.includes(optionValue)
+      )
+    })
+    setCheckedOptionsTab1(updatedCheckedOptionsTab1)
+
     // Update the checked state for "tab2" checkboxes
-    const updatedCheckedOptionsTab2 = { ...checkedOptionsTab2 };
+    const updatedCheckedOptionsTab2 = { ...checkedOptionsTab2 }
     Object.keys(updatedCheckedOptionsTab2).forEach(key => {
-      const optionValue = key.split('-').slice(3).join('-');
-      updatedCheckedOptionsTab2[key] = queryTerms.some(term => term.includes(optionValue));
-    });
-    setCheckedOptionsTab2(updatedCheckedOptionsTab2);
-  };
-  
+      const optionValue = key.split('-').slice(3).join('-')
+      updatedCheckedOptionsTab2[key] = queryTerms.some(term =>
+        term.includes(optionValue)
+      )
+    })
+    setCheckedOptionsTab2(updatedCheckedOptionsTab2)
+  }
+
   const handleShowFilterEx = () => {
     setShowFilters(true)
   }
@@ -441,15 +445,64 @@ function Layout (props) {
           <div className='logosVersionContainer'>
             <div className='logos'>
               <a
-                href='https://ega-archive.org/'
+                href='https://impact-data.bsc.es/'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+                title='El proyecto IMPaCT-Data (Exp. IMP/00019) ha sido financiado por el Instituto de Salud Carlos III, co-financiado por el Fondo Europeo de Desarrollo Regional (FEDER, “Una manera de hacer Europa“)'
+              >
+                <img
+                  className='impactLogo'
+                  src='../impactLogo.png'
+                  alt='impactLogo'
+                ></img>
+              </a>
+              <a
+                href='https://www.fondoseuropeos.hacienda.gob.es/sitios/dgfc/es-ES/paginas/feder.aspx/'
                 className='logoInstitution'
                 target='_blank'
                 rel='noreferrer'
               >
                 <img
-                  className='ega-logo'
-                  src='../ega-archive.png'
-                  alt='EGAarchive'
+                  className='federLogo'
+                  src='../feder_logo.png'
+                  alt='federLogo'
+                ></img>
+              </a>
+              <a
+                href='https://www.ciencia.gob.es/'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <img
+                  className='ministerioLogo'
+                  src='../ministerio_logo.png'
+                  alt='ministerioLogo'
+                ></img>
+              </a>
+              <a
+                href='https://www.isciii.es/Paginas/Inicio.aspx/'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <img
+                  className='iscLogo'
+                  src='../ISCIII_logo.png'
+                  alt='iscLogo'
+                ></img>
+              </a>
+              <a
+                href='https://fundacionlacaixa.org/es/'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+              >
+                <img
+                  className='laCaixaLogo'
+                  src='../caixa_logo.png'
+                  alt='laCaixaLogo'
                 ></img>
               </a>
             </div>

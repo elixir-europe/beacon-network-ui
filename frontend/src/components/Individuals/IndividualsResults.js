@@ -528,6 +528,8 @@ function IndividualsResults (props) {
               configData.API_URL + '/individuals',
               jsonData1
             )
+            console.log(jsonData1)
+            console.log(res)
           } else {
             const headers = { Authorization: `Bearer ${token}` }
             console.log('querying with token')
@@ -861,6 +863,8 @@ function IndividualsResults (props) {
                 configData.API_URL + '/individuals',
                 jsonData2
               )
+              console.log(jsonData2)
+              console.log(res)
             } else {
               console.log('Querying WITH token')
 

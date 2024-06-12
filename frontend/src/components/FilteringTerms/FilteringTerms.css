@@ -200,7 +200,7 @@ tbody {
   width: 57%;
   /* height: 100%; */
   /* justify-content: center; */
-
+  overflow-x: scroll;
   margin-bottom: -23px;
   padding-left: 30px;
   padding-top: 10px;

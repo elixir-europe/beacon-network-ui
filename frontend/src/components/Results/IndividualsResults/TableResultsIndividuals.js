@@ -247,7 +247,7 @@ function TableResultsIndividuals (props) {
 
   const handleShowCrossQuery = e => {
     setShowCrossQuery(true)
-   
+
     setParamCrossQuery(e.target.innerText)
   }
 
@@ -489,6 +489,7 @@ function TableResultsIndividuals (props) {
 
   useEffect(() => {
     setShowDatasets(true)
+    
   }, [])
 
   return (
@@ -600,27 +601,37 @@ function TableResultsIndividuals (props) {
                       </React.Fragment>
                     )
                   })}
-                {props.results.length === 0 && (
-                  <React.Fragment key={beaconIndex}>
-                    <tr
-                      className='trGranuBeacon'
-                      onClick={() => toggleRow(beaconIndex)}
-                    >
-                      <td className='tdGranuBeaconNoResults'>{result.id}</td>
-                      <td className='tdGranuNoResults'></td>
-                      {props.show === 'boolean' && (
-                        <td
-                          className={`tdGranuNoResults ${'tdNotFoundDataset'}`}
+                {props.results.length === 0 &&
+                  props.beaconsList.map((beacon, index2) => {
+                    const totalCount = 0
+                    const allTrue = 'No, sorry'
+
+                    return (
+                      <React.Fragment key={index2}>
+                        <tr
+                          className='trGranuBeacon'
+                          onClick={() => toggleRow(index2)}
                         >
-                          No, sorry
-                        </td>
-                      )}
-                      {props.show === 'count' && (
-                        <td className={`tdGranu ${'tdNotFound'}`}>0 results</td>
-                      )}
-                    </tr>
-                  </React.Fragment>
-                )}
+                          <td className='tdGranuBeacon'>
+                            {beacon.id}
+                            {expandedRows.includes(index2) ? (
+                              <ion-icon name='chevron-down-outline'></ion-icon>
+                            ) : (
+                              <ion-icon name='chevron-up-outline'></ion-icon>
+                            )}
+                          </td>
+                          <td className='tdGranuBeacon'></td>
+                          <td className='tdGranuBeacon'>
+                            {props.show === 'boolean'
+                              ? allTrue
+                                ? 'YES'
+                                : 'No, sorry'
+                              : totalCount}
+                          </td>
+                        </tr>
+                      </React.Fragment>
+                    )
+                  })}
               </tbody>
             </table>
           )

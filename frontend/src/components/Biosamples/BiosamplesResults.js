@@ -316,7 +316,8 @@ function BiosamplesResults (props) {
                 queryArray[index].push('!')
               } else {
                 queryArray[index] = term.split('%')
-                queryArray[index].push('%')
+                console.log(queryArray[index])
+                queryArray[index].push('=')
               }
 
               let alphanumericFilter = {}
@@ -466,7 +467,9 @@ function BiosamplesResults (props) {
         }
 
         if (updatedArrayFilterVar.length === 0) {
-          beaconsList.push(res.data.response)
+          res.data.responses.forEach(element => {
+            beaconsList.push(element)
+          })
         }
 
         let variablePause = false

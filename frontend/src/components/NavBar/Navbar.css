@@ -1,3 +1,6 @@
+.h1Menu{
+  color: white !important;
+}
 @media (min-width: 1410px) {
   /* … */
   .nav4 {
@@ -511,7 +514,6 @@
     /* margin-bottom: 5px; */
     padding-right: 10px;
     padding-left: 10px;
-    color: white !important;
     text-decoration: none !important;
     font-weight: 500;
   }

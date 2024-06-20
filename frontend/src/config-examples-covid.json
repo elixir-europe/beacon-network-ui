@@ -29,24 +29,6 @@
             "type": "alphanumeric",
             "schemaField": "diseases.ageOfOnset.iso8601duration"
           }
-        ],
-        [
-          {
-            "label": "Weight",
-            "value": "Weight",
-            "ontology": "",
-            "type": "alphanumeric",
-            "schemaField": "measures.assayCode"
-          }
-        ],
-        [
-          {
-            "label": "Height",
-            "value": "Height",
-            "ontology": "",
-            "type": "alphanumeric",
-            "schemaField": "measures.assayCode"
-          }
         ]
       ]
     },

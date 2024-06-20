@@ -69,7 +69,6 @@ p a:hover {
 .tittle2 h1 {
   font-size: 14px;
   font-weight: normal;
-  margin: 14px;
   color: #5d5454;
 }
 
@@ -97,7 +96,7 @@ p a:hover {
   margin-bottom: -3px;
 }
 .tittle {
-  width: 40vw;
+  width: 36vw;
   background: #c8d4e6;
   border-radius: 2px;
   /* height: 80px; */
@@ -120,7 +119,6 @@ p a:hover {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-bottom: 7px;
 }
 
 .descriptionBeacon a {
@@ -166,7 +164,7 @@ p a:hover {
 }
 
 .datasetCard {
-  width: 40vw;
+  width: 36.7vw;
   margin: 30px;
 
   /* border: 2px solid #3b9ad5; */
@@ -212,12 +210,17 @@ p a:hover {
 }
 
 .datasetCard p {
-  font-size: 12px;
   font-weight: normal;
   color: rgb(61 60 60);
   line-height: 20px;
   margin-top: -5px;
+  width: 35vw;
+  text-align: justify;
+  height: 92px;
+  overflow-y: scroll;
+  font-size: 13px;
 }
+
 .datasetCardResults p {
   font-size: 12px;
   font-weight: normal;
@@ -229,7 +232,6 @@ p a:hover {
 .tittle2 h1 {
   font-size: 14px;
   font-weight: normal;
-  margin: 14px;
   color: #5d5454;
 }
 
@@ -269,13 +271,15 @@ p a:hover {
   margin-bottom: -3px;
 }
 .tittle {
-  width: 38vw;
+  width: 36vw;
   background: #c8d4e6;
   border-radius: 2px;
-  /* height: 80px; */
+  height: fit-content;
   display: flex;
   padding: 2px;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .tittleResults {
@@ -321,6 +325,8 @@ p a:hover {
   color: rgba(12, 16, 64, 0.606);
   font-size: 12px;
   font-weight: 600;
+  margin-bottom: 8px;
+  margin-top: 2px;
 }
 
 .tittleResults h2 {
@@ -346,6 +352,7 @@ p a:hover {
   background: #c8d4e6;
   flex-wrap: wrap;
   align-items: center;
+  margin-top: 8px;
 }
 
 .tittle4 {
@@ -493,7 +500,6 @@ h5 {
   .tittle2 h1 {
     font-size: 11px;
     font-weight: normal;
-    margin: 14px;
     color: #5d5454;
   }
 }
@@ -612,7 +618,6 @@ h5 {
     font-weight: bold;
     /* margin: 14px; */
     color: #5d5454;
-    margin: 7px;
   }
 }
 

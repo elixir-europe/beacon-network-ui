@@ -321,11 +321,13 @@ tr {
   width: 328px;
   font-family: sans-serif;
   /* padding: 8px; */
-  text-align: center;
+  /* text-align: center; */
   display: flex;
-  align-items: center;
+  word-break: break-all;
+  /* align-items: center; */
   align-content: center;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+
 }
 
 .tdGranuNoResults,

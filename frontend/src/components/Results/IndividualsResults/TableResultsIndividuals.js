@@ -5,7 +5,7 @@ import CrossQueries from '../../CrossQueries/CrossQueries'
 import { FaBars, FaEye, FaEyeSlash } from 'react-icons/fa' // Import icons from react-icons library
 import { FiLayers, FiDownload } from 'react-icons/fi'
 
-function TableResultsIndividuals(props) {
+function TableResultsIndividuals (props) {
   const [showDatsets, setShowDatasets] = useState(false)
   const [showResults, setShowResults] = useState(false)
   const [resultsSelected, setResultsSelected] = useState(props.results)
@@ -51,6 +51,23 @@ function TableResultsIndividuals(props) {
 
   const toggleMenu = () => {
     setMenuVisible(prevState => !prevState)
+  }
+
+  const getBeaconName = (beaconId, beaconsList) => {
+    if (beaconId === 'org.progenetix') {
+      beaconId = 'org.progenetix.beacon'
+    }
+    beaconsList.forEach(element => {
+      console.log(element.id)
+    })
+
+    const beacon = beaconsList.find(b => (b.response?.id ?? b.id) === beaconId)
+
+    return beacon
+      ? beacon.response
+        ? beacon.response.name
+        : beacon.name
+      : beacon.id
   }
 
   const [columnVisibility, setColumnVisibility] = useState({
@@ -513,10 +530,13 @@ function TableResultsIndividuals(props) {
                         const totalCount = dataset[3]
                           ? dataset[3].reduce((acc, count) => acc + count, 0)
                           : 0
-                        const allTrue = dataset[2]
-                          ? dataset[2].every(booleanElement => booleanElement)
-                          : 'No, sorry'
-
+                        const hasTrueElement = dataset[2]
+                          ? dataset[2].some(booleanElement => booleanElement)
+                          : false
+                        const beaconName = getBeaconName(
+                          dataset[0],
+                          props.beaconsList
+                        )
                         return (
                           <React.Fragment key={index2}>
                             <tr
@@ -524,7 +544,7 @@ function TableResultsIndividuals(props) {
                               onClick={() => toggleRow(index2)}
                             >
                               <td className='tdGranuBeacon'>
-                                {dataset[0]}
+                                {beaconName}
                                 {expandedRows.includes(index2) ? (
                                   <ion-icon name='chevron-down-outline'></ion-icon>
                                 ) : (
@@ -534,7 +554,7 @@ function TableResultsIndividuals(props) {
                               <td className='tdGranuBeacon'></td>
                               <td className='tdGranuBeacon'>
                                 {props.show === 'boolean'
-                                  ? allTrue
+                                  ? hasTrueElement
                                     ? 'YES'
                                     : 'No, sorry'
                                   : totalCount}
@@ -610,7 +630,7 @@ function TableResultsIndividuals(props) {
                     {props.results.length === 0 &&
                       props.beaconsList.map((beacon, index2) => {
                         const totalCount = 0
-                        const allTrue = 'No, sorry'
+                        const hasTrueElement = false
 
                         return (
                           <React.Fragment key={index2}>
@@ -620,12 +640,11 @@ function TableResultsIndividuals(props) {
                             >
                               <td className='tdGranuBeacon tdNotFoundDataset'>
                                 {beacon.response.name}
-                            
                               </td>
                               <td className='tdGranuBeacon'></td>
                               <td className='tdGranuBeacon tdNotFoundDataset'>
                                 {props.show === 'boolean'
-                                  ? allTrue
+                                  ? hasTrueElement
                                     ? 'YES'
                                     : 'No, sorry'
                                   : totalCount}

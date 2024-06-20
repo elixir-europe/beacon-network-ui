@@ -466,7 +466,9 @@ function VariantsResults (props) {
         }
 
         if (updatedArrayFilterVar.length === 0) {
-          beaconsList.push(res.data.response)
+          res.data.responses.forEach(element => {
+            beaconsList.push(element)
+          })
         }
 
         let variablePause = false

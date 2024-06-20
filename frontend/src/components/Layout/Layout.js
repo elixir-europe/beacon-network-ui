@@ -207,7 +207,7 @@ function Layout (props) {
 
     const arrayQuery = title
       .map((titleQuery, indexQuery) =>
-        titleQuery === 'geneId'
+        titleQuery === 'geneId' || titleQuery === 'aminoacidChange'
           ? `${titleQuery}:${value[indexQuery]}`
           : `${titleQuery}=${value[indexQuery]}`
       )
@@ -477,7 +477,7 @@ function Layout (props) {
                 ></img>
               </a>
             </div>
-            <h1 className='version'>v0.5.5</h1>
+            <h1 className='version'>v0.5.6</h1>
           </div>
         </div>
         <div className='containerSelection'>
@@ -516,20 +516,25 @@ function Layout (props) {
                 value={query}
                 onChange={e => search(e)}
               />
-              <input
-                className='resetButton'
-                type='reset'
-                value='Clear'
-                onClick={handleReset}
-              ></input>
             </div>
-            <button className='searchButton' type='submit'>
-              <img
-                className='searchIcon'
-                src='./magnifier.png'
-                alt='searchIcon'
-              ></img>
-            </button>
+            <div className='buttonsDiv'>
+              <button className='searchButton' type='submit'>
+                <img
+                  className='searchIcon'
+                  src='./magnifier.png'
+                  alt='searchIcon'
+                ></img>
+              <span className='buttonText'>Search</span>
+              </button>
+              <button className='clearButton' onClick={handleReset} type='button'>
+                <img
+                  className='clearIcon'
+                  src='./eraser.png'
+                  alt='eraserIcon'
+                ></img>
+                <span className='buttonText'>Clear</span>
+              </button>
+            </div>
           </form>
         </div>
       </div>

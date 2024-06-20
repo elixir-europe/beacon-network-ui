@@ -326,8 +326,8 @@
               "subTitle": "Mutations in:",
               "subTitle2": "gene:",
               "label": "KRAS",
-              "value": "KRAS",
-              "schemaField": "geneId"
+              "value": "molecularAttributes.geneIds=KRAS",
+              "schemaField": "molecularAttributes.geneIds"
             }
           ]
         ]

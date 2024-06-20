@@ -61,13 +61,17 @@ function TableResultsIndividuals (props) {
       console.log(element.id)
     })
 
-    const beacon = beaconsList.find(b => (b.response?.id ?? b.id) === beaconId)
+    const beacon = beaconsList.find(b => (b.response?.id ?? b.id) === beaconId);
 
-    return beacon
-      ? beacon.response
-        ? beacon.response.name
-        : beacon.name
-      : beacon.id
+    if (beacon) {
+        if (beacon.response) {
+            return beacon.response.name;
+        } else {
+            return beacon.name;
+        }
+    } else {
+        return beaconId; // Or any other default value you prefer when no beacon is found
+    }
   }
 
   const [columnVisibility, setColumnVisibility] = useState({

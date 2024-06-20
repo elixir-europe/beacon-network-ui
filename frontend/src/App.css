@@ -1796,6 +1796,40 @@ h5 {
     text-underline-offset: 1px;
   }
 
+  .IdForm{
+    font-size: 12px;
+  }
+  .selectedOperator {
+    background: white;
+    border: 1px solid rgb(143 147 196 / 61%);
+    /* border: 1px solid rgba(12, 16, 64, 0.606); */
+    font-size: 12px;
+    border-radius: 4px;
+    width: 33px;
+    height: 27px;
+    /* margin-right: 20px; */
+    box-shadow: 1px 2px 2px #cecece;
+  }
+  .ValueForm{
+    font-size: 12px;
+  }
+  #operator {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: -40px; */
+    width: 46px;
+  }
+
+  .buttonsDiv {
+    margin-top: 7px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 151px;
+  }
   .crossQueriesTittle {
     margin-bottom: 12px;
     font-size: 12px;
@@ -2120,15 +2154,6 @@ h5 {
   }
 }
 
-@media (max-width: 700px) {
-  .buttonsDiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    margin-top: 5px;
-    height: 101px;
-  }
-}
 @media (max-width: 460px) {
   .containerForm {
     margin-left: 0px;

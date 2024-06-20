@@ -83,10 +83,10 @@
 }
 
 .searchButton:hover {
-  background-color: rgb(180, 196, 210);
+  background-color: #023452;
 }
 .clearButton:hover {
-  background-color: rgb(180, 196, 210);
+  background-color: rgb(231 244 255);
 }
 
 p {
@@ -112,6 +112,7 @@ p {
   display: flex;
   flex-direction: column;
   min-width: 112px;
+  position: relative;
 }
 
 .tabs {
@@ -142,7 +143,7 @@ p {
 }
 
 .tab-content {
-  padding: 10px;
+  padding: 3px;
   border: 1px solid #3176b1;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -167,6 +168,7 @@ p {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  line-height: 1.4;
 }
 
 .filterTermsContainer {
@@ -328,6 +330,10 @@ ul div {
   border-radius: 4px;
 }
 
+.label-ontology-div2 {
+  position: relative;
+}
+
 .subTitle {
   font-weight: 500;
 }
@@ -379,9 +385,6 @@ label {
   max-width: 181px;
   width: fit-content;
 }
-.onHover {
-  display: none;
-}
 
 h14 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -394,22 +397,25 @@ h14 {
   margin-top: 4.2px;
 }
 
-.label:hover + .onHover {
-  display: block;
-  color: #fff;
+.onHover {
+  display: none;
+  position: absolute; /* Position it absolutely */
+  top: 0px; /* Adjust as needed */
+  left: 50px; /* Adjust as needed */
   z-index: 4;
+  color: #fff;
   font-weight: 500;
-  margin-top: -20px;
   background: #6e9ef0;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-right: 4px;
-  padding-left: 4px;
-  display: flex;
+  padding: 4px;
   border-radius: 2px;
   font-size: 11.5px;
   align-content: center;
   justify-content: center;
+}
+
+/* Display the hover element when the label is hovered */
+.label:hover + .onHover {
+  display: flex;
 }
 .deleteIcon ion-icon {
   color: black;
@@ -508,6 +514,7 @@ h14 {
   height: 12px;
   border-radius: 4px;
   overflow: auto;
+
 }
 
 .ValueForm2 {
@@ -613,11 +620,18 @@ h14 {
 @media (max-width: 950px) {
   .inputSearch {
     width: 28vw;
-
     font-size: 14 px;
     border: 1px solid #3176b1;
     text-overflow: clip;
     max-width: 40vw;
+    height: 139px;
+    font-size: 14px;
+  }
+  .selectModule1 {
+    font-size: 14px;
+  }
+  .selectModule2 {
+    font-size: 14px;
   }
   .buttonText {
     display: none !important;
@@ -780,14 +794,6 @@ h14 {
     border: 1px solid #3176b1;
   }
 
-  .buttonsDiv {
-    /* height: 105px; */
-    height: 105px;
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-around; */
-    margin-top: 5px;
-  }
   .buttonAllFilters h4 {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',

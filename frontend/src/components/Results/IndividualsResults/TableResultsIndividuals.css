@@ -763,8 +763,23 @@ h1 {
     overflow: scroll;
   }
 
+  .containerTableNoFull {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+  }
   tr {
     width: 100%;
+  }
+  .tbodyGranu tr {
+    width: 70vw;
+  }
+  .tbodyGranu {
+    width: 70vw;
+  }
+  .theadGranularity tr {
+    width: 70vw;
   }
 }
 
@@ -774,6 +789,15 @@ h1 {
   }
   .tdGranu {
     font-size: 12px;
+  }
+  .tbodyGranu tr {
+    width: 80vw;
+  }
+  .tbodyGranu {
+    width: 80vw;
+  }
+  .theadGranularity tr {
+    width: 80vw;
   }
 }
 
@@ -787,5 +811,14 @@ h1 {
     padding: 2px;
     flex-direction: column;
     align-items: center;
+  }
+  .tbodyGranu tr {
+    width: 90vw;
+  }
+  .tbodyGranu {
+    width: 90vw;
+  }
+  .theadGranularity tr {
+    width: 90vw;
   }
 }

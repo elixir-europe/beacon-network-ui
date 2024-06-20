@@ -236,14 +236,14 @@
               "subTitle": "Mutations in:",
               "subTitle2": "gene:",
               "label": "KRAS",
-              "value": "KRAS",
-              "schemaField": "geneId"
+              "value": "molecularAttributes.geneIds=KRAS",
+              "schemaField": "molecularAttributes.geneIds"
             },
             {
               "subTitle2": "aminoacid:",
               "label": "p.Gly12Cys",
-              "value": "p.Gly12Cys",
-              "schemaField": "aminoacidChange"
+              "value": "molecularAttributes.aminoacidChanges=p.Gly12Cys",
+              "schemaField": "molecularAttributes.aminoacidChanges"
             }
           ],
           [

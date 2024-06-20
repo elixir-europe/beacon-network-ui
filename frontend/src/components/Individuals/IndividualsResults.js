@@ -866,13 +866,13 @@ function IndividualsResults (props) {
               token = auth.userData.access_token
             }
             if (token === null) {
-   
+              console.log(jsonData2)
               console.log('Querying without token')
               res = await axios.post(
                 configData.API_URL + '/individuals',
                 jsonData2
               )
-              console.log(jsonData2)
+            
               console.log(res)
             } else {
               console.log('Querying WITH token')

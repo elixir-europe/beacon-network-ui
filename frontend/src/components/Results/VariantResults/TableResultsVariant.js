@@ -20,7 +20,7 @@ function TableResultsVariants (props) {
   const [showCrossQuery, setShowCrossQuery] = useState(false)
   const [parameterCrossQuery, setParamCrossQuery] = useState('')
   const [expandedRows, setExpandedRows] = useState(
-    Array.from({ length: props.beaconsList.length }, (_, index) => index)
+    new Array(props.beaconsList.length).fill(false)
   )
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage] = useState(10) // You can make this dynamic if needed
@@ -55,6 +55,27 @@ function TableResultsVariants (props) {
     setMenuVisible(prevState => !prevState)
   }
 
+  const getBeaconName = (beaconId, beaconsList) => {
+    if (beaconId === 'org.progenetix') {
+      beaconId = 'org.progenetix.beacon'
+    }
+    beaconsList.forEach(element => {
+      console.log(element.id)
+    })
+
+    const beacon = beaconsList.find(b => (b.response?.id ?? b.id) === beaconId)
+
+    if (beacon) {
+      if (beacon.response) {
+        return beacon.response.name
+      } else {
+        return beacon.name
+      }
+    } else {
+      return beaconId // Or any other default value you prefer when no beacon is found
+    }
+  }
+
   const [columnVisibility, setColumnVisibility] = useState({
     variantInternalId: true,
     variation: true,
@@ -67,6 +88,7 @@ function TableResultsVariants (props) {
     frequencyInPopulations: true
     // Add more columns as needed
   })
+
   const handleNextPage = () => {
     setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages))
   }
@@ -243,10 +265,6 @@ function TableResultsVariants (props) {
     document.body.removeChild(link)
   }
 
-  const showNote = e => {
-    setNote(e)
-    setIsOpenModal2(true)
-  }
 
   const handleShowCrossQuery = e => {
     setShowCrossQuery(true)
@@ -485,142 +503,158 @@ function TableResultsVariants (props) {
           return (
             <>
               {beaconIndex === 0 && (
-                <table className='tableGranularity' key={beaconIndex}>
-                  <thead className='theadGranularity'>
-                    <tr id='trGranuHeader'>
-                      <th className='thGranularityTitleBeacon'>Beacon</th>
-                      <th className='thGranularityTitle'>Dataset</th>
-                      <th className='thGranularityTitle'>Result</th>
-                    </tr>
-                  </thead>
-                  <tbody className='tbodyGranu'>
-                    {props.results.length > 0 &&
-                      props.resultsPerDataset.map((dataset, index2) => {
-                        const totalCount = dataset[3]
-                          ? dataset[3].reduce((acc, count) => acc + count, 0)
-                          : 0
-                        const allTrue = dataset[2]
-                          ? dataset[2].every(booleanElement => booleanElement)
-                          : 'No, sorry'
-
-                        return (
-                          <React.Fragment key={index2}>
-                            <tr
-                              className='trGranuBeacon'
-                              onClick={() => toggleRow(index2)}
-                            >
-                              <td className='tdGranuBeacon'>
-                                {dataset[0]}
-                                {expandedRows.includes(index2) ? (
-                                  <ion-icon name='chevron-down-outline'></ion-icon>
-                                ) : (
-                                  <ion-icon name='chevron-up-outline'></ion-icon>
-                                )}
-                              </td>
-                              <td className='tdGranuBeacon'></td>
-                              <td className='tdGranuBeacon'>
-                                {props.show === 'boolean'
-                                  ? allTrue
-                                    ? 'YES'
-                                    : 'No, sorry'
-                                  : totalCount}
-                              </td>
-                            </tr>
-                            {expandedRows.includes(index2) && (
-                              <React.Fragment key={`expanded-${index2}`}>
-                                {props.show === 'boolean' &&
-                                  dataset[2].map(
-                                    (booleanElement, booleanIndex) => (
-                                      <tr
-                                        className='trGranu'
-                                        key={`boolean-${booleanIndex}`}
-                                      >
-                                        <td className='tdGranu'></td>
-                                        <td
-                                          className={`tdGranu ${
-                                            booleanElement
-                                              ? 'tdFoundDataset'
-                                              : 'tdNotFoundDataset'
-                                          }`}
-                                        >
-                                          {dataset[1][booleanIndex]}
-                                        </td>
-                                        <td
-                                          className={`tdGranu ${
-                                            booleanElement
-                                              ? 'tdFound'
-                                              : 'tdNotFound'
-                                          }`}
-                                        >
-                                          {booleanElement ? 'YES' : 'No, sorry'}
-                                        </td>
-                                      </tr>
-                                    )
+                <div className='containerTableNoFull'>
+                  <table className='tableGranularity' key={beaconIndex}>
+                    <thead className='theadGranularity'>
+                      <tr id='trGranuHeader'>
+                        <th className='thGranularityTitleBeacon'>Beacon</th>
+                        <th className='thGranularityTitle'>Dataset</th>
+                        <th className='thGranularityTitle'>Result</th>
+                      </tr>
+                    </thead>
+                    <tbody className='tbodyGranu'>
+                      {props.results.length > 0 &&
+                        props.resultsPerDataset.map((dataset, index2) => {
+                          const totalCount = dataset[3]
+                            ? dataset[3].reduce((acc, count) => acc + count, 0)
+                            : 0
+                          const hasTrueElement = dataset[2]
+                            ? dataset[2].some(booleanElement => booleanElement)
+                            : false
+                          const beaconName = getBeaconName(
+                            dataset[0],
+                            props.beaconsList
+                          )
+                          return (
+                            <React.Fragment key={index2}>
+                              <tr
+                                className='trGranuBeacon'
+                                onClick={() => toggleRow(index2)}
+                              >
+                                <td className='tdGranuBeacon'>
+                                  {beaconName}
+                                  {expandedRows.includes(index2) ? (
+                                    <ion-icon name='chevron-down-outline'></ion-icon>
+                                  ) : (
+                                    <ion-icon name='chevron-up-outline'></ion-icon>
                                   )}
-                                {props.show === 'count' &&
-                                  dataset[3].map((countElement, countIndex) => (
-                                    <tr
-                                      className='trGranu'
-                                      key={`count-${countIndex}`}
-                                    >
-                                      <td className='tdGranu'></td>
-                                      <td
-                                        className={`tdGranu ${
-                                          countElement !== undefined &&
-                                          countElement !== null &&
-                                          countElement !== 0
-                                            ? 'tdFoundDataset'
-                                            : 'tdNotFoundDataset'
-                                        }`}
-                                      >
-                                        {dataset[1][countIndex]}
-                                      </td>
-                                      <td
-                                        className={`tdGranu ${
-                                          countElement !== undefined &&
-                                          countElement !== null &&
-                                          countElement !== 0
-                                            ? 'tdFound'
-                                            : 'tdNotFound'
-                                        }`}
-                                      >
-                                        {countElement}
-                                      </td>
-                                    </tr>
-                                  ))}
-                              </React.Fragment>
-                            )}
-                          </React.Fragment>
-                        )
-                      })}
-                    {props.results.length === 0 &&
-                      props.beaconsList.map((beacon, index2) => {
-                        const totalCount = 0
-                        const allTrue = 'No, sorry'
+                                </td>
+                                <td className='tdGranuBeacon'></td>
+                                <td className='tdGranuBeacon'>
+                                  {props.show === 'boolean'
+                                    ? hasTrueElement
+                                      ? 'YES'
+                                      : 'No, sorry'
+                                    : totalCount}
+                                </td>
+                              </tr>
+                              {expandedRows.includes(index2) && (
+                                <React.Fragment key={`expanded-${index2}`}>
+                                  {props.show === 'boolean' &&
+                                    dataset[2].map(
+                                      (booleanElement, booleanIndex) => (
+                                        <tr
+                                          className='trGranu'
+                                          key={`boolean-${booleanIndex}`}
+                                        >
+                                          <td className='tdGranu'></td>
+                                          <td
+                                            className={`tdGranu ${
+                                              booleanElement
+                                                ? 'tdFoundDataset'
+                                                : 'tdNotFoundDataset'
+                                            }`}
+                                          >
+                                            {dataset[1][booleanIndex]}
+                                          </td>
+                                          <td
+                                            className={`tdGranu ${
+                                              booleanElement
+                                                ? 'tdFound'
+                                                : 'tdNotFound'
+                                            }`}
+                                          >
+                                            {booleanElement
+                                              ? 'YES'
+                                              : 'No, sorry'}
+                                          </td>
+                                        </tr>
+                                      )
+                                    )}
+                                  {props.show === 'count' &&
+                                    dataset[3].map(
+                                      (countElement, countIndex) => (
+                                        <tr
+                                          className='trGranu'
+                                          key={`count-${countIndex}`}
+                                        >
+                                          <td className='tdGranu'></td>
+                                          <td
+                                            className={`tdGranu ${
+                                              countElement !== undefined &&
+                                              countElement !== null &&
+                                              countElement !== 0
+                                                ? 'tdFoundDataset'
+                                                : 'tdNotFoundDataset'
+                                            }`}
+                                          >
+                                            {dataset[1][countIndex]}
+                                          </td>
+                                          <td
+                                            className={`tdGranu ${
+                                              countElement !== undefined &&
+                                              countElement !== null &&
+                                              countElement !== 0
+                                                ? 'tdFound'
+                                                : 'tdNotFound'
+                                            }`}
+                                          >
+                                            {countElement}
+                                          </td>
+                                        </tr>
+                                      )
+                                    )}
+                                </React.Fragment>
+                              )}
+                            </React.Fragment>
+                          )
+                        })}
+                      {props.results.length === 0 &&
+                        props.beaconsList.map((beacon, index2) => {
+                          const totalCount = 0
+                          const hasTrueElement = false
 
-                        return (
-                          <React.Fragment key={index2}>
-                            <tr
-                              className='trGranuBeacon'
-                              onClick={() => toggleRow(index2)}
-                            >
-                              <td className='tdGranuBeacon tdNotFoundDataset'>
-                                {beacon.response.name}
-                              </td>
-                              <td className='tdGranuBeacon'></td>
-                              <td className='tdGranuBeacon tdNotFoundDataset'>
-                                {props.show === 'boolean'
-                                  ? allTrue
-                                    ? 'YES'
-                                    : 'No, sorry'
-                                  : totalCount}
-                              </td>
-                            </tr>
-                          </React.Fragment>
-                        )
-                      })}
-                  </tbody>
-                </table>
+                          return (
+                            <React.Fragment key={index2}>
+                              <tr
+                                className='trGranuBeacon'
+                                onClick={() => toggleRow(index2)}
+                              >
+                                {beacon.response && (
+                                  <td className='tdGranuBeacon tdNotFoundDataset'>
+                                    {beacon.response.name}
+                                  </td>
+                                )}
+                                 {!beacon.response && (
+                                  <td className='tdGranuBeacon tdNotFoundDataset'>
+                                    {beacon.name}
+                                  </td>
+                                )}
+                                <td className='tdGranuBeacon'></td>
+                                <td className='tdGranuBeacon tdNotFoundDataset'>
+                                  {props.show === 'boolean'
+                                    ? hasTrueElement
+                                      ? 'YES'
+                                      : 'No, sorry'
+                                    : totalCount}
+                                </td>
+                              </tr>
+                            </React.Fragment>
+                          )
+                        })}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </>
           )

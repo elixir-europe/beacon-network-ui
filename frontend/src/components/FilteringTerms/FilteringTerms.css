@@ -69,6 +69,7 @@ tbody {
   flex-direction: column;
   margin-left: 1vw;
   align-items: center;
+  padding-bottom: 120px !important;
 }
 
 .tableWrapper {
@@ -395,11 +396,12 @@ tr {
   #table {
     display: flex;
     font-size: 15px;
-    width: 90%;
+    width: 99%;
     height: -moz-fit-content;
     height: fit-content;
     flex-direction: column;
     margin-left: 1vw;
     align-items: center;
+    padding-bottom: 120px !important;
   }
 }

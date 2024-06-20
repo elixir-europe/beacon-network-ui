@@ -72,12 +72,12 @@ function FilteringTerms (props) {
 
   const [valueChosen, setValueChosen] = useState([])
 
-  const handdleInclude = e => {
+  const handleInclude = e => {
     if (ID !== '' && valueFree !== '' && operator !== '') {
-      if (props.query !== null) {
+      if (props.query !== null && props.query !== '') {
         props.setQuery(props.query + ',' + `${ID}${operator}${valueFree}`)
       }
-      if (props.query === null) {
+      if (props.query === null || props.query === '') {
         props.setQuery(`${ID}${operator}${valueFree}`)
       }
     }
@@ -593,7 +593,7 @@ function FilteringTerms (props) {
                               </div>
                               <button
                                 className='buttonAlphanum'
-                                onClick={handdleInclude}
+                                onClick={handleInclude}
                               >
                                 <ion-icon name='add-circle'></ion-icon>
                               </button>
@@ -651,7 +651,7 @@ function FilteringTerms (props) {
                               </div>
                               <button
                                 className='buttonAlphanum'
-                                onClick={handdleInclude}
+                                onClick={handleInclude}
                               >
                                 Include
                               </button>

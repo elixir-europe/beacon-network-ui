@@ -375,8 +375,21 @@ p a:hover {
 }
 
 h5 {
-  margin-top: 0px !important;
   margin-bottom: 0px !important;
+}
+
+h5 {
+  color: rgb(209, 66, 66);
+  font-weight: bold;
+  width: -moz-fit-content;
+  width: fit-content;
+  /* width: 150%; */
+  margin-top: 26px;
+  margin-left: 40vw;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  font-size: 14px;
 }
 
 .resultsRecord {

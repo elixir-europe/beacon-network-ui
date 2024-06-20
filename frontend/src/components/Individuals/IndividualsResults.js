@@ -324,7 +324,7 @@ function IndividualsResults (props) {
 
               let alphanumericFilter = {}
               props.filteringTerms.forEach(element => {
-                if (element.label) {
+                if (element.label && element.id !== 'NCIT:C46113' && element.id !== 'NCIT:C46112') {
                   if (
                     queryArray[index][1].toLowerCase() ===
                     element.label.toLowerCase()
@@ -332,7 +332,7 @@ function IndividualsResults (props) {
                     if (queryArray[index][0].toLowerCase() === 'individual') {
                       alphanumericFilter = {
                         id: element.id,
-                        scope: ['individuals']
+                        scope: ['individual']
                       }
                     } else if (
                       queryArray[index][0].toLowerCase() === 'genomicvariation'

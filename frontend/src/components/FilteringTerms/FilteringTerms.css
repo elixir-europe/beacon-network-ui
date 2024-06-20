@@ -24,6 +24,40 @@
     rgba(197, 150, 150, 0.13) 0px 0px 1px 1px;
 }
 
+.buttonPaginationFilters {
+  border: 1px solid #a8a8cc;
+  border-radius: 4px;
+  padding: 6px;
+  margin-right: 17px;
+  width: 80px;
+}
+
+.buttonPaginationFilters:hover {
+  background-color: rgb(231 244 255);
+}
+
+.buttonPaginationFiltersNext:hover {
+  background-color: rgb(231 244 255);
+}
+
+.buttonPaginationFiltersNext {
+  border: 1px solid #a8a8cc;
+  border-radius: 4px;
+  padding: 6px;
+  margin-left: 17px;
+  width: 80px;
+}
+
+.pagination {
+  font-size: 14px;
+}
+
+.pagination span {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
 .inputTerm {
   display: flex;
   align-items: center;
@@ -69,15 +103,16 @@ tbody {
   flex-direction: column;
   margin-left: 1vw;
   align-items: center;
-  padding-bottom: 120px !important;
+  padding-bottom: 20px !important;
 }
 
+
 .tableWrapper {
-  height: 100vh;
-
   display: flex;
-
   justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 58px;
 }
 
 .generalContainer {
@@ -369,7 +404,7 @@ tr {
     padding-bottom: 10px;
     align-items: center;
     font-size: 11px;
-}
+  }
   .th4 {
     display: flex;
     width: 104%;
@@ -402,6 +437,6 @@ tr {
     flex-direction: column;
     margin-left: 1vw;
     align-items: center;
-    padding-bottom: 120px !important;
+    padding-bottom: 20px !important;
   }
 }

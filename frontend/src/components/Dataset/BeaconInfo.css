@@ -453,7 +453,7 @@ h5 {
   }
   .tittle {
     height: 82px;
-    width: 44vw;
+    width: 40vw;
     background: #c8d4e6;
     border-radius: 2px;
     /* height: 80px; */
@@ -546,14 +546,16 @@ h5 {
     margin-top: 2px;
   }
   .datasetCard p {
-    font-size: 11px;
     font-weight: normal;
     color: rgb(61 60 60);
-    line-height: 18px;
+    line-height: 20px;
     margin-top: -5px;
-    font-size: 11px !important;
+    width: 52vw;
+    text-align: justify;
+    height: 150px;
+    overflow-y: scroll;
+    font-size: 13px;
   }
-
   .datasetCard {
     width: 58vw;
     margin: 30px;

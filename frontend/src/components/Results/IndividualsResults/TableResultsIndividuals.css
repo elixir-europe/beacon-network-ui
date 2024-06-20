@@ -6,9 +6,9 @@
 .table-container {
   overflow-x: auto;
   width: 100%;
+  min-width: 900px;
   height: fit-content;
   position: relative;
-  min-width: 1000px;
   overflow-y: scroll;
   overflow-x: scroll;
   display: flex;
@@ -170,7 +170,11 @@ thead {
   position: sticky;
   top: 0;
   z-index: 2;
-  width: 100%;
+  /* width: 100vw; */
+
+  /* align-items: center; */
+  /* justify-content: center; */
+  /* align-content: center; */
 }
 
 .body-container {
@@ -207,7 +211,7 @@ thead {
   font-size: 14px;
   font-family: sans-serif;
   /* padding: 8px; */
-  
+
   display: flex;
   align-items: center;
   width: 328px;
@@ -327,7 +331,6 @@ tr {
   /* align-items: center; */
   align-content: center;
   /* justify-content: flex-start; */
-
 }
 
 .tdGranuNoResults,
@@ -725,6 +728,43 @@ h1 {
     font-weight: bold;
     /* margin-top: 8px; */
     margin-bottom: 2px;
+  }
+}
+@media (max-width: 1000px) {
+  .tableResults {
+    /* width: 96%; */
+    overflow-x: scroll;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-left: 14px;
+  }
+
+  .containerTableResults {
+    width: 100vw;
+    display: flex;
+    align-content: start;
+    justify-content: start;
+    align-items: start;
+  }
+
+  .containerBeaconResults {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* margin-right: 26px; */
+    width: 100vw;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    padding-bottom: 50px;
+    margin-right: 10px;
+    margin-top: 24px;
+    align-items: flex-start;
+    overflow: scroll;
+  }
+
+  tr {
+    width: 100%;
   }
 }
 

@@ -219,7 +219,7 @@ function Layout (props) {
     if (e.target.checked) {
       setQuery(prevQuery => {
         if (!prevQuery) return addQuery;
-        return `${prevQuery}, ${addQuery}`;
+        return `${prevQuery},${addQuery}`;
       });
     } else {
       setQuery(prevQuery => {

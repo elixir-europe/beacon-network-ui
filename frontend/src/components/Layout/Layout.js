@@ -459,7 +459,7 @@ function Layout (props) {
         <div className='container2'>
           <div className='logosVersionContainer'>
             <div className='logos'>
-              <a
+            <a
                 href='https://elixir-europe.org/'
                 className='logoInstitution'
                 target='_blank'
@@ -470,6 +470,34 @@ function Layout (props) {
                   className='elixirLogo'
                   src='./white-orange-logo.png'
                   alt='elixirLogo'
+                ></img>
+              </a>
+
+              <a
+                href='https://www.crg.eu'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+                title='CRG'
+              >
+                <img
+                  className='crgLogo'
+                  src='./biysc_crg_logo.png'
+                  alt='crgLogo'
+                ></img>
+              </a>
+
+              <a
+                href='https://www.bsc.es'
+                className='logoInstitution'
+                target='_blank'
+                rel='noreferrer'
+                title='BSC'
+              >
+                <img
+                  className='bscLogo'
+                  src='./BSC.png'
+                  alt='bscLogo'
                 ></img>
               </a>
 

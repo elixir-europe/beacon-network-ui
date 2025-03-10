@@ -903,6 +903,33 @@ p a {
   filter: grayscale(0%);
 }
 
+.crgLogo {
+  margin-bottom: -7px;
+  height: 40px;
+  margin-right: 10px;
+  filter: grayscale(40%);
+  transition: 0.2s ease-in-out;
+}
+
+.crgLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
+
+.bscLogo {
+  margin-bottom: -6px;
+  height: 40px;
+  margin-right: 10px;
+  filter: grayscale(40%);
+  transition: 0.2s ease-in-out;
+}
+
+.bscLogo:hover {
+  -webkit-filter: grayscale(0%);
+  filter: grayscale(0%);
+}
+
 .horizonEuropeLogo:hover {
   -webkit-filter: grayscale(0%);
   filter: grayscale(0%);

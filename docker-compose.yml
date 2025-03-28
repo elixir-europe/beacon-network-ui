@@ -2,11 +2,11 @@ version: '3.8'
 
 services:
 
-  beacon-network-frontend:
+  elixir-beacon-network-frontend:
     build:
       context: ./frontend
     command: node /opt/yarn-v1.22.19/bin/yarn.js start
-    container_name: bn-ui
+    container_name: elixir-bn-ui
     environment:
       - CHOKIDAR_USEPOLLING=true
     ports:

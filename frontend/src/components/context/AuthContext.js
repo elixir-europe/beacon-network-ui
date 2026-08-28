@@ -86,7 +86,7 @@ function AuthProviderWrapper (props) {
         var details = {
           grant_type: 'refresh_token',
           client_id: 'beacon',
-          client_secret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET,
+          client_secret: configData.KEYCLOAK_CLIENT_SECRET,
           realm: 'Beacon',
           scope: 'openid',
           requested_token_type:

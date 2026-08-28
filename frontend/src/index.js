@@ -23,8 +23,8 @@ fetch(`${process.env.PUBLIC_URL}/config.json`)
         window.location.hash = ''
       },
       authority: 'https://login.elixir-czech.org/oidc',
-      clientId: process.env.REACT_APP_CLIENT_ID,
-      clientSecret: process.env.REACT_APP_CLIENT_SECRET,
+      clientId: configData.CLIENT_ID,
+      clientSecret: configData.CLIENT_SECRET,
       autoSignIn: false,
       responseType: 'code',
       automaticSilentRenew: true,

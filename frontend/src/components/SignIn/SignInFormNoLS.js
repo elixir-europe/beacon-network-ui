@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../NavBar/Navbar'
+import configData from '../../config'
 
 export default function SignInFormNoLS () {
   const [userName, setUserName] = useState('dummy_user')
@@ -38,7 +39,7 @@ export default function SignInFormNoLS () {
       var details = {
         grant_type: 'password',
         client_id: 'beacon',
-        client_secret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET,
+        client_secret: configData.KEYCLOAK_CLIENT_SECRET,
         username: userName,
         password: password,
         realm: 'Beacon',

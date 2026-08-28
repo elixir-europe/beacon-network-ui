@@ -1,5 +1,8 @@
 {
   "API_URL": "https://beacon-network-backend-demo.ega-archive.org/beacon-network/v2.0.0",
   "REDIRECT_URL": "https://beacon-network-demo.ega-archive.org/",
-  "KEYCLOAK_URL": "https://beacon-network-demo2.ega-archive.org"
+  "KEYCLOAK_URL": "https://beacon-network-demo2.ega-archive.org",
+  "CLIENT_ID": "ID of your LS Login",
+  "CLIENT_SECRET": "password of your LS Login",
+  "KEYCLOAK_CLIENT_SECRET": "password of your Keycloak login"
 }

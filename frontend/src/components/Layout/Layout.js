@@ -15,7 +15,7 @@ import OutsideClickHandler from 'react-outside-click-handler'
 import Switch from '@mui/material/Switch'
 import MultiSwitch from 'react-multi-switch-toggle'
 
-import configData from '../../config.json'
+import configData from '../../config'
 
 import axios from 'axios'
 

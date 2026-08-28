@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 import { useAuth } from 'oidc-react'
-import configData from '../../config.json'
+import configData from '../../config'
 import { useContext } from 'react'
 
 function BiosamplesResults (props) {

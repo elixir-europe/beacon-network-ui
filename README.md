@@ -24,7 +24,7 @@ Now please proceed to execute the next command in order to deploy the UI.
 docker-compose up -d –build
 ```
 
-Then please edit the file config.json, which can be found inside folder [frontend/src](https://github.com/elixir-europe/beacon-network-ui/tree/main/frontend/src). You need to decide where you want the UI to point to when making requests. Find below an example:
+Then please edit the file config.json, which can be found inside folder [frontend/public](https://github.com/elixir-europe/beacon-network-ui/tree/main/frontend/public). You need to decide where you want the UI to point to when making requests. Find below an example:
 
  ```bash
 {

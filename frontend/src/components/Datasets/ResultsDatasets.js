@@ -2,7 +2,7 @@
 import './ResultsDatasets.css'
 import axios from "axios";
 import { useState, useEffect } from 'react';
-import configData from "../../config.json";
+import configData from "../../config";
 
 function ResultsDatasets(props) {
 

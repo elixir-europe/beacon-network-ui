@@ -14,4 +14,4 @@ services:
     stdin_open: true
     volumes:
       - ./frontend/.env:/frontend/.env
-      - ./frontend/src/config.json:/frontend/src/config.json
+      - ./frontend/public/config.json:/frontend/public/config.json

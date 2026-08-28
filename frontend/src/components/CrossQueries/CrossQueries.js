@@ -1,7 +1,7 @@
 import './CrossQueries.css'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import configData from '../../config.json'
+import configData from '../../config'
 import { useParams } from 'react-router-dom'
 
 function CrossQueries () {

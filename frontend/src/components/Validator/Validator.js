@@ -1,7 +1,7 @@
 import './Validator.css'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import configData from '../../config.json'
+import configData from '../../config'
 
 function Validator () {
   const [verifierUrl, setVerifierUrl] = useState('')

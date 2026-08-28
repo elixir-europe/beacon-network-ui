@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Layout from '../Layout/Layout'
 import { NavLink, useNavigate } from 'react-router-dom'
-import configData from '../../config.json'
+import configData from '../../config'
 import CohortsModule from './CohortsModule'
 
 function Cohorts (props) {

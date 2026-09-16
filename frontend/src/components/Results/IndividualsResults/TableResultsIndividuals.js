@@ -293,7 +293,7 @@ function TableResultsIndividuals (props) {
     resultsSelected.forEach((element, index) => {
       arrayBeaconsIds.push(element[0])
     })
-  
+
     resultsSelectedFinal.forEach((element, index) => {
      
       if (element[1] !== undefined && (element[1]._id || element[1].id)) {

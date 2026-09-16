@@ -30,7 +30,6 @@ function Layout (props) {
   const [query, setQuery] = useState('')
   const [queryAux, setQueryAux] = useState(null)
   const [filtersTab1, setFiltersTab1] = useState(filtersConfig.filters)
-  const [filtersTab2, setFiltersTab2] = useState(filtersConfig2.filters)
   const [exampleQ, setExampleQ] = useState([])
 
   const [isNetwork, setIsNetwork] = useState(false)
@@ -450,8 +449,7 @@ function Layout (props) {
     }
 
     setInputValuesTab1(initializeInputValues(filtersTab1))
-    setInputValuesTab2(initializeInputValues(filtersTab2))
-  }, [filtersTab1, filtersTab2])
+  }, [filtersTab1])
 
   return (
     <div className='container1'>
@@ -459,71 +457,16 @@ function Layout (props) {
         <div className='container2'>
           <div className='logosVersionContainer'>
             <div className='logos'>
-            <a
-                href='https://elixir-europe.org/'
-                className='logoInstitution'
-                target='_blank'
-                rel='noreferrer'
-                title='The project "Beacon Infrastructure (2021-23)" has been funded by ELIXIR Europe'
-              >
-                <img
-                  className='elixirLogo'
-                  src='./white-orange-logo.png'
-                  alt='elixirLogo'
-                ></img>
-              </a>
-
               <a
-                href='https://www.crg.eu'
-                className='logoInstitution'
-                target='_blank'
-                rel='noreferrer'
-                title='CRG'
-              >
-                <img
-                  className='crgLogo'
-                  src='./biysc_crg_logo.png'
-                  alt='crgLogo'
-                ></img>
-              </a>
-
-              <a
-                href='https://www.bsc.es'
-                className='logoInstitution'
-                target='_blank'
-                rel='noreferrer'
-                title='BSC'
-              >
-                <img
-                  className='bscLogo'
-                  src='./BSC.png'
-                  alt='bscLogo'
-                ></img>
-              </a>
-
-              <a
-                href='https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en'
-                className='logoInstitution'
-                target='_blank'
-                rel='noreferrer'
-                title='Funded by the European Union'
-              >
-                <img
-                  className='horizonEuropeLogo'
-                  src='../horizonEuropeLogo.png'
-                  alt='horizonEuropeLogo'
-                ></img>
-              </a>
-              <a
-                href='https://fundacionlacaixa.org/es/'
+                href='https://eosc4cancer.eu/'
                 className='logoInstitution'
                 target='_blank'
                 rel='noreferrer'
               >
                 <img
-                  className='laCaixaLogo'
-                  src='../caixa_logo.png'
-                  alt='laCaixaLogo'
+                  className='eosc4cancer'
+                  src='../eosc4cancer.png'
+                  alt='EOS4CANCER'
                 ></img>
               </a>
             </div>
@@ -654,12 +597,6 @@ function Layout (props) {
             >
               CANCER
             </div>
-            <div
-              className={`tab ${activeTab === 'tab2' ? 'active' : ''}`}
-              onClick={() => setActiveTab('tab2')}
-            >
-              COVID
-            </div>
           </div>
           <div className='tab-content'>
             {activeTab === 'tab1' && (
@@ -674,21 +611,6 @@ function Layout (props) {
                 }
                 inputValues={inputValuesTab1}
                 checkedOptions={checkedOptionsTab1}
-                activeTab={activeTab}
-              />
-            )}
-            {activeTab === 'tab2' && (
-              <FilterContent
-                filters={filtersTab2}
-                handleOption={(e, array, optionIndex) =>
-                  handleOption(e, array, optionIndex, 'tab2')
-                }
-                handleOptionAlphanum={handleOptionAlphanum}
-                handleInputChange={(e, key) =>
-                  handleInputChange(e, key, 'tab2')
-                }
-                inputValues={inputValuesTab2}
-                checkedOptions={checkedOptionsTab2}
                 activeTab={activeTab}
               />
             )}

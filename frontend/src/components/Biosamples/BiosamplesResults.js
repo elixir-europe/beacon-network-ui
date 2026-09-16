@@ -128,6 +128,8 @@ function BiosamplesResults (props) {
       }
 
       var arrayRequestParameters = []
+
+
       // var requestParametersSequence = {}
 
       // var requestParametersRange = {}
@@ -238,6 +240,8 @@ function BiosamplesResults (props) {
       // }
 
       var requestParameters = {}
+
+      requestParameters['datasets']=['coadread_tcga_pan_can_atlas_2018']
 
       if (props.query !== null) {
         if (props.query.includes(',')) {
@@ -481,8 +485,10 @@ function BiosamplesResults (props) {
         if (props.query === null || props.query === '') {
           // show all individuals
           let jsonData1 = {}
-
-          if (arrayRequestParameters.length > 0) {
+          if (arrayRequestParameters.length == 0){
+              arrayRequestParameters.push(requestParameters)
+          }
+          if (arrayRequestParameters.length > 0 && arrayFilter.length > 0) {
             jsonData1 = {
               meta: {
                 apiVersion: '2.0'
@@ -502,7 +508,26 @@ function BiosamplesResults (props) {
                 requestedGranularity: 'record'
               }
             }
-          } else {
+          }else if (arrayRequestParameters.length > 0) {
+            jsonData1 = {
+              meta: {
+                apiVersion: '2.0'
+              },
+              query: {
+                requestParameters:
+                  arrayRequestParameters.length === 1
+                    ? arrayRequestParameters[0]
+                    : arrayRequestParameters,
+                includeResultsetResponses: `${props.resultSets}`,
+                pagination: {
+                  skip: skip,
+                  limit: limit
+                },
+                testMode: false,
+                requestedGranularity: 'record'
+              }
+            }
+          } else if (arrayFilter.length > 0) {
             jsonData1 = {
               meta: {
                 apiVersion: '2.0'
@@ -518,6 +543,21 @@ function BiosamplesResults (props) {
                 requestedGranularity: 'record'
               }
             }
+          } else {
+                       jsonData1 = {
+              meta: {
+                apiVersion: '2.0'
+              },
+              query: {
+                includeResultsetResponses: `${props.resultSets}`,
+                pagination: {
+                  skip: 0,
+                  limit: 0
+                },
+                testMode: false,
+                requestedGranularity: 'record'
+              }
+            } 
           }
 
           jsonData1 = JSON.stringify(jsonData1)
